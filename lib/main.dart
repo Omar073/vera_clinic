@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/View/Pages/HomePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,6 +15,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const SafeArea(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+      home: HomePage(),
+    ));
   }
 }
