@@ -60,4 +60,30 @@ class PreferredFoods {
   set others(String others) {
     _mOthers = others;
   }
+
+  factory PreferredFoods.fromFirestore(Map<String, dynamic> data) {
+    return PreferredFoods(
+      data['preferredFoodsId'] as String,
+      data['clientPhoneNum'] as String,
+      data['carbohydrates'] as bool,
+      data['protein'] as bool,
+      data['dairy'] as bool,
+      data['veg'] as bool,
+      data['fruits'] as bool,
+      data['others'] as String,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'preferredFoodsId': _mPreferredFoodsId,
+      'clientPhoneNum': _mClientPhoneNum,
+      'carbohydrates': _mCarbohydrates,
+      'protein': _mProtein,
+      'dairy': _mDairy,
+      'veg': _mVeg,
+      'fruits': _mFruits,
+      'others': _mOthers,
+    };
+  }
 }

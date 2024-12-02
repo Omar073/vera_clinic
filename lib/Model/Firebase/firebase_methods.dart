@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Model/Classes/Client.dart';
 
 class FirebaseMethods {
@@ -16,6 +17,11 @@ class FirebaseMethods {
 
   void createClient(Client client) async {
     // _firestore.collection('Clients').add(client.toMap());
-    final docRef = await _firestore.collection('Clients').add(client.toMap());
+    try{
+      final docRef = await _firestore.collection('Clients').add(client.toMap());
+      // todo.id = docRef.id;
+    } catch (e) {
+      debugPrint('Error creating client: $e');
+    }
   }
 }

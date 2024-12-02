@@ -41,6 +41,32 @@ class Clinic {
 
   double get monthlyProfit => _mMonthlyProfit;
   set monthlyProfit(double value) => _mMonthlyProfit = value;
+
+  factory Clinic.fromFirestore(Map<String, dynamic> data) {
+    return Clinic(
+      data['dailyIncome'] as double,
+      data['monthlyIncome'] as double,
+      data['dailyPatients'] as int,
+      data['monthlyPatients'] as int,
+      data['dailyExpenses'] as double,
+      data['monthlyExpenses'] as double,
+      data['dailyProfit'] as double,
+      data['monthlyProfit'] as double,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'dailyIncome': _mDailyIncome,
+      'monthlyIncome': _mMonthlyIncome,
+      'dailyPatients': _mDailyPatients,
+      'monthlyPatients': _mMonthlyPatients,
+      'dailyExpenses': _mDailyExpenses,
+      'monthlyExpenses': _mMonthlyExpenses,
+      'dailyProfit': _mDailyProfit,
+      'monthlyProfit': _mMonthlyProfit,
+    };
+  }
 }
 
 Clinic clinic = Clinic(

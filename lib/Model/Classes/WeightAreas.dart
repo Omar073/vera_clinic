@@ -67,4 +67,32 @@ class WeightAreas {
   set back(bool back) {
     _mBack = back;
   }
+  
+  factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
+    return WeightAreas(
+      map['weightAreasId'] as String,
+      map['clientPhoneNum'] as String,
+      map['abdomen'] as bool,
+      map['buttocks'] as bool,
+      map['waist'] as bool,
+      map['thighs'] as bool,
+      map['arms'] as bool,
+      map['breast'] as bool,
+      map['back'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'weightAreasId': _mWeightAreasId,
+      'clientPhoneNum': _mClientPhoneNum,
+      'abdomen': _mAbdomen,
+      'buttocks': _mButtocks,
+      'waist': _mWaist,
+      'thighs': _mThighs,
+      'arms': _mArms,
+      'breast': _mBreast,
+      'back': _mBack,
+    };
+  }
 }
