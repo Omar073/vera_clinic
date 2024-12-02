@@ -25,10 +25,11 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  NavigationButton(mType: "new client"),
-                  NavigationButton(mType: "previous client"),
-                  NavigationButton(mType: "follow-up"),
-                  NavigationButton(mType: "analysis"),
+                  NavigationButton(mButtonText: "عميل جديد", mButtonIcon: Icons.person_add,),
+                  NavigationButton(mButtonText: "عميل سابق", mButtonIcon: Icons.person,),
+                  NavigationButton(mButtonText: "بحث", mButtonIcon: Icons.search,),
+                  NavigationButton(mButtonText: "متابعة", mButtonIcon: Icons.person_search,),
+                  NavigationButton(mButtonText: "بيانات", mButtonIcon: Icons.area_chart,),
                 ],
               ),
             )

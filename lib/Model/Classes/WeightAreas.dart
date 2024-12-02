@@ -1,4 +1,6 @@
 class WeightAreas {
+  String _mWeightAreasId;
+  String _mClientPhoneNum;
   bool _mAbdomen;
   bool _mButtocks;
   bool _mWaist;
@@ -7,9 +9,20 @@ class WeightAreas {
   bool _mBreast;
   bool _mBack;
 
-  WeightAreas(this._mAbdomen, this._mButtocks, this._mWaist, this._mThighs, this._mArms, this._mBreast, this._mBack);
+  WeightAreas(
+      this._mWeightAreasId,
+      this._mClientPhoneNum,
+      this._mAbdomen,
+      this._mButtocks,
+      this._mWaist,
+      this._mThighs,
+      this._mArms,
+      this._mBreast,
+      this._mBack);
 
   // Getters
+  String get weightAreasId => _mWeightAreasId;
+  String get clientPhoneNum => _mClientPhoneNum;
   bool get abdomen => _mAbdomen;
   bool get buttocks => _mButtocks;
   bool get waist => _mWaist;
@@ -19,6 +32,14 @@ class WeightAreas {
   bool get back => _mBack;
 
   // Setters
+  set weightAreasId(String weightAreasId) {
+    _mWeightAreasId = weightAreasId;
+  }
+
+  set clientPhoneNum(String clientPhoneNum) {
+    _mClientPhoneNum = clientPhoneNum;
+  }
+
   set abdomen(bool abdomen) {
     _mAbdomen = abdomen;
   }

@@ -43,22 +43,22 @@ class _NewClientPageState extends State<NewClientPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        MyTextField(
+                        MyInputField(
                             myController: _weightController,
                             hint: "أدخل الوزن (كيلوجرام)",
                             label: "الوزن"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _areaController,
                             hint: "أدخل المنطقة",
                             label: "المنطقة"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _phoneController,
                             hint: "أدخل رقم الهاتف 01234567890",
                             label: "رقم الهاتف"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _nameController,
                             hint: "أدخل اسم العميل",
                             label: "اسم العميل"),
@@ -67,22 +67,22 @@ class _NewClientPageState extends State<NewClientPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        MyTextField(
+                        MyInputField(
                             myController: _heightController,
                             hint: "",
                             label: "ملاحظات"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _BMIController,
                             hint: "BMI",
                             label: "مؤشر كتلة الجسم"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _dietController,
                             hint: "أدخل نوع الدايت",
                             label: "نوع الدايت"),
                         const SizedBox(width: 150),
-                        MyTextField(
+                        MyInputField(
                             myController: _notesController,
                             hint: "أدخل الطول (سنتيمتر)",
                             label: "الطول"),

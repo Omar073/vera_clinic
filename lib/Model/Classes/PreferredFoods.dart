@@ -1,4 +1,6 @@
-class PreferredFoods{
+class PreferredFoods {
+  String _mPreferredFoodsId;
+  String _mClientPhoneNum;
   bool _mCarbohydrates;
   bool _mProtein;
   bool _mDairy;
@@ -6,9 +8,19 @@ class PreferredFoods{
   bool _mFruits;
   String _mOthers;
 
-  PreferredFoods(this._mCarbohydrates, this._mProtein, this._mDairy, this._mVeg, this._mFruits, this._mOthers);
+  PreferredFoods(
+      this._mPreferredFoodsId,
+      this._mClientPhoneNum,
+      this._mCarbohydrates,
+      this._mProtein,
+      this._mDairy,
+      this._mVeg,
+      this._mFruits,
+      this._mOthers);
 
   // Getters
+  String get preferredFoodsId => _mPreferredFoodsId;
+  String get clientPhoneNum => _mClientPhoneNum;
   bool get carbohydrates => _mCarbohydrates;
   bool get protein => _mProtein;
   bool get dairy => _mDairy;
@@ -17,6 +29,14 @@ class PreferredFoods{
   String get others => _mOthers;
 
   // Setters
+  set preferredFoodsId(String preferredFoodsId) {
+    _mPreferredFoodsId = preferredFoodsId;
+  }
+
+  set clientPhoneNum(String clientPhoneNum) {
+    _mClientPhoneNum = clientPhoneNum;
+  }
+
   set carbohydrates(bool carbohydrates) {
     _mCarbohydrates = carbohydrates;
   }

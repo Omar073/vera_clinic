@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/View/Pages/CheckInPage.dart';
+
+import '../../Model/Classes/Client.dart';
 
 class ClientSearchPage extends StatelessWidget {
-  const ClientSearchPage({super.key});
+  String state;
+  ClientSearchPage({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +37,20 @@ class ClientSearchPage extends StatelessWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 50),
+              state == "checkIn"
+                  ? ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CheckInPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Check In'),
+                    )
+                  : const Text("search"),
             ],
           ),
         ),
@@ -47,6 +66,7 @@ class _SearchBar extends StatefulWidget {
 
 class __SearchBarState extends State<_SearchBar> {
   final TextEditingController _controller = TextEditingController();
+  ClientProvider clientProvider = ClientProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +83,7 @@ class __SearchBarState extends State<_SearchBar> {
       onSubmitted: (value) {
         // TODO: Implement search logic using the entered phone number
         debugPrint('Search for client with phone number: $value');
+        clientProvider.setCurrentClient(client);
       },
     );
   }
