@@ -95,7 +95,7 @@ class _NewClientPageState extends State<NewClientPage> {
                           debugPrint("Button pressed: حفظ");
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Colors.blueAccent,
+                          backgroundColor: Colors.blueAccent,
                           padding: const EdgeInsets.symmetric(
                               horizontal: 30, vertical: 13),
                           textStyle: const TextStyle(fontSize: 20),
