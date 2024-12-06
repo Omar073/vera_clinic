@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Controller/Providers/ExtraClientInfoProvider.dart';
-import 'package:vera_clinic/View/Reusable%20widgets/Reusable%20widgets.dart';
 
 import '../../Model/Classes/Client.dart';
+import '../Reusable widgets/MyTextField.dart';
 
 class CheckInPage extends StatefulWidget {
   const CheckInPage({super.key});
