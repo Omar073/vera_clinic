@@ -67,7 +67,7 @@ class WeightAreas {
   set back(bool back) {
     _mBack = back;
   }
-  
+
   factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
     return WeightAreas(
       map['weightAreasId'] as String,

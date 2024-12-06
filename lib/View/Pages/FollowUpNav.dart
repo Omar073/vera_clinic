@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../Reusable widgets.dart';
+import '../Reusable widgets/MyNavigationButton.dart';
 
 class FollowUpNav extends StatefulWidget {
   const FollowUpNav({super.key});
@@ -26,8 +25,12 @@ class _FollowUpNavState extends State<FollowUpNav> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  NavigationButton(mButtonText: "متابعة شهرية", mButtonIcon: Icons.calendar_month,),
-                  NavigationButton(mButtonText: "متابعة اسبوعية", mButtonIcon: Icons.calendar_today,),
+                  MyNavigationButton(mButtonText: "متابعة شهرية", mButtonIcon: Icons.calendar_month, onTap: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
+                  },),
+                  MyNavigationButton(mButtonText: "متابعة اسبوعية", mButtonIcon: Icons.calendar_today, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
+                  },),
                 ],
               ),
             )

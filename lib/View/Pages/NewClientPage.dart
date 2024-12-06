@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Reusable widgets.dart';
+import '../Reusable widgets/Reusable widgets.dart';
 
 class NewClientPage extends StatefulWidget {
   const NewClientPage({super.key});

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/View/Reusable%20widgets.dart';
+import 'package:vera_clinic/Controller/Providers/ExtraClientInfoProvider.dart';
+import 'package:vera_clinic/View/Reusable%20widgets/Reusable%20widgets.dart';
 
 import '../../Model/Classes/Client.dart';
 
@@ -16,6 +17,7 @@ class _CheckInPageState extends State<CheckInPage> {
   ClientProvider clientProvider = ClientProvider();
   late final Client client;
   TextEditingController subscriptionPriceController = TextEditingController();
+  ExtraClientInfoProvider extraClientInfoProvider = ExtraClientInfoProvider();
 
   @override
   void initState() {
@@ -83,10 +85,14 @@ class _CheckInPageState extends State<CheckInPage> {
                             value:
                                 " ${visit.date.day}/${visit.date.month}/${visit.date.year}"),
                         const SizedBox(width: 50),
-                        MyTextField(title: "منطقة العميل", value: client.area),
+                        MyTextField(
+                            title: "منطقة العميل",
+                            value: extraClientInfoProvider
+                                .getClientConstantInfo(client.clientPhoneNum)
+                                .area),
                         const SizedBox(width: 50),
                         MyTextField(
-                            title: "رقم العميل", value: client.telephone),
+                            title: "رقم العميل", value: client.clientPhoneNum),
                         const SizedBox(width: 50),
                         MyTextField(title: "اسم العميل", value: client.name),
                       ],
@@ -117,8 +123,8 @@ class _CheckInPageState extends State<CheckInPage> {
                           style: const TextStyle(fontSize: 20),
                           textAlign: TextAlign.end,
                           controller: subscriptionPriceController,
-                          keyboardType:
-                              const TextInputType.numberWithOptions(decimal: true),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(
                                 RegExp(r'^\d*\.?\d*'))
@@ -155,7 +161,8 @@ class _CheckInPageState extends State<CheckInPage> {
                         }).toList(),
                       ],
                       onChanged: (SubscriptionType? newValue) {
-                        if (newValue != SubscriptionType.none && newValue != null) {
+                        if (newValue != SubscriptionType.none &&
+                            newValue != null) {
                           setState(() {
                             client.subscriptionType = newValue;
                           });

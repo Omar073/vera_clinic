@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Visit {
   String _mVisitId;
   String _mClientPhoneNum;
@@ -40,5 +42,26 @@ class Visit {
 
   set bmi(double bmi) {
     _mBMI = bmi;
+  }
+
+  factory Visit.fromFirestore(Map<String, dynamic> data) {
+    return Visit(
+        data['visitId'] as String,
+        data['clientPhoneNum'] as String,
+        (data['date'] as Timestamp).toDate(),
+        data['diet'] as String,
+        data['weight'] as double,
+        data['bmi'] as double);
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'visitId': _mVisitId,
+      'clientPhoneNum': _mClientPhoneNum,
+      'date': _mDate,
+      'diet': _mDiet,
+      'weight': _mWeight,
+      'bmi': _mBMI,
+    };
   }
 }

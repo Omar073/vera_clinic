@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/View/Reusable%20widgets.dart';
+import '../Reusable widgets/MyNavigationButton.dart';
+import 'AnalysisPage.dart';
+import 'ClientSearchPage.dart';
+import 'FollowUpNav.dart';
+import 'NewClientPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,11 +29,21 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  NavigationButton(mButtonText: "عميل جديد", mButtonIcon: Icons.person_add,),
-                  NavigationButton(mButtonText: "عميل سابق", mButtonIcon: Icons.person,),
-                  NavigationButton(mButtonText: "بحث", mButtonIcon: Icons.search,),
-                  NavigationButton(mButtonText: "متابعة", mButtonIcon: Icons.person_search,),
-                  NavigationButton(mButtonText: "بيانات", mButtonIcon: Icons.area_chart,),
+                  MyNavigationButton(mButtonText: "عميل جديد", mButtonIcon: Icons.person_add, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const NewClientPage()));
+                  },),
+                  MyNavigationButton(mButtonText: "عميل سابق", mButtonIcon: Icons.person, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ClientSearchPage(state: "checkIn",)));
+                  },),
+                  MyNavigationButton(mButtonText: "بحث", mButtonIcon: Icons.search, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ClientSearchPage(state: "search",)));
+                  },),
+                  MyNavigationButton(mButtonText: "متابعة", mButtonIcon: Icons.person_search, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
+                  },),
+                  MyNavigationButton(mButtonText: "بيانات", mButtonIcon: Icons.area_chart, onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const AnalysisPage()));
+                  },),
                 ],
               ),
             )

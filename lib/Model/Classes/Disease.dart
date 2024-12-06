@@ -158,4 +158,56 @@ class Disease {
   set hormonal(String hormonal) {
     _mHormonal = hormonal;
   }
+
+  factory Disease.fromFirestore(Map<String, dynamic> data) {
+    return Disease(
+      data['diseaseId'] as String,
+      data['clientPhoneNum'] as String,
+      data['hypertension'] as bool,
+      data['hypotension'] as bool,
+      data['vascular'] as bool,
+      data['anemia'] as bool,
+      data['colon'] as bool,
+      data['constipation'] as bool,
+      data['familyHistoryDM'] as bool,
+      data['previousOBMed'] as bool,
+      data['previousOBOperations'] as bool,
+      data['renal'] as String,
+      data['liver'] as String,
+      data['git'] as String,
+      data['endocrine'] as String,
+      data['rheumatic'] as String,
+      data['allergies'] as String,
+      data['neuro'] as String,
+      data['psychiatric'] as String,
+      data['others'] as String,
+      data['hormonal'] as String,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'diseaseId': _mDiseaseId,
+      'clientPhoneNum': _mClientPhoneNum,
+      'hypertension': _mHypertension,
+      'hypotension': _mHypotension,
+      'vascular': _mVascular,
+      'anemia': _mAnemia,
+      'colon': _mColon,
+      'constipation': _mConstipation,
+      'familyHistoryDM': _mFamilyHistoryDM,
+      'previousOBMed': _mPreviousOBMed,
+      'previousOBOperations': _mPreviousOBOperations,
+      'renal': _mRenal,
+      'liver': _mLiver,
+      'git': _mGit,
+      'endocrine': _mEndocrine,
+      'rheumatic': _mRheumatic,
+      'allergies': _mAllergies,
+      'neuro': _mNeuro,
+      'psychiatric': _mPsychiatric,
+      'others': _mOthers,
+      'hormonal': _mHormonal,
+    };
+  }
 }

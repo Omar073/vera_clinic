@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Model/Firebase/firebase_methods.dart';
+
 import '../../Model/Classes/Client.dart';
+import '../../Model/Classes/Disease.dart';
+import '../../Model/Classes/PreferredFoods.dart';
+import '../../Model/Classes/Visit.dart';
+import '../../Model/Classes/WeightAreas.dart';
 
 class ClientProvider with ChangeNotifier {
   final FirebaseMethods _firebaseMethods = FirebaseMethods();
   List<Client> _clients = [];
+  List<Visit> _visits = [];
+  Visit? _currentVisit;
+
   Client? _currentClient; //TODO: change
 
   List<Client> get clients => _clients;
-
   Client? get currentClient => _currentClient;
 
   void addClient(Client client) {
@@ -45,6 +54,13 @@ class ClientProvider with ChangeNotifier {
     // });
     _firebaseMethods.createClient(client);
     clients.add(client);
+    notifyListeners();
+  }
+
+  void createVisit(Visit visit) {
+    _firebaseMethods.createVisit(visit);
+    _currentVisit = visit;
+    _visits.add(visit);
     notifyListeners();
   }
 }
