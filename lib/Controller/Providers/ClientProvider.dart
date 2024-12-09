@@ -21,18 +21,17 @@ class ClientProvider with ChangeNotifier {
   Client? get currentClient => _currentClient;
   ClientFirestoreMethods get clientFirestoreMethods => _clientFirestoreMethods;
 
-  void getClientByNum(String phoneNum) {
-    for (Client c in cachedClients) {
-      if (c.clientPhoneNum == phoneNum) {
-        // _currentClient = c; //TODO: should we leave this?
-        notifyListeners();
-        return;
-      }
-    }
-    clientFirestoreMethods.fetchClientByNum(phoneNum).then((client) {
-      cachedClients.add(client);
-      notifyListeners();
-    });
+  void createClient(Client client) {
+    clientFirestoreMethods.createClient(client);
+    cachedClients.add(client);
+    notifyListeners();
+  }
+
+  Client? getClientByNum(String phoneNum) {
+    return cachedClients.firstWhere(
+      (client) => client.clientPhoneNum == phoneNum,
+      orElse: () => clientFirestoreMethods.fetchClientByNum(phoneNum),
+    );
   }
 
   // void getClientById(String Id) {
@@ -48,12 +47,6 @@ class ClientProvider with ChangeNotifier {
   //     notifyListeners();
   //   });
   // }
-
-  void createClient(Client client) {
-    clientFirestoreMethods.createClient(client);
-    cachedClients.add(client);
-    notifyListeners();
-  }
 
   void setCurrentClient(Client client) {
     _currentClient = client;

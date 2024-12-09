@@ -8,21 +8,24 @@ class DiseaseProvider with ChangeNotifier {
       DiseaseFirestoreMethods();
 
   Disease? _currentDisease;
-  List<Disease> _diseases = [];
+  List<Disease> _cachedDiseases = [];
 
   Disease? get currentDisease => _currentDisease;
-  List<Disease> get diseases => _diseases;
+  List<Disease> get cachedDiseases => _cachedDiseases;
+  DiseaseFirestoreMethods get diseaseFirestoreMethods =>
+      _diseaseFirestoreMethods;
 
   void createDisease(Disease disease) {
-    disease.diseaseId = _diseaseFirestoreMethods.createDisease(disease);
-    _diseases.add(disease);
+    disease.diseaseId =
+        diseaseFirestoreMethods.createDisease(disease) as String;
+    cachedDiseases.add(disease);
     notifyListeners();
   }
 
   Disease? getDiseaseByNum(String clientPhoneNum) {
-    return diseases.firstWhere(
+    return cachedDiseases.firstWhere(
       (disease) => disease.clientPhoneNum == clientPhoneNum,
-      orElse: () => _diseaseFirestoreMethods.fetchDiseaseByNum(clientPhoneNum), //TODO: create default constructor
+      orElse: () => diseaseFirestoreMethods.fetchDiseaseByNum(clientPhoneNum),
     );
   }
 

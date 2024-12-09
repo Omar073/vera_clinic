@@ -3,7 +3,7 @@ import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Model/Firebase/ClientConstantInfoFirestoreMethods.dart';
 
 class ClientConstantInfoProvider with ChangeNotifier {
-  ClientConstantInfoFirestoreMethods _clientConstantInfoFirestoreMethods =
+  final ClientConstantInfoFirestoreMethods _clientConstantInfoFirestoreMethods =
       ClientConstantInfoFirestoreMethods();
 
   ClientConstantInfo? _currentClientConstantInfo;
@@ -23,7 +23,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ClientConstantInfo getClientConstantInfo(String clientPhoneNum) {
+  ClientConstantInfo? getClientConstantInfo(String clientPhoneNum) {
     return cachedClientConstantInfo.firstWhere(
       (clientConstantInfo) =>
           clientConstantInfo.clientPhoneNum == clientPhoneNum,

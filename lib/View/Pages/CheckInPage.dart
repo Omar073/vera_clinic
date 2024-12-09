@@ -94,7 +94,7 @@ class _CheckInPageState extends State<CheckInPage> {
                             title: "منطقة العميل",
                             value: clientConstantInfoProvider
                                 .getClientConstantInfo(client.clientPhoneNum)
-                                .area),
+                                ?.area ?? 'Unknown'),
                         const SizedBox(width: 50),
                         MyTextField(
                             title: "رقم العميل", value: client.clientPhoneNum),

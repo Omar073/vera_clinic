@@ -27,7 +27,7 @@ class ClientFirestoreMethods{
     }
   }
 
-  Future<Client> fetchClientByNum(String phoneNum) async {
+  fetchClientByNum(String phoneNum) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Clients')
         .where('clientPhoneNum', isEqualTo: phoneNum)

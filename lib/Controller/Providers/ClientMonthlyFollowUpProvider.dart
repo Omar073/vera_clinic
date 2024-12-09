@@ -5,16 +5,17 @@ import '../../Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../Model/Firebase/ClientMonthlyFollowUpFirestoreMethods.dart';
 
 class ClientMonthlyFollowUpProvider with ChangeNotifier {
-  ClientMonthlyFollowUpFirestoreMethods _clientMonthlyFollowUpFirestoreMethods =
+  final ClientMonthlyFollowUpFirestoreMethods
+      _clientMonthlyFollowUpFirestoreMethods =
       ClientMonthlyFollowUpFirestoreMethods();
 
   ClientMonthlyFollowUp? _currentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp> _clientsMonthlyFollowUps = [];
+  List<ClientMonthlyFollowUp> _cachedClientsMonthlyFollowUps = [];
 
   ClientMonthlyFollowUp? get currentClientMonthlyFollowUp =>
       _currentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp> get clientsMonthlyFollowUps =>
-      _clientsMonthlyFollowUps;
+  List<ClientMonthlyFollowUp> get cachedClientsMonthlyFollowUps =>
+      _cachedClientsMonthlyFollowUps;
   ClientMonthlyFollowUpFirestoreMethods
       get clientMonthlyFollowUpFirestoreMethods =>
           _clientMonthlyFollowUpFirestoreMethods;
@@ -24,12 +25,12 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     clientMonthlyFollowUp.clientMonthlyFollowUpId =
         clientMonthlyFollowUpFirestoreMethods
             .createClientMonthlyFollowUp(clientMonthlyFollowUp) as String;
-    // _currentClientMonthlyFollowUp = clientMonthlyFollowUp;
+    cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp);
     notifyListeners();
   }
 
-  ClientMonthlyFollowUp getClientMonthlyFollowUp(String clientPhoneNum) {
-    return clientsMonthlyFollowUps.firstWhere(
+  ClientMonthlyFollowUp? getClientMonthlyFollowUp(String clientPhoneNum) {
+    return cachedClientsMonthlyFollowUps.firstWhere(
         (clientMonthlyFollowUp) =>
             clientMonthlyFollowUp.clientPhoneNum == clientPhoneNum,
         orElse: () => clientMonthlyFollowUpFirestoreMethods
