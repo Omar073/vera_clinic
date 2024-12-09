@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vera_clinic/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/Controller/Providers/ExtraClientInfoProvider.dart';
+import 'package:vera_clinic/Controller/Providers/VisitProvider.dart';
 
 import '../../Model/Classes/Client.dart';
+import '../../Model/Classes/Visit.dart';
 import '../Reusable widgets/MyTextField.dart';
 
 class CheckInPage extends StatefulWidget {
@@ -17,12 +19,14 @@ class _CheckInPageState extends State<CheckInPage> {
   ClientProvider clientProvider = ClientProvider();
   late final Client client;
   TextEditingController subscriptionPriceController = TextEditingController();
-  ExtraClientInfoProvider extraClientInfoProvider = ExtraClientInfoProvider();
+  ClientConstantInfoProvider clientConstantInfoProvider = ClientConstantInfoProvider();
+  late Visit lastClientVisit;
 
   @override
   void initState() {
     super.initState();
     client = clientProvider.currentClient!;
+    lastClientVisit = VisitProvider().getClientLastVisit(client.clientPhoneNum);
   }
 
   String _getSubscriptionTypeLabel(SubscriptionType type) {
@@ -83,11 +87,12 @@ class _CheckInPageState extends State<CheckInPage> {
                         MyTextField(
                             title: "تاريخ اخر متابعة",
                             value:
-                                " ${visit.date.day}/${visit.date.month}/${visit.date.year}"),
+
+                                " ${visit.date.day}/${visit.date.month}/${visit.date.year}"), //TODO: change to get last visit date
                         const SizedBox(width: 50),
                         MyTextField(
                             title: "منطقة العميل",
-                            value: extraClientInfoProvider
+                            value: clientConstantInfoProvider
                                 .getClientConstantInfo(client.clientPhoneNum)
                                 .area),
                         const SizedBox(width: 50),

@@ -29,7 +29,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     // Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
                   },),
                   MyNavigationButton(mButtonText: "متابعة اسبوعية", mButtonIcon: Icons.calendar_today, onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowUpNav()));
                   },),
                 ],
               ),

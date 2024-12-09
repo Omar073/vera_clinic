@@ -1,6 +1,7 @@
 class WeightAreas {
   String _mWeightAreasId;
   String _mClientPhoneNum;
+
   bool _mAbdomen;
   bool _mButtocks;
   bool _mWaist;

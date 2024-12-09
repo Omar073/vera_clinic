@@ -23,6 +23,8 @@ enum SubscriptionType {
 }
 
 class Client {
+  //TODO: add nullability
+  //TODO: add unique ID
   String _mName;
   String _mClientPhoneNum;
   String _mLastVisitId;
@@ -39,7 +41,6 @@ class Client {
   double _mWeight;
 
   SubscriptionType _mSubscriptionType;
-  //TODO: should we try and nest some of these attributes into a new class?
 
   Client(
       this._mName,

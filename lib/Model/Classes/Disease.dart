@@ -5,7 +5,7 @@ class Disease {
   // Heart
   bool _mHypertension;
   bool _mHypotension;
-  bool _mVascular;
+  bool _mVascular = false; //todo: kammel
   bool _mAnemia;
 
   String _mRenal;

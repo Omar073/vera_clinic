@@ -1,6 +1,7 @@
 class PreferredFoods {
   String _mPreferredFoodsId;
   String _mClientPhoneNum;
+
   bool _mCarbohydrates;
   bool _mProtein;
   bool _mDairy;

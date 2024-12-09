@@ -3,6 +3,7 @@ enum Activity { Sedentary, Mid, High }
 class ClientConstantInfo {
   String _mClientConstantInfoId;
   String _mClientPhoneNum;
+
   String _mArea;
   Activity _mActivityLevel;
   bool _mYOYO;

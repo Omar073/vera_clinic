@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Model/Firebase/firebase_methods.dart';
+import 'package:vera_clinic/Model/Firebase/ClientFirestoreMethods.dart';
 
 import '../../Model/Classes/Client.dart';
 import '../../Model/Classes/Disease.dart';
@@ -10,23 +10,48 @@ import '../../Model/Classes/Visit.dart';
 import '../../Model/Classes/WeightAreas.dart';
 
 class ClientProvider with ChangeNotifier {
-  final FirebaseMethods _firebaseMethods = FirebaseMethods();
-  List<Client> _clients = [];
-  List<Visit> _visits = [];
-  Visit? _currentVisit;
+  final ClientFirestoreMethods _clientFirestoreMethods =
+      ClientFirestoreMethods();
+  List<Client> _cachedClients = []; // list of all fetched clients
+  List<Client> _checkedInClients = [];
+  Client? _currentClient;
 
-  Client? _currentClient; //TODO: change
-
-  List<Client> get clients => _clients;
+  List<Client> get cachedClients => _cachedClients;
+  List<Client> get checkedInClients => _checkedInClients;
   Client? get currentClient => _currentClient;
+  ClientFirestoreMethods get clientFirestoreMethods => _clientFirestoreMethods;
 
-  void addClient(Client client) {
-    _clients.add(client);
-    notifyListeners();
+  void getClientByNum(String phoneNum) {
+    for (Client c in cachedClients) {
+      if (c.clientPhoneNum == phoneNum) {
+        // _currentClient = c; //TODO: should we leave this?
+        notifyListeners();
+        return;
+      }
+    }
+    clientFirestoreMethods.fetchClientByNum(phoneNum).then((client) {
+      cachedClients.add(client);
+      notifyListeners();
+    });
   }
 
-  void removeClient(Client client) {
-    _clients.remove(client);
+  // void getClientById(String Id) {
+  //   for (Client c in cachedClients) {
+  //     if (c.clientPhoneNum == phoneNum) {
+  //       // _currentClient = c; //TODO: should we leave this?
+  //       notifyListeners();
+  //       return;
+  //     }
+  //   }
+  //   clientFirestoreMethods.fetchClientByNum(phoneNum).then((client) {
+  //     cachedClients.add(client);
+  //     notifyListeners();
+  //   });
+  // }
+
+  void createClient(Client client) {
+    clientFirestoreMethods.createClient(client);
+    cachedClients.add(client);
     notifyListeners();
   }
 
@@ -37,30 +62,6 @@ class ClientProvider with ChangeNotifier {
 
   void clearCurrentClient() {
     _currentClient = null;
-    notifyListeners();
-  }
-
-  void getClientByNum(String phoneNum) {
-    _firebaseMethods.fetchClientByNum(phoneNum).then((client) {
-      clients.add(client);
-      notifyListeners();
-    });
-  }
-
-  void createClient(Client client) {
-    // _firebaseMethods.createClient(client).then((value) {
-    //   clients.add(client);
-    //   notifyListeners();
-    // });
-    _firebaseMethods.createClient(client);
-    clients.add(client);
-    notifyListeners();
-  }
-
-  void createVisit(Visit visit) {
-    _firebaseMethods.createVisit(visit);
-    _currentVisit = visit;
-    _visits.add(visit);
     notifyListeners();
   }
 }

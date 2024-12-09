@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Visit {
   String _mVisitId;
   String _mClientPhoneNum;
+
   DateTime _mDate;
   String _mDiet;
   double _mWeight;

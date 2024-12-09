@@ -51,6 +51,7 @@ class ClientSearchPage extends StatelessWidget {
                       child: const Text('Check In'),
                     )
                   : const Text("search"),
+              //TODO: pass onTap method instead of if condition
             ],
           ),
         ),
