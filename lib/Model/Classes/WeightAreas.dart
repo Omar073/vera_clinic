@@ -1,18 +1,18 @@
 class WeightAreas {
   String _mWeightAreasId;
-  String _mClientPhoneNum;
+  String _mClientId;
 
-  bool _mAbdomen;
-  bool _mButtocks;
-  bool _mWaist;
-  bool _mThighs;
-  bool _mArms;
-  bool _mBreast;
-  bool _mBack;
+  bool _mAbdomen = false;
+  bool _mButtocks = false;
+  bool _mWaist = false;
+  bool _mThighs = false;
+  bool _mArms = false;
+  bool _mBreast = false;
+  bool _mBack = false;
 
   WeightAreas(
       this._mWeightAreasId,
-      this._mClientPhoneNum,
+      this._mClientId,
       this._mAbdomen,
       this._mButtocks,
       this._mWaist,
@@ -23,7 +23,7 @@ class WeightAreas {
 
   // Getters
   String get weightAreasId => _mWeightAreasId;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   bool get abdomen => _mAbdomen;
   bool get buttocks => _mButtocks;
   bool get waist => _mWaist;
@@ -37,8 +37,8 @@ class WeightAreas {
     _mWeightAreasId = weightAreasId;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set abdomen(bool abdomen) {
@@ -72,7 +72,7 @@ class WeightAreas {
   factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
     return WeightAreas(
       map['weightAreasId'] as String,
-      map['clientPhoneNum'] as String,
+      map['clientId'] as String,
       map['abdomen'] as bool,
       map['buttocks'] as bool,
       map['waist'] as bool,
@@ -86,7 +86,7 @@ class WeightAreas {
   Map<String, dynamic> toMap() {
     return {
       'weightAreasId': _mWeightAreasId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'abdomen': _mAbdomen,
       'buttocks': _mButtocks,
       'waist': _mWaist,

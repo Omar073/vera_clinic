@@ -2,19 +2,19 @@ enum Activity { Sedentary, Mid, High }
 
 class ClientConstantInfo {
   String _mClientConstantInfoId;
-  String _mClientPhoneNum;
+  String _mClientId;
 
-  String _mArea;
+  String _mArea = '';
   Activity _mActivityLevel;
-  bool _mYOYO;
-  bool _mSports;
+  bool _mYOYO = false;
+  bool _mSports = false;
 
-  ClientConstantInfo(this._mClientConstantInfoId, this._mClientPhoneNum,
+  ClientConstantInfo(this._mClientConstantInfoId, this._mClientId,
       this._mArea, this._mActivityLevel, this._mYOYO, this._mSports);
 
   //getters and setters
   String get clientConstantInfoId => _mClientConstantInfoId;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   String get area => _mArea;
   Activity get activityLevel => _mActivityLevel;
   bool get YOYO => _mYOYO;
@@ -24,8 +24,8 @@ class ClientConstantInfo {
     _mClientConstantInfoId = clientConstantInfoId;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set area(String area) {
@@ -47,7 +47,7 @@ class ClientConstantInfo {
   factory ClientConstantInfo.fromFirestore(Map<String, dynamic> data) {
     return ClientConstantInfo(
         data['clientConstantInfoId'] as String,
-        data['clientPhoneNum'] as String,
+        data['clientId'] as String,
         data['area'] as String,
         Activity.values.firstWhere(
           (e) => e.name == (data['activityLevel'] as String).toLowerCase(),
@@ -60,7 +60,7 @@ class ClientConstantInfo {
   Map<String, dynamic> toMap() {
     return {
       'clientConstantInfoId': _mClientConstantInfoId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'area': _mArea,
       'activityLevel': _mActivityLevel.name,
       'YOYO': _mYOYO,

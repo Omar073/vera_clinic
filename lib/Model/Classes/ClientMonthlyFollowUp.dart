@@ -1,6 +1,6 @@
 class ClientMonthlyFollowUp {
   String _mClientMonthlyFollowUpId;
-  String _mClientPhoneNum;
+  String _mClientId;
   double _mBMI;
   double _mPBF;
   double _mWater;
@@ -12,7 +12,7 @@ class ClientMonthlyFollowUp {
 
   ClientMonthlyFollowUp(
       this._mClientMonthlyFollowUpId,
-      this._mClientPhoneNum,
+      this._mClientId,
       this._mBMI,
       this._mPBF,
       this._mWater,
@@ -24,7 +24,7 @@ class ClientMonthlyFollowUp {
 
   //getters and setters
   String get clientMonthlyFollowUpId => _mClientMonthlyFollowUpId;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   double get bmi => _mBMI;
   double get pbf => _mPBF;
   double get water => _mWater;
@@ -38,8 +38,8 @@ class ClientMonthlyFollowUp {
     _mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set bmi(double bmi) {
@@ -77,7 +77,7 @@ class ClientMonthlyFollowUp {
   factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
     return ClientMonthlyFollowUp(
       data['clientMonthlyFollowUpId'] as String,
-      data['clientPhoneNum'] as String,
+      data['clientId'] as String,
       data['bmi'] as double,
       data['pbf'] as double,
       data['water'] as double,
@@ -92,7 +92,7 @@ class ClientMonthlyFollowUp {
   Map<String, dynamic> toMap() {
     return {
       'clientMonthlyFollowUpId': _mClientMonthlyFollowUpId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'bmi': _mBMI,
       'pbf': _mPBF,
       'water': _mWater,

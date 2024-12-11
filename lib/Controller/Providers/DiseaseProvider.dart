@@ -8,10 +8,10 @@ class DiseaseProvider with ChangeNotifier {
       DiseaseFirestoreMethods();
 
   Disease? _currentDisease;
-  List<Disease> _cachedDiseases = [];
+  List<Disease?> _cachedDiseases = [];
 
   Disease? get currentDisease => _currentDisease;
-  List<Disease> get cachedDiseases => _cachedDiseases;
+  List<Disease?> get cachedDiseases => _cachedDiseases;
   DiseaseFirestoreMethods get diseaseFirestoreMethods =>
       _diseaseFirestoreMethods;
 
@@ -22,11 +22,14 @@ class DiseaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Disease? getDiseaseByNum(String clientPhoneNum) {
-    return cachedDiseases.firstWhere(
-      (disease) => disease.clientPhoneNum == clientPhoneNum,
-      orElse: () => diseaseFirestoreMethods.fetchDiseaseByNum(clientPhoneNum),
+  Future<Disease?> getDiseaseById(String clientId) async {
+    // Check cached diseases first
+    Disease? disease = cachedDiseases.firstWhere(
+      (disease) => disease?.clientId == clientId,
+      orElse: () => null,
     );
+    disease ??= await diseaseFirestoreMethods.fetchDiseaseById(clientId);
+    return disease;
   }
 
   void setCurrentDisease(Disease disease) {

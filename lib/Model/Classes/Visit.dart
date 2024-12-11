@@ -2,20 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Visit {
   String _mVisitId;
-  String _mClientPhoneNum;
+  String _mClientId;
 
   DateTime _mDate;
   String _mDiet;
   double _mWeight;
   double _mBMI;
 
-  Visit(this._mVisitId, this._mClientPhoneNum, this._mDate, this._mDiet,
+  Visit(this._mVisitId, this._mClientId, this._mDate, this._mDiet,
       this._mWeight, this._mBMI);
 
   // Getters
   String get visitId => _mVisitId;
   DateTime get date => _mDate;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   String get diet => _mDiet;
   double get weight => _mWeight;
   double get bmi => _mBMI;
@@ -29,8 +29,8 @@ class Visit {
     _mDate = date;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set diet(String diet) {
@@ -48,7 +48,7 @@ class Visit {
   factory Visit.fromFirestore(Map<String, dynamic> data) {
     return Visit(
         data['visitId'] as String,
-        data['clientPhoneNum'] as String,
+        data['clientId'] as String,
         (data['date'] as Timestamp).toDate(),
         data['diet'] as String,
         data['weight'] as double,
@@ -58,7 +58,7 @@ class Visit {
   Map<String, dynamic> toMap() {
     return {
       'visitId': _mVisitId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'date': _mDate,
       'diet': _mDiet,
       'weight': _mWeight,

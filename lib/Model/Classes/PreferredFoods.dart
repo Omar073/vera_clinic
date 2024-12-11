@@ -1,17 +1,17 @@
 class PreferredFoods {
   String _mPreferredFoodsId;
-  String _mClientPhoneNum;
+  String _mClientId;
 
-  bool _mCarbohydrates;
-  bool _mProtein;
-  bool _mDairy;
-  bool _mVeg;
-  bool _mFruits;
-  String _mOthers;
+  bool _mCarbohydrates = false;
+  bool _mProtein = false;
+  bool _mDairy = false;
+  bool _mVeg = false;
+  bool _mFruits = false;
+  String _mOthers = '';
 
   PreferredFoods(
       this._mPreferredFoodsId,
-      this._mClientPhoneNum,
+      this._mClientId,
       this._mCarbohydrates,
       this._mProtein,
       this._mDairy,
@@ -21,7 +21,7 @@ class PreferredFoods {
 
   // Getters
   String get preferredFoodsId => _mPreferredFoodsId;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   bool get carbohydrates => _mCarbohydrates;
   bool get protein => _mProtein;
   bool get dairy => _mDairy;
@@ -34,8 +34,8 @@ class PreferredFoods {
     _mPreferredFoodsId = preferredFoodsId;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set carbohydrates(bool carbohydrates) {
@@ -65,7 +65,7 @@ class PreferredFoods {
   factory PreferredFoods.fromFirestore(Map<String, dynamic> data) {
     return PreferredFoods(
       data['preferredFoodsId'] as String,
-      data['clientPhoneNum'] as String,
+      data['clientId'] as String,
       data['carbohydrates'] as bool,
       data['protein'] as bool,
       data['dairy'] as bool,
@@ -78,7 +78,7 @@ class PreferredFoods {
   Map<String, dynamic> toMap() {
     return {
       'preferredFoodsId': _mPreferredFoodsId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'carbohydrates': _mCarbohydrates,
       'protein': _mProtein,
       'dairy': _mDairy,

@@ -3,22 +3,49 @@ import 'package:flutter/cupertino.dart';
 import '../Classes/Visit.dart';
 import 'FirebaseSingelton.dart';
 
-class VisitFirestoreMethods{
-  createVisit(Visit visit) async {
+class VisitFirestoreMethods {
+  Future<String> createVisit(Visit visit) async {
     try {
-      final docRef = await FirebaseSingleton.instance.firestore.collection('Visits').add(visit.toMap());
-      visit.visitId = docRef.id;
+      final docRef = await FirebaseSingleton.instance.firestore
+          .collection('Visits')
+          .add(visit.toMap());
+      await docRef.update({'visitId': docRef.id});
+      return docRef.id;
     } catch (e) {
       debugPrint('Error creating visit: $e');
+      return '';
     }
-    return visit.visitId ?? '';
   }
-  
-  Future<List<Visit>> fetchVisits(String phoneNum) async {
+
+  Future<void> updateVisit(Visit visit) async {
+    try {
+      final visitRef = FirebaseSingleton.instance.firestore
+          .collection('Visits')
+          .doc(visit.visitId);
+
+      final docSnapshot = await visitRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching visit found with visitId: ${visit.visitId}');
+      }
+
+      await visitRef.update(visit.toMap());
+    } catch (e) {
+      throw Exception('Error updating visit: $e');
+    }
+  }
+
+  Future<List<Visit>?> fetchVisits(String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Visits')
-        .where('clientPhoneNum', isEqualTo: phoneNum)
+        .where('clientId', isEqualTo: clientId)
         .get();
-    return querySnapshot.docs.map((doc) => Visit.fromFirestore(doc.data())).toList();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : querySnapshot.docs
+            .map((doc) => Visit.fromFirestore(doc.data()))
+            .toList();
   }
 }

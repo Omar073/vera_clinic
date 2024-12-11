@@ -4,23 +4,49 @@ import '../Classes/ClientConstantInfo.dart';
 import 'FirebaseSingelton.dart';
 
 class ClientConstantInfoFirestoreMethods {
-  createClientConstantInfo(ClientConstantInfo clientConstantInfo) async {
+  Future<String> createClientConstantInfo(
+      ClientConstantInfo clientConstantInfo) async {
     try {
       final docRef = await FirebaseSingleton.instance.firestore
           .collection('ClientConstantInfo')
           .add(clientConstantInfo.toMap());
-      clientConstantInfo.clientConstantInfoId = docRef.id;
+      await docRef.update({'clientConstantInfoId': docRef.id});
+      return docRef.id;
     } catch (e) {
       debugPrint('Error creating client constant info: $e');
+      return '';
     }
-    return clientConstantInfo.clientConstantInfoId ?? '';
   }
 
-  fetchClientConstantInfoByNum(String clientPhoneNum) async {
+  Future<void> updateClientConstantInfo(
+      ClientConstantInfo clientConstantInfo) async {
+    try {
+      final clientConstantInfoRef = FirebaseSingleton.instance.firestore
+          .collection('ClientConstantInfo')
+          .doc(clientConstantInfo.clientConstantInfoId);
+
+      final docSnapshot = await clientConstantInfoRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching client constant info found with clientConstantInfoId: ${clientConstantInfo.clientConstantInfoId}');
+      }
+
+      await clientConstantInfoRef.update(clientConstantInfo.toMap());
+    } catch (e) {
+      throw Exception('Error updating client constant info: $e');
+    }
+  }
+
+  Future<ClientConstantInfo?> fetchClientConstantInfoByNum(
+      String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('ClientConstantInfo')
-        .where('clientPhoneNum', isEqualTo: clientPhoneNum)
+        .where('clientId', isEqualTo: clientId)
         .get();
-    return ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
   }
 }

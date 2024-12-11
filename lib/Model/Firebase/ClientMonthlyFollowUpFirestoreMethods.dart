@@ -4,24 +4,49 @@ import '../Classes/ClientMonthlyFollowUp.dart';
 import 'FirebaseSingelton.dart';
 
 class ClientMonthlyFollowUpFirestoreMethods {
-  createClientMonthlyFollowUp(
+  Future<String> createClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) async {
     try {
       final docRef = await FirebaseSingleton.instance.firestore
           .collection('ClientMonthlyFollowUps')
           .add(clientMonthlyFollowUp.toMap());
-      clientMonthlyFollowUp.clientMonthlyFollowUpId = docRef.id;
+      await docRef.update({'clientMonthlyFollowUpId': docRef.id});
+      return docRef.id;
     } catch (e) {
       debugPrint('Error creating client monthly follow up: $e');
+      return '';
     }
-    return clientMonthlyFollowUp.clientMonthlyFollowUpId ?? '';
   }
 
-  fetchClientMonthlyFollowUpByNum(String clientPhoneNum) async {
+  Future<void> updateClientMonthlyFollowUp(
+      ClientMonthlyFollowUp clientMonthlyFollowUp) async {
+    try {
+      final clientMonthlyFollowUpRef = FirebaseSingleton.instance.firestore
+          .collection('ClientMonthlyFollowUps')
+          .doc(clientMonthlyFollowUp.clientMonthlyFollowUpId);
+
+      final docSnapshot = await clientMonthlyFollowUpRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching client monthly follow up found with clientMonthlyFollowUpId: ${clientMonthlyFollowUp.clientMonthlyFollowUpId}');
+      }
+
+      await clientMonthlyFollowUpRef.update(clientMonthlyFollowUp.toMap());
+    } catch (e) {
+      throw Exception('Error updating client monthly follow up: $e');
+    }
+  }
+
+  Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpById(
+      String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('ClientMonthlyFollowUps')
-        .where('clientPhoneNum', isEqualTo: clientPhoneNum)
+        .where('clientId', isEqualTo: clientId)
         .get();
-    return ClientMonthlyFollowUp.fromFirestore(querySnapshot.docs.first.data());
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : ClientMonthlyFollowUp.fromFirestore(querySnapshot.docs.first.data());
   }
 }

@@ -3,37 +3,61 @@ import 'package:vera_clinic/Model/Firebase/FirebaseSingelton.dart';
 
 import '../Classes/Client.dart';
 
-class ClientFirestoreMethods{
-  void createClient(Client client) async {
+class ClientFirestoreMethods {
+  Future<String> createClient(Client client) async {
     try {
-      await FirebaseSingleton.instance.firestore.collection('Clients').add(client.toMap());
+      final docRef = await FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .add(client.toMap());
+
+      // Update the client document with its generated ID
+      await docRef.update({'clientId': docRef.id});
+
+      return docRef.id;
     } catch (e) {
       debugPrint('Error creating client: $e');
+      return '';
     }
   }
 
-  void updateClient(Client client) async {
+  Future<void> updateClient(Client client) async {
     try {
-      final querySnapshot = await FirebaseSingleton.instance.firestore
+      final clientRef = FirebaseSingleton.instance.firestore
           .collection('Clients')
-          .where('clientPhoneNum', isEqualTo: client.clientPhoneNum)
-          .get();
+          .doc(client.clientId);
 
-      for (var doc in querySnapshot.docs) {
-        await doc.reference.update(client.toMap());
+      // Check if the document exists before updating
+      final docSnapshot = await clientRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching client found with clientId: ${client.clientId}');
       }
+
+      await clientRef.update(client.toMap());
     } catch (e) {
-      debugPrint('Error updating client: $e');
+      throw Exception('Error updating client: $e');
     }
   }
 
-  fetchClientByNum(String phoneNum) async {
+  Future<Client?> fetchClientById(String clientId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('Clients')
+        .where('clientId', isEqualTo: clientId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : Client.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<List<Client?>?> fetchClientByNum(String phoneNum) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Clients')
         .where('clientPhoneNum', isEqualTo: phoneNum)
         .get();
-    return Client.fromFirestore(querySnapshot.docs.first
-        .data()); // we use .first in case of finding more than one instance with the same number
+    return querySnapshot.docs
+        .map((doc) => Client.fromFirestore(doc.data()))
+        .toList();
   }
-
 }

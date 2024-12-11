@@ -1,35 +1,35 @@
 class Disease {
   String _mDiseaseId;
-  String _mClientPhoneNum;
+  String _mClientId;
 
   // Heart
-  bool _mHypertension;
-  bool _mHypotension;
-  bool _mVascular = false; //todo: kammel
-  bool _mAnemia;
+  bool _mHypertension = false;
+  bool _mHypotension = false;
+  bool _mVascular = false;
+  bool _mAnemia = false;
 
-  String _mRenal;
-  String _mLiver;
+  String _mRenal = '';
+  String _mLiver = '';
 
-  String _mGit;
-  bool _mColon;
-  bool _mConstipation;
+  String _mGit = '';
+  bool _mColon = false;
+  bool _mConstipation = false;
 
-  String _mEndocrine;
-  String _mRheumatic;
-  String _mAllergies;
-  String _mNeuro;
-  String _mPsychiatric;
-  String _mOthers;
-  String _mHormonal;
+  String _mEndocrine = '';
+  String _mRheumatic = '';
+  String _mAllergies = '';
+  String _mNeuro = '';
+  String _mPsychiatric = '';
+  String _mOthers = '';
+  String _mHormonal = '';
 
-  bool _mFamilyHistoryDM;
-  bool _mPreviousOBMed;
-  bool _mPreviousOBOperations;
+  bool _mFamilyHistoryDM = false;
+  bool _mPreviousOBMed = false;
+  bool _mPreviousOBOperations = false;
 
   Disease(
     this._mDiseaseId,
-    this._mClientPhoneNum,
+    this._mClientId,
     this._mHypertension,
     this._mHypotension,
     this._mVascular,
@@ -53,7 +53,7 @@ class Disease {
 
 // Getters
   String get diseaseId => _mDiseaseId;
-  String get clientPhoneNum => _mClientPhoneNum;
+  String get clientId => _mClientId;
   bool get hypertension => _mHypertension;
   bool get hypotension => _mHypotension;
   bool get vascular => _mVascular;
@@ -79,8 +79,8 @@ class Disease {
     _mDiseaseId = diseaseId;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientId(String clientId) {
+    _mClientId = clientId;
   }
 
   set hypertension(bool hypertension) {
@@ -162,7 +162,7 @@ class Disease {
   factory Disease.fromFirestore(Map<String, dynamic> data) {
     return Disease(
       data['diseaseId'] as String,
-      data['clientPhoneNum'] as String,
+      data['clientId'] as String,
       data['hypertension'] as bool,
       data['hypotension'] as bool,
       data['vascular'] as bool,
@@ -188,7 +188,7 @@ class Disease {
   Map<String, dynamic> toMap() {
     return {
       'diseaseId': _mDiseaseId,
-      'clientPhoneNum': _mClientPhoneNum,
+      'clientId': _mClientId,
       'hypertension': _mHypertension,
       'hypotension': _mHypotension,
       'vascular': _mVascular,

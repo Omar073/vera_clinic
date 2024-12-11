@@ -24,9 +24,9 @@ enum SubscriptionType {
 
 class Client {
   //TODO: add nullability
-  //TODO: add unique ID
+  String _mClientId;
   String _mName;
-  String _mClientPhoneNum;
+  // String _mClientPhoneNum;
   String _mLastVisitId;
   DateTime _mBirthdate;
   String _mClientConstantInfoId;
@@ -43,6 +43,7 @@ class Client {
   SubscriptionType _mSubscriptionType;
 
   Client(
+      this._mClientId,
       this._mName,
       this._mClientPhoneNum,
       this._mLastVisitId,
@@ -60,8 +61,9 @@ class Client {
       this._mSubscriptionType);
 
   // Getters
+  String get clientId => _mClientId;
   String get name => _mName;
-  String get clientPhoneNum => _mClientPhoneNum;
+  // String get clientPhoneNum => _mClientPhoneNum;
   String get lastVisitId => _mLastVisitId;
   DateTime get birthdate => _mBirthdate;
   String get clientConstantInfoId => _mClientConstantInfoId;
@@ -77,6 +79,10 @@ class Client {
   SubscriptionType get subscriptionType => _mSubscriptionType;
 
 // Setters
+  set clientId(String clientId) {
+    _mClientId = clientId;
+  }
+
   set name(String name) {
     _mName = name;
   }
@@ -140,6 +146,7 @@ class Client {
   factory Client.fromFirestore(Map<String, dynamic> data) {
     // final data = doc.data() as Map<String, dynamic>;
     return Client(
+      data['clientId'] as String, // _mClientId
       data['name'] as String, // _mName
       data['clientPhoneNum'] as String, // _mClientPhoneNum
       data['lastVisitId'] as String, // _mLastVisitId
@@ -165,6 +172,7 @@ class Client {
 
   Map<String, dynamic> toMap() {
     return {
+      'clientId': _mClientId,
       'name': _mName,
       'clientPhoneNum': _mClientPhoneNum,
       'lastVisitId': _mLastVisitId,
@@ -183,11 +191,11 @@ class Client {
 }
 
 Visit visit =
-    Visit("abc123", '1234567890', DateTime.now(), 'Vegetarian', 75.0, 23.1);
+    Visit("abc123", 'id123', DateTime.now(), 'Vegetarian', 75.0, 23.1);
 
 Disease disease = Disease(
     'def456',
-    '1234567890',
+    'id123',
     false, // _mHypertension
     true, // _mHypotension
     false, // _mVascular
@@ -211,7 +219,7 @@ Disease disease = Disease(
 
 ClientConstantInfo clientConstantInfo = ClientConstantInfo(
     'const123', // _mClientConstantInfoId
-    '1234567890', // _mClientPhoneNum
+    'id123',
     'mokattam', // _mArea
     Activity.High, // _mActivityLevel
     false, // _mYOYO
@@ -220,7 +228,7 @@ ClientConstantInfo clientConstantInfo = ClientConstantInfo(
 
 ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
     'mfi123', // _mClientMonthlyFollowUpId
-    '1234567890', // _mClientPhoneNum
+    'id123',
     23.1, // _mBMI
     15.0, // _mPBF
     2.0, // _mWater
@@ -233,7 +241,7 @@ ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
 
 PreferredFoods preferredFoods = PreferredFoods(
     'ghi789', // _mPreferredFoodsId
-    '1234567890',
+    'id123',
     true, // _mCarbohydrates
     true, // _mProtein
     false, // _mDairy
@@ -244,7 +252,7 @@ PreferredFoods preferredFoods = PreferredFoods(
 
 WeightAreas weightAreas = WeightAreas(
     'jkl012', // _mWeightAreasId
-    '1234567890', // _mClientPhoneNum
+    'id123',
     true, // _mAbdomen
     false, // _mButtocks
     true, // _mWaist
@@ -255,6 +263,7 @@ WeightAreas weightAreas = WeightAreas(
     );
 
 Client client = Client(
+    'id123',
     'John Doe', // _mName
     '1234567890', // _mClientPhoneNum
     'abc123', // _mLastVisitId

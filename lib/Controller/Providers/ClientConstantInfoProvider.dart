@@ -11,7 +11,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
 
   ClientConstantInfo? get currentClientConstantInfo =>
       _currentClientConstantInfo;
-  List<ClientConstantInfo> get cachedClientConstantInfo =>
+  List<ClientConstantInfo?> get cachedClientConstantInfo =>
       _cachedClientConstantInfo;
   ClientConstantInfoFirestoreMethods get clientConstantInfoFirestoreMethods =>
       _clientConstantInfoFirestoreMethods;
@@ -23,12 +23,12 @@ class ClientConstantInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ClientConstantInfo? getClientConstantInfo(String clientPhoneNum) {
+  ClientConstantInfo? getClientConstantInfo(String clientId) {
     return cachedClientConstantInfo.firstWhere(
       (clientConstantInfo) =>
-          clientConstantInfo.clientPhoneNum == clientPhoneNum,
+          clientConstantInfo?.clientId == clientId,
       orElse: () => clientConstantInfoFirestoreMethods
-          .fetchClientConstantInfoByNum(clientPhoneNum),
+          .fetchClientConstantInfoByNum(clientId),
     );
   }
 

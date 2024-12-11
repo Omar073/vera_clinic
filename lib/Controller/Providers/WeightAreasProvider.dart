@@ -5,6 +5,7 @@ import 'package:vera_clinic/Model/Firebase/WeightAreasFirestoreMethods.dart';
 class WeightAreasProvider with ChangeNotifier {
   final WeightAreasFirestoreMethods _weightAreasFirestoreMethods =
       WeightAreasFirestoreMethods();
+
   WeightAreas? _currentWeightAreas;
   List<WeightAreas> _cachedWeightAreas = [];
 
@@ -13,7 +14,7 @@ class WeightAreasProvider with ChangeNotifier {
   WeightAreasFirestoreMethods get weightAreasFirestoreMethods =>
       _weightAreasFirestoreMethods;
 
-  void createCurrentWeightAreas(WeightAreas weightAreas) {
+  void createWeightAreas(WeightAreas weightAreas) {
     weightAreas.weightAreasId =
         weightAreasFirestoreMethods.createWeightAreas(weightAreas) as String;
 
@@ -21,9 +22,9 @@ class WeightAreasProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  WeightAreas getWeightAreas(String clientPhoneNum) {
+  WeightAreas getWeightAreas(String clientId) {
     _currentWeightAreas = weightAreasFirestoreMethods
-        .fetchWeightAreasByNum(clientPhoneNum) as WeightAreas;
+        .fetchWeightAreasByNum(clientId) as WeightAreas;
     return currentWeightAreas!;
   }
 
