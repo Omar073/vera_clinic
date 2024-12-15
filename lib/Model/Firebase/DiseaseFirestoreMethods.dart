@@ -37,10 +37,21 @@ class DiseaseFirestoreMethods {
     }
   }
 
-  Future<Disease?> fetchDiseaseById(String clientId) async {
+  Future<Disease?> fetchDiseaseByClientId(String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Diseases')
         .where('clientId', isEqualTo: clientId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : Disease.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<Disease?> fetchDiseaseById(String diseaseId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('Diseases')
+        .where('diseaseId', isEqualTo: diseaseId)
         .get();
 
     return querySnapshot.docs.isEmpty

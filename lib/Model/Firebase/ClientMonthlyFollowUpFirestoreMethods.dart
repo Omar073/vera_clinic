@@ -38,11 +38,23 @@ class ClientMonthlyFollowUpFirestoreMethods {
     }
   }
 
-  Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpById(
+  Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpByClientId(
       String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('ClientMonthlyFollowUps')
         .where('clientId', isEqualTo: clientId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : ClientMonthlyFollowUp.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpById(
+      String clientMonthlyFollowUpId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('ClientMonthlyFollowUps')
+        .where('clientMonthlyFollowUpId', isEqualTo: clientMonthlyFollowUpId)
         .get();
 
     return querySnapshot.docs.isEmpty

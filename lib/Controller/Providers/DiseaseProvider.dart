@@ -4,16 +4,16 @@ import 'package:vera_clinic/Model/Firebase/DiseaseFirestoreMethods.dart';
 import '../../Model/Classes/Disease.dart';
 
 class DiseaseProvider with ChangeNotifier {
-  final DiseaseFirestoreMethods _diseaseFirestoreMethods =
+  final DiseaseFirestoreMethods _mDiseaseFirestoreMethods =
       DiseaseFirestoreMethods();
 
-  Disease? _currentDisease;
-  List<Disease?> _cachedDiseases = [];
+  Disease? _mCurrentDisease;
+  List<Disease?> _mCachedDiseases = [];
 
-  Disease? get currentDisease => _currentDisease;
-  List<Disease?> get cachedDiseases => _cachedDiseases;
+  Disease? get currentDisease => _mCurrentDisease;
+  List<Disease?> get cachedDiseases => _mCachedDiseases;
   DiseaseFirestoreMethods get diseaseFirestoreMethods =>
-      _diseaseFirestoreMethods;
+      _mDiseaseFirestoreMethods;
 
   void createDisease(Disease disease) {
     disease.diseaseId =
@@ -22,18 +22,39 @@ class DiseaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Disease?> getDiseaseById(String clientId) async {
+  Future<Disease?> getDiseaseByClientId(String clientId) async {
     // Check cached diseases first
     Disease? disease = cachedDiseases.firstWhere(
       (disease) => disease?.clientId == clientId,
       orElse: () => null,
     );
-    disease ??= await diseaseFirestoreMethods.fetchDiseaseById(clientId);
+
+    disease ??= await diseaseFirestoreMethods.fetchDiseaseByClientId(clientId);
+    disease == null ? cachedDiseases.add(disease) : null;
+    notifyListeners();
     return disease;
   }
 
+  Future<Disease?> getDiseaseById(String diseaseId) async {
+    // Check cached diseases first
+    Disease? disease = cachedDiseases.firstWhere(
+      (disease) => disease?.diseaseId == diseaseId,
+      orElse: () => null,
+    );
+
+    disease ??= await diseaseFirestoreMethods.fetchDiseaseById(diseaseId);
+    disease == null ? cachedDiseases.add(disease) : null;
+    notifyListeners();
+    return disease;
+  }
+
+  void updateDisease(Disease disease) {
+    diseaseFirestoreMethods.updateDisease(disease);
+    notifyListeners();
+  }
+
   void setCurrentDisease(Disease disease) {
-    _currentDisease = disease;
+    _mCurrentDisease = disease;
     notifyListeners();
   }
 }

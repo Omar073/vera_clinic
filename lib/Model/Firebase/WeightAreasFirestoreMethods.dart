@@ -36,10 +36,21 @@ class WeightAreasFirestoreMethods {
     }
   }
 
-  Future<WeightAreas?> fetchWeightAreasByNum(String clientPhoneNum) async {
+  Future<WeightAreas?> fetchWeightAreasByClientId(String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('WeightAreas')
-        .where('clientPhoneNum', isEqualTo: clientPhoneNum)
+        .where('clientId', isEqualTo: clientId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : WeightAreas.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<WeightAreas?> fetchWeightAreasById(String weightAreasId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('WeightAreas')
+        .where('weightAreasId', isEqualTo: weightAreasId)
         .get();
 
     return querySnapshot.docs.isEmpty

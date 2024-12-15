@@ -3,18 +3,19 @@ import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Model/Firebase/ClientConstantInfoFirestoreMethods.dart';
 
 class ClientConstantInfoProvider with ChangeNotifier {
-  final ClientConstantInfoFirestoreMethods _clientConstantInfoFirestoreMethods =
+  final ClientConstantInfoFirestoreMethods
+      _mClientConstantInfoFirestoreMethods =
       ClientConstantInfoFirestoreMethods();
 
-  ClientConstantInfo? _currentClientConstantInfo;
-  List<ClientConstantInfo> _cachedClientConstantInfo = [];
+  ClientConstantInfo? _mCurrentClientConstantInfo;
+  List<ClientConstantInfo?> _mCachedClientConstantInfo = [];
 
   ClientConstantInfo? get currentClientConstantInfo =>
-      _currentClientConstantInfo;
+      _mCurrentClientConstantInfo;
   List<ClientConstantInfo?> get cachedClientConstantInfo =>
-      _cachedClientConstantInfo;
+      _mCachedClientConstantInfo;
   ClientConstantInfoFirestoreMethods get clientConstantInfoFirestoreMethods =>
-      _clientConstantInfoFirestoreMethods;
+      _mClientConstantInfoFirestoreMethods;
 
   void createCurrentClientConstantInfo(ClientConstantInfo clientConstantInfo) {
     clientConstantInfo.clientConstantInfoId = clientConstantInfoFirestoreMethods
@@ -23,17 +24,51 @@ class ClientConstantInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ClientConstantInfo? getClientConstantInfo(String clientId) {
-    return cachedClientConstantInfo.firstWhere(
-      (clientConstantInfo) =>
-          clientConstantInfo?.clientId == clientId,
-      orElse: () => clientConstantInfoFirestoreMethods
-          .fetchClientConstantInfoByNum(clientId),
+  Future<ClientConstantInfo?> getClientConstantInfoByClientId(
+      String clientId) async {
+    ClientConstantInfo? clientConstantInfo =
+        cachedClientConstantInfo.firstWhere(
+      (clientConstantInfo) => clientConstantInfo?.clientId == clientId,
+      orElse: () => null,
     );
+
+    clientConstantInfo ??= await clientConstantInfoFirestoreMethods
+        .fetchClientConstantInfoByClientId(clientId);
+
+    clientConstantInfo == null
+        ? cachedClientConstantInfo.add(clientConstantInfo)
+        : null;
+    notifyListeners();
+    return clientConstantInfo;
+  }
+
+  Future<ClientConstantInfo?> getClientConstantInfoById(
+      String clientConstantInfoId) async {
+    ClientConstantInfo? clientConstantInfo =
+        cachedClientConstantInfo.firstWhere(
+      (clientConstantInfo) =>
+          clientConstantInfo?.clientConstantInfoId == clientConstantInfoId,
+      orElse: () => null,
+    );
+
+    clientConstantInfo ??= await clientConstantInfoFirestoreMethods
+        .fetchClientConstantInfoById(clientConstantInfoId);
+
+    clientConstantInfo == null
+        ? cachedClientConstantInfo.add(clientConstantInfo)
+        : null;
+    notifyListeners();
+    return clientConstantInfo;
+  }
+
+  void updateCurrentClientConstantInfo(ClientConstantInfo clientConstantInfo) {
+    clientConstantInfoFirestoreMethods
+        .updateClientConstantInfo(clientConstantInfo);
+    notifyListeners();
   }
 
   void setCurrentClientConstantInfo(ClientConstantInfo clientConstantInfo) {
-    _currentClientConstantInfo = clientConstantInfo;
+    _mCurrentClientConstantInfo = clientConstantInfo;
     notifyListeners();
   }
 }

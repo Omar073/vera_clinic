@@ -6,19 +6,19 @@ import '../../Model/Firebase/ClientMonthlyFollowUpFirestoreMethods.dart';
 
 class ClientMonthlyFollowUpProvider with ChangeNotifier {
   final ClientMonthlyFollowUpFirestoreMethods
-      _clientMonthlyFollowUpFirestoreMethods =
+      _mClientMonthlyFollowUpFirestoreMethods =
       ClientMonthlyFollowUpFirestoreMethods();
 
-  ClientMonthlyFollowUp? _currentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp> _cachedClientsMonthlyFollowUps = [];
+  ClientMonthlyFollowUp? _mCurrentClientMonthlyFollowUp;
+  List<ClientMonthlyFollowUp?> _mCachedClientsMonthlyFollowUps = [];
 
   ClientMonthlyFollowUp? get currentClientMonthlyFollowUp =>
-      _currentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp> get cachedClientsMonthlyFollowUps =>
-      _cachedClientsMonthlyFollowUps;
+      _mCurrentClientMonthlyFollowUp;
+  List<ClientMonthlyFollowUp?> get cachedClientsMonthlyFollowUps =>
+      _mCachedClientsMonthlyFollowUps;
   ClientMonthlyFollowUpFirestoreMethods
       get clientMonthlyFollowUpFirestoreMethods =>
-          _clientMonthlyFollowUpFirestoreMethods;
+          _mClientMonthlyFollowUpFirestoreMethods;
 
   void createCurrentClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) {
@@ -29,17 +29,55 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  ClientMonthlyFollowUp? getClientMonthlyFollowUp(String clientPhoneNum) {
-    return cachedClientsMonthlyFollowUps.firstWhere(
-        (clientMonthlyFollowUp) =>
-            clientMonthlyFollowUp.clientPhoneNum == clientPhoneNum,
-        orElse: () => clientMonthlyFollowUpFirestoreMethods
-            .fetchClientMonthlyFollowUpByNum(clientPhoneNum));
+  Future<ClientMonthlyFollowUp?> getClientMonthlyFollowUpByClientId(
+      String clientId) async {
+    // check cache first
+    ClientMonthlyFollowUp? clientMonthlyFollowUp =
+        cachedClientsMonthlyFollowUps.firstWhere(
+            (clientMonthlyFollowUp) =>
+                clientMonthlyFollowUp?.clientId == clientId,
+            orElse: () => null);
+
+    clientMonthlyFollowUp ??= await clientMonthlyFollowUpFirestoreMethods
+        .fetchClientMonthlyFollowUpByClientId(clientId);
+
+    clientMonthlyFollowUp == null
+        ? cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp)
+        : null;
+    notifyListeners();
+    return clientMonthlyFollowUp;
+  }
+
+  Future<ClientMonthlyFollowUp?> getClientMonthlyFollowUpById(
+      String clientMonthlyFollowUpId) async {
+    // check cache first
+    ClientMonthlyFollowUp? clientMonthlyFollowUp =
+        cachedClientsMonthlyFollowUps.firstWhere(
+            (clientMonthlyFollowUp) =>
+                clientMonthlyFollowUp?.clientMonthlyFollowUpId ==
+                clientMonthlyFollowUpId,
+            orElse: () => null);
+
+    clientMonthlyFollowUp ??= await clientMonthlyFollowUpFirestoreMethods
+        .fetchClientMonthlyFollowUpById(clientMonthlyFollowUpId);
+
+    clientMonthlyFollowUp == null
+        ? cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp)
+        : null;
+    notifyListeners();
+    return clientMonthlyFollowUp;
+  }
+
+  void updateCurrentClientMonthlyFollowUp(
+      ClientMonthlyFollowUp clientMonthlyFollowUp) {
+    clientMonthlyFollowUpFirestoreMethods
+        .updateClientMonthlyFollowUp(clientMonthlyFollowUp);
+    notifyListeners();
   }
 
   void setCurrentClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) {
-    _currentClientMonthlyFollowUp = clientMonthlyFollowUp;
+    _mCurrentClientMonthlyFollowUp = clientMonthlyFollowUp;
     notifyListeners();
   }
 }

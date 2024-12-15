@@ -26,7 +26,7 @@ class Client {
   //TODO: add nullability
   String _mClientId;
   String _mName;
-  // String _mClientPhoneNum;
+  String _mClientPhoneNum;
   String _mLastVisitId;
   DateTime _mBirthdate;
   String _mClientConstantInfoId;
@@ -63,7 +63,7 @@ class Client {
   // Getters
   String get clientId => _mClientId;
   String get name => _mName;
-  // String get clientPhoneNum => _mClientPhoneNum;
+  String get clientPhoneNum => _mClientPhoneNum;
   String get lastVisitId => _mLastVisitId;
   DateTime get birthdate => _mBirthdate;
   String get clientConstantInfoId => _mClientConstantInfoId;

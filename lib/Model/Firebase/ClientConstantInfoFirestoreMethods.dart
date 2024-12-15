@@ -38,11 +38,23 @@ class ClientConstantInfoFirestoreMethods {
     }
   }
 
-  Future<ClientConstantInfo?> fetchClientConstantInfoByNum(
+  Future<ClientConstantInfo?> fetchClientConstantInfoByClientId(
       String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('ClientConstantInfo')
         .where('clientId', isEqualTo: clientId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<ClientConstantInfo?> fetchClientConstantInfoById(
+      String clientConstantInfoId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('ClientConstantInfo')
+        .where('clientConstantInfoId', isEqualTo: clientConstantInfoId)
         .get();
 
     return querySnapshot.docs.isEmpty

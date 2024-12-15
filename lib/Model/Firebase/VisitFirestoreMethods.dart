@@ -36,7 +36,7 @@ class VisitFirestoreMethods {
     }
   }
 
-  Future<List<Visit>?> fetchVisits(String clientId) async {
+  Future<List<Visit>?> fetchVisitsByClientId(String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Visits')
         .where('clientId', isEqualTo: clientId)
@@ -47,5 +47,16 @@ class VisitFirestoreMethods {
         : querySnapshot.docs
             .map((doc) => Visit.fromFirestore(doc.data()))
             .toList();
+  }
+
+  Future<Visit?> fetchVisitById(String visitId) async {
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('Visits')
+        .where('visitId', isEqualTo: visitId)
+        .get();
+
+    return querySnapshot.docs.isEmpty
+        ? null
+        : Visit.fromFirestore(querySnapshot.docs.first.data());
   }
 }

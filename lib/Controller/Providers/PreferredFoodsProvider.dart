@@ -8,10 +8,10 @@ class PreferredFoodsProvider with ChangeNotifier {
       PreferredFoodsFirestoreMethods();
 
   PreferredFoods? _currentPreferredFoods;
-  List<PreferredFoods> _cachedPreferredFoods = [];
+  List<PreferredFoods?> _cachedPreferredFoods = [];
 
   PreferredFoods? get currentPreferredFoods => _currentPreferredFoods;
-  List<PreferredFoods> get cachedPreferredFoods => _cachedPreferredFoods;
+  List<PreferredFoods?> get cachedPreferredFoods => _cachedPreferredFoods;
   PreferredFoodsFirestoreMethods get preferredFoodsFirestoreMethods =>
       _preferredFoodsFirestoreMethods;
 
@@ -19,16 +19,40 @@ class PreferredFoodsProvider with ChangeNotifier {
     preferredFoods.preferredFoodsId = preferredFoodsFirestoreMethods
         .createPreferredFoods(preferredFoods) as String;
     cachedPreferredFoods.add(preferredFoods);
-    // _currentPreferredFoods = preferredFoods;
     notifyListeners();
   }
 
-  PreferredFoods getPreferredFoods(String clientPhoneNum) {
-    return cachedPreferredFoods.firstWhere(
-      (preferredFoods) => preferredFoods.clientPhoneNum == clientPhoneNum,
-      orElse: () => preferredFoodsFirestoreMethods
-          .fetchPreferredFoodsByNum(clientPhoneNum),
+  Future<PreferredFoods?> getPreferredFoodsByClientId(String clientId) async {
+    PreferredFoods? preferredFoods = cachedPreferredFoods.firstWhere(
+      (preferredFoods) => preferredFoods?.clientId == clientId,
+      orElse: () => null,
     );
+
+    preferredFoods ??= await preferredFoodsFirestoreMethods
+        .fetchPreferredFoodsByClientId(clientId);
+
+    preferredFoods == null ? cachedPreferredFoods.add(preferredFoods) : null;
+    notifyListeners();
+    return preferredFoods;
+  }
+
+  Future<PreferredFoods?> getPreferredFoodsById(String preferredFoodsId) async {
+    PreferredFoods? preferredFoods = cachedPreferredFoods.firstWhere(
+      (preferredFoods) => preferredFoods?.preferredFoodsId == preferredFoodsId,
+      orElse: () => null,
+    );
+
+    preferredFoods ??= await preferredFoodsFirestoreMethods
+        .fetchPreferredFoodsById(preferredFoodsId);
+
+    preferredFoods == null ? cachedPreferredFoods.add(preferredFoods) : null;
+    notifyListeners();
+    return preferredFoods;
+  }
+
+  void updatePreferredFoods(PreferredFoods preferredFoods) {
+    preferredFoodsFirestoreMethods.updatePreferredFoods(preferredFoods);
+    notifyListeners();
   }
 
   void setCurrentPreferredFoods(PreferredFoods preferredFoods) {
