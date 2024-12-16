@@ -39,15 +39,40 @@ class ClientProvider with ChangeNotifier {
     return client;
   }
 
-  Future<List<Client?>?> getClientByNum(String phoneNum) async {
-    List<Client?>? clients = cachedClients
+  Future<List<Client?>> getClientByPhone(String phoneNum) async {
+    List<Client?> clients = cachedClients  //? redundant
         .where(
           (client) => client?.clientPhoneNum == phoneNum,
         )
         .toList();
 
     final fetchedClients =
-        await clientFirestoreMethods.fetchClientByNum(phoneNum);
+        await clientFirestoreMethods.fetchClientByPhone(phoneNum);
+    for (var client in fetchedClients ?? []) {
+      if (!clients.any((c) => c?.clientId == client?.clientId)) {
+        clients.add(client!);
+      }
+    }
+
+    for (var client in clients) {
+      if (client != null &&
+          !cachedClients.any((c) => c?.clientId == client.clientId)) {
+        cachedClients.add(client);
+      }
+    }
+    notifyListeners();
+    return clients;
+  }
+
+  Future<List<Client?>> getClientByName(String name) async {
+    List<Client?> clients = cachedClients  //? redundant
+        .where(
+          (client) => client?.name == name,
+        )
+        .toList();
+
+    final fetchedClients =
+        await clientFirestoreMethods.fetchClientByName(name);
     for (var client in fetchedClients ?? []) {
       if (!clients.any((c) => c?.clientId == client?.clientId)) {
         clients.add(client!);

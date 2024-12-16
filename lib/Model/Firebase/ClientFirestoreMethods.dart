@@ -51,13 +51,29 @@ class ClientFirestoreMethods {
         : Client.fromFirestore(querySnapshot.docs.first.data());
   }
 
-  Future<List<Client?>?> fetchClientByNum(String phoneNum) async {
+  Future<List<Client?>> fetchClientByPhone(String phoneNum) async {
+    List<Client> clients = [];
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Clients')
         .where('clientPhoneNum', isEqualTo: phoneNum)
         .get();
-    return querySnapshot.docs
+    clients.addAll(querySnapshot.docs
         .map((doc) => Client.fromFirestore(doc.data()))
-        .toList();
+        .toList());
+
+    return clients;
+  }
+
+  Future<List<Client?>> fetchClientByName(String name) async {
+    List<Client> clients = [];
+    final querySnapshot = await FirebaseSingleton.instance.firestore
+        .collection('Clients')
+        .where('clientName', isEqualTo: name)
+        .get();
+    clients.addAll(querySnapshot.docs
+        .map((doc) => Client.fromFirestore(doc.data()))
+        .toList());
+
+    return clients;
   }
 }

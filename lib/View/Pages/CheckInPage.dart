@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vera_clinic/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/Controller/Providers/VisitProvider.dart';
 
 import '../../Model/Classes/Client.dart';
 import '../../Model/Classes/Visit.dart';
 import '../Reusable widgets/MyTextField.dart';
 
 class CheckInPage extends StatefulWidget {
-  const CheckInPage({super.key});
+  final Client? client;
+  const CheckInPage({super.key, required this.client});
 
   @override
   State<CheckInPage> createState() => _CheckInPageState();
@@ -17,7 +17,6 @@ class CheckInPage extends StatefulWidget {
 
 class _CheckInPageState extends State<CheckInPage> {
   ClientProvider clientProvider = ClientProvider();
-  late final Client client;
   TextEditingController subscriptionPriceController = TextEditingController();
   ClientConstantInfoProvider clientConstantInfoProvider = ClientConstantInfoProvider();
   late Visit lastClientVisit;
@@ -25,8 +24,9 @@ class _CheckInPageState extends State<CheckInPage> {
   @override
   void initState() {
     super.initState();
-    client = clientProvider.currentClient!;
-    lastClientVisit = VisitProvider().getClientLastVisit(client.clientPhoneNum);
+    // client = clientProvider.currentClient!;
+    client = widget.client!;
+    // lastClientVisit = VisitProvider().getClientLastVisit(client.clientPhoneNum);
   }
 
   String _getSubscriptionTypeLabel(SubscriptionType type) {
@@ -90,11 +90,11 @@ class _CheckInPageState extends State<CheckInPage> {
 
                                 " ${visit.date.day}/${visit.date.month}/${visit.date.year}"), //TODO: change to get last visit date
                         const SizedBox(width: 50),
-                        MyTextField(
-                            title: "منطقة العميل",
-                            value: clientConstantInfoProvider
-                                .getClientConstantInfo(client.clientPhoneNum)
-                                ?.area ?? 'Unknown'),
+                        // MyTextField(
+                        //     title: "منطقة العميل",
+                        //     value: clientConstantInfoProvider
+                        //         .getClientConstantInfo(client.clientPhoneNum)
+                        //         ?.area ?? 'Unknown'),
                         const SizedBox(width: 50),
                         MyTextField(
                             title: "رقم العميل", value: client.clientPhoneNum),
