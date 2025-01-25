@@ -48,8 +48,8 @@ class ClientProvider with ChangeNotifier {
 
     final fetchedClients =
         await clientFirestoreMethods.fetchClientByPhone(phoneNum);
-    for (var client in fetchedClients ?? []) {
-      if (!clients.any((c) => c?.mClientId == client?.clientId)) {
+    for (var client in fetchedClients) {
+      if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
         clients.add(client!);
       }
     }
@@ -60,6 +60,7 @@ class ClientProvider with ChangeNotifier {
         cachedClients.add(client);
       }
     }
+    //todo: why 2 for loops?
     notifyListeners();
     return clients;
   }

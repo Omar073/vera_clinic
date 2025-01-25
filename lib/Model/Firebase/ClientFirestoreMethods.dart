@@ -52,11 +52,13 @@ class ClientFirestoreMethods {
   }
 
   Future<List<Client?>> fetchClientByPhone(String phoneNum) async {
+    debugPrint("firebase fetching client by phone: $phoneNum");
     List<Client> clients = [];
     final querySnapshot = await FirebaseSingleton.instance.firestore
         .collection('Clients')
         .where('clientPhoneNum', isEqualTo: phoneNum)
         .get();
+
     clients.addAll(querySnapshot.docs
         .map((doc) => Client.fromFirestore(doc.data()))
         .toList());
