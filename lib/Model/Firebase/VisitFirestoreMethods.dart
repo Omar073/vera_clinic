@@ -21,13 +21,13 @@ class VisitFirestoreMethods {
     try {
       final visitRef = FirebaseSingleton.instance.firestore
           .collection('Visits')
-          .doc(visit.visitId);
+          .doc(visit.mVisitId);
 
       final docSnapshot = await visitRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching visit found with visitId: ${visit.visitId}');
+            'No matching visit found with visitId: ${visit.mVisitId}');
       }
 
       await visitRef.update(visit.toMap());

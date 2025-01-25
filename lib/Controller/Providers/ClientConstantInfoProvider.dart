@@ -28,7 +28,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
       String clientId) async {
     ClientConstantInfo? clientConstantInfo =
         cachedClientConstantInfo.firstWhere(
-      (clientConstantInfo) => clientConstantInfo?.clientId == clientId,
+      (clientConstantInfo) => clientConstantInfo?.mClientId == clientId,
       orElse: () => null,
     );
 
@@ -47,7 +47,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
     ClientConstantInfo? clientConstantInfo =
         cachedClientConstantInfo.firstWhere(
       (clientConstantInfo) =>
-          clientConstantInfo?.clientConstantInfoId == clientConstantInfoId,
+          clientConstantInfo?.mClientConstantInfoId == clientConstantInfoId,
       orElse: () => null,
     );
 

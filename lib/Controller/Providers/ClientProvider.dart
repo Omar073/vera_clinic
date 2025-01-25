@@ -29,7 +29,7 @@ class ClientProvider with ChangeNotifier {
 
   Future<Client?> getClientById(String clientId) async {
     Client? client = cachedClients.firstWhere(
-      (client) => client?.clientId == clientId,
+      (client) => client?.mClientId == clientId,
       orElse: () => null,
     );
 
@@ -42,21 +42,21 @@ class ClientProvider with ChangeNotifier {
   Future<List<Client?>> getClientByPhone(String phoneNum) async {
     List<Client?> clients = cachedClients  //? redundant
         .where(
-          (client) => client?.clientPhoneNum == phoneNum,
+          (client) => client?.mClientPhoneNum == phoneNum,
         )
         .toList();
 
     final fetchedClients =
         await clientFirestoreMethods.fetchClientByPhone(phoneNum);
     for (var client in fetchedClients ?? []) {
-      if (!clients.any((c) => c?.clientId == client?.clientId)) {
+      if (!clients.any((c) => c?.mClientId == client?.clientId)) {
         clients.add(client!);
       }
     }
 
     for (var client in clients) {
       if (client != null &&
-          !cachedClients.any((c) => c?.clientId == client.clientId)) {
+          !cachedClients.any((c) => c?.mClientId == client.mClientId)) {
         cachedClients.add(client);
       }
     }
@@ -67,21 +67,21 @@ class ClientProvider with ChangeNotifier {
   Future<List<Client?>> getClientByName(String name) async {
     List<Client?> clients = cachedClients  //? redundant
         .where(
-          (client) => client?.name == name,
+          (client) => client?.mName == name,
         )
         .toList();
 
     final fetchedClients =
         await clientFirestoreMethods.fetchClientByName(name);
     for (var client in fetchedClients ?? []) {
-      if (!clients.any((c) => c?.clientId == client?.clientId)) {
+      if (!clients.any((c) => c?.mClientId == client?.clientId)) {
         clients.add(client!);
       }
     }
 
     for (var client in clients) {
       if (client != null &&
-          !cachedClients.any((c) => c?.clientId == client.clientId)) {
+          !cachedClients.any((c) => c?.mClientId == client.mClientId)) {
         cachedClients.add(client);
       }
     }

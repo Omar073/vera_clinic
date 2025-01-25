@@ -24,7 +24,7 @@ class WeightAreasProvider with ChangeNotifier {
 
   Future<WeightAreas?> getWeightAreasByClientId(String clientId) async {
     WeightAreas? weightAreas = _cachedWeightAreas.firstWhere(
-      (weightAreas) => weightAreas?.clientId == clientId,
+      (weightAreas) => weightAreas?.mClientId == clientId,
       orElse: () => null,
     );
 
@@ -37,7 +37,7 @@ class WeightAreasProvider with ChangeNotifier {
 
   Future<WeightAreas?> getWeightAreasById(String weightAreasId) async {
     WeightAreas? weightAreas = _cachedWeightAreas.firstWhere(
-      (weightAreas) => weightAreas?.weightAreasId == weightAreasId,
+      (weightAreas) => weightAreas?.mWeightAreasId == weightAreasId,
       orElse: () => null,
     );
 

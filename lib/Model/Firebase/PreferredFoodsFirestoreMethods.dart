@@ -22,13 +22,13 @@ class PreferredFoodsFirestoreMethods {
     try {
       final preferredFoodsRef = FirebaseSingleton.instance.firestore
           .collection('PreferredFoods')
-          .doc(preferredFoods.preferredFoodsId);
+          .doc(preferredFoods.mPreferredFoodsId);
 
       final docSnapshot = await preferredFoodsRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching preferred foods found with preferredFoodsId: ${preferredFoods.preferredFoodsId}');
+            'No matching preferred foods found with preferredFoodsId: ${preferredFoods.mPreferredFoodsId}');
       }
 
       await preferredFoodsRef.update(preferredFoods.toMap());

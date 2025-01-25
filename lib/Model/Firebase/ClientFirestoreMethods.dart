@@ -24,14 +24,14 @@ class ClientFirestoreMethods {
     try {
       final clientRef = FirebaseSingleton.instance.firestore
           .collection('Clients')
-          .doc(client.clientId);
+          .doc(client.mClientId);
 
       // Check if the document exists before updating
       final docSnapshot = await clientRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching client found with clientId: ${client.clientId}');
+            'No matching client found with clientId: ${client.mClientId}');
       }
 
       await clientRef.update(client.toMap());

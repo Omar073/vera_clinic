@@ -22,13 +22,13 @@ class DiseaseFirestoreMethods {
     try {
       final diseaseRef = FirebaseSingleton.instance.firestore
           .collection('Diseases')
-          .doc(disease.diseaseId);
+          .doc(disease.mDiseaseId);
 
       final docSnapshot = await diseaseRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching disease found with diseaseId: ${disease.diseaseId}');
+            'No matching disease found with diseaseId: ${disease.mDiseaseId}');
       }
 
       await diseaseRef.update(disease.toMap());

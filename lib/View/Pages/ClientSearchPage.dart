@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/View/Pages/CheckInPage.dart';
-import 'package:vera_clinic/View/Reusable%20widgets/MySearchBar.dart';
+import 'package:vera_clinic/View/Reusable%20widgets/ClientSearchWidget.dart';
 import '../../Model/Classes/Client.dart';
 import 'ClientDetailsPage.dart';
 
@@ -21,7 +21,7 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
   void updateSearchResults(List<Client?> results) {
     setState(() {
       //todo: should you add a new searchResults list to the provider and use that instead?
-      //todo: re-review the search process
+      //todo: re-review the search and display result process
       searchResults = results;
     });
   }
@@ -46,9 +46,9 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 16),
-              MySearchBar(
+              ClientSearchWidget(
                 hintText: "Enter client name or phone",
-                searchResults: searchResults,
+                // searchResults: searchResults,
                 onSearchResultsUpdated: updateSearchResults,
               ),
               const SizedBox(height: 16),
@@ -65,8 +65,8 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                         itemBuilder: (context, index) {
                           final client = searchResults[index];
                           return ListTile(
-                            title: Text(client?.name ?? 'Unknown'),
-                            subtitle: Text(client?.clientPhoneNum ?? 'Unknown'),
+                            title: Text(client?.mName ?? 'Unknown'),
+                            subtitle: Text(client?.mClientPhoneNum ?? 'Unknown'),
                             onTap: () {
                               Navigator.push(
                                 context,

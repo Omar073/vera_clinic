@@ -23,260 +23,261 @@ enum SubscriptionType {
 }
 
 class Client {
-  //TODO: add nullability
-  String _mClientId;
-  String _mName;
-  String _mClientPhoneNum;
-  String _mLastVisitId;
-  DateTime _mBirthdate;
-  String _mClientConstantInfoId;
-  String _mDiseaseId;
-  String _mDiet;
-  List<double> _Plat = List.filled(10, 0); // Last 10 stable weights
-  String _mClientMonthlyFollowUpId;
-  String _mPreferredFoodsId;
-  String _mWeightAreasId;
-  String _mNotes;
-  double _mHeight;
-  double _mWeight;
+  String? mClientId;
+  String? mName;
+  String? mClientPhoneNum;
+  String? mLastVisitId;
+  DateTime? mBirthdate;
+  String? mClientConstantInfoId;
+  String? mDiseaseId;
+  String? mDiet;
+  List<double> Plat = List.filled(10, 0); // Last 10 stable weights
+  String? mClientMonthlyFollowUpId;
+  String? mPreferredFoodsId;
+  String? mWeightAreasId;
+  String? mNotes;
+  double? mHeight;
+  double? mWeight;
 
-  SubscriptionType _mSubscriptionType;
+  SubscriptionType? mSubscriptionType;
 
-  Client(
-      this._mClientId,
-      this._mName,
-      this._mClientPhoneNum,
-      this._mLastVisitId,
-      this._mBirthdate,
-      this._mClientConstantInfoId,
-      this._mDiseaseId,
-      this._mDiet,
-      this._Plat,
-      this._mClientMonthlyFollowUpId,
-      this._mPreferredFoodsId,
-      this._mWeightAreasId,
-      this._mNotes,
-      this._mHeight,
-      this._mWeight,
-      this._mSubscriptionType);
+  Client({
+    required String? clientId,
+    required String? name,
+    required String? clientPhoneNum,
+    required String? lastVisitId,
+    required DateTime? birthdate,
+    required String? clientConstantInfoId,
+    required String? diseaseId,
+    required String? diet,
+    required List<double> plat,
+    required String? clientMonthlyFollowUpId,
+    required String? preferredFoodsId,
+    required String? weightAreasId,
+    required String? notes,
+    required double? height,
+    required double? weight,
+    required SubscriptionType? subscriptionType,
+  })  : mClientId = clientId,
+        mName = name,
+        mClientPhoneNum = clientPhoneNum,
+        mLastVisitId = lastVisitId,
+        mBirthdate = birthdate,
+        mClientConstantInfoId = clientConstantInfoId,
+        mDiseaseId = diseaseId,
+        mDiet = diet,
+        Plat = plat,
+        mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
+        mPreferredFoodsId = preferredFoodsId,
+        mWeightAreasId = weightAreasId,
+        mNotes = notes,
+        mHeight = height,
+        mWeight = weight,
+        mSubscriptionType = subscriptionType;
 
-  // Getters
-  String get clientId => _mClientId;
-  String get name => _mName;
-  String get clientPhoneNum => _mClientPhoneNum;
-  String get lastVisitId => _mLastVisitId;
-  DateTime get birthdate => _mBirthdate;
-  String get clientConstantInfoId => _mClientConstantInfoId;
-  String get diseaseId => _mDiseaseId;
-  String get diet => _mDiet;
-  List<double> get plat => _Plat;
-  String get clientMonthlyFollowUpId => _mClientMonthlyFollowUpId;
-  String get preferredFoodsId => _mPreferredFoodsId;
-  String get weightAreasId => _mWeightAreasId;
-  String get notes => _mNotes;
-  double get height => _mHeight;
-  double get weight => _mWeight;
-  SubscriptionType get subscriptionType => _mSubscriptionType;
-
+  
 // Setters
-  set clientId(String clientId) {
-    _mClientId = clientId;
+  set clientId(String? clientId) {
+    mClientId = clientId;
   }
 
-  set name(String name) {
-    _mName = name;
+  set name(String? name) {
+    mName = name;
   }
 
-  set clientPhoneNum(String clientPhoneNum) {
-    _mClientPhoneNum = clientPhoneNum;
+  set clientPhoneNum(String? clientPhoneNum) {
+    mClientPhoneNum = clientPhoneNum;
   }
 
-  set lastVisitId(String lastVisitId) {
-    _mLastVisitId = lastVisitId;
+  set lastVisitId(String? lastVisitId) {
+    mLastVisitId = lastVisitId;
   }
 
-  set birthdate(DateTime birthdate) {
-    _mBirthdate = birthdate;
+  set birthdate(DateTime? birthdate) {
+    mBirthdate = birthdate;
   }
 
-  set clientConstantInfoId(String clientConstantInfoId) {
-    _mClientConstantInfoId = clientConstantInfoId;
+  set clientConstantInfoId(String? clientConstantInfoId) {
+    mClientConstantInfoId = clientConstantInfoId;
   }
 
-  set diseaseId(String diseaseId) {
-    _mDiseaseId = diseaseId;
+  set diseaseId(String? diseaseId) {
+    mDiseaseId = diseaseId;
   }
 
-  set diet(String diet) {
-    _mDiet = diet;
+  set diet(String? diet) {
+    mDiet = diet;
   }
 
   set plat(List<double> plat) {
-    _Plat = plat;
+    Plat = plat;
   }
 
-  set clientMonthlyFollowUpId(String clientMonthlyFollowUpId) {
-    _mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
+  set clientMonthlyFollowUpId(String? clientMonthlyFollowUpId) {
+    mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
   }
 
-  set preferredFoodsId(String preferredFoodsId) {
-    _mPreferredFoodsId = preferredFoodsId;
+  set preferredFoodsId(String? preferredFoodsId) {
+    mPreferredFoodsId = preferredFoodsId;
   }
 
-  set weightAreasId(String weightAreasId) {
-    _mWeightAreasId = weightAreasId;
+  set weightAreasId(String? weightAreasId) {
+    mWeightAreasId = weightAreasId;
   }
 
-  set notes(String notes) {
-    _mNotes = notes;
+  set notes(String? notes) {
+    mNotes = notes;
   }
 
-  set height(double height) {
-    _mHeight = height;
+  set height(double? height) {
+    mHeight = height;
   }
 
-  set weight(double weight) {
-    _mWeight = weight;
+  set weight(double? weight) {
+    mWeight = weight;
   }
 
-  set subscriptionType(SubscriptionType subscriptionType) {
-    _mSubscriptionType = subscriptionType;
+  set subscriptionType(SubscriptionType? subscriptionType) {
+    mSubscriptionType = subscriptionType;
   }
 
   factory Client.fromFirestore(Map<String, dynamic> data) {
-    // final data = doc.data() as Map<String, dynamic>;
     return Client(
-      data['clientId'] as String, // _mClientId
-      data['name'] as String, // _mName
-      data['clientPhoneNum'] as String, // _mClientPhoneNum
-      data['lastVisitId'] as String, // _mLastVisitId
-      (data['birthDate'] as Timestamp).toDate(), // _mBirthdate
-      data['clientConstantInfoId'] as String, // _mClientConstantInfoId
-      data['diseaseId'] as String, // _mDiseaseId
-      data['diet'] as String, // _mDiet
-      (data['plat'] as List<dynamic>)
+      clientId: data['clientId'] as String? ?? '',
+      name: data['name'] as String? ?? '',
+      clientPhoneNum: data['clientPhoneNum'] as String? ?? '',
+      lastVisitId: data['lastVisitId'] as String? ?? '',
+      birthdate: (data['birthDate'] as Timestamp?)?.toDate(), //TODO: what should I replace it with
+      clientConstantInfoId: data['clientConstantInfoId'] as String? ?? '',
+      diseaseId: data['diseaseId'] as String? ?? '',
+      diet: data['diet'] as String? ?? '',
+      plat: (data['plat'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
-          .toList(), // _Plat
-      data['clientMonthlyFollowUpId'] as String, // _mClientMonthlyFollowUpId
-      data['preferredFoodsId'] as String, // _mPreferredFoodsId
-      data['weightAreasId'] as String, // _mWeightAreasId
-      data['notes'] as String, // _mNotes
-      (data['height'] as num).toDouble(), // _mHeight
-      (data['weight'] as num).toDouble(), // _mWeight
-      SubscriptionType.values.firstWhere(
+          .toList(),
+      clientMonthlyFollowUpId: data['clientMonthlyFollowUpId'] as String? ?? '',
+      preferredFoodsId: data['preferredFoodsId'] as String? ?? '',
+      weightAreasId: data['weightAreasId'] as String? ?? '',
+      notes: data['notes'] as String? ?? '',
+      height: (data['height'] as num?)?.toDouble() ?? 0.0,
+      weight: (data['weight'] as num?)?.toDouble() ?? 0.0,
+      subscriptionType: SubscriptionType.values.firstWhere(
         (e) => e.name == data['subscriptionType'],
         orElse: () => SubscriptionType.newClient,
-      ), // _mSubscriptionType (convert string to enum)
+      ),
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'clientId': _mClientId,
-      'name': _mName,
-      'clientPhoneNum': _mClientPhoneNum,
-      'lastVisitId': _mLastVisitId,
-      'birthDate': _mBirthdate,
-      'clientConstantInfoId': _mClientConstantInfoId,
-      'diseaseId': _mDiseaseId,
-      'diet': _mDiet,
-      'plat': _Plat,
-      'clientMonthlyFollowUpId': _mClientMonthlyFollowUpId,
-      'notes': _mNotes,
-      'height': _mHeight,
-      'weight': _mWeight,
-      'subscriptionType': _mSubscriptionType.name,
+      'clientId': mClientId,
+      'name': mName,
+      'clientPhoneNum': mClientPhoneNum,
+      'lastVisitId': mLastVisitId,
+      'birthDate': mBirthdate,
+      'clientConstantInfoId': mClientConstantInfoId,
+      'diseaseId': mDiseaseId,
+      'diet': mDiet,
+      'plat': Plat,
+      'clientMonthlyFollowUpId': mClientMonthlyFollowUpId,
+      'preferredFoodsId': mPreferredFoodsId, //* newly added
+      'weightAreasId': mWeightAreasId,
+      'notes': mNotes,
+      'height': mHeight,
+      'weight': mWeight,
+      'subscriptionType': mSubscriptionType?.name,
     };
   }
 }
 
-Visit visit =
-    Visit("abc123", 'id123', DateTime.now(), 'Vegetarian', 75.0, 23.1);
+Visit visit = Visit(
+  visitId: "abc123",
+  clientId: 'id123',
+  date: DateTime.now(),
+  diet: 'Vegetarian',
+  weight: 75.0,
+  bmi: 23.1,
+);
 
 Disease disease = Disease(
-    'def456',
-    'id123',
-    false, // _mHypertension
-    true, // _mHypotension
-    false, // _mVascular
-    false, // _mAnemia
-    false, // _mColon
-    true, // _mConstipation
-    false, // _mFamilyHistoryDM
-    true, // _mPreviousOBMed
-    false, // _mPreviousOBOperations
-    '', // _mRenal
-    '', // _mLiver
-    '', // _mGit
-    '', // _mEndocrine
-    '', // _mRheumatic
-    '', // _mAllergies
-    '', // _mNeuro
-    '', // _mPsychiatric
-    '', // _mOthers
-    '' // _mHormonal
-    ); // _mDiseaseId // _mDiseaseId (replace with an actual Disease object)
-
+  diseaseId: 'def456',
+  clientId: 'id123',
+  hypertension: false,
+  hypotension: true,
+  vascular: false,
+  anemia: false,
+  colon: false,
+  constipation: true,
+  familyHistoryDM: false,
+  previousOBMed: true,
+  previousOBOperations: false,
+  renal: '',
+  liver: '',
+  git: '',
+  endocrine: '',
+  rheumatic: '',
+  allergies: '',
+  neuro: '',
+  psychiatric: '',
+  others: '',
+  hormonal: '',
+);
 ClientConstantInfo clientConstantInfo = ClientConstantInfo(
-    'const123', // _mClientConstantInfoId
-    'id123',
-    'mokattam', // _mArea
-    Activity.High, // _mActivityLevel
-    false, // _mYOYO
-    true // _mSports
-    );
-
+  clientConstantInfoId: 'const123',
+  clientId: 'id123',
+  area: 'mokattam',
+  activityLevel: Activity.high,
+  YOYO: false,
+  sports: true,
+);
 ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
-    'mfi123', // _mClientMonthlyFollowUpId
-    'id123',
-    23.1, // _mBMI
-    15.0, // _mPBF
-    2.0, // _mWater
-    75.0, // _mMaxWeight
-    70.0, // _mOptimalWeight
-    1500.0, // _mBMR
-    2000, // _mMaxCalories
-    1800 // _mOptimalCalories
-    );
-
+  clientMonthlyFollowUpId: 'mfi123',
+  clientId: 'id123',
+  bmi: 23.1,
+  pbf: 15.0,
+  water: 2.0,
+  maxWeight: 75.0,
+  optimalWeight: 70.0,
+  bmr: 1500.0,
+  maxCalories: 2000,
+  optimalCalories: 1800,
+);
 PreferredFoods preferredFoods = PreferredFoods(
-    'ghi789', // _mPreferredFoodsId
-    'id123',
-    true, // _mCarbohydrates
-    true, // _mProtein
-    false, // _mDairy
-    true, // _mVeg
-    true, // _mFruits
-    'No specific notes' // _mOthers
-    );
-
+  preferredFoodsId: 'ghi789',
+  clientId: 'id123',
+  carbohydrates: true,
+  protein: true,
+  dairy: false,
+  veg: true,
+  fruits: true,
+  others: 'No specific notes',
+);
 WeightAreas weightAreas = WeightAreas(
-    'jkl012', // _mWeightAreasId
-    'id123',
-    true, // _mAbdomen
-    false, // _mButtocks
-    true, // _mWaist
-    false, // _mThighs
-    true, // _mArms
-    false, // _mBreast
-    true // _mBack
-    );
+  weightAreasId: 'jkl012',
+  clientId: 'id123',
+  abdomen: true,
+  buttocks: false,
+  waist: true,
+  thighs: false,
+  arms: true,
+  breast: false,
+  back: true,
+);
 
 Client client = Client(
-    'id123',
-    'John Doe', // _mName
-    '1234567890', // _mClientPhoneNum
-    'abc123', // _mLastVisitId
-    DateTime(1990, 1, 1), // _mBirthdate
-    'const123', // _mClientConstantInfoId
-    'def456', // _mDiseaseId
-    'Vegetarian', // _mDiet
-    [70, 71, 72, 73, 74, 75, 76, 77, 78, 79], // _Plat
-    'mfi123', // _mClientMonthlyFollowUpId
-    'ghi789', // _mPreferredFoodsId
-    'jkl012', // _mWeightAreasId
-    'No specific notes', // _mNotes
-    180.0, // _mHeight
-    75.0, // _mWeight
-    SubscriptionType.newClient // _mSubscriptionType
-    );
+  clientId: 'id123',
+  name: 'John Doe',
+  clientPhoneNum: '1234567890',
+  lastVisitId: 'abc123',
+  birthdate: DateTime(1990, 1, 1),
+  clientConstantInfoId: 'const123',
+  diseaseId: 'def456',
+  diet: 'Vegetarian',
+  plat: [70, 71, 72, 73, 74, 75, 76, 77, 78, 79],
+  clientMonthlyFollowUpId: 'mfi123',
+  preferredFoodsId: 'ghi789',
+  weightAreasId: 'jkl012',
+  notes: 'No specific notes',
+  height: 180.0,
+  weight: 75.0,
+  subscriptionType: SubscriptionType.newClient,
+);

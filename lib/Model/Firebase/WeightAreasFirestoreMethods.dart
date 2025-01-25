@@ -21,13 +21,13 @@ class WeightAreasFirestoreMethods {
     try {
       final weightAreasRef = FirebaseSingleton.instance.firestore
           .collection('WeightAreas')
-          .doc(weightAreas.weightAreasId);
+          .doc(weightAreas.mWeightAreasId);
 
       final docSnapshot = await weightAreasRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching weight areas found with weightAreasId: ${weightAreas.weightAreasId}');
+            'No matching weight areas found with weightAreasId: ${weightAreas.mWeightAreasId}');
       }
 
       await weightAreasRef.update(weightAreas.toMap());

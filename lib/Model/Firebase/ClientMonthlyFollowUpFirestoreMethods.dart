@@ -23,13 +23,13 @@ class ClientMonthlyFollowUpFirestoreMethods {
     try {
       final clientMonthlyFollowUpRef = FirebaseSingleton.instance.firestore
           .collection('ClientMonthlyFollowUps')
-          .doc(clientMonthlyFollowUp.clientMonthlyFollowUpId);
+          .doc(clientMonthlyFollowUp.mClientMonthlyFollowUpId);
 
       final docSnapshot = await clientMonthlyFollowUpRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching client monthly follow up found with clientMonthlyFollowUpId: ${clientMonthlyFollowUp.clientMonthlyFollowUpId}');
+            'No matching client monthly follow up found with clientMonthlyFollowUpId: ${clientMonthlyFollowUp.mClientMonthlyFollowUpId}');
       }
 
       await clientMonthlyFollowUpRef.update(clientMonthlyFollowUp.toMap());

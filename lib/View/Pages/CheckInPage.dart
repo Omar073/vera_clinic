@@ -18,7 +18,8 @@ class CheckInPage extends StatefulWidget {
 class _CheckInPageState extends State<CheckInPage> {
   ClientProvider clientProvider = ClientProvider();
   TextEditingController subscriptionPriceController = TextEditingController();
-  ClientConstantInfoProvider clientConstantInfoProvider = ClientConstantInfoProvider();
+  ClientConstantInfoProvider clientConstantInfoProvider =
+      ClientConstantInfoProvider();
   late Visit lastClientVisit;
 
   @override
@@ -64,7 +65,7 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Check In: ${client.name}'),
+        title: Text('Check In: ${client.mName}'),
         centerTitle: true,
       ),
       body: Center(
@@ -84,11 +85,10 @@ class _CheckInPageState extends State<CheckInPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        MyTextField(
+                        MyTextBox(
                             title: "تاريخ اخر متابعة",
                             value:
-
-                                " ${visit.date.day}/${visit.date.month}/${visit.date.year}"), //TODO: change to get last visit date
+                                " ${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}"), //TODO: change to get last visit date
                         const SizedBox(width: 50),
                         // MyTextField(
                         //     title: "منطقة العميل",
@@ -96,10 +96,13 @@ class _CheckInPageState extends State<CheckInPage> {
                         //         .getClientConstantInfo(client.clientPhoneNum)
                         //         ?.area ?? 'Unknown'),
                         const SizedBox(width: 50),
-                        MyTextField(
-                            title: "رقم العميل", value: client.clientPhoneNum),
+                        MyTextBox(
+                            title: "رقم العميل",
+                            value: client.mClientPhoneNum ?? 'unknown'),
                         const SizedBox(width: 50),
-                        MyTextField(title: "اسم العميل", value: client.name),
+                        MyTextBox(
+                            title: "اسم العميل",
+                            value: client.mName ?? 'unknown'),
                       ],
                     ),
                   ),
@@ -108,11 +111,11 @@ class _CheckInPageState extends State<CheckInPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    MyTextField(
-                        title: "الوزن", value: client.weight.toString()),
+                    MyTextBox(
+                        title: "الوزن", value: client.mHeight.toString()),
                     const SizedBox(width: 50),
-                    MyTextField(
-                        title: "الطول", value: client.height.toString()),
+                    MyTextBox(
+                        title: "الطول", value: client.mHeight.toString()),
                   ],
                 ),
                 const SizedBox(height: 50),

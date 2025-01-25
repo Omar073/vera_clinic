@@ -1,99 +1,98 @@
 class WeightAreas {
-  String _mWeightAreasId;
-  String _mClientId;
+  String? mWeightAreasId;
+  String? mClientId;
 
-  bool _mAbdomen = false;
-  bool _mButtocks = false;
-  bool _mWaist = false;
-  bool _mThighs = false;
-  bool _mArms = false;
-  bool _mBreast = false;
-  bool _mBack = false;
+  bool mAbdomen = false;
+  bool mButtocks = false;
+  bool mWaist = false;
+  bool mThighs = false;
+  bool mArms = false;
+  bool mBreast = false;
+  bool mBack = false;
 
-  WeightAreas(
-      this._mWeightAreasId,
-      this._mClientId,
-      this._mAbdomen,
-      this._mButtocks,
-      this._mWaist,
-      this._mThighs,
-      this._mArms,
-      this._mBreast,
-      this._mBack);
+WeightAreas({
+  required String? weightAreasId,
+  required String? clientId,
+  required bool abdomen,
+  required bool buttocks,
+  required bool waist,
+  required bool thighs,
+  required bool arms,
+  required bool breast,
+  required bool back,
+})  : mWeightAreasId = weightAreasId,
+      mClientId = clientId,
+      mAbdomen = abdomen,
+      mButtocks = buttocks,
+      mWaist = waist,
+      mThighs = thighs,
+      mArms = arms,
+      mBreast = breast,
+      mBack = back;
 
-  // Getters
-  String get weightAreasId => _mWeightAreasId;
-  String get clientId => _mClientId;
-  bool get abdomen => _mAbdomen;
-  bool get buttocks => _mButtocks;
-  bool get waist => _mWaist;
-  bool get thighs => _mThighs;
-  bool get arms => _mArms;
-  bool get breast => _mBreast;
-  bool get back => _mBack;
 
   // Setters
-  set weightAreasId(String weightAreasId) {
-    _mWeightAreasId = weightAreasId;
+  set weightAreasId(String? weightAreasId) {
+    mWeightAreasId = weightAreasId;
   }
 
-  set clientId(String clientId) {
-    _mClientId = clientId;
+  set clientId(String? clientId) {
+    mClientId = clientId;
   }
 
   set abdomen(bool abdomen) {
-    _mAbdomen = abdomen;
+    mAbdomen = abdomen;
   }
 
   set buttocks(bool buttocks) {
-    _mButtocks = buttocks;
+    mButtocks = buttocks;
   }
 
   set waist(bool waist) {
-    _mWaist = waist;
+    mWaist = waist;
   }
 
   set thighs(bool thighs) {
-    _mThighs = thighs;
+    mThighs = thighs;
   }
 
   set arms(bool arms) {
-    _mArms = arms;
+    mArms = arms;
   }
 
   set breast(bool breast) {
-    _mBreast = breast;
+    mBreast = breast;
   }
 
   set back(bool back) {
-    _mBack = back;
+    mBack = back;
   }
 
-  factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
-    return WeightAreas(
-      map['weightAreasId'] as String,
-      map['clientId'] as String,
-      map['abdomen'] as bool,
-      map['buttocks'] as bool,
-      map['waist'] as bool,
-      map['thighs'] as bool,
-      map['arms'] as bool,
-      map['breast'] as bool,
-      map['back'] as bool,
-    );
-  }
+factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
+  return WeightAreas(
+    weightAreasId: map['weightAreasId'] as String? ?? "",
+    clientId: map['clientId'] as String? ?? "",
+    abdomen: map['abdomen'] as bool,
+    buttocks: map['buttocks'] as bool,
+    waist: map['waist'] as bool,
+    thighs: map['thighs'] as bool,
+    arms: map['arms'] as bool,
+    breast: map['breast'] as bool,
+    back: map['back'] as bool,
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
-      'weightAreasId': _mWeightAreasId,
-      'clientId': _mClientId,
-      'abdomen': _mAbdomen,
-      'buttocks': _mButtocks,
-      'waist': _mWaist,
-      'thighs': _mThighs,
-      'arms': _mArms,
-      'breast': _mBreast,
-      'back': _mBack,
+      'weightAreasId': mWeightAreasId,
+      'clientId': mClientId,
+      'abdomen': mAbdomen,
+      'buttocks': mButtocks,
+      'waist': mWaist,
+      'thighs': mThighs,
+      'arms': mArms,
+      'breast': mBreast,
+      'back': mBack,
     };
   }
 }

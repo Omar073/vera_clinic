@@ -25,7 +25,7 @@ class DiseaseProvider with ChangeNotifier {
   Future<Disease?> getDiseaseByClientId(String clientId) async {
     // Check cached diseases first
     Disease? disease = cachedDiseases.firstWhere(
-      (disease) => disease?.clientId == clientId,
+      (disease) => disease?.mClientId == clientId,
       orElse: () => null,
     );
 
@@ -38,7 +38,7 @@ class DiseaseProvider with ChangeNotifier {
   Future<Disease?> getDiseaseById(String diseaseId) async {
     // Check cached diseases first
     Disease? disease = cachedDiseases.firstWhere(
-      (disease) => disease?.diseaseId == diseaseId,
+      (disease) => disease?.mDiseaseId == diseaseId,
       orElse: () => null,
     );
 

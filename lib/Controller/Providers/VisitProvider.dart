@@ -23,12 +23,12 @@ class VisitProvider with ChangeNotifier {
 
   Future<List<Visit?>?> getVisitsByClientId(String clientId) async {
     List<Visit?>? clientVisits =
-        cachedVisits.where((visit) => visit?.clientId == clientId).toList();
+        cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
 
     final fetchedVisits =
         await _visitFirestoreMethods.fetchVisitsByClientId(clientId);
     for (Visit? visit in fetchedVisits ?? []) {
-      if (!clientVisits.any((v) => v?.clientId == visit?.clientId)) {
+      if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
         clientVisits.add(visit);
       }
     }
@@ -44,7 +44,7 @@ class VisitProvider with ChangeNotifier {
   Future<Visit?> getClientLastVisit(String clientId) async {
     List<Visit?>? clientVisits = await getVisitsByClientId(clientId);
     clientVisits
-        ?.sort((a, b) => a?.date.compareTo(b?.date ?? DateTime(0)) ?? 0);
+        ?.sort((a, b) => a?.mDate.compareTo(b?.mDate ?? DateTime(0)) ?? 0);
     return clientVisits?.isNotEmpty == true ? clientVisits?.last : null;
   }
 

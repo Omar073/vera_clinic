@@ -1,68 +1,72 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Visit {
-  String _mVisitId;
-  String _mClientId;
+  String? mVisitId;
+  String? mClientId;
 
-  DateTime _mDate;
-  String _mDiet;
-  double _mWeight;
-  double _mBMI;
+  DateTime mDate;
+  String mDiet = '';
+  double mWeight;
+  double mBMI;
+Visit({
+  required String? visitId,
+  required String? clientId,
+  required DateTime date,
+  required String diet,
+  required double weight,
+  required double bmi,
+})  : mVisitId = visitId,
+      mClientId = clientId,
+      mDate = date,
+      mDiet = diet,
+      mWeight = weight,
+      mBMI = bmi;
 
-  Visit(this._mVisitId, this._mClientId, this._mDate, this._mDiet,
-      this._mWeight, this._mBMI);
-
-  // Getters
-  String get visitId => _mVisitId;
-  DateTime get date => _mDate;
-  String get clientId => _mClientId;
-  String get diet => _mDiet;
-  double get weight => _mWeight;
-  double get bmi => _mBMI;
 
   // Setters
-  set visitId(String visitId) {
-    _mVisitId = visitId;
+  set visitId(String? visitId) {
+    mVisitId = visitId;
   }
 
   set date(DateTime date) {
-    _mDate = date;
+    mDate = date;
   }
 
-  set clientId(String clientId) {
-    _mClientId = clientId;
+  set clientId(String? clientId) {
+    mClientId = clientId;
   }
 
   set diet(String diet) {
-    _mDiet = diet;
+    mDiet = diet;
   }
 
   set weight(double weight) {
-    _mWeight = weight;
+    mWeight = weight;
   }
 
   set bmi(double bmi) {
-    _mBMI = bmi;
+    mBMI = bmi;
   }
 
-  factory Visit.fromFirestore(Map<String, dynamic> data) {
-    return Visit(
-        data['visitId'] as String,
-        data['clientId'] as String,
-        (data['date'] as Timestamp).toDate(),
-        data['diet'] as String,
-        data['weight'] as double,
-        data['bmi'] as double);
-  }
+factory Visit.fromFirestore(Map<String, dynamic> data) {
+  return Visit(
+    visitId: data['visitId'] as String?,
+    clientId: data['clientId'] as String?,
+    date: (data['date'] as Timestamp).toDate(),
+    diet: data['diet'] as String,
+    weight: data['weight'] as double,
+    bmi: data['bmi'] as double,
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
-      'visitId': _mVisitId,
-      'clientId': _mClientId,
-      'date': _mDate,
-      'diet': _mDiet,
-      'weight': _mWeight,
-      'bmi': _mBMI,
+      'visitId': mVisitId,
+      'clientId': mClientId,
+      'date': mDate,
+      'diet': mDiet,
+      'weight': mWeight,
+      'bmi': mBMI,
     };
   }
 }

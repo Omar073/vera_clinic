@@ -24,7 +24,7 @@ class PreferredFoodsProvider with ChangeNotifier {
 
   Future<PreferredFoods?> getPreferredFoodsByClientId(String clientId) async {
     PreferredFoods? preferredFoods = cachedPreferredFoods.firstWhere(
-      (preferredFoods) => preferredFoods?.clientId == clientId,
+      (preferredFoods) => preferredFoods?.mClientId == clientId,
       orElse: () => null,
     );
 
@@ -38,7 +38,7 @@ class PreferredFoodsProvider with ChangeNotifier {
 
   Future<PreferredFoods?> getPreferredFoodsById(String preferredFoodsId) async {
     PreferredFoods? preferredFoods = cachedPreferredFoods.firstWhere(
-      (preferredFoods) => preferredFoods?.preferredFoodsId == preferredFoodsId,
+      (preferredFoods) => preferredFoods?.mPreferredFoodsId == preferredFoodsId,
       orElse: () => null,
     );
 

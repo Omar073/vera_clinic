@@ -1,106 +1,105 @@
 class ClientMonthlyFollowUp {
-  String _mClientMonthlyFollowUpId;
-  String _mClientId;
-  double _mBMI;
-  double _mPBF;
-  double _mWater;
-  double _mMaxWeight;
-  double _mOptimalWeight;
-  double _mBMR;
-  int _mMaxCalories;
-  int _mOptimalCalories;
+  String? mClientMonthlyFollowUpId;
+  String? mClientId;
+  double? mBMI;
+  double? mPBF;
+  double? mWater;
+  double? mMaxWeight;
+  double? mOptimalWeight;
+  double? mBMR;
+  int? mMaxCalories;
+  int? mOptimalCalories;
 
-  ClientMonthlyFollowUp(
-      this._mClientMonthlyFollowUpId,
-      this._mClientId,
-      this._mBMI,
-      this._mPBF,
-      this._mWater,
-      this._mMaxWeight,
-      this._mOptimalWeight,
-      this._mBMR,
-      this._mMaxCalories,
-      this._mOptimalCalories);
+ClientMonthlyFollowUp({
+  required String? clientMonthlyFollowUpId,
+  required String? clientId,
+  required double? bmi,
+  required double? pbf,
+  required double? water,
+  required double? maxWeight,
+  required double? optimalWeight,
+  required double? bmr,
+  required int? maxCalories,
+  required int? optimalCalories,
+})  : mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
+      mClientId = clientId,
+      mBMI = bmi,
+      mPBF = pbf,
+      mWater = water,
+      mMaxWeight = maxWeight,
+      mOptimalWeight = optimalWeight,
+      mBMR = bmr,
+      mMaxCalories = maxCalories,
+      mOptimalCalories = optimalCalories;
 
-  //getters and setters
-  String get clientMonthlyFollowUpId => _mClientMonthlyFollowUpId;
-  String get clientId => _mClientId;
-  double get bmi => _mBMI;
-  double get pbf => _mPBF;
-  double get water => _mWater;
-  double get maxWeight => _mMaxWeight;
-  double get optimalWeight => _mOptimalWeight;
-  double get bmr => _mBMR;
-  int get maxCalories => _mMaxCalories;
-  int get optimalCalories => _mOptimalCalories;
 
-  set clientMonthlyFollowUpId(String clientMonthlyFollowUpId) {
-    _mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
+  set clientMonthlyFollowUpId(String? clientMonthlyFollowUpId) {
+    mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
   }
 
-  set clientId(String clientId) {
-    _mClientId = clientId;
+  set clientId(String? clientId) {
+    mClientId = clientId;
   }
 
-  set bmi(double bmi) {
-    _mBMI = bmi;
+  set bmi(double? bmi) {
+    mBMI = bmi;
   }
 
-  set pbf(double pbf) {
-    _mPBF = pbf;
+  set pbf(double? pbf) {
+    mPBF = pbf;
   }
 
-  set water(double water) {
-    _mWater = water;
+  set water(double? water) {
+    mWater = water;
   }
 
-  set maxWeight(double maxWeight) {
-    _mMaxWeight = maxWeight;
+  set maxWeight(double? maxWeight) {
+    mMaxWeight = maxWeight;
   }
 
-  set optimalWeight(double optimalWeight) {
-    _mOptimalWeight = optimalWeight;
+  set optimalWeight(double? optimalWeight) {
+    mOptimalWeight = optimalWeight;
   }
 
-  set bmr(double bmr) {
-    _mBMR = bmr;
+  set bmr(double? bmr) {
+    mBMR = bmr;
   }
 
-  set maxCalories(int maxCalories) {
-    _mMaxCalories = maxCalories;
+  set maxCalories(int? maxCalories) {
+    mMaxCalories = maxCalories;
   }
 
-  set optimalCalories(int optimalCalories) {
-    _mOptimalCalories = optimalCalories;
+  set optimalCalories(int? optimalCalories) {
+    mOptimalCalories = optimalCalories;
   }
 
-  factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
-    return ClientMonthlyFollowUp(
-      data['clientMonthlyFollowUpId'] as String,
-      data['clientId'] as String,
-      data['bmi'] as double,
-      data['pbf'] as double,
-      data['water'] as double,
-      data['maxWeight'] as double,
-      data['optimalWeight'] as double,
-      data['bmr'] as double,
-      data['maxCalories'] as int,
-      data['optimalCalories'] as int,
-    );
-  }
+factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
+  return ClientMonthlyFollowUp(
+    clientMonthlyFollowUpId: data['clientMonthlyFollowUpId'] as String? ?? '',
+    clientId: data['clientId'] as String? ?? '',
+    bmi: data['BMI'] as double? ?? 0.0,
+    pbf: data['PBF'] as double? ?? 0.0,
+    water: data['water'] as double? ?? 0.0,
+    maxWeight: data['maxWeight'] as double? ?? 0.0,
+    optimalWeight: data['optimalWeight'] as double? ?? 0.0,
+    bmr: data['BMR'] as double? ?? 0.0,
+    maxCalories: data['maxCalories'] as int? ?? 0,
+    optimalCalories: data['optimalCalories'] as int? ?? 0,
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
-      'clientMonthlyFollowUpId': _mClientMonthlyFollowUpId,
-      'clientId': _mClientId,
-      'bmi': _mBMI,
-      'pbf': _mPBF,
-      'water': _mWater,
-      'maxWeight': _mMaxWeight,
-      'optimalWeight': _mOptimalWeight,
-      'bmr': _mBMR,
-      'maxCalories': _mMaxCalories,
-      'optimalCalories': _mOptimalCalories,
+      'clientMonthlyFollowUpId': mClientMonthlyFollowUpId,
+      'clientId': mClientId,
+      'BMI': mBMI,
+      'PBF': mPBF,
+      'water': mWater,
+      'maxWeight': mMaxWeight,
+      'optimalWeight': mOptimalWeight,
+      'BMR': mBMR,
+      'maxCalories': mMaxCalories,
+      'optimalCalories': mOptimalCalories,
     };
   }
 }

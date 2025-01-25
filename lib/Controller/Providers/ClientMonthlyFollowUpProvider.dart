@@ -35,7 +35,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     ClientMonthlyFollowUp? clientMonthlyFollowUp =
         cachedClientsMonthlyFollowUps.firstWhere(
             (clientMonthlyFollowUp) =>
-                clientMonthlyFollowUp?.clientId == clientId,
+                clientMonthlyFollowUp?.mClientId == clientId,
             orElse: () => null);
 
     clientMonthlyFollowUp ??= await clientMonthlyFollowUpFirestoreMethods
@@ -54,7 +54,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     ClientMonthlyFollowUp? clientMonthlyFollowUp =
         cachedClientsMonthlyFollowUps.firstWhere(
             (clientMonthlyFollowUp) =>
-                clientMonthlyFollowUp?.clientMonthlyFollowUpId ==
+                clientMonthlyFollowUp?.mClientMonthlyFollowUpId ==
                 clientMonthlyFollowUpId,
             orElse: () => null);
 

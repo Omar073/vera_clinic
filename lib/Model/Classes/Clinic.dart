@@ -1,81 +1,83 @@
 class Clinic {
-  double _mDailyIncome;
-  double _mMonthlyIncome;
-  int _mDailyPatients;
-  int _mMonthlyPatients;
-  double _mDailyExpenses;
-  double _mMonthlyExpenses;
-  double _mDailyProfit;
-  double _mMonthlyProfit;
+  double? mDailyIncome;
+  double? mMonthlyIncome;
+  int? mDailyPatients;
+  int? mMonthlyPatients;
+  double? mDailyExpenses;
+  double? mMonthlyExpenses;
+  double? mDailyProfit;
+  double? mMonthlyProfit;
 
-  Clinic(
-      this._mDailyIncome,
-      this._mMonthlyIncome,
-      this._mDailyPatients,
-      this._mMonthlyPatients,
-      this._mDailyExpenses,
-      this._mMonthlyExpenses,
-      this._mDailyProfit,
-      this._mMonthlyProfit);
+Clinic({
+  required double? dailyIncome,
+  required double? monthlyIncome,
+  required int? dailyPatients,
+  required int? monthlyPatients,
+  required double? dailyExpenses,
+  required double? monthlyExpenses,
+  required double? dailyProfit,
+  required double? monthlyProfit,
+})  : mDailyIncome = dailyIncome,
+      mMonthlyIncome = monthlyIncome,
+      mDailyPatients = dailyPatients,
+      mMonthlyPatients = monthlyPatients,
+      mDailyExpenses = dailyExpenses,
+      mMonthlyExpenses = monthlyExpenses,
+      mDailyProfit = dailyProfit,
+      mMonthlyProfit = monthlyProfit;
 
-  double get dailyIncome => _mDailyIncome;
-  set dailyIncome(double value) => _mDailyIncome = value;
+double? get dailyIncome => mDailyIncome;
+double? get monthlyIncome => mMonthlyIncome;
+int? get dailyPatients => mDailyPatients;
+int? get monthlyPatients => mMonthlyPatients;
+double? get dailyExpenses => mDailyExpenses;
+double? get monthlyExpenses => mMonthlyExpenses;
+double? get dailyProfit => mDailyProfit;
+double? get monthlyProfit => mMonthlyProfit;
 
-  double get monthlyIncome => _mMonthlyIncome;
-  set monthlyIncome(double value) => _mMonthlyIncome = value;
+set dailyIncome(double? value) => mDailyIncome = value;
+set monthlyIncome(double? value) => mMonthlyIncome = value;
+set dailyPatients(int? value) => mDailyPatients = value;
+set monthlyPatients(int? value) => mMonthlyPatients = value;
+set dailyExpenses(double? value) => mDailyExpenses = value;
+set monthlyExpenses(double? value) => mMonthlyExpenses = value;
+set dailyProfit(double? value) => mDailyProfit = value;
+set monthlyProfit(double? value) => mMonthlyProfit = value;
 
-  int get dailyPatients => _mDailyPatients;
-  set dailyPatients(int value) => _mDailyPatients = value;
-
-  int get monthlyPatients => _mMonthlyPatients;
-  set monthlyPatients(int value) => _mMonthlyPatients = value;
-
-  double get dailyExpenses => _mDailyExpenses;
-  set dailyExpenses(double value) => _mDailyExpenses = value;
-
-  double get monthlyExpenses => _mMonthlyExpenses;
-  set monthlyExpenses(double value) => _mMonthlyExpenses = value;
-
-  double get dailyProfit => _mDailyProfit;
-  set dailyProfit(double value) => _mDailyProfit = value;
-
-  double get monthlyProfit => _mMonthlyProfit;
-  set monthlyProfit(double value) => _mMonthlyProfit = value;
-
-  factory Clinic.fromFirestore(Map<String, dynamic> data) {
-    return Clinic(
-      data['dailyIncome'] as double,
-      data['monthlyIncome'] as double,
-      data['dailyPatients'] as int,
-      data['monthlyPatients'] as int,
-      data['dailyExpenses'] as double,
-      data['monthlyExpenses'] as double,
-      data['dailyProfit'] as double,
-      data['monthlyProfit'] as double,
-    );
-  }
+factory Clinic.fromFirestore(Map<String, dynamic> data) {
+  return Clinic(
+    dailyIncome: data['dailyIncome'] as double?,
+    monthlyIncome: data['monthlyIncome'] as double?,
+    dailyPatients: data['dailyPatients'] as int?,
+    monthlyPatients: data['monthlyPatients'] as int?,
+    dailyExpenses: data['dailyExpenses'] as double?,
+    monthlyExpenses: data['monthlyExpenses'] as double?,
+    dailyProfit: data['dailyProfit'] as double?,
+    monthlyProfit: data['monthlyProfit'] as double?,
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
-      'dailyIncome': _mDailyIncome,
-      'monthlyIncome': _mMonthlyIncome,
-      'dailyPatients': _mDailyPatients,
-      'monthlyPatients': _mMonthlyPatients,
-      'dailyExpenses': _mDailyExpenses,
-      'monthlyExpenses': _mMonthlyExpenses,
-      'dailyProfit': _mDailyProfit,
-      'monthlyProfit': _mMonthlyProfit,
+      'dailyIncome': mDailyIncome,
+      'monthlyIncome': mMonthlyIncome,
+      'dailyPatients': mDailyPatients,
+      'monthlyPatients': mMonthlyPatients,
+      'dailyExpenses': mDailyExpenses,
+      'monthlyExpenses': mMonthlyExpenses,
+      'dailyProfit': mDailyProfit,
+      'monthlyProfit': mMonthlyProfit,
     };
   }
 }
 
 Clinic clinic = Clinic(
-  1000.0,
-  30000.0,
-  10,
-  300,
-  500.0,
-  15000.0,
-  500.0,
-  15000.0,
+  dailyIncome: 1000.0,
+  monthlyIncome: 30000.0,
+  dailyPatients: 10,
+  monthlyPatients: 300,
+  dailyExpenses: 500.0,
+  monthlyExpenses: 15000.0,
+  dailyProfit: 500.0,
+  monthlyProfit: 15000.0,
 );

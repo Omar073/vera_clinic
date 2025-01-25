@@ -1,213 +1,211 @@
 class Disease {
-  String _mDiseaseId;
-  String _mClientId;
+  String? mDiseaseId;
+  String? mClientId;
 
   // Heart
-  bool _mHypertension = false;
-  bool _mHypotension = false;
-  bool _mVascular = false;
-  bool _mAnemia = false;
+  bool mHypertension = false;
+  bool mHypotension = false;
+  bool mVascular = false;
+  bool mAnemia = false;
 
-  String _mRenal = '';
-  String _mLiver = '';
+  String mRenal = '';
+  String mLiver = '';
 
-  String _mGit = '';
-  bool _mColon = false;
-  bool _mConstipation = false;
+  String mGit = '';
+  bool mColon = false;
+  bool mConstipation = false;
 
-  String _mEndocrine = '';
-  String _mRheumatic = '';
-  String _mAllergies = '';
-  String _mNeuro = '';
-  String _mPsychiatric = '';
-  String _mOthers = '';
-  String _mHormonal = '';
+  String mEndocrine = '';
+  String mRheumatic = '';
+  String mAllergies = '';
+  String mNeuro = '';
+  String mPsychiatric = '';
+  String mOthers = '';
+  String mHormonal = '';
 
-  bool _mFamilyHistoryDM = false;
-  bool _mPreviousOBMed = false;
-  bool _mPreviousOBOperations = false;
+  bool mFamilyHistoryDM = false;
+  bool mPreviousOBMed = false;
+  bool mPreviousOBOperations = false;
 
-  Disease(
-    this._mDiseaseId,
-    this._mClientId,
-    this._mHypertension,
-    this._mHypotension,
-    this._mVascular,
-    this._mAnemia,
-    this._mColon,
-    this._mConstipation,
-    this._mFamilyHistoryDM,
-    this._mPreviousOBMed,
-    this._mPreviousOBOperations,
-    this._mRenal,
-    this._mLiver,
-    this._mGit,
-    this._mEndocrine,
-    this._mRheumatic,
-    this._mAllergies,
-    this._mNeuro,
-    this._mPsychiatric,
-    this._mOthers,
-    this._mHormonal,
-  );
+Disease({
+  required String? diseaseId,
+  required String? clientId,
+  required bool hypertension,
+  required bool hypotension,
+  required bool vascular,
+  required bool anemia,
+  required bool colon,
+  required bool constipation,
+  required bool familyHistoryDM,
+  required bool previousOBMed,
+  required bool previousOBOperations,
+  required String renal,
+  required String liver,
+  required String git,
+  required String endocrine,
+  required String rheumatic,
+  required String allergies,
+  required String neuro,
+  required String psychiatric,
+  required String others,
+  required String hormonal,
+})  : mDiseaseId = diseaseId,
+      mClientId = clientId,
+      mHypertension = hypertension,
+      mHypotension = hypotension,
+      mVascular = vascular,
+      mAnemia = anemia,
+      mColon = colon,
+      mConstipation = constipation,
+      mFamilyHistoryDM = familyHistoryDM,
+      mPreviousOBMed = previousOBMed,
+      mPreviousOBOperations = previousOBOperations,
+      mRenal = renal,
+      mLiver = liver,
+      mGit = git,
+      mEndocrine = endocrine,
+      mRheumatic = rheumatic,
+      mAllergies = allergies,
+      mNeuro = neuro,
+      mPsychiatric = psychiatric,
+      mOthers = others,
+      mHormonal = hormonal;
 
-// Getters
-  String get diseaseId => _mDiseaseId;
-  String get clientId => _mClientId;
-  bool get hypertension => _mHypertension;
-  bool get hypotension => _mHypotension;
-  bool get vascular => _mVascular;
-  bool get anemia => _mAnemia;
-  bool get colon => _mColon;
-  bool get constipation => _mConstipation;
-  bool get familyHistoryDM => _mFamilyHistoryDM;
-  bool get previousOBMed => _mPreviousOBMed;
-  bool get previousOBOperations => _mPreviousOBOperations;
-  String get renal => _mRenal;
-  String get liver => _mLiver;
-  String get git => _mGit;
-  String get endocrine => _mEndocrine;
-  String get rheumatic => _mRheumatic;
-  String get allergies => _mAllergies;
-  String get neuro => _mNeuro;
-  String get psychiatric => _mPsychiatric;
-  String get others => _mOthers;
-  String get hormonal => _mHormonal;
 
 // Setters
-  set diseaseId(String diseaseId) {
-    _mDiseaseId = diseaseId;
+  set diseaseId(String? diseaseId) {
+    mDiseaseId = diseaseId;
   }
 
-  set clientId(String clientId) {
-    _mClientId = clientId;
+  set clientId(String? clientId) {
+    mClientId = clientId;
   }
 
   set hypertension(bool hypertension) {
-    _mHypertension = hypertension;
+    mHypertension = hypertension;
   }
 
   set hypotension(bool hypotension) {
-    _mHypotension = hypotension;
+    mHypotension = hypotension;
   }
 
   set vascular(bool vascular) {
-    _mVascular = vascular;
+    mVascular = vascular;
   }
 
   set anemia(bool anemia) {
-    _mAnemia = anemia;
+    mAnemia = anemia;
   }
 
   set colon(bool colon) {
-    _mColon = colon;
+    mColon = colon;
   }
 
   set constipation(bool constipation) {
-    _mConstipation = constipation;
+    mConstipation = constipation;
   }
 
   set familyHistoryDM(bool familyHistoryDM) {
-    _mFamilyHistoryDM = familyHistoryDM;
+    mFamilyHistoryDM = familyHistoryDM;
   }
 
   set previousOBMed(bool previousOBMed) {
-    _mPreviousOBMed = previousOBMed;
+    mPreviousOBMed = previousOBMed;
   }
 
   set previousOBOperations(bool previousOBOperations) {
-    _mPreviousOBOperations = previousOBOperations;
+    mPreviousOBOperations = previousOBOperations;
   }
 
   set renal(String renal) {
-    _mRenal = renal;
+    mRenal = renal;
   }
 
   set liver(String liver) {
-    _mLiver = liver;
+    mLiver = liver;
   }
 
   set git(String git) {
-    _mGit = git;
+    mGit = git;
   }
 
   set endocrine(String endocrine) {
-    _mEndocrine = endocrine;
+    mEndocrine = endocrine;
   }
 
   set rheumatic(String rheumatic) {
-    _mRheumatic = rheumatic;
+    mRheumatic = rheumatic;
   }
 
   set allergies(String allergies) {
-    _mAllergies = allergies;
+    mAllergies = allergies;
   }
 
   set neuro(String neuro) {
-    _mNeuro = neuro;
+    mNeuro = neuro;
   }
 
   set psychiatric(String psychiatric) {
-    _mPsychiatric = psychiatric;
+    mPsychiatric = psychiatric;
   }
 
   set others(String others) {
-    _mOthers = others;
+    mOthers = others;
   }
 
   set hormonal(String hormonal) {
-    _mHormonal = hormonal;
+    mHormonal = hormonal;
   }
 
-  factory Disease.fromFirestore(Map<String, dynamic> data) {
-    return Disease(
-      data['diseaseId'] as String,
-      data['clientId'] as String,
-      data['hypertension'] as bool,
-      data['hypotension'] as bool,
-      data['vascular'] as bool,
-      data['anemia'] as bool,
-      data['colon'] as bool,
-      data['constipation'] as bool,
-      data['familyHistoryDM'] as bool,
-      data['previousOBMed'] as bool,
-      data['previousOBOperations'] as bool,
-      data['renal'] as String,
-      data['liver'] as String,
-      data['git'] as String,
-      data['endocrine'] as String,
-      data['rheumatic'] as String,
-      data['allergies'] as String,
-      data['neuro'] as String,
-      data['psychiatric'] as String,
-      data['others'] as String,
-      data['hormonal'] as String,
-    );
-  }
+factory Disease.fromFirestore(Map<String, dynamic> data) {
+  return Disease(
+    diseaseId: data['diseaseId'] as String?,
+    clientId: data['clientId'] as String?,
+    hypertension: data['hypertension'] as bool,
+    hypotension: data['hypotension'] as bool,
+    vascular: data['vascular'] as bool,
+    anemia: data['anemia'] as bool,
+    colon: data['colon'] as bool,
+    constipation: data['constipation'] as bool,
+    familyHistoryDM: data['familyHistoryDM'] as bool,
+    previousOBMed: data['previousOBMed'] as bool,
+    previousOBOperations: data['previousOBOperations'] as bool,
+    renal: data['renal'] as String,
+    liver: data['liver'] as String,
+    git: data['git'] as String,
+    endocrine: data['endocrine'] as String,
+    rheumatic: data['rheumatic'] as String,
+    allergies: data['allergies'] as String,
+    neuro: data['neuro'] as String,
+    psychiatric: data['psychiatric'] as String,
+    others: data['others'] as String,
+    hormonal: data['hormonal'] as String,
+  );
+}
 
   Map<String, dynamic> toMap() {
     return {
-      'diseaseId': _mDiseaseId,
-      'clientId': _mClientId,
-      'hypertension': _mHypertension,
-      'hypotension': _mHypotension,
-      'vascular': _mVascular,
-      'anemia': _mAnemia,
-      'colon': _mColon,
-      'constipation': _mConstipation,
-      'familyHistoryDM': _mFamilyHistoryDM,
-      'previousOBMed': _mPreviousOBMed,
-      'previousOBOperations': _mPreviousOBOperations,
-      'renal': _mRenal,
-      'liver': _mLiver,
-      'git': _mGit,
-      'endocrine': _mEndocrine,
-      'rheumatic': _mRheumatic,
-      'allergies': _mAllergies,
-      'neuro': _mNeuro,
-      'psychiatric': _mPsychiatric,
-      'others': _mOthers,
-      'hormonal': _mHormonal,
+      'diseaseId': mDiseaseId,
+      'clientId': mClientId,
+      'hypertension': mHypertension,
+      'hypotension': mHypotension,
+      'vascular': mVascular,
+      'anemia': mAnemia,
+      'colon': mColon,
+      'constipation': mConstipation,
+      'familyHistoryDM': mFamilyHistoryDM,
+      'previousOBMed': mPreviousOBMed,
+      'previousOBOperations': mPreviousOBOperations,
+      'renal': mRenal,
+      'liver': mLiver,
+      'git': mGit,
+      'endocrine': mEndocrine,
+      'rheumatic': mRheumatic,
+      'allergies': mAllergies,
+      'neuro': mNeuro,
+      'psychiatric': mPsychiatric,
+      'others': mOthers,
+      'hormonal': mHormonal,
     };
   }
 }

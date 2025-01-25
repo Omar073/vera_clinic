@@ -23,13 +23,13 @@ class ClientConstantInfoFirestoreMethods {
     try {
       final clientConstantInfoRef = FirebaseSingleton.instance.firestore
           .collection('ClientConstantInfo')
-          .doc(clientConstantInfo.clientConstantInfoId);
+          .doc(clientConstantInfo.mClientConstantInfoId);
 
       final docSnapshot = await clientConstantInfoRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching client constant info found with clientConstantInfoId: ${clientConstantInfo.clientConstantInfoId}');
+            'No matching client constant info found with clientConstantInfoId: ${clientConstantInfo.mClientConstantInfoId}');
       }
 
       await clientConstantInfoRef.update(clientConstantInfo.toMap());
