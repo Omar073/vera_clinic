@@ -18,14 +18,18 @@ class _MyInputFieldState extends State<MyInputField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 250,
+      width: 200,
       child: TextField(
         style: const TextStyle(fontSize: 20),
         textAlign: TextAlign.end,
         controller: widget.myController,
         decoration: InputDecoration(
           hintText: widget.hint,
-          hintStyle: const TextStyle(fontSize: 15),
+          hintStyle: TextStyle(
+            fontSize: 15,
+            color: Colors.grey.withOpacity(1), // Adjust opacity
+            fontWeight: FontWeight.w300, // Adjust thickness
+          ),
           label: Row(
             mainAxisAlignment:
             MainAxisAlignment.end, // Aligns to the other side

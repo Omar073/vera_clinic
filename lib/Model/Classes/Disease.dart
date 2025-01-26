@@ -7,6 +7,7 @@ class Disease {
   bool mHypotension = false;
   bool mVascular = false;
   bool mAnemia = false;
+  String mOtherHeart = '';
 
   String mRenal = '';
   String mLiver = '';
@@ -34,6 +35,7 @@ Disease({
   required bool hypotension,
   required bool vascular,
   required bool anemia,
+  required String otherHeart,
   required bool colon,
   required bool constipation,
   required bool familyHistoryDM,
@@ -55,6 +57,7 @@ Disease({
       mHypotension = hypotension,
       mVascular = vascular,
       mAnemia = anemia,
+      mOtherHeart = otherHeart,
       mColon = colon,
       mConstipation = constipation,
       mFamilyHistoryDM = familyHistoryDM,
@@ -95,6 +98,10 @@ Disease({
 
   set anemia(bool anemia) {
     mAnemia = anemia;
+  }
+
+  set otherHeart(String otherHeart) {
+    mOtherHeart = otherHeart;
   }
 
   set colon(bool colon) {
@@ -165,6 +172,7 @@ factory Disease.fromFirestore(Map<String, dynamic> data) {
     hypotension: data['hypotension'] as bool,
     vascular: data['vascular'] as bool,
     anemia: data['anemia'] as bool,
+    otherHeart: data['otherHeart'] as String,
     colon: data['colon'] as bool,
     constipation: data['constipation'] as bool,
     familyHistoryDM: data['familyHistoryDM'] as bool,
@@ -191,6 +199,7 @@ factory Disease.fromFirestore(Map<String, dynamic> data) {
       'hypotension': mHypotension,
       'vascular': mVascular,
       'anemia': mAnemia,
+      'otherHeart': mOtherHeart,
       'colon': mColon,
       'constipation': mConstipation,
       'familyHistoryDM': mFamilyHistoryDM,

@@ -8,7 +8,7 @@ class ClientMonthlyFollowUp {
   double? mOptimalWeight;
   double? mBMR;
   int? mMaxCalories;
-  int? mOptimalCalories;
+  int? mDailyCalories;
 
 ClientMonthlyFollowUp({
   required String? clientMonthlyFollowUpId,
@@ -20,7 +20,7 @@ ClientMonthlyFollowUp({
   required double? optimalWeight,
   required double? bmr,
   required int? maxCalories,
-  required int? optimalCalories,
+  required int? dailyCalories,
 })  : mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
       mClientId = clientId,
       mBMI = bmi,
@@ -30,7 +30,7 @@ ClientMonthlyFollowUp({
       mOptimalWeight = optimalWeight,
       mBMR = bmr,
       mMaxCalories = maxCalories,
-      mOptimalCalories = optimalCalories;
+      mDailyCalories = dailyCalories;
 
 
   set clientMonthlyFollowUpId(String? clientMonthlyFollowUpId) {
@@ -69,8 +69,8 @@ ClientMonthlyFollowUp({
     mMaxCalories = maxCalories;
   }
 
-  set optimalCalories(int? optimalCalories) {
-    mOptimalCalories = optimalCalories;
+  set dailyCalories(int? dailyCalories) {
+    mDailyCalories = dailyCalories;
   }
 
 factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
@@ -84,7 +84,7 @@ factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
     optimalWeight: data['optimalWeight'] as double? ?? 0.0,
     bmr: data['BMR'] as double? ?? 0.0,
     maxCalories: data['maxCalories'] as int? ?? 0,
-    optimalCalories: data['optimalCalories'] as int? ?? 0,
+    dailyCalories: data['dailyCalories'] as int? ?? 0,
   );
 }
 
@@ -99,7 +99,7 @@ factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
       'optimalWeight': mOptimalWeight,
       'BMR': mBMR,
       'maxCalories': mMaxCalories,
-      'optimalCalories': mOptimalCalories,
+      'dailyCalories': mDailyCalories,
     };
   }
 }

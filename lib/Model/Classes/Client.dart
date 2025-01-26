@@ -23,9 +23,10 @@ enum SubscriptionType {
 }
 
 class Client {
-  String? mClientId;
+  String mClientId;
   String? mName;
   String? mClientPhoneNum;
+  String? mGender;
   String? mLastVisitId;
   DateTime? mBirthdate;
   String? mClientConstantInfoId;
@@ -42,9 +43,10 @@ class Client {
   SubscriptionType? mSubscriptionType;
 
   Client({
-    required String? clientId,
+    required String clientId,
     required String? name,
     required String? clientPhoneNum,
+    required String? gender,
     required String? lastVisitId,
     required DateTime? birthdate,
     required String? clientConstantInfoId,
@@ -61,6 +63,7 @@ class Client {
   })  : mClientId = clientId,
         mName = name,
         mClientPhoneNum = clientPhoneNum,
+        mGender = gender,
         mLastVisitId = lastVisitId,
         mBirthdate = birthdate,
         mClientConstantInfoId = clientConstantInfoId,
@@ -77,7 +80,7 @@ class Client {
 
   
 // Setters
-  set clientId(String? clientId) {
+  set clientId(String clientId) {
     mClientId = clientId;
   }
 
@@ -87,6 +90,10 @@ class Client {
 
   set clientPhoneNum(String? clientPhoneNum) {
     mClientPhoneNum = clientPhoneNum;
+  }
+
+  set gender(String? gender) {
+    mGender = gender;
   }
 
   set lastVisitId(String? lastVisitId) {
@@ -146,6 +153,7 @@ class Client {
       clientId: data['clientId'] as String? ?? '',
       name: data['name'] as String? ?? '',
       clientPhoneNum: data['clientPhoneNum'] as String? ?? '',
+      gender: data['gender'] as String? ?? '',
       lastVisitId: data['lastVisitId'] as String? ?? '',
       birthdate: (data['birthDate'] as Timestamp?)?.toDate(), //TODO: what should I replace it with
       clientConstantInfoId: data['clientConstantInfoId'] as String? ?? '',
@@ -172,6 +180,7 @@ class Client {
       'clientId': mClientId,
       'name': mName,
       'clientPhoneNum': mClientPhoneNum,
+      'gender': mGender,
       'lastVisitId': mLastVisitId,
       'birthDate': mBirthdate,
       'clientConstantInfoId': mClientConstantInfoId,
@@ -205,6 +214,7 @@ Disease disease = Disease(
   hypotension: true,
   vascular: false,
   anemia: false,
+  otherHeart: 'no heart notes',
   colon: false,
   constipation: true,
   familyHistoryDM: false,
@@ -239,7 +249,7 @@ ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
   optimalWeight: 70.0,
   bmr: 1500.0,
   maxCalories: 2000,
-  optimalCalories: 1800,
+  dailyCalories: 1800,
 );
 PreferredFoods preferredFoods = PreferredFoods(
   preferredFoodsId: 'ghi789',
@@ -267,6 +277,7 @@ Client client = Client(
   clientId: 'id123',
   name: 'John Doe',
   clientPhoneNum: '1234567890',
+  gender: 'male',
   lastVisitId: 'abc123',
   birthdate: DateTime(1990, 1, 1),
   clientConstantInfoId: 'const123',

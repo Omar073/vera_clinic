@@ -6,7 +6,7 @@ import 'AnalysisPage.dart';
 import 'CheckInPage.dart';
 import 'ClientSearchPage.dart';
 import 'FollowUpNav.dart';
-import 'NewClientPage.dart';
+import '../../NewClientPage/View/NewClientPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
