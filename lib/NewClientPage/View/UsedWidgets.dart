@@ -18,25 +18,28 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<SubscriptionType>(
-      value: _selectedType,
-      onChanged: (SubscriptionType? newValue) {
-        setState(() {
-          _selectedType = newValue;
-          widget.subscriptionTypeController.text = newValue?.name ?? '';
-        });
-      },
-      items: SubscriptionType.values.map((SubscriptionType type) {
-        return DropdownMenuItem<SubscriptionType>(
-          value: type,
-          child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(getSubscriptionTypeLabel(type),
-                  textAlign: TextAlign.start)),
-        );
-      }).toList(),
-      hint: const Text('نوع الاشتراك',
-          textAlign: TextAlign.start), //todo: fix alignment
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: DropdownButton<SubscriptionType>(
+        value: _selectedType,
+        onChanged: (SubscriptionType? newValue) {
+          setState(() {
+            _selectedType = newValue;
+            widget.subscriptionTypeController.text = newValue?.name ?? '';
+          });
+        },
+        items: SubscriptionType.values.map((SubscriptionType type) {
+          return DropdownMenuItem<SubscriptionType>(
+            value: type,
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(getSubscriptionTypeLabel(type),
+                    textAlign: TextAlign.start)),
+          );
+        }).toList(),
+        hint: const Text('نوع الاشتراك',
+            textAlign: TextAlign.start), //todo: fix alignment
+      ),
     );
   }
 }
@@ -55,8 +58,8 @@ class _MyCheckBoxState extends State<MyCheckBox> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      child: Wrap(
+        crossAxisAlignment: WrapCrossAlignment.end,
         children: [
           GestureDetector(
             onTap: () {

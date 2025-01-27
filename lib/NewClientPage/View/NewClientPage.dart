@@ -40,12 +40,14 @@ class _NewClientPageState extends State<NewClientPage> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        IconButton(
-                          icon: const Icon(Icons.calendar_today),
-                          onPressed: () async {
+                        GestureDetector(
+                          onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                               context: context,
                               initialDate: DateTime.now(),
@@ -59,8 +61,9 @@ class _NewClientPageState extends State<NewClientPage> {
                               });
                             }
                           },
+                          child: const Icon(Icons.calendar_today),
                         ),
-                        const SizedBox(width: 10),
+                        const SizedBox(width: 5),
                         const Text('تاريخ الميلاد',
                             style: TextStyle(fontSize: 16)),
                         const SizedBox(width: 100),
@@ -80,8 +83,10 @@ class _NewClientPageState extends State<NewClientPage> {
                             label: "اسم العميل"),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
                       children: [
                         MyInputField(
                             myController: weightController,
@@ -104,33 +109,42 @@ class _NewClientPageState extends State<NewClientPage> {
                             label: "نوع الدايت"),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Wrap(
+                      direction: Axis.vertical,
+                      spacing: 10,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        MyInputField(
-                            myController: notesController,
-                            hint: "",
-                            label: "ملاحظات"),
-                        const SizedBox(width: 170),
-                        SubscriptionTypeDropdown(
-                            subscriptionTypeController:
-                                subscriptionTypeController),
-                        const SizedBox(
-                          width: 178,
+                        Row(
+                          children: [
+                            MyInputField(
+                                myController: notesController,
+                                hint: "",
+                                label: "ملاحظات"),
+                            const SizedBox(width: 170),
+                            SubscriptionTypeDropdown(
+                                subscriptionTypeController:
+                                    subscriptionTypeController),
+                            const SizedBox(width: 235),
+                            MyCheckBox(
+                                controller: sportsController, text: 'Sports'),
+                            const SizedBox(width: 200),
+                            MyCheckBox(
+                                controller: yoyoController,
+                                text: '(رجيم سابق) YOYO'),
+                          ],
                         ),
-                        MyCheckBox(controller: yoyoController, text: 'Sports'),
-                        const SizedBox(width: 185),
-                        MyCheckBox(
-                            controller: yoyoController,
-                            text: '(رجيم سابق) YOYO'),
+                        // const SizedBox(
+                        //   width: 178,
+                        // ),
                       ],
                     ),
                     const SizedBox(
                       height: 14,
                     ),
                     Wrap(
-                      spacing: 10,
+                      spacing: 15,
                       runSpacing: 10,
                       alignment: WrapAlignment.end,
                       children: List.generate(5, (index) {
@@ -139,8 +153,7 @@ class _NewClientPageState extends State<NewClientPage> {
                           child: MyInputField(
                             myController: platControllers[
                                 platControllers.length - 6 - index],
-                            hint:
-                                "أدخل الوزن الثابت ${platControllers.length - 5 - index}",
+                            hint: "",
                             label:
                                 "الوزن الثابت ${platControllers.length - 5 - index}",
                           ),
@@ -148,7 +161,7 @@ class _NewClientPageState extends State<NewClientPage> {
                       }),
                     ),
                     Wrap(
-                      spacing: 10,
+                      spacing: 15,
                       runSpacing: 10,
                       alignment: WrapAlignment.end,
                       children: List.generate(5, (index) {
@@ -157,8 +170,7 @@ class _NewClientPageState extends State<NewClientPage> {
                           child: MyInputField(
                             myController: platControllers[
                                 platControllers.length - 1 - index],
-                            hint:
-                                "أدخل الوزن الثابت ${platControllers.length - index}",
+                            hint: "",
                             label:
                                 "الوزن الثابت ${platControllers.length - index}",
                           ),
@@ -166,45 +178,27 @@ class _NewClientPageState extends State<NewClientPage> {
                       }),
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Wrap(
+                      spacing: 70,
+                      runSpacing: 10,
+                      direction: Axis.horizontal,
+                      // alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 80.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                MyInputField(
-                                    myController:
-                                        othersPreferredFoodsController,
-                                    hint: '',
-                                    label: 'أخري'),
-                                const SizedBox(width: 14),
-                                MyCheckBox(
-                                    controller: fruitsController,
-                                    text: "فاكهة"),
-                                const SizedBox(width: 14),
-                                MyCheckBox(
-                                    controller: vegController, text: "خضار"),
-                                const SizedBox(width: 14),
-                                MyCheckBox(
-                                    controller: dairyController, text: "ألبان"),
-                                const SizedBox(width: 14),
-                                MyCheckBox(
-                                    controller: proteinController,
-                                    text: "بروتينات"),
-                                const SizedBox(width: 14),
-                                MyCheckBox(
-                                    controller: carbohydratesController,
-                                    text: "كربوهايدرات"),
-                              ],
-                            ),
-                          ),
-                        ),
+                        MyInputField(
+                            myController: othersPreferredFoodsController,
+                            hint: '',
+                            label: 'أخري'),
+                        MyCheckBox(controller: fruitsController, text: "فاكهة"),
+                        MyCheckBox(controller: vegController, text: "خضار"),
+                        MyCheckBox(controller: dairyController, text: "ألبان"),
+                        MyCheckBox(
+                            controller: proteinController, text: "بروتينات"),
+                        MyCheckBox(
+                            controller: carbohydratesController,
+                            text: "كربوهايدرات"),
                         const Padding(
                           padding: EdgeInsets.only(top: 12.0),
                           child: Text(
@@ -214,6 +208,9 @@ class _NewClientPageState extends State<NewClientPage> {
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -261,68 +258,205 @@ class _NewClientPageState extends State<NewClientPage> {
                         ),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 100,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
                       children: [
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: optimalWeightController,
                             hint: '',
                             label: "وزن مثالي"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: maxWeightController,
                             hint: '',
                             label: "أقصي وزن"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: waterController,
                             hint: '',
                             label: 'الماء'),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: pbfController,
                             hint: 'PBF',
                             label: 'نسبة الدهن'),
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 100,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
                       children: [
                         MyInputField(
                             myController: dailyCaloriesController,
                             hint: '',
                             label: "السعرات اليومية"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: maxCaloriesController,
                             hint: '',
                             label: "أقصي سعرات"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: bmrController,
                             hint: 'BMR',
                             label: "حد الحرق الأدني"),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 60,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MyInputField(
+                            myController: otherHeartController,
+                            hint: '',
+                            label: "أخري"),
+                        MyCheckBox(
+                            controller: hypertensionController,
+                            text: "HyperTension"),
+                        MyCheckBox(
+                            controller: hypotensionController,
+                            text: "HypoTension"),
+                        MyCheckBox(
+                            controller: vascularController, text: "Vascular"),
+                        MyCheckBox(
+                            controller: anemiaController, text: "Anemia"),
+                        const Text(
+                          "قلب و أوعية",
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        const Text(
+                          ":الأمراض",
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 100,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MyInputField(
+                            myController: renalController,
+                            hint: 'Renal',
+                            label: "كلي"),
+                        MyInputField(
+                            myController: liverController,
+                            hint: 'Liver',
+                            label: "كبد"),
+                        MyInputField(
+                            myController: endocrineController,
+                            hint: 'Endocrine',
+                            label: "الغدد الصماء"),
+                        MyInputField(
+                            myController: rheumaticController,
+                            hint: 'Rheumatic',
+                            label: "روماتيزم"),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 80,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MyInputField(
+                            myController: neuroController,
+                            hint: '',
+                            label: "عصبية"),
+                        MyInputField(
+                            myController: allergiesController,
+                            hint: '',
+                            label: "حساسية"),
+                        MyCheckBox(controller: colonController, text: 'قولون'),
+                        MyCheckBox(
+                            controller: constipationController, text: 'إمساك'),
+                        MyInputField(
+                            myController: gitController,
+                            hint: 'GIT',
+                            label: "جهاز هضمي"),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 80,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MyInputField(
+                            myController: othersDiseaseController,
+                            hint: '',
+                            label: "أخري"),
+                        MyInputField(
+                            myController: psychiatricController,
+                            hint: '',
+                            label: "نفسية"),
+                        MyInputField(
+                            myController: hormonalController,
+                            hint: '',
+                            label: "هرمون"),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Wrap(
+                      spacing: 80,
+                      runSpacing: 10,
+                      alignment: WrapAlignment.end,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        MyCheckBox(
+                            controller: previousOBOperationsController,
+                            text: "عمليات سمنة سابقة"),
+                        MyCheckBox(
+                            controller: previousOBMedController,
+                            text: "أدوية سمنة سابقة"),
+                        MyCheckBox(
+                            controller: familyHistoryDMController,
+                            text: "تاريخ مرضي سكر"),
+                      ],
+                    ),
                     const SizedBox(height: 200),
                     Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          debugPrint("Button pressed: حفظ");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blueAccent,
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30, vertical: 13),
-                          textStyle: const TextStyle(fontSize: 20),
-                        ),
-                        child: const Text(
-                          "حفظ",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                            color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            debugPrint("Button pressed: حفظ");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blueAccent,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 13),
+                            textStyle: const TextStyle(fontSize: 20),
+                          ),
+                          child: const Text(
+                            "حفظ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
