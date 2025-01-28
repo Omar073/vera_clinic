@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
+import 'apiKeys.dart';
+
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
 /// Example:
@@ -46,8 +48,8 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCj9thDg5HsiJhSi4ROJwCiivGFixEaj6I',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: webAPIKey,
     appId: '1:646096833745:web:8cb27bc727474f28e8c9f0',
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
@@ -56,16 +58,16 @@ class DefaultFirebaseOptions {
     measurementId: 'G-MMC6Z6LE1C',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAEG3g-CkdkHUB7Ki3AVS0_N7TEG-5dR9Y',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: androidAPIKey,
     appId: '1:646096833745:android:d0d0db009aabbcd9e8c9f0',
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
     storageBucket: 'vera-life-clinic.firebasestorage.app',
   );
 
-  static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCj9thDg5HsiJhSi4ROJwCiivGFixEaj6I',
+  static FirebaseOptions windows = FirebaseOptions(
+    apiKey: windowsAPIKey,
     appId: '1:646096833745:web:5d650bef6f7ff02fe8c9f0',
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
