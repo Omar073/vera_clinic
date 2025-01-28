@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/View/Pages/ClientDetailsPage.dart';
+import 'package:vera_clinic/Core/View/Pages/ClientDetailsPage.dart';
+import '../../../NewClientRegistration/View/NewClientPage.dart';
 import '../../Model/Classes/Client.dart';
 import '../Reusable widgets/MyNavigationButton.dart';
 import 'AnalysisPage.dart';
 import 'CheckInPage.dart';
 import 'ClientSearchPage.dart';
 import 'FollowUpNav.dart';
-import '../../NewClientRegistration/View/NewClientPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

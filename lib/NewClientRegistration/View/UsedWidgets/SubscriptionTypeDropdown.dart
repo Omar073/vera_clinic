@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../Model/Classes/Client.dart';
-import '../../../View/Pages/CheckInPage.dart';
+import '../../../Core/Model/Classes/Client.dart';
+import '../../../Core/View/Pages/CheckInPage.dart';
 
 class SubscriptionTypeDropdown extends StatefulWidget {
   final TextEditingController subscriptionTypeController;

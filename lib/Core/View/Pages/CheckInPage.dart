@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vera_clinic/Controller/Providers/ClientConstantInfoProvider.dart';
-import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 
 import '../../Model/Classes/Client.dart';
 import '../../Model/Classes/Visit.dart';

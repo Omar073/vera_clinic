@@ -3,7 +3,7 @@ import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.da
 import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/ActivityLevelDropdownMenu.dart';
 import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/GenderDropdownMenu.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
-import '../../View/Reusable widgets/MyInputField.dart';
+import '../../Core/View/Reusable widgets/MyInputField.dart';
 import '../Controller/TextEditingControllers.dart';
 import 'UsedWidgets/MyCheckBox.dart';
 import 'UsedWidgets/SubscriptionTypeDropdown.dart';
@@ -493,7 +493,7 @@ class _NewClientPageState extends State<NewClientPage> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

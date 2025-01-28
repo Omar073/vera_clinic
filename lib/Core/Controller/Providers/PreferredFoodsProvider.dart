@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Firebase/PreferredFoodsFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Firebase/PreferredFoodsFirestoreMethods.dart';
 
 import '../../Model/Classes/PreferredFoods.dart';
 

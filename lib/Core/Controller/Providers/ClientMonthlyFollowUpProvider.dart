@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Classes/Client.dart';
-
 import '../../Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../Model/Firebase/ClientMonthlyFollowUpFirestoreMethods.dart';
 

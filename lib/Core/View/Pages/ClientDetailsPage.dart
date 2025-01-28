@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 
 class ClientDetailsPage extends StatefulWidget {
   final Client? client;

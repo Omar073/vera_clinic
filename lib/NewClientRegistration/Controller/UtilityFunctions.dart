@@ -1,16 +1,20 @@
-import 'package:vera_clinic/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
-import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/Controller/Providers/DiseaseProvider.dart';
-import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Model/Classes/PreferredFoods.dart';
-import 'package:vera_clinic/Model/Classes/WeightAreas.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
+import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
+import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
+import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
 
-import '../../Controller/Providers/ClientConstantInfoProvider.dart';
-import '../../Controller/Providers/PreferredFoodsProvider.dart';
-import '../../Controller/Providers/WeightAreasProvider.dart';
-import '../../Model/Classes/Client.dart';
-import '../../Model/Classes/Disease.dart';
+import '../../Core/Controller/Providers/ClientConstantInfoProvider.dart';
+import '../../Core/Controller/Providers/PreferredFoodsProvider.dart';
+import '../../Core/Controller/Providers/VisitProvider.dart';
+import '../../Core/Controller/Providers/WeightAreasProvider.dart';
+import '../../Core/Model/Classes/Client.dart';
+import '../../Core/Model/Classes/Disease.dart';
+import '../../Core/Model/Classes/Visit.dart';
+import '../../NewVisit/Controller/UtilityFunctions.dart';
 import 'TextEditingControllers.dart';
 
 bool isNumOnly(String value) {
@@ -48,7 +52,17 @@ void createClient() {
   c.preferredFoodsId = createPreferredFoods(c.mClientId) ?? '';
   c.weightAreasId = createWeightAreas(c.mClientId) ?? '';
 
-  // only after you add all IDs to the client object
+  if(clientVisits.isNotEmpty) {
+    c.lastVisitId = getLatestVisitId();
+    for(Visit v in clientVisits) {
+      v.mClientId = c.mClientId;
+      VisitProvider visitProvider = VisitProvider();
+      visitProvider.updateVisit(v);
+    }
+  }
+  // c.lastVisitId = getLatestVisitId() ?? '';
+
+  // only after you add all extra IDs to the client object
   clientProvider.updateClient(c);
 }
 

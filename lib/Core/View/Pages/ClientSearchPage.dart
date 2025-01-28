@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/View/Pages/CheckInPage.dart';
-import 'package:vera_clinic/View/Reusable%20widgets/ClientSearchWidget.dart';
+import 'package:vera_clinic/Core/View/Pages/CheckInPage.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart';
 import '../../Model/Classes/Client.dart';
 import 'ClientDetailsPage.dart';
 

@@ -71,12 +71,6 @@ final TextEditingController armsController = TextEditingController();
 final TextEditingController breastController = TextEditingController();
 final TextEditingController backController = TextEditingController();
 
-// Visit
-final TextEditingController visitDateController = TextEditingController();
-final TextEditingController visitDietController = TextEditingController();
-final TextEditingController visitWeightController = TextEditingController();
-final TextEditingController visitBMIController = TextEditingController();
-
 /*
 All client inserted attributes
 Client:

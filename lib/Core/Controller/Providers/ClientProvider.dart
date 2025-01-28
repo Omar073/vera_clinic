@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Model/Firebase/ClientFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Firebase/ClientFirestoreMethods.dart';
 
 import '../../Model/Classes/Client.dart';
-import '../../Model/Classes/Disease.dart';
-import '../../Model/Classes/PreferredFoods.dart';
-import '../../Model/Classes/Visit.dart';
-import '../../Model/Classes/WeightAreas.dart';
 
 class ClientProvider with ChangeNotifier {
   final ClientFirestoreMethods _clientFirestoreMethods =
