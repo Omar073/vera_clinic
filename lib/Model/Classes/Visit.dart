@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Visit {
-  String? mVisitId;
+  late String mVisitId;
   String? mClientId;
 
   DateTime mDate;
@@ -9,7 +9,7 @@ class Visit {
   double mWeight;
   double mBMI;
 Visit({
-  required String? visitId,
+  required String visitId,
   required String? clientId,
   required DateTime date,
   required String diet,
@@ -24,7 +24,7 @@ Visit({
 
 
   // Setters
-  set visitId(String? visitId) {
+  set visitId(String visitId) {
     mVisitId = visitId;
   }
 
@@ -50,7 +50,7 @@ Visit({
 
 factory Visit.fromFirestore(Map<String, dynamic> data) {
   return Visit(
-    visitId: data['visitId'] as String?,
+    visitId: data['visitId'] as String,
     clientId: data['clientId'] as String?,
     date: (data['date'] as Timestamp).toDate(),
     diet: data['diet'] as String,

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 final TextEditingController nameController = TextEditingController();
 final TextEditingController phoneController = TextEditingController();
 final TextEditingController birthdateController = TextEditingController();
+final TextEditingController genderController = TextEditingController();
 final TextEditingController dietController = TextEditingController();
 final List<TextEditingController> platControllers =
     List.generate(10, (index) => TextEditingController());

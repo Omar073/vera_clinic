@@ -22,11 +22,13 @@ enum SubscriptionType {
   other
 }
 
+enum Gender {  none, male, female}
+
 class Client {
-  String mClientId;
+  late String mClientId;
   String? mName;
   String? mClientPhoneNum;
-  String? mGender;
+  Gender mGender;
   String? mLastVisitId;
   DateTime? mBirthdate;
   String? mClientConstantInfoId;
@@ -46,7 +48,7 @@ class Client {
     required String clientId,
     required String? name,
     required String? clientPhoneNum,
-    required String? gender,
+    required Gender gender,
     required String? lastVisitId,
     required DateTime? birthdate,
     required String? clientConstantInfoId,
@@ -78,7 +80,6 @@ class Client {
         mWeight = weight,
         mSubscriptionType = subscriptionType;
 
-  
 // Setters
   set clientId(String clientId) {
     mClientId = clientId;
@@ -92,7 +93,7 @@ class Client {
     mClientPhoneNum = clientPhoneNum;
   }
 
-  set gender(String? gender) {
+  set gender(Gender gender) {
     mGender = gender;
   }
 
@@ -153,9 +154,13 @@ class Client {
       clientId: data['clientId'] as String? ?? '',
       name: data['name'] as String? ?? '',
       clientPhoneNum: data['clientPhoneNum'] as String? ?? '',
-      gender: data['gender'] as String? ?? '',
+      gender: Gender.values.firstWhere(
+        (e) => e.name == data['Gender'],
+        orElse: () => Gender.none,
+      ),
       lastVisitId: data['lastVisitId'] as String? ?? '',
-      birthdate: (data['birthDate'] as Timestamp?)?.toDate(), //TODO: what should I replace it with
+      birthdate: (data['birthDate'] as Timestamp?)
+          ?.toDate(), //TODO: what should I replace it with
       clientConstantInfoId: data['clientConstantInfoId'] as String? ?? '',
       diseaseId: data['diseaseId'] as String? ?? '',
       diet: data['diet'] as String? ?? '',
@@ -277,7 +282,7 @@ Client client = Client(
   clientId: 'id123',
   name: 'John Doe',
   clientPhoneNum: '1234567890',
-  gender: 'male',
+  gender: Gender.male,
   lastVisitId: 'abc123',
   birthdate: DateTime(1990, 1, 1),
   clientConstantInfoId: 'const123',

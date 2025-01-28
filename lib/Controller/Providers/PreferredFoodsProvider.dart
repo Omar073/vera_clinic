@@ -15,7 +15,7 @@ class PreferredFoodsProvider with ChangeNotifier {
   PreferredFoodsFirestoreMethods get preferredFoodsFirestoreMethods =>
       _preferredFoodsFirestoreMethods;
 
-  void createCurrentPreferredFoods(PreferredFoods preferredFoods) {
+  void createPreferredFoods(PreferredFoods preferredFoods) {
     preferredFoods.preferredFoodsId = preferredFoodsFirestoreMethods
         .createPreferredFoods(preferredFoods) as String;
     cachedPreferredFoods.add(preferredFoods);

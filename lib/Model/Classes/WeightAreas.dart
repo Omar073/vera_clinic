@@ -1,5 +1,5 @@
 class WeightAreas {
-  String? mWeightAreasId;
+  late String mWeightAreasId;
   String? mClientId;
 
   bool mAbdomen = false;
@@ -11,7 +11,7 @@ class WeightAreas {
   bool mBack = false;
 
 WeightAreas({
-  required String? weightAreasId,
+  required String weightAreasId,
   required String? clientId,
   required bool abdomen,
   required bool buttocks,
@@ -32,7 +32,7 @@ WeightAreas({
 
 
   // Setters
-  set weightAreasId(String? weightAreasId) {
+  set weightAreasId(String weightAreasId) {
     mWeightAreasId = weightAreasId;
   }
 

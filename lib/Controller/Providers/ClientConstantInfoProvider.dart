@@ -17,9 +17,10 @@ class ClientConstantInfoProvider with ChangeNotifier {
   ClientConstantInfoFirestoreMethods get clientConstantInfoFirestoreMethods =>
       _mClientConstantInfoFirestoreMethods;
 
-  void createCurrentClientConstantInfo(ClientConstantInfo clientConstantInfo) {
+  void createClientConstantInfo(ClientConstantInfo clientConstantInfo) {
     clientConstantInfo.clientConstantInfoId = clientConstantInfoFirestoreMethods
         .createClientConstantInfo(clientConstantInfo) as String;
+    //! no need to update the firebase instance with the new ID as this already happens in the firebase method
     cachedClientConstantInfo.add(clientConstantInfo);
     notifyListeners();
   }

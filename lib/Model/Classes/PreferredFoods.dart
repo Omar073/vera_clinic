@@ -1,5 +1,5 @@
 class PreferredFoods {
-  String? mPreferredFoodsId;
+  late String mPreferredFoodsId;
   String? mClientId;
 
   bool mCarbohydrates = false;
@@ -10,7 +10,7 @@ class PreferredFoods {
   String mOthers = '';
 
 PreferredFoods({
-  required String? preferredFoodsId,
+  required String preferredFoodsId,
   required String? clientId,
   required bool carbohydrates,
   required bool protein,
@@ -28,7 +28,7 @@ PreferredFoods({
       mOthers = others;
 
   // Setters
-  set preferredFoodsId(String? preferredFoodsId) {
+  set preferredFoodsId(String preferredFoodsId) {
     mPreferredFoodsId = preferredFoodsId;
   }
 
@@ -62,7 +62,7 @@ PreferredFoods({
 
 factory PreferredFoods.fromFirestore(Map<String, dynamic> data) {
   return PreferredFoods(
-    preferredFoodsId: data['preferredFoodsId'] as String?,
+    preferredFoodsId: data['preferredFoodsId'] as String,
     clientId: data['clientId'] as String?,
     carbohydrates: data['carbohydrates'] as bool,
     protein: data['protein'] as bool,

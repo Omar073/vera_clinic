@@ -1,7 +1,7 @@
 enum Activity {sedentary,mid,high,none}
 
 class ClientConstantInfo {
-  String? mClientConstantInfoId;
+  late String mClientConstantInfoId;
   String? mClientId;
 
   String mArea = '';
@@ -10,7 +10,7 @@ class ClientConstantInfo {
   bool mSports = false;
 
   ClientConstantInfo({
-    required String? clientConstantInfoId,
+    required String clientConstantInfoId,
     required String? clientId,
     required String area,
     required Activity? activityLevel,
@@ -24,7 +24,7 @@ class ClientConstantInfo {
         mSports = sports;
 
   
-  set clientConstantInfoId(String? clientConstantInfoId) {
+  set clientConstantInfoId(String clientConstantInfoId) {
     mClientConstantInfoId = clientConstantInfoId;
   }
 

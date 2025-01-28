@@ -1,17 +1,18 @@
 class ClientMonthlyFollowUp {
-  String? mClientMonthlyFollowUpId;
+  late String mClientMonthlyFollowUpId;
   String? mClientId;
+  
   double? mBMI;
   double? mPBF;
   double? mWater;
   double? mMaxWeight;
   double? mOptimalWeight;
   double? mBMR;
-  int? mMaxCalories;
-  int? mDailyCalories;
+  double? mMaxCalories;
+  double? mDailyCalories;
 
 ClientMonthlyFollowUp({
-  required String? clientMonthlyFollowUpId,
+  required String clientMonthlyFollowUpId,
   required String? clientId,
   required double? bmi,
   required double? pbf,
@@ -19,8 +20,8 @@ ClientMonthlyFollowUp({
   required double? maxWeight,
   required double? optimalWeight,
   required double? bmr,
-  required int? maxCalories,
-  required int? dailyCalories,
+  required double? maxCalories,
+  required double? dailyCalories,
 })  : mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
       mClientId = clientId,
       mBMI = bmi,
@@ -33,7 +34,7 @@ ClientMonthlyFollowUp({
       mDailyCalories = dailyCalories;
 
 
-  set clientMonthlyFollowUpId(String? clientMonthlyFollowUpId) {
+  set clientMonthlyFollowUpId(String clientMonthlyFollowUpId) {
     mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
   }
 
@@ -65,11 +66,11 @@ ClientMonthlyFollowUp({
     mBMR = bmr;
   }
 
-  set maxCalories(int? maxCalories) {
+  set maxCalories(double? maxCalories) {
     mMaxCalories = maxCalories;
   }
 
-  set dailyCalories(int? dailyCalories) {
+  set dailyCalories(double? dailyCalories) {
     mDailyCalories = dailyCalories;
   }
 
@@ -83,8 +84,8 @@ factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
     maxWeight: data['maxWeight'] as double? ?? 0.0,
     optimalWeight: data['optimalWeight'] as double? ?? 0.0,
     bmr: data['BMR'] as double? ?? 0.0,
-    maxCalories: data['maxCalories'] as int? ?? 0,
-    dailyCalories: data['dailyCalories'] as int? ?? 0,
+    maxCalories: data['maxCalories'] as double? ?? 0,
+    dailyCalories: data['dailyCalories'] as double? ?? 0,
   );
 }
 

@@ -1,5 +1,5 @@
 class Disease {
-  String? mDiseaseId;
+  late String mDiseaseId;
   String? mClientId;
 
   // Heart
@@ -29,7 +29,7 @@ class Disease {
   bool mPreviousOBOperations = false;
 
 Disease({
-  required String? diseaseId,
+  required String diseaseId,
   required String? clientId,
   required bool hypertension,
   required bool hypotension,
@@ -76,7 +76,7 @@ Disease({
 
 
 // Setters
-  set diseaseId(String? diseaseId) {
+  set diseaseId(String diseaseId) {
     mDiseaseId = diseaseId;
   }
 
@@ -166,7 +166,7 @@ Disease({
 
 factory Disease.fromFirestore(Map<String, dynamic> data) {
   return Disease(
-    diseaseId: data['diseaseId'] as String?,
+    diseaseId: data['diseaseId'] as String,
     clientId: data['clientId'] as String?,
     hypertension: data['hypertension'] as bool,
     hypotension: data['hypotension'] as bool,

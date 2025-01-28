@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/NewClientPage/View/UsedWidgets.dart';
+import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/ActivityLevelDropdownMenu.dart';
+import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/GenderDropdownMenu.dart';
+import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 import '../../View/Reusable widgets/MyInputField.dart';
 import '../Controller/TextEditingControllers.dart';
+import 'UsedWidgets/MyCheckBox.dart';
+import 'UsedWidgets/SubscriptionTypeDropdown.dart';
 
 class NewClientPage extends StatefulWidget {
   const NewClientPage({super.key});
@@ -41,42 +46,47 @@ class _NewClientPageState extends State<NewClientPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Wrap(
-                      spacing: 10,
+                      spacing: 70,
                       runSpacing: 10,
                       alignment: WrapAlignment.end,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        GestureDetector(
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now(),
-                            );
-                            if (pickedDate != null) {
-                              setState(() {
-                                birthdateController.text =
-                                    "${pickedDate.toLocal()}".split(' ')[0];
-                              });
-                            }
-                          },
-                          child: const Icon(Icons.calendar_today),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 9.0),
+                          child: GestureDetector(
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                setState(() {
+                                  birthdateController.text =
+                                      "${pickedDate.toLocal()}".split(' ')[0];
+                                });
+                              }
+                            },
+                            child: const Wrap(
+                              spacing: 20,
+                              children: [
+                                Icon(Icons.calendar_today),
+                                Text('تاريخ الميلاد',
+                                    style: TextStyle(fontSize: 16)),
+                              ],
+                            ),
+                          ),
                         ),
-                        const SizedBox(width: 5),
-                        const Text('تاريخ الميلاد',
-                            style: TextStyle(fontSize: 16)),
-                        const SizedBox(width: 100),
+                        GenderDropdownMenu(genderController: genderController),
                         MyInputField(
                             myController: areaController,
                             hint: "أدخل المنطقة",
                             label: "المنطقة"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: phoneController,
                             hint: "أدخل رقم الهاتف 01234567890",
                             label: "رقم الهاتف"),
-                        const SizedBox(width: 100),
                         MyInputField(
                             myController: nameController,
                             hint: "أدخل اسم العميل",
@@ -110,31 +120,26 @@ class _NewClientPageState extends State<NewClientPage> {
                       ],
                     ),
                     Wrap(
-                      direction: Axis.vertical,
-                      spacing: 10,
+                      direction: Axis.horizontal,
+                      spacing: 80,
                       runSpacing: 10,
                       alignment: WrapAlignment.end,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            MyInputField(
-                                myController: notesController,
-                                hint: "",
-                                label: "ملاحظات"),
-                            const SizedBox(width: 170),
-                            SubscriptionTypeDropdown(
-                                subscriptionTypeController:
-                                    subscriptionTypeController),
-                            const SizedBox(width: 235),
-                            MyCheckBox(
-                                controller: sportsController, text: 'Sports'),
-                            const SizedBox(width: 200),
-                            MyCheckBox(
-                                controller: yoyoController,
-                                text: '(رجيم سابق) YOYO'),
-                          ],
-                        ),
+                        MyInputField(
+                            myController: notesController,
+                            hint: "",
+                            label: "ملاحظات"),
+                        SubscriptionTypeDropdown(
+                            subscriptionTypeController:
+                                subscriptionTypeController),
+                        ActivityLevelDropdownMenu(
+                            activityLevelController: activityLevelController),
+                        MyCheckBox(
+                            controller: sportsController, text: 'Sports'),
+                        MyCheckBox(
+                            controller: yoyoController,
+                            text: '(رجيم سابق) YOYO'),
                         // const SizedBox(
                         //   width: 178,
                         // ),
@@ -436,28 +441,56 @@ class _NewClientPageState extends State<NewClientPage> {
                             text: "تاريخ مرضي سكر"),
                       ],
                     ),
-                    const SizedBox(height: 200),
+                    const SizedBox(height: 120),
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            debugPrint("Button pressed: حفظ");
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueAccent,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30, vertical: 13),
-                            textStyle: const TextStyle(fontSize: 20),
-                          ),
-                          child: const Text(
-                            "حفظ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25,
-                              color: Colors.white,
+                        child: Wrap(
+                          spacing: 20,
+
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                debugPrint("Button pressed: حفظ");
+                                createClient(); //todo: add to checked in clients
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueAccent,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 13),
+                                textStyle: const TextStyle(fontSize: 20),
+                              ),
+                              child: const Text(
+                                "حفظ",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                          ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => NewVisit()));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blueAccent,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30, vertical: 13),
+                                  textStyle: const TextStyle(fontSize: 20),
+                                ),
+                                child: const Text(
+                                  'تسجيل زيارة سابقة',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25,
+                                    color: Colors.white,
+                                  ),
+                                )),
+                          ],
                         ),
                       ),
                     )

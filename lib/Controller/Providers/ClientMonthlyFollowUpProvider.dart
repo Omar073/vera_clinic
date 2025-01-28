@@ -20,7 +20,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       get clientMonthlyFollowUpFirestoreMethods =>
           _mClientMonthlyFollowUpFirestoreMethods;
 
-  void createCurrentClientMonthlyFollowUp(
+  void createClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) {
     clientMonthlyFollowUp.clientMonthlyFollowUpId =
         clientMonthlyFollowUpFirestoreMethods

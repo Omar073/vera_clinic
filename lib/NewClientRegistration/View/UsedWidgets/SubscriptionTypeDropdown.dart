@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/View/Pages/CheckInPage.dart';
-import '../../Model/Classes/Client.dart';
+import '../../../Model/Classes/Client.dart';
+import '../../../View/Pages/CheckInPage.dart';
 
 class SubscriptionTypeDropdown extends StatefulWidget {
   final TextEditingController subscriptionTypeController;
@@ -26,6 +26,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
           setState(() {
             _selectedType = newValue;
             widget.subscriptionTypeController.text = newValue?.name ?? '';
+            // debugPrint(newValue?.name);
           });
         },
         items: SubscriptionType.values.map((SubscriptionType type) {
@@ -39,48 +40,6 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
         }).toList(),
         hint: const Text('نوع الاشتراك',
             textAlign: TextAlign.start), //todo: fix alignment
-      ),
-    );
-  }
-}
-
-class MyCheckBox extends StatefulWidget {
-  final TextEditingController controller;
-  final String text;
-  const MyCheckBox({super.key, required this.controller, required this.text});
-
-  @override
-  State<MyCheckBox> createState() => _MyCheckBoxState();
-}
-
-class _MyCheckBoxState extends State<MyCheckBox> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.end,
-        children: [
-          GestureDetector(
-            onTap: () {
-          setState(() {
-            widget.controller.text =
-            widget.controller.text == 'true' ? 'false' : 'true';
-          });
-            },
-            child: Icon(
-          widget.controller.text == 'true'
-              ? Icons.check_box
-              : Icons.check_box_outline_blank,
-          color: Colors.green,
-            ),
-          ),
-          const SizedBox(width: 6),
-          Text(
-            widget.text,
-            style: const TextStyle(fontSize: 16),
-          ),
-        ],
       ),
     );
   }
