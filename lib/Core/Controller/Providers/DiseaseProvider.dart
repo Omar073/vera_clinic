@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Firebase/DiseaseFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Firebase/DiseaseFirestoreMethods.dart';
 
 import '../../Model/Classes/Disease.dart';
 

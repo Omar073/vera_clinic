@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Model/Classes/PreferredFoods.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
+import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
 
 import 'Disease.dart';
 import 'Visit.dart';

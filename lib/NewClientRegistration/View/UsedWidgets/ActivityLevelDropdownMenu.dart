@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 
 import '../../Controller/UtilityFunctions.dart';
 

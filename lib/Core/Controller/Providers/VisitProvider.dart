@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Firebase/VisitFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Firebase/VisitFirestoreMethods.dart';
 
 import '../../Model/Classes/Visit.dart';
 import '../../Model/Firebase/FirebaseSingelton.dart';
@@ -50,6 +50,11 @@ class VisitProvider with ChangeNotifier {
 
   void setCurrentVisit(Visit visit) {
     _currentVisit = visit;
+    notifyListeners();
+  }
+
+  void updateVisit(Visit visit) {
+    _visitFirestoreMethods.updateVisit(visit);
     notifyListeners();
   }
 }

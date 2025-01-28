@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Firebase/FirebaseSingelton.dart';
+import 'package:vera_clinic/Core/Model/Firebase/FirebaseSingelton.dart';
 
 import '../Classes/Client.dart';
 

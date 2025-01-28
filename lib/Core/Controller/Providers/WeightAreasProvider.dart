@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Classes/WeightAreas.dart';
-import 'package:vera_clinic/Model/Firebase/WeightAreasFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
+import 'package:vera_clinic/Core/Model/Firebase/WeightAreasFirestoreMethods.dart';
 
 class WeightAreasProvider with ChangeNotifier {
   final WeightAreasFirestoreMethods _weightAreasFirestoreMethods =

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Model/Classes/Clinic.dart';
+import 'package:vera_clinic/Core/Model/Classes/Clinic.dart';
 import 'package:intl/intl.dart';
 
 class AnalysisPage extends StatefulWidget {

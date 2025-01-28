@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Model/Firebase/ClientConstantInfoFirestoreMethods.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/Model/Firebase/ClientConstantInfoFirestoreMethods.dart';
 
 class ClientConstantInfoProvider with ChangeNotifier {
   final ClientConstantInfoFirestoreMethods
