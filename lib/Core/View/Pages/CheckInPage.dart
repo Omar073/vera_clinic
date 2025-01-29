@@ -15,11 +15,12 @@ class CheckInPage extends StatefulWidget {
   State<CheckInPage> createState() => _CheckInPageState();
 }
 
+
 class _CheckInPageState extends State<CheckInPage> {
   ClientProvider clientProvider = ClientProvider();
   TextEditingController subscriptionPriceController = TextEditingController();
   ClientConstantInfoProvider clientConstantInfoProvider =
-      ClientConstantInfoProvider();
+  ClientConstantInfoProvider();
   late Visit lastClientVisit;
 
   @override
@@ -37,128 +38,194 @@ class _CheckInPageState extends State<CheckInPage> {
         title: Text('Check In: ${client.mName}'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Container(
-          // constraints: const BoxConstraints(maxWidth: 800),
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            // color: Colors.red[200],
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width - 100,
-                    // color: Colors.grey[200],
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        MyTextBox(
-                            title: "تاريخ اخر متابعة",
-                            value:
-                                " ${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}"), //TODO: change to get last visit date
-                        const SizedBox(width: 50),
-                        // MyTextField(
-                        //     title: "منطقة العميل",
-                        //     value: clientConstantInfoProvider
-                        //         .getClientConstantInfo(client.clientPhoneNum)
-                        //         ?.area ?? 'Unknown'),
-                        const SizedBox(width: 50),
-                        MyTextBox(
-                            title: "رقم العميل",
-                            value: client.mClientPhoneNum ?? 'unknown'),
-                        const SizedBox(width: 50),
-                        MyTextBox(
-                            title: "اسم العميل",
-                            value: client.mName ?? 'unknown'),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    MyTextBox(
-                        title: "الوزن", value: client.mHeight.toString()),
-                    const SizedBox(width: 50),
-                    MyTextBox(
-                        title: "الطول", value: client.mHeight.toString()),
-                  ],
-                ),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 12.0),
-                      // child: MyInputField(myController: subscriptionPriceController, hint: "أدخل سعر الإشتراك", label: "السعر"),
-                      child: Container(
-                        width: 250,
-                        child: TextField(
-                          style: const TextStyle(fontSize: 20),
-                          textAlign: TextAlign.end,
-                          controller: subscriptionPriceController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.allow(
-                                RegExp(r'^\d*\.?\d*'))
-                          ],
-                          decoration: const InputDecoration(
-                            hintText: "أدخل سعر الإشتراك",
-                            hintStyle: TextStyle(fontSize: 15),
-                            label: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "السعر",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    DropdownButton<SubscriptionType>(
-                      // value: client.subscriptionType,
-                      items: [
-                        // DropdownMenuItem<SubscriptionType>(
-                        //   value: client.subscriptionType,
-                        //   child: const Text('اختر نوع الكشف'),
-                        // ),
-                        ...SubscriptionType.values.map((SubscriptionType type) {
-                          return DropdownMenuItem<SubscriptionType>(
-                            value: type,
-                            child: Text(getSubscriptionTypeLabel(type)),
-                          );
-                        }).toList(),
-                      ],
-                      onChanged: (SubscriptionType? newValue) {
-                        if (newValue != SubscriptionType.none &&
-                            newValue != null) {
-                          setState(() {
-                            client.subscriptionType = newValue;
-                          });
-                        }
-                      },
-                    ),
-                    const SizedBox(width: 20),
-                    const Text(
-                      ": نوع الكشف",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildClientInfoCard(),
+              const SizedBox(height: 24),
+              _buildMeasurementsCard(),
+              const SizedBox(height: 24),
+              _buildSubscriptionCard(),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildClientInfoCard() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              'معلومات العميل',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(),
+            const SizedBox(height: 16),
+            Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              textDirection: TextDirection.rtl,
+              children: [
+                _buildTableRow(
+                  'اسم العميل',
+                  client.mName ?? 'unknown',
+                  'رقم العميل',
+                  client.mClientPhoneNum ?? 'unknown',
+                ),
+                _buildTableRow(
+                  'تاريخ اخر متابعة',
+                  "${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}",
+                  'منطقة العميل',
+                  clientConstantInfoProvider
+                      .getClientConstantInfo(client.mClientPhoneNum)
+                      ?.area ?? 'Unknown',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMeasurementsCard() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              'القياسات',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(),
+            const SizedBox(height: 16),
+            Table(
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              textDirection: TextDirection.rtl,
+              children: [
+                _buildTableRow(
+                  'الطول',
+                  '${client.mHeight} سم',
+                  'الوزن',
+                  '${client.mWeight} كجم',
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSubscriptionCard() {
+    return Card(
+      elevation: 2,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const Text(
+              'معلومات الإشتراك',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Divider(),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(
+                  width: 200,
+                  child: TextField(
+                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.end,
+                    controller: subscriptionPriceController,
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
+                    ],
+                    decoration: const InputDecoration(
+                      hintText: "أدخل سعر الإشتراك",
+                      labelText: "السعر",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 24),
+                DropdownButton<SubscriptionType>(
+                  hint: const Text('اختر نوع الكشف'),
+                  items: SubscriptionType.values.map((SubscriptionType type) {
+                    return DropdownMenuItem<SubscriptionType>(
+                      value: type,
+                      child: Text(getSubscriptionTypeLabel(type)),
+                    );
+                  }).toList(),
+                  onChanged: (SubscriptionType? newValue) {
+                    if (newValue != SubscriptionType.none && newValue != null) {
+                      setState(() {
+                        client.subscriptionType = newValue;
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(width: 16),
+                const Text(
+                  ": نوع الكشف",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TableRow _buildTableRow(String label1, String value1, String label2, String value2) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(value2, style: const TextStyle(fontSize: 16)),
+              Text(label2, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+            ],
+          ),
+        ),
+        const SizedBox(width: 16),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(value1, style: const TextStyle(fontSize: 16)),
+              Text(label1, style: TextStyle(fontSize: 14, color: Colors.grey[600])),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
