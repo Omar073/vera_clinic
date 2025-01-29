@@ -72,4 +72,6 @@ class ClientConstantInfoProvider with ChangeNotifier {
     _mCurrentClientConstantInfo = clientConstantInfo;
     notifyListeners();
   }
+
+  getClientConstantInfo(String? mClientPhoneNum) {}
 }
