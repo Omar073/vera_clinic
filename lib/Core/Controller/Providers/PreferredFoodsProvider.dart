@@ -15,9 +15,9 @@ class PreferredFoodsProvider with ChangeNotifier {
   PreferredFoodsFirestoreMethods get preferredFoodsFirestoreMethods =>
       _preferredFoodsFirestoreMethods;
 
-  void createPreferredFoods(PreferredFoods preferredFoods) {
-    preferredFoods.preferredFoodsId = preferredFoodsFirestoreMethods
-        .createPreferredFoods(preferredFoods) as String;
+  Future<void> createPreferredFoods(PreferredFoods preferredFoods) async {
+    preferredFoods.preferredFoodsId = await preferredFoodsFirestoreMethods
+        .createPreferredFoods(preferredFoods);
     cachedPreferredFoods.add(preferredFoods);
     notifyListeners();
   }
@@ -50,8 +50,8 @@ class PreferredFoodsProvider with ChangeNotifier {
     return preferredFoods;
   }
 
-  void updatePreferredFoods(PreferredFoods preferredFoods) {
-    preferredFoodsFirestoreMethods.updatePreferredFoods(preferredFoods);
+  Future<void> updatePreferredFoods(PreferredFoods preferredFoods) async {
+    await preferredFoodsFirestoreMethods.updatePreferredFoods(preferredFoods);
     notifyListeners();
   }
 

@@ -447,12 +447,22 @@ class _NewClientPageState extends State<NewClientPage> {
                         padding: const EdgeInsets.only(bottom: 8.0),
                         child: Wrap(
                           spacing: 20,
-
                           children: [
                             ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 debugPrint("Button pressed: حفظ");
-                                createClient(); //todo: add to checked in clients
+                                bool success = await createClient();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(success
+                                        ? 'Client registration successful'
+                                        : 'Client registration failed'),
+                                    backgroundColor:
+                                        success ? Colors.green : Colors.red,
+                                    duration: const Duration(seconds: 2),
+                                  ),
+                                );
+                                if (success) disposeControllers();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueAccent,

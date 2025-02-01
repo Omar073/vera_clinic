@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class WeightAreas {
   late String mWeightAreasId;
   String? mClientId;
@@ -10,26 +12,25 @@ class WeightAreas {
   bool mBreast = false;
   bool mBack = false;
 
-WeightAreas({
-  required String weightAreasId,
-  required String? clientId,
-  required bool abdomen,
-  required bool buttocks,
-  required bool waist,
-  required bool thighs,
-  required bool arms,
-  required bool breast,
-  required bool back,
-})  : mWeightAreasId = weightAreasId,
-      mClientId = clientId,
-      mAbdomen = abdomen,
-      mButtocks = buttocks,
-      mWaist = waist,
-      mThighs = thighs,
-      mArms = arms,
-      mBreast = breast,
-      mBack = back;
-
+  WeightAreas({
+    required String weightAreasId,
+    required String? clientId,
+    required bool abdomen,
+    required bool buttocks,
+    required bool waist,
+    required bool thighs,
+    required bool arms,
+    required bool breast,
+    required bool back,
+  })  : mWeightAreasId = weightAreasId,
+        mClientId = clientId,
+        mAbdomen = abdomen,
+        mButtocks = buttocks,
+        mWaist = waist,
+        mThighs = thighs,
+        mArms = arms,
+        mBreast = breast,
+        mBack = back;
 
   // Setters
   set weightAreasId(String weightAreasId) {
@@ -68,19 +69,26 @@ WeightAreas({
     mBack = back;
   }
 
-factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
-  return WeightAreas(
-    weightAreasId: map['weightAreasId'] as String? ?? "",
-    clientId: map['clientId'] as String? ?? "",
-    abdomen: map['abdomen'] as bool,
-    buttocks: map['buttocks'] as bool,
-    waist: map['waist'] as bool,
-    thighs: map['thighs'] as bool,
-    arms: map['arms'] as bool,
-    breast: map['breast'] as bool,
-    back: map['back'] as bool,
-  );
-}
+  void printWeightAreas() {
+    debugPrint('\n\t\t<<WeightAreas>>\n'
+        'WeightAreasId: $mWeightAreasId, ClientId: $mClientId, '
+        'Abdomen: $mAbdomen, Buttocks: $mButtocks, Waist: $mWaist, '
+        'Thighs: $mThighs, Arms: $mArms, Breast: $mBreast, Back: $mBack');
+  }
+
+  factory WeightAreas.fromFirestore(Map<String, dynamic> map) {
+    return WeightAreas(
+      weightAreasId: map['weightAreasId'] as String? ?? "",
+      clientId: map['clientId'] as String? ?? "",
+      abdomen: map['abdomen'] as bool,
+      buttocks: map['buttocks'] as bool,
+      waist: map['waist'] as bool,
+      thighs: map['thighs'] as bool,
+      arms: map['arms'] as bool,
+      breast: map['breast'] as bool,
+      back: map['back'] as bool,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {

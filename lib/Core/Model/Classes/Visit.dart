@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class Visit {
   late String mVisitId;
@@ -8,20 +9,22 @@ class Visit {
   String mDiet = '';
   double mWeight;
   double mBMI;
-Visit({
-  required String visitId,
-  required String? clientId,
-  required DateTime date,
-  required String diet,
-  required double weight,
-  required double bmi,
-})  : mVisitId = visitId,
-      mClientId = clientId,
-      mDate = date,
-      mDiet = diet,
-      mWeight = weight,
-      mBMI = bmi;
-
+  String mVisitNotes = '';
+  Visit({
+    required String visitId,
+    required String? clientId,
+    required DateTime date,
+    required String diet,
+    required double weight,
+    required double bmi,
+    required String visitNotes,
+  })  : mVisitId = visitId,
+        mClientId = clientId,
+        mDate = date,
+        mDiet = diet,
+        mWeight = weight,
+        mBMI = bmi,
+        mVisitNotes = visitNotes;
 
   // Setters
   set visitId(String visitId) {
@@ -48,16 +51,28 @@ Visit({
     mBMI = bmi;
   }
 
-factory Visit.fromFirestore(Map<String, dynamic> data) {
-  return Visit(
-    visitId: data['visitId'] as String,
-    clientId: data['clientId'] as String?,
-    date: (data['date'] as Timestamp).toDate(),
-    diet: data['diet'] as String,
-    weight: data['weight'] as double,
-    bmi: data['bmi'] as double,
-  );
-}
+  set visitNotes(String visitNotes) {
+    mVisitNotes = visitNotes;
+  }
+
+  void printVisit() {
+    debugPrint('\n\t\t<<Visit>>\n'
+        'Visit ID: $mVisitId, Client ID: $mClientId, Date: $mDate, '
+        'Diet: $mDiet, Weight: $mWeight, BMI: $mBMI, '
+        'Visit Notes: $mVisitNotes');
+  }
+
+  factory Visit.fromFirestore(Map<String, dynamic> data) {
+    return Visit(
+      visitId: data['visitId'] as String,
+      clientId: data['clientId'] as String?,
+      date: (data['date'] as Timestamp).toDate(),
+      diet: data['diet'] as String,
+      weight: data['weight'] as double,
+      bmi: data['bmi'] as double,
+      visitNotes: data['visitNotes'] as String,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -67,6 +82,7 @@ factory Visit.fromFirestore(Map<String, dynamic> data) {
       'diet': mDiet,
       'weight': mWeight,
       'bmi': mBMI,
+      'visitNotes': mVisitNotes,
     };
   }
 }

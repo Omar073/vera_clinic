@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
@@ -22,7 +23,7 @@ enum SubscriptionType {
   other
 }
 
-enum Gender {  none, male, female}
+enum Gender { none, male, female }
 
 class Client {
   late String mClientId;
@@ -149,6 +150,19 @@ class Client {
     mSubscriptionType = subscriptionType;
   }
 
+  void printClientInfo() {
+    debugPrint('\n\t\t<<Client>>\nClient ID: $mClientId, Name: $mName, '
+        'Phone Number: $mClientPhoneNum, Gender: ${mGender.name}, '
+        'Last Visit ID: $mLastVisitId, Birthdate: $mBirthdate, '
+        'Client Constant Info ID: $mClientConstantInfoId, '
+        'Disease ID: $mDiseaseId, Diet: $mDiet, Plat: $Plat, '
+        'Client Monthly Follow Up ID: $mClientMonthlyFollowUpId, '
+        'Preferred Foods ID: $mPreferredFoodsId, '
+        'Weight Areas ID: $mWeightAreasId, Notes: $mNotes, '
+        'Height: $mHeight, Weight: $mWeight, '
+        'Subscription Type: ${mSubscriptionType?.name}');
+  }
+
   factory Client.fromFirestore(Map<String, dynamic> data) {
     return Client(
       clientId: data['clientId'] as String? ?? '',
@@ -185,7 +199,7 @@ class Client {
       'clientId': mClientId,
       'name': mName,
       'clientPhoneNum': mClientPhoneNum,
-      'gender': mGender,
+      'gender': mGender.name,
       'lastVisitId': mLastVisitId,
       'birthDate': mBirthdate,
       'clientConstantInfoId': mClientConstantInfoId,
@@ -193,7 +207,7 @@ class Client {
       'diet': mDiet,
       'plat': Plat,
       'clientMonthlyFollowUpId': mClientMonthlyFollowUpId,
-      'preferredFoodsId': mPreferredFoodsId, //* newly added
+      'preferredFoodsId': mPreferredFoodsId,
       'weightAreasId': mWeightAreasId,
       'notes': mNotes,
       'height': mHeight,
@@ -210,6 +224,7 @@ Visit visit = Visit(
   diet: 'Vegetarian',
   weight: 75.0,
   bmi: 23.1,
+  visitNotes: 'No specific notes',
 );
 
 Disease disease = Disease(
