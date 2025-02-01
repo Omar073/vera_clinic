@@ -12,7 +12,7 @@ class NewVisit extends StatefulWidget {
 }
 
 class _NewVisitState extends State<NewVisit> {
-  int visitCounter = 1;
+  // int visitCounter = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class _NewVisitState extends State<NewVisit> {
         backgroundColor: Colors.blue.shade100,
         centerTitle: true,
         //todo: could replace the counter with the length of the list of visits
-        title: Text("$visitCounter# " "زيارة"),
+        title: Text("${clientVisits.length}# " "زيارة"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0)
@@ -82,6 +82,10 @@ class _NewVisitState extends State<NewVisit> {
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
                       MyInputField(
+                          myController: visitNotesController,
+                          hint: '',
+                          label: 'ملاحظات'),
+                      MyInputField(
                           myController: visitWeightController,
                           hint: '',
                           label: 'الوزن'),
@@ -101,9 +105,22 @@ class _NewVisitState extends State<NewVisit> {
                         spacing: 20,
                         children: [
                           ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               debugPrint("Button pressed: حفظ");
-                              createVisit();
+                              bool success = await createVisit();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Center(
+                                    child: Text(success
+                                        ? 'تم حفظ الزيارة ${clientVisits.length} بنجاح'
+                                        : 'فشل حفظ الزيارة'),
+                                  ),
+                                  duration: const Duration(seconds: 2),
+                                  backgroundColor:
+                                      success ? Colors.green : Colors.red,
+                                ),
+                              );
+                              if (success) disposeControllers();
                               Navigator.pop(context);
                             },
                             style: ElevatedButton.styleFrom(
@@ -122,19 +139,21 @@ class _NewVisitState extends State<NewVisit> {
                             ),
                           ),
                           ElevatedButton(
-                              onPressed: () {
-                                createVisit();
+                              onPressed: () async {
+                                bool success = await createVisit();
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Center(
-                                        child: Text(
-                                            'تم حفظ الزيارة $visitCounter بنجاح')),
+                                      child: Text(success
+                                          ? 'تم حفظ الزيارة ${clientVisits.length} بنجاح'
+                                          : 'فشل حفظ الزيارة'),
+                                    ),
                                     duration: const Duration(seconds: 2),
+                                    backgroundColor:
+                                        success ? Colors.green : Colors.red,
                                   ),
                                 );
-                                setState(() {
-                                  visitCounter++;
-                                });
+                                if (success) disposeControllers();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueAccent,

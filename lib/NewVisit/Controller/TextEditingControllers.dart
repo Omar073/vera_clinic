@@ -7,5 +7,6 @@ final TextEditingController visitDateController = TextEditingController();
 final TextEditingController visitDietController = TextEditingController();
 final TextEditingController visitWeightController = TextEditingController();
 final TextEditingController visitBMIController = TextEditingController();
+final TextEditingController visitNotesController = TextEditingController();
 
 List<Visit> clientVisits = [];

@@ -14,9 +14,9 @@ class WeightAreasProvider with ChangeNotifier {
   WeightAreasFirestoreMethods get weightAreasFirestoreMethods =>
       _weightAreasFirestoreMethods;
 
-  void createWeightAreas(WeightAreas weightAreas) {
+  Future<void> createWeightAreas(WeightAreas weightAreas) async {
     weightAreas.weightAreasId =
-        weightAreasFirestoreMethods.createWeightAreas(weightAreas) as String;
+        await weightAreasFirestoreMethods.createWeightAreas(weightAreas);
 
     _cachedWeightAreas.add(weightAreas);
     notifyListeners();
@@ -41,14 +41,15 @@ class WeightAreasProvider with ChangeNotifier {
       orElse: () => null,
     );
 
-    weightAreas ??= await weightAreasFirestoreMethods.fetchWeightAreasById(weightAreasId);
+    weightAreas ??=
+        await weightAreasFirestoreMethods.fetchWeightAreasById(weightAreasId);
     weightAreas == null ? _cachedWeightAreas.add(weightAreas) : null;
     notifyListeners();
     return weightAreas;
   }
 
-  void updateWeightAreas(WeightAreas weightAreas) {
-    weightAreasFirestoreMethods.updateWeightAreas(weightAreas);
+  Future<void> updateWeightAreas(WeightAreas weightAreas) async {
+    await weightAreasFirestoreMethods.updateWeightAreas(weightAreas);
     notifyListeners();
   }
 

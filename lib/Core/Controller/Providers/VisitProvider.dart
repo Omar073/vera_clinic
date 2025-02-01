@@ -14,9 +14,10 @@ class VisitProvider with ChangeNotifier {
   Visit? get currentVisit => _currentVisit;
   List<Visit?> get cachedVisits => _mCachedVisits;
   List<Visit?> get currentClientVisits => _mCurrentClientVisits;
+  VisitFirestoreMethods get visitFirestoreMethods => _visitFirestoreMethods;
 
-  void createVisit(Visit visit) {
-    visit.visitId = _visitFirestoreMethods.createVisit(visit) as String;
+  Future<void> createVisit(Visit visit) async {
+    visit.visitId = await visitFirestoreMethods.createVisit(visit);
     cachedVisits.add(visit);
     notifyListeners();
   }
@@ -26,7 +27,7 @@ class VisitProvider with ChangeNotifier {
         cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
 
     final fetchedVisits =
-        await _visitFirestoreMethods.fetchVisitsByClientId(clientId);
+        await visitFirestoreMethods.fetchVisitsByClientId(clientId);
     for (Visit? visit in fetchedVisits ?? []) {
       if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
         clientVisits.add(visit);
@@ -48,13 +49,13 @@ class VisitProvider with ChangeNotifier {
     return clientVisits?.isNotEmpty == true ? clientVisits?.last : null;
   }
 
-  void setCurrentVisit(Visit visit) {
-    _currentVisit = visit;
+  Future<void> updateVisit(Visit visit) async {
+    await visitFirestoreMethods.updateVisit(visit);
     notifyListeners();
   }
 
-  void updateVisit(Visit visit) {
-    _visitFirestoreMethods.updateVisit(visit);
+  void setCurrentVisit(Visit visit) {
+    _currentVisit = visit;
     notifyListeners();
   }
 }

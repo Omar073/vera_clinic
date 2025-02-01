@@ -1,4 +1,6 @@
-enum Activity {sedentary,mid,high,none}
+import 'package:flutter/cupertino.dart';
+
+enum Activity { none, sedentary, mid, high }
 
 class ClientConstantInfo {
   late String mClientConstantInfoId;
@@ -23,7 +25,6 @@ class ClientConstantInfo {
         mYOYO = YOYO,
         mSports = sports;
 
-  
   set clientConstantInfoId(String clientConstantInfoId) {
     mClientConstantInfoId = clientConstantInfoId;
   }
@@ -46,6 +47,14 @@ class ClientConstantInfo {
 
   set sports(bool sports) {
     mSports = sports;
+  }
+
+  void printClientConstantInfo() {
+    debugPrint('\n\t\t<<ClientConstantInfo>>\n'
+        'ClientConstantInfoId: $mClientConstantInfoId'
+        ', ClientId: $mClientId, Area: $mArea, '
+        'ActivityLevel: ${mActivityLevel?.name}, YOYO: $mYOYO, '
+        'Sports: $mSports}');
   }
 
   factory ClientConstantInfo.fromFirestore(Map<String, dynamic> data) {

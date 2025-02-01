@@ -15,9 +15,8 @@ class DiseaseProvider with ChangeNotifier {
   DiseaseFirestoreMethods get diseaseFirestoreMethods =>
       _mDiseaseFirestoreMethods;
 
-  void createDisease(Disease disease) {
-    disease.diseaseId =
-        diseaseFirestoreMethods.createDisease(disease) as String;
+  Future<void> createDisease(Disease disease) async {
+    disease.diseaseId = await diseaseFirestoreMethods.createDisease(disease);
     cachedDiseases.add(disease);
     notifyListeners();
   }
@@ -48,8 +47,8 @@ class DiseaseProvider with ChangeNotifier {
     return disease;
   }
 
-  void updateDisease(Disease disease) {
-    diseaseFirestoreMethods.updateDisease(disease);
+  Future<void> updateDisease(Disease disease) async {
+    await diseaseFirestoreMethods.updateDisease(disease);
     notifyListeners();
   }
 

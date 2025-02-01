@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/Model/Firebase/FirebaseSingelton.dart';
 
@@ -14,8 +15,11 @@ class ClientFirestoreMethods {
       await docRef.update({'clientId': docRef.id});
 
       return docRef.id;
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error creating client: ${e.message}');
+      return '';
     } catch (e) {
-      debugPrint('Error creating client: $e');
+      debugPrint('Unknown error creating client: $e');
       return '';
     }
   }

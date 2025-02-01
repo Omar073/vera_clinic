@@ -15,8 +15,8 @@ class ClientProvider with ChangeNotifier {
   Client? get currentClient => _currentClient;
   ClientFirestoreMethods get clientFirestoreMethods => _clientFirestoreMethods;
 
-  void createClient(Client client) {
-    client.clientId = clientFirestoreMethods.createClient(client) as String;
+  Future<void> createClient(Client client) async {
+    client.clientId = await clientFirestoreMethods.createClient(client);
     cachedClients.add(client);
     notifyListeners();
   }
@@ -84,8 +84,8 @@ class ClientProvider with ChangeNotifier {
     return clients;
   }
 
-  void updateClient(Client client) {
-    clientFirestoreMethods.updateClient(client);
+  Future<void> updateClient(Client client) async {
+    await clientFirestoreMethods.updateClient(client);
     notifyListeners();
   }
 

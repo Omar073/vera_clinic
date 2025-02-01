@@ -18,11 +18,11 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       get clientMonthlyFollowUpFirestoreMethods =>
           _mClientMonthlyFollowUpFirestoreMethods;
 
-  void createClientMonthlyFollowUp(
-      ClientMonthlyFollowUp clientMonthlyFollowUp) {
+  Future<void> createClientMonthlyFollowUp(
+      ClientMonthlyFollowUp clientMonthlyFollowUp) async {
     clientMonthlyFollowUp.clientMonthlyFollowUpId =
-        clientMonthlyFollowUpFirestoreMethods
-            .createClientMonthlyFollowUp(clientMonthlyFollowUp) as String;
+        await clientMonthlyFollowUpFirestoreMethods
+            .createClientMonthlyFollowUp(clientMonthlyFollowUp);
     cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp);
     notifyListeners();
   }
@@ -66,9 +66,9 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     return clientMonthlyFollowUp;
   }
 
-  void updateCurrentClientMonthlyFollowUp(
-      ClientMonthlyFollowUp clientMonthlyFollowUp) {
-    clientMonthlyFollowUpFirestoreMethods
+  Future<void> updateCurrentClientMonthlyFollowUp(
+      ClientMonthlyFollowUp clientMonthlyFollowUp) async {
+    await clientMonthlyFollowUpFirestoreMethods
         .updateClientMonthlyFollowUp(clientMonthlyFollowUp);
     notifyListeners();
   }

@@ -8,7 +8,7 @@ class ClientMonthlyFollowUpFirestoreMethods {
       ClientMonthlyFollowUp clientMonthlyFollowUp) async {
     try {
       final docRef = await FirebaseSingleton.instance.firestore
-          .collection('ClientMonthlyFollowUps')
+          .collection('ClientMonthlyFollowUp')
           .add(clientMonthlyFollowUp.toMap());
       await docRef.update({'clientMonthlyFollowUpId': docRef.id});
       return docRef.id;
@@ -22,7 +22,7 @@ class ClientMonthlyFollowUpFirestoreMethods {
       ClientMonthlyFollowUp clientMonthlyFollowUp) async {
     try {
       final clientMonthlyFollowUpRef = FirebaseSingleton.instance.firestore
-          .collection('ClientMonthlyFollowUps')
+          .collection('ClientMonthlyFollowUp')
           .doc(clientMonthlyFollowUp.mClientMonthlyFollowUpId);
 
       final docSnapshot = await clientMonthlyFollowUpRef.get();
@@ -41,7 +41,7 @@ class ClientMonthlyFollowUpFirestoreMethods {
   Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpByClientId(
       String clientId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('ClientMonthlyFollowUps')
+        .collection('ClientMonthlyFollowUp')
         .where('clientId', isEqualTo: clientId)
         .get();
 
@@ -53,7 +53,7 @@ class ClientMonthlyFollowUpFirestoreMethods {
   Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpById(
       String clientMonthlyFollowUpId) async {
     final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('ClientMonthlyFollowUps')
+        .collection('ClientMonthlyFollowUp')
         .where('clientMonthlyFollowUpId', isEqualTo: clientMonthlyFollowUpId)
         .get();
 
