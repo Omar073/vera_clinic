@@ -4,16 +4,17 @@ class MyInputField extends StatefulWidget {
   final TextEditingController myController;
   final String hint;
   final String label;
+  final int? maxLines;
   const MyInputField(
       {super.key,
         required this.myController,
         required this.hint,
-        required this.label});
+        required this.label,
+        this.maxLines,});
 
   @override
   State<MyInputField> createState() => _MyInputFieldState();
 }
-
 class _MyInputFieldState extends State<MyInputField> {
   @override
   Widget build(BuildContext context) {
@@ -23,6 +24,7 @@ class _MyInputFieldState extends State<MyInputField> {
         style: const TextStyle(fontSize: 20),
         textAlign: TextAlign.end,
         controller: widget.myController,
+        maxLines: widget.maxLines ?? 1,
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: TextStyle(
@@ -37,7 +39,7 @@ class _MyInputFieldState extends State<MyInputField> {
               Text(
                 widget.label ?? '', // Display the label text
                 style: const TextStyle(
-                    fontSize: 16), // Customize label style if needed
+                    fontSize: 16), //Customize label style if needed
               ),
             ],
           ),
