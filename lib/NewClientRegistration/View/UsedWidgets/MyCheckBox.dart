@@ -21,7 +21,7 @@ class _MyCheckBoxState extends State<MyCheckBox> {
             onTap: () {
               setState(() {
                 widget.controller.text =
-                widget.controller.text == 'true' ? 'false' : 'true';
+                    widget.controller.text == 'true' ? 'false' : 'true';
               });
             },
             child: Icon(
