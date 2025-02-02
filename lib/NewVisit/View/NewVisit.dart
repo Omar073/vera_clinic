@@ -21,12 +21,11 @@ class _NewVisitState extends State<NewVisit> {
         backgroundColor: Colors.blue.shade100,
         centerTitle: true,
         //todo: could replace the counter with the length of the list of visits
-        title: Text("${clientVisits.length}# " "زيارة"),
+        title: Text("${clientVisits.length + 1}# " "زيارة"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0)
-            .copyWith(right: 30)
-            .copyWith(top: 20),
+            .copyWith(right: 30, top: 20),
         child: Center(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -112,7 +111,7 @@ class _NewVisitState extends State<NewVisit> {
                                 SnackBar(
                                   content: Center(
                                     child: Text(success
-                                        ? 'تم حفظ الزيارة ${clientVisits.length} بنجاح'
+                                        ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
                                         : 'فشل حفظ الزيارة'),
                                   ),
                                   duration: const Duration(seconds: 2),
@@ -145,7 +144,7 @@ class _NewVisitState extends State<NewVisit> {
                                   SnackBar(
                                     content: Center(
                                       child: Text(success
-                                          ? 'تم حفظ الزيارة ${clientVisits.length} بنجاح'
+                                          ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
                                           : 'فشل حفظ الزيارة'),
                                     ),
                                     duration: const Duration(seconds: 2),

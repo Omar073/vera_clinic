@@ -285,6 +285,77 @@ void disposeControllers() {
   dailyCaloriesController.dispose();
 }
 
+void clearControllers() {
+  // Client Controllers
+  nameController.clear();
+  phoneController.clear();
+  birthdateController.clear();
+  dietController.clear();
+  platControllers.forEach((element) {
+    element.clear();
+  });
+  heightController.clear();
+  weightController.clear();
+  subscriptionTypeController.clear();
+  notesController.clear();
+  genderController.clear();
+
+  // Disease Controllers
+  hypertensionController.clear();
+  hypotensionController.clear();
+  vascularController.clear();
+  anemiaController.clear();
+  otherHeartController.clear();
+  colonController.clear();
+  constipationController.clear();
+  familyHistoryDMController.clear();
+  previousOBMedController.clear();
+  previousOBOperationsController.clear();
+  renalController.clear();
+  liverController.clear();
+  gitController.clear();
+  endocrineController.clear();
+  rheumaticController.clear();
+  allergiesController.clear();
+  neuroController.clear();
+  psychiatricController.clear();
+  othersDiseaseController.clear();
+  hormonalController.clear();
+
+  // Client Constant Info Controllers
+  areaController.clear();
+  activityLevelController.clear();
+  yoyoController.clear();
+  sportsController.clear();
+
+  // Preferred Foods Controllers
+  carbohydratesController.clear();
+  proteinController.clear();
+  dairyController.clear();
+  vegController.clear();
+  fruitsController.clear();
+  othersPreferredFoodsController.clear();
+
+  // Weight Areas Controllers
+  abdomenController.clear();
+  buttocksController.clear();
+  waistController.clear();
+  thighsController.clear();
+  armsController.clear();
+  breastController.clear();
+  backController.clear();
+
+  // Client Monthly Follow-Up Controllers
+  bmiController.clear();
+  pbfController.clear();
+  waterController.clear();
+  maxWeightController.clear();
+  optimalWeightController.clear();
+  bmrController.clear();
+  maxCaloriesController.clear();
+  dailyCaloriesController.clear();
+}
+
 SubscriptionType? getSubscriptionType(String value) {
   switch (value) {
     case 'none':
