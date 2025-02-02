@@ -25,8 +25,7 @@ class _NewVisitState extends State<NewVisit> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0)
-            .copyWith(right: 30)
-            .copyWith(top: 20),
+            .copyWith(right: 30, top: 20),
         child: Center(
           child: Container(
             height: MediaQuery.of(context).size.height,
