@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/View/Pages/CheckInPage.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart';
 import '../../Model/Classes/Client.dart';
@@ -16,17 +18,29 @@ class ClientSearchPage extends StatefulWidget {
 
 class _ClientSearchPageState extends State<ClientSearchPage> {
   List<Client?> searchResults = [];
+  bool _isLoading = false;
+  bool _hasSearched = false;
 
-  void updateSearchResults(List<Client?> results) {
+  void setLoading(bool value) {
     setState(() {
-      //todo: should you add a new searchResults list to the provider and use that instead?
-      //todo: re-review the search and display result process
-      searchResults = results;
+      _isLoading = value;
+    });
+  }
+
+  void setHasSearched() {
+    setState(() {
+      _hasSearched = true;
+      _isLoading = false;
+      for (var client in searchResults) {
+        debugPrint(client!.mName);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    searchResults = context.watch<ClientProvider>().searchResults;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Client Search'),
@@ -46,45 +60,52 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
               ),
               const SizedBox(height: 16),
               ClientSearchWidget(
-                hintText: "Enter client name or phone",
-                // searchResults: searchResults,
-                onSearchResultsUpdated: updateSearchResults,
+                hintText: "أدخل اسم او رقم العميل",
+                onSearchButtonClicked: () {
+                  setLoading(true);
+                },
+                setHasSearched: setHasSearched,
               ),
               const SizedBox(height: 16),
               Expanded(
-                child: searchResults.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'No results found.',
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: searchResults.length,
-                        itemBuilder: (context, index) {
-                          final client = searchResults[index];
-                          return ListTile(
-                            title: Text(client?.mName ?? 'Unknown'),
-                            subtitle: Text(client?.mClientPhoneNum ?? 'Unknown'),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    if (widget.state == "checkIn") {
-                                      return CheckInPage(client: client);
-                                    } else if (widget.state == "search") {
-                                      return ClientDetailsPage(client: client);
-                                    } else {
-                                      return Container(); // or any other default widget
-                                    }
-                                  },
-                                ),
+                child: _isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : _hasSearched && searchResults.isEmpty
+                        ? const Center(
+                            child: Text(
+                              'No results found.',
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                            ),
+                          )
+                        : ListView.builder(
+                            itemCount: searchResults.length,
+                            itemBuilder: (context, index) {
+                              final client = searchResults[index];
+                              return ListTile(
+                                title: Text(client?.mName ?? 'Unknown'),
+                                subtitle:
+                                    Text(client?.mClientPhoneNum ?? 'Unknown'),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        if (widget.state == "checkIn") {
+                                          return CheckInPage(client: client);
+                                        } else if (widget.state == "search") {
+                                          return ClientDetailsPage(
+                                              client: client);
+                                        } else {
+                                          return Container(); // or any other default widget
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      ),
+                          ),
               ),
               // const SizedBox(height: 50),
               // widget.state == "checkIn"

@@ -30,7 +30,7 @@ Widget bodyMeasurementsCard() {
             Expanded(
               child: MyInputField(
                 myController: bmiController,
-                hint: "BMI",
+                hint: "BMI ",
                 label: "مؤشر كتلة الجسم",
               ),
             ),
@@ -50,7 +50,7 @@ Widget bodyMeasurementsCard() {
             Expanded(
               child: MyInputField(
                 myController: pbfController,
-                hint: "PBF",
+                hint: "PBF ",
                 label: "نسبة الدهن",
               ),
             ),
