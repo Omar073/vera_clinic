@@ -46,7 +46,7 @@ Widget medicalHistoryCard() {
             Expanded(
               child: MyInputField(
                 myController: gitController,
-                hint: 'GIT',
+                hint: 'GIT ',
                 label: "جهاز هضمي",
               ),
             ),
@@ -62,7 +62,7 @@ Widget medicalHistoryCard() {
             Expanded(
               child: MyInputField(
                 myController: liverController,
-                hint: 'Liver',
+                hint: 'Liver ',
                 label: "كبد",
               ),
             ),
@@ -70,7 +70,7 @@ Widget medicalHistoryCard() {
             Expanded(
               child: MyInputField(
                 myController: renalController,
-                hint: 'Renal',
+                hint: 'Renal ',
                 label: "كلي",
               ),
             ),
@@ -82,7 +82,7 @@ Widget medicalHistoryCard() {
             Expanded(
               child: MyInputField(
                 myController: endocrineController,
-                hint: 'Endocrine',
+                hint: 'Endocrine ',
                 label: "الغدد الصماء",
               ),
             ),
@@ -90,7 +90,7 @@ Widget medicalHistoryCard() {
             Expanded(
               child: MyInputField(
                 myController: rheumaticController,
-                hint: 'Rheumatic',
+                hint: 'Rheumatic ',
                 label: "روماتيزم",
               ),
             ),

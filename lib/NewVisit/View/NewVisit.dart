@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/MyCard.dart';
+import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/datePicker.dart';
 import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 
@@ -35,67 +37,57 @@ class _NewVisitState extends State<NewVisit> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Wrap(
-                    spacing: 325,
-                    runSpacing: 10,
-                    alignment: WrapAlignment.end,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      MyInputField(
-                          myController: visitDietController,
-                          hint: '',
-                          label: 'اسم النظام'),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 9.0),
-                        child: GestureDetector(
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(1900),
-                              lastDate: DateTime.now(),
-                            );
-                            if (pickedDate != null) {
-                              setState(() {
-                                visitDateController.text =
-                                    "${pickedDate.toLocal()}".split(' ')[0];
-                              });
-                            }
-                          },
-                          child: const Wrap(
-                            spacing: 20,
+                  myCard(
+                      'تفاصيل الزيارة',
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Icon(Icons.calendar_today),
-                              Text('تاريخ الزيارة',
-                                  style: TextStyle(fontSize: 16)),
+                              Expanded(
+                                child: MyInputField(
+                                    myController: visitDietController,
+                                    hint: '',
+                                    label: 'اسم النظام'),
+                              ),
+                              const SizedBox(width: 40),
+                              Expanded(
+                                child: DatePicker(
+                                    textEditingController: visitDateController,
+                                    label: 'تاريخ الزيارة'),
+                              ),
                             ],
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Wrap(
-                    spacing: 250,
-                    runSpacing: 10,
-                    alignment: WrapAlignment.end,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      MyInputField(
-                          myController: visitNotesController,
-                          hint: '',
-                          label: 'ملاحظات'),
-                      MyInputField(
-                          myController: visitWeightController,
-                          hint: '',
-                          label: 'الوزن'),
-                      MyInputField(
-                          myController: visitBMIController,
-                          hint: 'BMI',
-                          label: 'مؤشر كتلة الجسم'),
-                    ],
-                  ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: MyInputField(
+                                    myController: visitNotesController,
+                                    hint: '',
+                                    label: 'ملاحظات'),
+                              ),
+                              const SizedBox(width: 40),
+                              Expanded(
+                                child: MyInputField(
+                                    myController: visitWeightController,
+                                    hint: 'أدخل الوزن (كجم)',
+                                    label: 'الوزن'),
+                              ),
+                              const SizedBox(width: 40),
+                              Expanded(
+                                child: MyInputField(
+                                    myController: visitBMIController,
+                                    hint: 'BMI ',
+                                    label: 'مؤشر كتلة الجسم'),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
                   const SizedBox(
-                    height: 200,
+                    height: 100,
                   ),
                   Center(
                     child: Padding(
@@ -103,7 +95,14 @@ class _NewVisitState extends State<NewVisit> {
                       child: Wrap(
                         spacing: 20,
                         children: [
-                          ElevatedButton(
+                          ElevatedButton.icon(
+                            label: const Text(
+                              "تسجيل",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             onPressed: () async {
                               debugPrint("Button pressed: حفظ");
                               bool success = await createVisit();
@@ -119,25 +118,35 @@ class _NewVisitState extends State<NewVisit> {
                                       success ? Colors.green : Colors.red,
                                 ),
                               );
-                              if (success) disposeControllers();
-                              Navigator.pop(context);
+                              if (success) {
+                                disposeControllers();
+                                Navigator.pop(context);
+                              }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
+                              backgroundColor:
+                                  const Color.fromARGB(255, 27, 169, 34),
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 13),
                               textStyle: const TextStyle(fontSize: 20),
                             ),
-                            child: const Text(
-                              "تسجيل",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                                color: Colors.white,
-                              ),
+                            icon: const Icon(
+                              Icons.save,
+                              color: Colors.white,
                             ),
                           ),
-                          ElevatedButton(
+                          ElevatedButton.icon(
+                              label: const Text(
+                                'إضافة زيارة أخري',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                              ),
                               onPressed: () async {
                                 bool success = await createVisit();
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -152,7 +161,8 @@ class _NewVisitState extends State<NewVisit> {
                                         success ? Colors.green : Colors.red,
                                   ),
                                 );
-                                if (success) disposeControllers();
+                                setState(() {});
+                                // if (success) disposeControllers();
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.blueAccent,
@@ -160,14 +170,7 @@ class _NewVisitState extends State<NewVisit> {
                                     horizontal: 30, vertical: 13),
                                 textStyle: const TextStyle(fontSize: 20),
                               ),
-                              child: const Text(
-                                'إضافة زيارة أخري',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                ),
-                              )),
+                          ),
                         ],
                       ),
                     ),

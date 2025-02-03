@@ -6,12 +6,15 @@ import '../../Model/Classes/Client.dart';
 class ClientProvider with ChangeNotifier {
   final ClientFirestoreMethods _clientFirestoreMethods =
       ClientFirestoreMethods();
+
   List<Client?> _cachedClients = []; // list of all fetched clients
   List<Client?> _checkedInClients = [];
+  List<Client?> _searchResults = [];
   Client? _currentClient;
 
   List<Client?> get cachedClients => _cachedClients;
   List<Client?> get checkedInClients => _checkedInClients;
+  List<Client?> get searchResults => _searchResults;
   Client? get currentClient => _currentClient;
   ClientFirestoreMethods get clientFirestoreMethods => _clientFirestoreMethods;
 
@@ -111,6 +114,24 @@ class ClientProvider with ChangeNotifier {
 
   void clearCheckedInClients() {
     _checkedInClients.clear();
+    notifyListeners();
+  }
+
+  void addToCachedClients(Client client) {
+    if (!cachedClients.any((c) => c?.mClientId == client.mClientId)) {
+      cachedClients.add(client);
+    }
+    notifyListeners();
+  }
+
+  void setSearchResults(List<Client?> clients) {
+    _searchResults = clients;
+    addToCachedClients(client);
+    notifyListeners();
+  }
+
+  void clearSearchResults() {
+    _searchResults.clear();
     notifyListeners();
   }
 }
