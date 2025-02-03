@@ -31,7 +31,10 @@ class _actionButtonsState extends State<actionButtons> {
                   duration: const Duration(seconds: 2),
                 ),
               );
-              if (success) disposeControllers();
+              if (success) {
+                disposeControllers();
+                Navigator.pop(context); //todo: give the option to check-in? maybe in another button
+              }
             },
             icon: const Icon(Icons.save, color: Colors.white),
             label: const Text(

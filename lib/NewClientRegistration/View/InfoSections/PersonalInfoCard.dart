@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../Controller/TextEditingControllers.dart';
 import '../UsedWidgets/GenderDropdownMenu.dart';
+import '../UsedWidgets/datePicker.dart';
 import '../UsedWidgets/myCard.dart';
 import '../UsedWidgets/SubscriptionTypeDropdown.dart';
 
@@ -54,8 +55,10 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
                 child: GenderDropdownMenu(genderController: genderController),
               ),
               const SizedBox(width: 16),
-              const Expanded(
-                child: DatePicker(),
+              Expanded(
+                child: DatePicker(
+                    textEditingController: birthdateController,
+                    label: "تاريخ الميلاد"),
               ),
               const SizedBox(width: 16),
               Expanded(
@@ -68,41 +71,6 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
             ],
           ),
         ],
-      ),
-    );
-  }
-}
-
-class DatePicker extends StatefulWidget {
-  const DatePicker({super.key});
-
-  @override
-  State<DatePicker> createState() => _DatePickerState();
-}
-
-class _DatePickerState extends State<DatePicker> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () async {
-        DateTime? pickedDate = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
-        );
-        if (pickedDate != null) {
-          setState(() {
-            birthdateController.text = "${pickedDate.toLocal()}".split(' ')[0];
-          });
-        }
-      },
-      child: AbsorbPointer(
-        child: MyInputField(
-          myController: birthdateController,
-          hint: '',
-          label: "تاريخ الميلاد",
-        ),
       ),
     );
   }
