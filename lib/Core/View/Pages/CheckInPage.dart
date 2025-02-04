@@ -20,19 +20,20 @@ class _CheckInPageState extends State<CheckInPage> {
   ClientConstantInfoProvider clientConstantInfoProvider =
   ClientConstantInfoProvider();
   late Visit lastClientVisit;
+  Client? client;
 
   @override
   void initState() {
     super.initState();
     // client = clientProvider.currentClient!;
-    client = widget.client!;
+    client = widget.client;
     // lastClientVisit = VisitProvider().getClientLastVisit(client.clientPhoneNum);
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Check In: ${client.mName}'),
+        title: Text('Check In: ${client?.mName}'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -76,20 +77,20 @@ class _CheckInPageState extends State<CheckInPage> {
               children: [
                 _buildTableRow(
                   'اسم العميل',
-                  client.mName ?? 'unknown',
+                  client?.mName ?? 'unknown',
                   'رقم العميل',
-                  client.mClientPhoneNum ?? 'unknown',
+                  client?.mClientPhoneNum ?? 'unknown',
                 ),
-                _buildTableRow(
-                  'تاريخ اخر متابعة',
-                  "${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}",
-                  'منطقة العميل',
-                  'placeholder',
-                  // await clientConstantInfoProvider
-                  //     .getClientConstantInfoByClientId(client.mClientId)
-                  //     ?.area ?? 'Unknown',
-                  //todo: fix this
-                ),
+                // _buildTableRow(
+                //   'تاريخ اخر متابعة',
+                //   "${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}",
+                //   'منطقة العميل',
+                //   'placeholder',
+                //   // await clientConstantInfoProvider
+                //   //     .getClientConstantInfoByClientId(client.mClientId)
+                //   //     ?.area ?? 'Unknown',
+                //   //todo: fix this
+                // ),
               ],
             ),
           ],
@@ -121,9 +122,9 @@ class _CheckInPageState extends State<CheckInPage> {
               children: [
                 _buildTableRow(
                   'الطول',
-                  '${client.mHeight} سم',
+                  '${client?.mHeight} سم',
                   'الوزن',
-                  '${client.mWeight} كجم',
+                  '${client?.mWeight} كجم',
                 ),
               ],
             ),
@@ -182,7 +183,7 @@ class _CheckInPageState extends State<CheckInPage> {
                   onChanged: (SubscriptionType? newValue) {
                     if (newValue != SubscriptionType.none && newValue != null) {
                       setState(() {
-                        client.subscriptionType = newValue;
+                        client?.subscriptionType = newValue;
                       });
                     }
                   },
