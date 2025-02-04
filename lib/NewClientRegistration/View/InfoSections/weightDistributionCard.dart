@@ -46,7 +46,7 @@ Widget weightDistributionCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: maxCaloriesController,
+                myController: bmrController,
                 hint: '',
                 label: "حد الحرق الأدنى",
               ),
