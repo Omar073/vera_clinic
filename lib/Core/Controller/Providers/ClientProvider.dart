@@ -37,7 +37,7 @@ class ClientProvider with ChangeNotifier {
   }
 
   Future<List<Client?>> getClientByPhone(String phoneNum) async {
-    List<Client?> clients = cachedClients  //? redundant
+    List<Client?> clients = cachedClients  //todo: should this be removed or instead if the cached list that matches phone num is not empty then return it directly?
         .where(
           (client) => client?.mClientPhoneNum == phoneNum,
         )
@@ -124,9 +124,19 @@ class ClientProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addListToCachedClients(List<Client?> clients) {
+    for (var client in clients) {
+      if (client != null &&
+          !cachedClients.any((c) => c?.mClientId == client.mClientId)) {
+        cachedClients.add(client);
+      }
+    }
+    notifyListeners();
+  }
+
   void setSearchResults(List<Client?> clients) {
     _searchResults = clients;
-    addToCachedClients(client);
+    addListToCachedClients(clients);
     notifyListeners();
   }
 
