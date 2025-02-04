@@ -32,16 +32,9 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
 
 3. **Set up Firebase**:
     - Follow the instructions to set up Firebase for your Flutter project.
-    - Add the `google-services.json` file to the 
-
-app
-
- directory.
-    - Add the `firebase_options.dart` file to the 
-
-Firebase
-
- directory.
+    - Add the `google-services.json` file to the app directory.
+    - Add the `firebase_options.dart` file to the Firebase directory.
+    
 
 4. **Run the app**:
     ```sh
