@@ -10,7 +10,7 @@ import 'InfoSections/bodyMeasurementsCard.dart';
 import 'InfoSections/dietPreferencesCard.dart';
 import 'InfoSections/medicalHistoryCard.dart';
 import 'InfoSections/weightHistoryCard.dart';
-import 'UsedWidgets/myCard.dart';
+import '../../Core/View/Reusable widgets/myCard.dart';
 import 'UsedWidgets/MyCheckBox.dart';
 
 class NewClientPage extends StatefulWidget {

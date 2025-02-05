@@ -5,7 +5,7 @@ import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../Controller/TextEditingControllers.dart';
 import '../UsedWidgets/GenderDropdownMenu.dart';
 import '../UsedWidgets/datePicker.dart';
-import '../UsedWidgets/myCard.dart';
+import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../UsedWidgets/SubscriptionTypeDropdown.dart';
 
 class PersonalInfoCard extends StatefulWidget {
