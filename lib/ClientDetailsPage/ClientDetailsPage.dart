@@ -6,7 +6,7 @@ import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
 import 'package:vera_clinic/Core/View/Pages/CheckInPage.dart';
-import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/MyCard.dart';
+import '../../Core/View/Reusable widgets/myCard.dart';
 
 import '../Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import '../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';

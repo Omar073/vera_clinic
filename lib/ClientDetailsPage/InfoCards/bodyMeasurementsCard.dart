@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
-import '../../NewClientRegistration/View/UsedWidgets/MyCard.dart';
+import '../../Core/View/Reusable widgets/myCard.dart';
 import 'infoRow.dart';
 
 Widget bodyMeasurementsCard(

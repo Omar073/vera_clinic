@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/MyCard.dart';
 import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/datePicker.dart';
 import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 
+import '../../Core/View/Reusable widgets/myCard.dart';
 import '../Controller/UtilityFunctions.dart';
 
 class NewVisit extends StatefulWidget {
