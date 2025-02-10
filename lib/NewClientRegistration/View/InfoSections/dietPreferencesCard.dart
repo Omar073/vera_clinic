@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
+import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../../Controller/TextEditingControllers.dart';
 import '../UsedWidgets/ActivityLevelDropdownMenu.dart';
-import '../UsedWidgets/MyCard.dart';
 import '../UsedWidgets/MyCheckBox.dart';
 
 Widget dietPreferencesCard() {

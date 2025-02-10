@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../Controller/TextEditingControllers.dart';
-import '../UsedWidgets/MyCard.dart';
+import '../../../Core/View/Reusable widgets/myCard.dart';
 
 Widget weightHistoryCard() {
   return myCard(
