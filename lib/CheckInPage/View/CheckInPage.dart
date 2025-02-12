@@ -20,7 +20,8 @@ class CheckInPage extends StatefulWidget {
 
 class _CheckInPageState extends State<CheckInPage> {
   TextEditingController subscriptionPriceController = TextEditingController();
-  late Future<void> _fetchData;
+  bool isLoading = true;
+  String? errorMessage;
 
   Client? client;
   late ClientConstantInfo clientConstantInfo;
@@ -30,66 +31,80 @@ class _CheckInPageState extends State<CheckInPage> {
   void initState() {
     super.initState();
     client = widget.client;
-    _fetchData = fetch();
+    _fetchData();
   }
 
-  Future<void> fetch() async {
-    clientConstantInfo = (await context
-        .read<ClientConstantInfoProvider>()
-        .getClientConstantInfoByClientId(client!.mClientId))!;
-    lastClientVisit = (await context
-        .read<VisitProvider>()
-        .getClientLastVisit(client!.mClientId))!;
+  Future<void> _fetchData() async {
+    try {
+      // Fetch client constant info
+      final clientConstantInfoResult = await context
+          .read<ClientConstantInfoProvider>()
+          .getClientConstantInfoByClientId(client!.mClientId);
 
-    debugPrint(
-        'Client Constant Info: ${clientConstantInfo.mClientConstantInfoId}');
-    debugPrint('Last Client Visit: ${lastClientVisit.mVisitId}');
+      // Fetch last visit
+      final lastVisitResult = await context
+          .read<VisitProvider>()
+          .getClientLastVisit(client!.mClientId);
+
+      if (clientConstantInfoResult == null || lastVisitResult == null) {
+        throw Exception('Failed to load client data');
+      }
+
+      setState(() {
+        clientConstantInfo = clientConstantInfoResult;
+        lastClientVisit = lastVisitResult;
+        isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        errorMessage = 'Error loading client data: ${e.toString()}';
+        isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (errorMessage != null) {
+      return Scaffold(
+        body: Center(child: Text(errorMessage!)),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Check In: ${client?.mName}'),
         centerTitle: true,
       ),
-      body: FutureBuilder<void>(
-        future: _fetchData,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error loading client data'));
-          } else {
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        clientInfoCard(
-                            client, clientConstantInfo, lastClientVisit),
-                        const SizedBox(height: 24),
-                        measurementsCard(client),
-                        const SizedBox(height: 24),
-                        SubscriptionCard(
-                          client: client,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 24),
-                    CheckInButton(
-                        client: client,
-                        subscriptionPriceController:
-                            subscriptionPriceController),
-                  ],
-                ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  clientInfoCard(client, clientConstantInfo, lastClientVisit),
+                  const SizedBox(height: 24),
+                  measurementsCard(client),
+                  const SizedBox(height: 24),
+                  SubscriptionCard(client: client),
+                ],
               ),
-            );
-          }
-        },
+              const SizedBox(height: 24),
+              CheckInButton(
+                client: client,
+                subscriptionPriceController: subscriptionPriceController,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
