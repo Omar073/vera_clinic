@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../CheckInPage/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';
-import '../../Core/View/Pages/CheckInPage.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 import 'infoRow.dart';
 

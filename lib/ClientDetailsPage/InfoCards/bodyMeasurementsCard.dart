@@ -19,12 +19,10 @@ Widget bodyMeasurementsCard(
           infoRow('PBF', '${monthlyFollowUp.mPBF} %'),
           infoRow('Water', '${monthlyFollowUp.mWater}'),
           infoRow('Max Weight', '${monthlyFollowUp.mMaxWeight} kg'),
-          infoRow(
-              'Optimal Weight', '${monthlyFollowUp.mOptimalWeight} kg'),
+          infoRow('Optimal Weight', '${monthlyFollowUp.mOptimalWeight} kg'),
           infoRow('BMR', '${monthlyFollowUp.mBMR}'),
           infoRow('Max Calories', '${monthlyFollowUp.mMaxCalories}'),
-          infoRow(
-              'Daily Calories', '${monthlyFollowUp.mDailyCalories}'),
+          infoRow('Daily Calories', '${monthlyFollowUp.mDailyCalories}'),
         ] else ...[
           const Center(child: Text('No body measurements data available')),
         ]

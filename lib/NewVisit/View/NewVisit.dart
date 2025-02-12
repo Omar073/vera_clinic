@@ -22,7 +22,6 @@ class _NewVisitState extends State<NewVisit> {
       appBar: AppBar(
         backgroundColor: Colors.blue.shade100,
         centerTitle: true,
-        //todo: could replace the counter with the length of the list of visits
         title: Text("${clientVisits.length + 1}# " "زيارة"),
       ),
       body: Padding(
@@ -136,40 +135,40 @@ class _NewVisitState extends State<NewVisit> {
                             ),
                           ),
                           ElevatedButton.icon(
-                              label: const Text(
-                                'إضافة زيارة أخري',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              icon: const Icon(
-                                Icons.add,
+                            label: const Text(
+                              'إضافة زيارة أخري',
+                              style: TextStyle(
                                 color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onPressed: () async {
-                                bool success = await createVisit();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Center(
-                                      child: Text(success
-                                          ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
-                                          : 'فشل حفظ الزيارة'),
-                                    ),
-                                    duration: const Duration(seconds: 2),
-                                    backgroundColor:
-                                        success ? Colors.green : Colors.red,
+                            ),
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              bool success = await createVisit();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Center(
+                                    child: Text(success
+                                        ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
+                                        : 'فشل حفظ الزيارة'),
                                   ),
-                                );
-                                setState(() {});
-                                // if (success) disposeControllers();
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueAccent,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30, vertical: 13),
-                                textStyle: const TextStyle(fontSize: 20),
-                              ),
+                                  duration: const Duration(seconds: 2),
+                                  backgroundColor:
+                                      success ? Colors.green : Colors.red,
+                                ),
+                              );
+                              setState(() {});
+                              // if (success) disposeControllers();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 13),
+                              textStyle: const TextStyle(fontSize: 20),
+                            ),
                           ),
                         ],
                       ),

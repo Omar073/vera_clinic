@@ -27,22 +27,25 @@ class ClientConstantInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ClientConstantInfo?> getClientConstantInfoByClientId(
-      String clientId) async {
-    ClientConstantInfo? clientConstantInfo =
-        cachedClientConstantInfo.firstWhere(
-      (clientConstantInfo) => clientConstantInfo?.mClientId == clientId,
-      orElse: () => null,
-    );
+  Future<ClientConstantInfo?> getClientConstantInfoByClientId(String clientId) async {
+    try {
+      ClientConstantInfo? clientConstantInfo = cachedClientConstantInfo.firstWhere(
+            (clientConstantInfo) => clientConstantInfo?.mClientId == clientId,
+        orElse: () => null,
+      );
 
-    clientConstantInfo ??= await clientConstantInfoFirestoreMethods
-        .fetchClientConstantInfoByClientId(clientId);
+      clientConstantInfo ??= await clientConstantInfoFirestoreMethods
+          .fetchClientConstantInfoByClientId(clientId);
 
-    clientConstantInfo == null
-        ? cachedClientConstantInfo.add(clientConstantInfo)
-        : null;
-    notifyListeners();
-    return clientConstantInfo;
+      if (clientConstantInfo != null) {
+        cachedClientConstantInfo.add(clientConstantInfo);
+      }
+      notifyListeners();
+      return clientConstantInfo;
+    } catch (e) {
+      debugPrint('Error getting client constant info by client ID: $e');
+      return null;
+    }
   }
 
   Future<ClientConstantInfo?> getClientConstantInfoById(

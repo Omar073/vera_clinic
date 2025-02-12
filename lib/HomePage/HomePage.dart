@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/HomePage/UsedWidgets/WelcomeSection.dart';
-import '../NewClientRegistration/View/NewClientPage.dart';
-import '../Core/View/Pages/AnalysisPage.dart';
-import '../Core/View/Pages/ClientSearchPage.dart';
-import '../Core/View/Pages/FollowUpNav.dart';
 
 import 'UsedWidgets/GridMenu.dart';
 import 'UsedWidgets/Header.dart';
@@ -17,6 +14,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    _loadClinicData();
+  }
+
+  Future<void> _loadClinicData() async {
+    await context.read<ClinicProvider>().getClinic();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         welcomeSection(),
                         const SizedBox(height: 20),
-                        const gridMenu(),
+                        const GridMenu(),
                       ],
                     ),
                   ),

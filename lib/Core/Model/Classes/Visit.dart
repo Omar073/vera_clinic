@@ -64,13 +64,13 @@ class Visit {
 
   factory Visit.fromFirestore(Map<String, dynamic> data) {
     return Visit(
-      visitId: data['visitId'] as String,
+      visitId: data['visitId'] as String? ?? '',
       clientId: data['clientId'] as String?,
       date: (data['date'] as Timestamp).toDate(),
-      diet: data['diet'] as String,
-      weight: data['weight'] as double,
-      bmi: data['bmi'] as double,
-      visitNotes: data['visitNotes'] as String,
+      diet: data['diet'] as String? ?? '',
+      weight: data['weight'] as double? ?? 0.0,
+      bmi: data['bmi'] as double? ?? 0.0,
+      visitNotes: data['visitNotes'] as String? ?? '',
     );
   }
 
