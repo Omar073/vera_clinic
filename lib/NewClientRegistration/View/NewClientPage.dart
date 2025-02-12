@@ -45,7 +45,7 @@ class _NewClientPageState extends State<NewClientPage> {
             const SizedBox(height: 20),
             medicalHistoryCard(),
             const SizedBox(height: 20),
-            const actionButtons(),
+            const ActionButtons(),
           ],
         ),
       ),
