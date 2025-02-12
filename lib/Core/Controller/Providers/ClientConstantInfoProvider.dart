@@ -39,9 +39,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
 
       if (clientConstantInfo != null) {
         cachedClientConstantInfo.add(clientConstantInfo);
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          notifyListeners();
-        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => notifyListeners());
       }
       return clientConstantInfo;
     } catch (e) {

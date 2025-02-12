@@ -5,6 +5,7 @@ import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
+import '../Controller/TextEditingControllers2.dart';
 import 'InfoCards/CheckInButton.dart';
 import 'InfoCards/ClientInfoCard.dart';
 import 'InfoCards/MeasurementsCard.dart';
@@ -19,13 +20,16 @@ class CheckInPage extends StatefulWidget {
 }
 
 class _CheckInPageState extends State<CheckInPage> {
-  TextEditingController subscriptionPriceController = TextEditingController();
+  final TextEditingController visitSubscriptionTypeController =
+      TextEditingController();
+  final TextEditingController visitSubscriptionPriceController =
+      TextEditingController();
+
   bool isLoading = true;
   String? errorMessage;
-
   Client? client;
-  late ClientConstantInfo clientConstantInfo;
-  late Visit lastClientVisit;
+  ClientConstantInfo? clientConstantInfo;
+  Visit? lastClientVisit;
 
   @override
   void initState() {
@@ -46,6 +50,10 @@ class _CheckInPageState extends State<CheckInPage> {
           .read<VisitProvider>()
           .getClientLastVisit(client!.mClientId);
 
+      debugPrint(
+          'Client Constant Info: ${clientConstantInfoResult?.mClientConstantInfoId}');
+      debugPrint('Last Client Visit: ${lastVisitResult?.mVisitId}');
+
       if (clientConstantInfoResult == null || lastVisitResult == null) {
         throw Exception('Failed to load client data');
       }
@@ -64,6 +72,13 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
   @override
+  void dispose() {
+    visitSubscriptionTypeController.dispose();
+    visitSubscriptionPriceController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return const Scaffold(
@@ -74,6 +89,13 @@ class _CheckInPageState extends State<CheckInPage> {
     if (errorMessage != null) {
       return Scaffold(
         body: Center(child: Text(errorMessage!)),
+      );
+    }
+
+    // Add explicit null checks for safety
+    if (clientConstantInfo == null || lastClientVisit == null) {
+      return const Scaffold(
+        body: Center(child: Text('Client data not found')),
       );
     }
 
@@ -90,17 +112,26 @@ class _CheckInPageState extends State<CheckInPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  clientInfoCard(client, clientConstantInfo, lastClientVisit),
+                  clientInfoCard(client, clientConstantInfo!, lastClientVisit!),
                   const SizedBox(height: 24),
                   measurementsCard(client),
                   const SizedBox(height: 24),
-                  SubscriptionCard(client: client),
+                  SubscriptionCard(
+                    client: client,
+                    visitSubscriptionTypeController:
+                        visitSubscriptionTypeController,
+                    visitSubscriptionPriceController:
+                        visitSubscriptionPriceController,
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
               CheckInButton(
                 client: client,
-                subscriptionPriceController: subscriptionPriceController,
+                visitSubscriptionTypeController:
+                    visitSubscriptionTypeController,
+                visitSubscriptionPriceController:
+                    visitSubscriptionPriceController,
               ),
             ],
           ),

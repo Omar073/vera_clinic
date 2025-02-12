@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/SubscriptionTypeDropdown.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
@@ -8,10 +9,17 @@ import '../../Controller/TextEditingControllers2.dart';
 import '../../Controller/UtilityFunctions.dart';
 
 class SubscriptionCard extends StatefulWidget {
+  final TextEditingController visitSubscriptionTypeController;
+  final TextEditingController visitSubscriptionPriceController;
   final Client? client;
-  const SubscriptionCard(
-      {super.key,
-      required this.client,});
+
+  const SubscriptionCard({
+    super.key,
+    required this.client,
+    required this.visitSubscriptionTypeController,
+    required this.visitSubscriptionPriceController,
+  });
+
 
   @override
   State<SubscriptionCard> createState() => _SubscriptionCardState();
@@ -41,45 +49,17 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
               children: [
                 SizedBox(
                   width: 200,
-                  child: TextField(
-                    style: const TextStyle(fontSize: 16),
-                    textAlign: TextAlign.end,
-                    controller: visitSubscriptionPriceController,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
-                    ],
-                    decoration: const InputDecoration(
-                      hintText: "أدخل سعر الإشتراك",
-                      labelText: "السعر",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
+                  child: MyInputField(
+                      myController: widget.visitSubscriptionPriceController,
+                      hint: '',
+                      label: 'السعر'),
                 ),
                 const SizedBox(width: 24),
-                // DropdownButton<SubscriptionType>(
-                //   hint: const Text('اختر نوع الكشف'),
-                //   items: SubscriptionType.values.map((SubscriptionType type) {
-                //     return DropdownMenuItem<SubscriptionType>(
-                //       value: type,
-                //       child: Text(getSubscriptionTypeLabel(type)),
-                //     );
-                //   }).toList(),
-                //   onChanged: (SubscriptionType? newValue) {
-                //     if (newValue != SubscriptionType.none && newValue != null) {
-                //       setState(() {
-                //         widget.client?.subscriptionType =
-                //             newValue; //todo: displayed value not being updated?
-                //       });
-                //     }
-                //   },
-                // ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                  padding: const EdgeInsets.only(bottom: 2.0),
                   child: SubscriptionTypeDropdown(
                       subscriptionTypeController:
-                          visitSubscriptionTypeController),
+                      widget.visitSubscriptionTypeController),
                 ),
                 const SizedBox(width: 16),
                 // const Text(

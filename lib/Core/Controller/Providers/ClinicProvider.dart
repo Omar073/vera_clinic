@@ -71,12 +71,24 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> isClientCheckedIn(String clientId) async {
+    try {
+      await getClinic();
+      return clinic!.mCheckedInClientsIds.contains(clientId);
+    } catch (e) {
+      debugPrint('Error checking if client is checked in: $e');
+      return false;
+    }
+  }
+
   Future<void> updateDailyIncome(double income) async {
     try {
       if (clinic != null) {
+        debugPrint('Current daily income: ${clinic!.mDailyIncome}');
         clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
+        debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
         clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
-        await updateClinic(clinic!);
+        await updateDailyProfit();
       }
     } catch (e) {
       debugPrint('Error updating daily income: $e');
@@ -163,7 +175,9 @@ class ClinicProvider with ChangeNotifier {
 
   Future<void> updateDailyProfit() async {
     try {
-      if (clinic != null && clinic!.mDailyIncome != null && clinic!.mDailyExpenses != null) {
+      if (clinic != null &&
+          clinic!.mDailyIncome != null &&
+          clinic!.mDailyExpenses != null) {
         clinic!.mDailyProfit = clinic!.mDailyIncome! - clinic!.mDailyExpenses!;
         await updateMonthlyProfit();
       }
@@ -174,8 +188,11 @@ class ClinicProvider with ChangeNotifier {
 
   Future<void> updateMonthlyProfit() async {
     try {
-      if (clinic != null && clinic!.mMonthlyIncome != null && clinic!.mMonthlyExpenses != null) {
-        clinic!.mMonthlyProfit = clinic!.mMonthlyIncome! - clinic!.mMonthlyExpenses!;
+      if (clinic != null &&
+          clinic!.mMonthlyIncome != null &&
+          clinic!.mMonthlyExpenses != null) {
+        clinic!.mMonthlyProfit =
+            clinic!.mMonthlyIncome! - clinic!.mMonthlyExpenses!;
         await updateClinic(clinic!);
       }
     } catch (e) {

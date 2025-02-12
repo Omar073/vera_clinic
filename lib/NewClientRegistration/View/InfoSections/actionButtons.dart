@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../NewVisit/View/NewVisit.dart';
 import '../../Controller/UtilityFunctions.dart';
 
-class actionButtons extends StatefulWidget {
-  const actionButtons({super.key});
+class ActionButtons extends StatefulWidget {
+  const ActionButtons({super.key});
 
   @override
-  State<actionButtons> createState() => _actionButtonsState();
+  State<ActionButtons> createState() => _ActionButtonsState();
 }
 
-class _actionButtonsState extends State<actionButtons> {
+class _ActionButtonsState extends State<ActionButtons> {
   @override
   Widget build(BuildContext context) {
     return Padding(
