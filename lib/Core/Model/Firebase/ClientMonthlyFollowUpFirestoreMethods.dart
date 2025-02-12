@@ -10,6 +10,7 @@ class ClientMonthlyFollowUpFirestoreMethods {
       final docRef = await FirebaseSingleton.instance.firestore
           .collection('ClientMonthlyFollowUp')
           .add(clientMonthlyFollowUp.toMap());
+
       await docRef.update({'clientMonthlyFollowUpId': docRef.id});
       return docRef.id;
     } catch (e) {

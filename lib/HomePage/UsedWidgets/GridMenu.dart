@@ -6,14 +6,14 @@ import '../../Core/View/Pages/ClientSearchPage.dart';
 import '../../Core/View/Pages/FollowUpNav.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
 
-class gridMenu extends StatefulWidget {
-  const gridMenu({super.key});
+class GridMenu extends StatefulWidget {
+  const GridMenu({super.key});
 
   @override
-  State<gridMenu> createState() => _gridMenuState();
+  State<GridMenu> createState() => _GridMenuState();
 }
 
-class _gridMenuState extends State<gridMenu> {
+class _GridMenuState extends State<GridMenu> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
@@ -56,7 +56,7 @@ class _gridMenuState extends State<gridMenu> {
           height: 10,
         ), // this is used to push the grid menu to the right
         menuCard(
-          'تحليل',
+          'بيانات',
           Icons.analytics,
           Colors.orange,
           () => Navigator.push(
