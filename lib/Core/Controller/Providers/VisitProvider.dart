@@ -23,30 +23,40 @@ class VisitProvider with ChangeNotifier {
   }
 
   Future<List<Visit?>?> getVisitsByClientId(String clientId) async {
-    List<Visit?>? clientVisits =
-        cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
+    try {
+      List<Visit?>? clientVisits =
+          cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
 
-    final fetchedVisits =
-        await visitFirestoreMethods.fetchVisitsByClientId(clientId);
-    for (Visit? visit in fetchedVisits ?? []) {
-      if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
-        clientVisits.add(visit);
+      final fetchedVisits =
+          await visitFirestoreMethods.fetchVisitsByClientId(clientId);
+      for (Visit? visit in fetchedVisits ?? []) {
+        if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
+          clientVisits.add(visit);
+        }
       }
-    }
-    for (Visit? visit in clientVisits) {
-      if (visit != null && !cachedVisits.contains(visit)) {
-        cachedVisits.add(visit);
+      for (Visit? visit in clientVisits) {
+        if (visit != null && !cachedVisits.contains(visit)) {
+          cachedVisits.add(visit);
+        }
       }
+      notifyListeners();
+      return clientVisits;
+    } catch (e) {
+      debugPrint('Error getting visits by client ID: $e');
+      return null;
     }
-    notifyListeners();
-    return clientVisits;
   }
 
   Future<Visit?> getClientLastVisit(String clientId) async {
-    List<Visit?>? clientVisits = await getVisitsByClientId(clientId);
-    clientVisits
-        ?.sort((a, b) => a?.mDate.compareTo(b?.mDate ?? DateTime(0)) ?? 0);
-    return clientVisits?.isNotEmpty == true ? clientVisits?.last : null;
+    try {
+      List<Visit?>? clientVisits = await getVisitsByClientId(clientId);
+      clientVisits
+          ?.sort((a, b) => a?.mDate.compareTo(b?.mDate ?? DateTime(0)) ?? 0);
+      return clientVisits?.isNotEmpty == true ? clientVisits?.last : null;
+    } catch (e) {
+      debugPrint('Error getting client last visit: $e');
+      return null;
+    }
   }
 
   Future<void> updateVisit(Visit visit) async {

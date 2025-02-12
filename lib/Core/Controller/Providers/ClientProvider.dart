@@ -8,12 +8,10 @@ class ClientProvider with ChangeNotifier {
       ClientFirestoreMethods();
 
   List<Client?> _cachedClients = []; // list of all fetched clients
-  List<Client?> _checkedInClients = [];
   List<Client?> _searchResults = [];
   Client? _currentClient;
 
   List<Client?> get cachedClients => _cachedClients;
-  List<Client?> get checkedInClients => _checkedInClients;
   List<Client?> get searchResults => _searchResults;
   Client? get currentClient => _currentClient;
   ClientFirestoreMethods get clientFirestoreMethods => _clientFirestoreMethods;
@@ -99,21 +97,6 @@ class ClientProvider with ChangeNotifier {
 
   void clearCurrentClient() {
     _currentClient = null;
-    notifyListeners();
-  }
-
-  void addCheckedInClient(Client client) {
-    _checkedInClients.add(client);
-    notifyListeners();
-  }
-
-  void removeCheckedInClient(Client client) {
-    _checkedInClients.remove(client);
-    notifyListeners();
-  }
-
-  void clearCheckedInClients() {
-    _checkedInClients.clear();
     notifyListeners();
   }
 

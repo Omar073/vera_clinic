@@ -5,10 +5,11 @@ class Clinic {
   double? mMonthlyIncome;
   int? mDailyPatients;
   int? mMonthlyPatients;
-  double? mDailyExpenses;
+  double? mDailyExpenses; //todo: what changes the expenses?
   double? mMonthlyExpenses;
   double? mDailyProfit;
   double? mMonthlyProfit;
+  List<String> mCheckedInClientsIds = [];
 
   Clinic({
     required double? dailyIncome,
@@ -19,6 +20,7 @@ class Clinic {
     required double? monthlyExpenses,
     required double? dailyProfit,
     required double? monthlyProfit,
+    required List<String> checkedInClientsIds,
   })  : mDailyIncome = dailyIncome,
         mMonthlyIncome = monthlyIncome,
         mDailyPatients = dailyPatients,
@@ -26,16 +28,8 @@ class Clinic {
         mDailyExpenses = dailyExpenses,
         mMonthlyExpenses = monthlyExpenses,
         mDailyProfit = dailyProfit,
-        mMonthlyProfit = monthlyProfit;
-
-  double? get dailyIncome => mDailyIncome;
-  double? get monthlyIncome => mMonthlyIncome;
-  int? get dailyPatients => mDailyPatients;
-  int? get monthlyPatients => mMonthlyPatients;
-  double? get dailyExpenses => mDailyExpenses;
-  double? get monthlyExpenses => mMonthlyExpenses;
-  double? get dailyProfit => mDailyProfit;
-  double? get monthlyProfit => mMonthlyProfit;
+        mMonthlyProfit = monthlyProfit,
+        mCheckedInClientsIds = checkedInClientsIds;
 
   set dailyIncome(double? value) => mDailyIncome = value;
   set monthlyIncome(double? value) => mMonthlyIncome = value;
@@ -45,6 +39,7 @@ class Clinic {
   set monthlyExpenses(double? value) => mMonthlyExpenses = value;
   set dailyProfit(double? value) => mDailyProfit = value;
   set monthlyProfit(double? value) => mMonthlyProfit = value;
+  set checkedInClientsIds(List<String> value) => mCheckedInClientsIds = value;
 
   void printClinic() {
     debugPrint('\n\t\t<<Clinic>>\n'
@@ -56,14 +51,15 @@ class Clinic {
 
   factory Clinic.fromFirestore(Map<String, dynamic> data) {
     return Clinic(
-      dailyIncome: data['dailyIncome'] as double?,
-      monthlyIncome: data['monthlyIncome'] as double?,
-      dailyPatients: data['dailyPatients'] as int?,
-      monthlyPatients: data['monthlyPatients'] as int?,
-      dailyExpenses: data['dailyExpenses'] as double?,
-      monthlyExpenses: data['monthlyExpenses'] as double?,
-      dailyProfit: data['dailyProfit'] as double?,
-      monthlyProfit: data['monthlyProfit'] as double?,
+      dailyIncome: (data['dailyIncome'] as num?)?.toDouble() ?? 0.0,
+      monthlyIncome: (data['monthlyIncome'] as num?)?.toDouble() ?? 0.0,
+      dailyPatients: data['dailyPatients'] as int? ?? 0,
+      monthlyPatients: data['monthlyPatients'] as int? ?? 0,
+      dailyExpenses: (data['dailyExpenses'] as num?)?.toDouble() ?? 0.0,
+      monthlyExpenses: (data['monthlyExpenses'] as num?)?.toDouble() ?? 0.0,
+      dailyProfit: (data['dailyProfit'] as num?)?.toDouble() ?? 0.0,
+      monthlyProfit: (data['monthlyProfit'] as num?)?.toDouble() ?? 0.0,
+      checkedInClientsIds: List<String>.from(data['checkedInClientsIds'] ?? []),
     );
   }
 
@@ -77,6 +73,7 @@ class Clinic {
       'monthlyExpenses': mMonthlyExpenses,
       'dailyProfit': mDailyProfit,
       'monthlyProfit': mMonthlyProfit,
+      'checkedInClientsIds': mCheckedInClientsIds,
     };
   }
 }
@@ -90,4 +87,5 @@ Clinic clinic = Clinic(
   monthlyExpenses: 15000.0,
   dailyProfit: 500.0,
   monthlyProfit: 15000.0,
+  checkedInClientsIds: [],
 );
