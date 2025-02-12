@@ -71,14 +71,14 @@ class PreferredFoods {
 
   factory PreferredFoods.fromFirestore(Map<String, dynamic> data) {
     return PreferredFoods(
-      preferredFoodsId: data['preferredFoodsId'] as String,
-      clientId: data['clientId'] as String?,
+      preferredFoodsId: data['preferredFoodsId'] as String? ?? '',
+      clientId: data['clientId'] as String? ?? '',
       carbohydrates: data['carbohydrates'] as bool,
       protein: data['protein'] as bool,
       dairy: data['dairy'] as bool,
       veg: data['veg'] as bool,
       fruits: data['fruits'] as bool,
-      others: data['others'] as String,
+      others: data['others'] as String ?? '',
     );
   }
 
