@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/TextEditingControllers.dart';
+import '../../Controller/NewClientRegistrationTEC.dart';
 import '../UsedWidgets/GenderDropdownMenu.dart';
 import '../UsedWidgets/datePicker.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
@@ -16,6 +16,13 @@ class PersonalInfoCard extends StatefulWidget {
 }
 
 class _PersonalInfoCardState extends State<PersonalInfoCard> {
+
+  @override
+  void dispose() {
+    ClientRegistrationTEC.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return myCard(
@@ -27,13 +34,14 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
               const SizedBox(width: 16),
               Expanded(
                 child: SubscriptionTypeDropdown(
-                  subscriptionTypeController: subscriptionTypeController,
+                  subscriptionTypeController:
+                      ClientRegistrationTEC.subscriptionTypeController,
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: MyInputField(
-                  myController: phoneController,
+                  myController: ClientRegistrationTEC.phoneController,
                   hint: '',
                   label: "رقم الهاتف",
                 ),
@@ -41,7 +49,7 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
               const SizedBox(width: 16),
               Expanded(
                 child: MyInputField(
-                  myController: nameController,
+                  myController: ClientRegistrationTEC.nameController,
                   hint: '',
                   label: "اسم العميل",
                 ),
@@ -52,18 +60,20 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
           Row(
             children: [
               Expanded(
-                child: GenderDropdownMenu(genderController: genderController),
+                child: GenderDropdownMenu(
+                    genderController: ClientRegistrationTEC.genderController),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: DatePicker(
-                    textEditingController: birthdateController,
+                    textEditingController:
+                        ClientRegistrationTEC.birthdateController,
                     label: "تاريخ الميلاد"),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: MyInputField(
-                  myController: areaController,
+                  myController: ClientRegistrationTEC.areaController,
                   hint: '',
                   label: "المنطقة",
                 ),

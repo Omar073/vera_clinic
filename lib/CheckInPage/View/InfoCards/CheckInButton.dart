@@ -5,7 +5,7 @@ import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.dart';
 
-import '../../Controller/TextEditingControllers2.dart';
+import '../../Controller/CheckInPageTEC.dart';
 
 class CheckInButton extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;
@@ -41,7 +41,7 @@ class _CheckInButtonState extends State<CheckInButton> {
             bool isCheckedIn = await context.read<ClinicProvider>().isClientCheckedIn(widget.client!.mClientId);
             if (!isCheckedIn) {
               // Add the client to the checked-in clients list
-              await context.read<ClinicProvider>().addCheckedInClient(widget.client!);
+              await context.read<ClinicProvider>().checkInClient(widget.client!);
               // Increment the daily patients count
               await context.read<ClinicProvider>().incrementDailyPatients();
               // Update the daily income

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/CheckedInClientsPage/CheckedInClientsPage.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 
 import '../../Core/View/Pages/AnalysisPage.dart';
 import '../../Core/View/Pages/ClientSearchPage.dart';
@@ -31,8 +35,7 @@ class _GridMenuState extends State<GridMenu> {
             () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        ClientSearchPage(state: "search")))),
+                    builder: (context) => ClientSearchPage(state: "search")))),
         menuCard(
           'عميل سابق',
           Icons.person,
@@ -64,15 +67,17 @@ class _GridMenuState extends State<GridMenu> {
             MaterialPageRoute(builder: (context) => const AnalysisPage()),
           ),
         ),
-        menuCard(
-          'متابعة',
-          Icons.calendar_today,
-          Colors.purple,
-          () => Navigator.push(
+        menuCard('متابعة', Icons.calendar_today, Colors.purple, () async {
+          await context.read<ClinicProvider>().getCheckedInClients(context);
+          Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FollowUpNav()),
-          ),
-        ),
+            MaterialPageRoute(
+                builder: (context) => CheckedInClientsPage(
+                    checkedInClients: context
+                        .watch<ClinicProvider>()
+                        .checkedInClients)), //* no need to recall getCheckedInClients() here since we already call it in the onTap() logic
+          );
+        }),
       ],
     );
   }

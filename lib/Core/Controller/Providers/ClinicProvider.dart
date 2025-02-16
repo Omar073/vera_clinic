@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/CheckInPage/View/InfoCards/CheckInButton.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 
 import '../../Model/Classes/Clinic.dart';
 import '../../Model/Classes/Client.dart';
@@ -31,10 +34,10 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addCheckedInClient(Client client) async {
+  Future<void> checkInClient(Client client) async {
     try {
       if (clinic != null) {
-        _checkedInClients.add(client);
+        checkedInClients.add(client);
         clinic!.mCheckedInClientsIds.add(client.mClientId);
         await updateClinic(clinic!);
         //debug print
@@ -47,7 +50,7 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> removeCheckedInClient(Client client) async {
+  Future<void> checkOutClient(Client client) async {
     try {
       if (clinic != null) {
         checkedInClients.remove(client);
@@ -57,6 +60,7 @@ class ClinicProvider with ChangeNotifier {
     } catch (e) {
       debugPrint('Error removing checked-in client: $e');
     }
+    notifyListeners();
   }
 
   Future<void> clearCheckedInClients() async {
@@ -68,6 +72,35 @@ class ClinicProvider with ChangeNotifier {
       }
     } catch (e) {
       debugPrint('Error clearing checked-in clients: $e');
+    }
+  }
+
+  Future<List<Client?>> getCheckedInClients(BuildContext context) async {
+    try {
+      debugPrint("Getting checked in clients");
+      await getClinic();
+      if (clinic == null) {
+        debugPrint('Clinic is null');
+        return [];
+      }
+      for (var clientId in clinic!.mCheckedInClientsIds) {
+        // check if the client is already checked in
+        if (!checkedInClients.any((client) => client?.mClientId == clientId)) {
+          Client? client =
+              await context.read<ClientProvider>().getClientById(clientId);
+          checkedInClients.add(client);
+        }
+      }
+      if (checkedInClients.isEmpty) {
+        debugPrint("No checked in clients");
+      }
+      for (var c in checkedInClients) {
+        debugPrint('Checked in client: ${c?.mName}');
+      }
+      return checkedInClients;
+    } catch (e) {
+      debugPrint('Error getting checked-in clients: $e');
+      return [];
     }
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
@@ -16,29 +17,37 @@ import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Disease.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../NewVisit/Controller/UtilityFunctions.dart';
-import 'TextEditingControllers.dart';
+import 'NewClientRegistrationTEC.dart';
 
 bool isNumOnly(String value) {
   final num? numValue = num.tryParse(value);
   return numValue != null;
 }
 
-Future<bool> createClient() async {
+Future<bool> createClient(
+    BuildContext context) async {
   try {
     Client c = Client(
         clientId: '',
-        name: nameController.text,
-        clientPhoneNum:
-            isNumOnly(phoneController.text) ? phoneController.text : '',
-        birthdate: DateTime.tryParse(birthdateController.text),
-        diet: dietController.text,
-        plat:
-            platControllers.map((e) => double.tryParse(e.text) ?? 0.0).toList(),
-        height: double.tryParse(heightController.text) ?? 0.0,
-        weight: double.tryParse(weightController.text) ?? 0.0,
-        subscriptionType: getSubscriptionType(subscriptionTypeController.text),
-        notes: notesController.text,
-        gender: getGenderFromString(genderController.text),
+        name: ClientRegistrationTEC.nameController.text,
+        clientPhoneNum: isNumOnly(ClientRegistrationTEC.phoneController.text)
+            ? ClientRegistrationTEC.phoneController.text
+            : '',
+        birthdate:
+            DateTime.tryParse(ClientRegistrationTEC.birthdateController.text),
+        diet: ClientRegistrationTEC.dietController.text,
+        plat: ClientRegistrationTEC.platControllers
+            .map((e) => double.tryParse(e.text) ?? 0.0)
+            .toList(),
+        height:
+            double.tryParse(ClientRegistrationTEC.heightController.text) ?? 0.0,
+        weight:
+            double.tryParse(ClientRegistrationTEC.weightController.text) ?? 0.0,
+        subscriptionType: getSubscriptionType(
+            ClientRegistrationTEC.subscriptionTypeController.text),
+        notes: ClientRegistrationTEC.notesController.text,
+        gender:
+            getGenderFromString(ClientRegistrationTEC.genderController.text),
         lastVisitId: '',
         clientConstantInfoId: '',
         diseaseId: '',
@@ -46,15 +55,20 @@ Future<bool> createClient() async {
         preferredFoodsId: '',
         weightAreasId: '');
 
-    ClientProvider clientProvider = ClientProvider();
-    await clientProvider.createClient(c); // client ID is generated here
+    await context
+        .read<ClientProvider>()
+        .createClient(c); // client ID is generated here
 
-    c.clientConstantInfoId = await createClientConstantInfo(c.mClientId);
+    c.clientConstantInfoId =
+        await createClientConstantInfo(c.mClientId);
     c.diseaseId = await createDisease(c.mClientId) ?? '';
     c.clientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(c.mClientId) ?? '';
-    c.preferredFoodsId = await createPreferredFoods(c.mClientId) ?? '';
-    c.weightAreasId = await createWeightAreas(c.mClientId) ?? '';
+        await createClientMonthlyFollowUp(c.mClientId) ??
+            '';
+    c.preferredFoodsId =
+        await createPreferredFoods(c.mClientId) ?? '';
+    c.weightAreasId =
+        await createWeightAreas(c.mClientId) ?? '';
 
     if (clientVisits.isNotEmpty) {
       c.lastVisitId = getLatestVisitId();
@@ -67,7 +81,9 @@ Future<bool> createClient() async {
     // c.lastVisitId = getLatestVisitId() ?? '';
 
     // only after you add all extra IDs to the client object
-    await clientProvider.updateClient(c); // Update the client with new IDs
+    await context
+        .read<ClientProvider>()
+        .updateClient(c); // Update the client with new IDs
     c.printClientInfo();
     return true;
   } catch (e) {
@@ -76,32 +92,47 @@ Future<bool> createClient() async {
   }
 }
 
-Future<String?> createDisease(String clientId) async {
+Future<String?> createDisease(
+    String clientId) async {
   try {
     Disease d = Disease(
       diseaseId: '',
       clientId: clientId,
-      hypertension: hypertensionController.text.toLowerCase() == 'true',
-      hypotension: hypotensionController.text.toLowerCase() == 'true',
-      vascular: vascularController.text.toLowerCase() == 'true',
-      anemia: anemiaController.text.toLowerCase() == 'true',
-      otherHeart: otherHeartController.text,
-      colon: colonController.text.toLowerCase() == 'true',
-      constipation: constipationController.text.toLowerCase() == 'true',
-      familyHistoryDM: familyHistoryDMController.text.toLowerCase() == 'true',
-      previousOBMed: previousOBMedController.text.toLowerCase() == 'true',
-      previousOBOperations:
-          previousOBOperationsController.text.toLowerCase() == 'true',
-      renal: renalController.text,
-      liver: liverController.text,
-      git: gitController.text,
-      endocrine: endocrineController.text,
-      rheumatic: rheumaticController.text,
-      allergies: allergiesController.text,
-      neuro: neuroController.text,
-      psychiatric: psychiatricController.text,
-      others: othersDiseaseController.text,
-      hormonal: hormonalController.text,
+      hypertension:
+          ClientRegistrationTEC.hypertensionController.text.toLowerCase() ==
+              'true',
+      hypotension:
+          ClientRegistrationTEC.hypotensionController.text.toLowerCase() ==
+              'true',
+      vascular:
+          ClientRegistrationTEC.vascularController.text.toLowerCase() == 'true',
+      anemia:
+          ClientRegistrationTEC.anemiaController.text.toLowerCase() == 'true',
+      otherHeart: ClientRegistrationTEC.otherHeartController.text,
+      colon: ClientRegistrationTEC.colonController.text.toLowerCase() == 'true',
+      constipation:
+          ClientRegistrationTEC.constipationController.text.toLowerCase() ==
+              'true',
+      familyHistoryDM:
+          ClientRegistrationTEC.familyHistoryDMController.text.toLowerCase() ==
+              'true',
+      previousOBMed:
+          ClientRegistrationTEC.previousOBMedController.text.toLowerCase() ==
+              'true',
+      previousOBOperations: ClientRegistrationTEC
+              .previousOBOperationsController.text
+              .toLowerCase() ==
+          'true',
+      renal: ClientRegistrationTEC.renalController.text,
+      liver: ClientRegistrationTEC.liverController.text,
+      git: ClientRegistrationTEC.gitController.text,
+      endocrine: ClientRegistrationTEC.endocrineController.text,
+      rheumatic: ClientRegistrationTEC.rheumaticController.text,
+      allergies: ClientRegistrationTEC.allergiesController.text,
+      neuro: ClientRegistrationTEC.neuroController.text,
+      psychiatric: ClientRegistrationTEC.psychiatricController.text,
+      others: ClientRegistrationTEC.othersDiseaseController.text,
+      hormonal: ClientRegistrationTEC.hormonalController.text,
     );
 
     DiseaseProvider diseaseProvider = DiseaseProvider();
@@ -115,19 +146,28 @@ Future<String?> createDisease(String clientId) async {
   }
 }
 
-Future<String?> createClientMonthlyFollowUp(String clientId) async {
+Future<String?> createClientMonthlyFollowUp(
+    String clientId) async {
   try {
     ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
       clientId: clientId,
       clientMonthlyFollowUpId: '',
-      bmi: double.tryParse(bmiController.text) ?? 0.0,
-      pbf: double.tryParse(pbfController.text) ?? 0.0,
-      water: double.tryParse(waterController.text) ?? 0.0,
-      maxWeight: double.tryParse(maxWeightController.text) ?? 0.0,
-      optimalWeight: double.tryParse(optimalWeightController.text) ?? 0.0,
-      bmr: double.tryParse(bmrController.text) ?? 0.0,
-      maxCalories: double.tryParse(maxCaloriesController.text) ?? 0.0,
-      dailyCalories: double.tryParse(dailyCaloriesController.text) ?? 0.0,
+      bmi: double.tryParse(ClientRegistrationTEC.bmiController.text) ?? 0.0,
+      pbf: double.tryParse(ClientRegistrationTEC.pbfController.text) ?? 0.0,
+      water: double.tryParse(ClientRegistrationTEC.waterController.text) ?? 0.0,
+      maxWeight:
+          double.tryParse(ClientRegistrationTEC.maxWeightController.text) ??
+              0.0,
+      optimalWeight:
+          double.tryParse(ClientRegistrationTEC.optimalWeightController.text) ??
+              0.0,
+      bmr: double.tryParse(ClientRegistrationTEC.bmrController.text) ?? 0.0,
+      maxCalories:
+          double.tryParse(ClientRegistrationTEC.maxCaloriesController.text) ??
+              0.0,
+      dailyCalories:
+          double.tryParse(ClientRegistrationTEC.dailyCaloriesController.text) ??
+              0.0,
     );
 
     ClientMonthlyFollowUpProvider clientMonthlyFollowUpProvider =
@@ -142,15 +182,18 @@ Future<String?> createClientMonthlyFollowUp(String clientId) async {
   }
 }
 
-Future<String?> createClientConstantInfo(String clientId) async {
+Future<String?> createClientConstantInfo(
+    String clientId) async {
   try {
     ClientConstantInfo cci = ClientConstantInfo(
       clientId: clientId,
       clientConstantInfoId: '',
-      area: areaController.text,
-      activityLevel: getActivityLevelFromString(activityLevelController.text),
-      YOYO: yoyoController.text.toLowerCase() == 'true',
-      sports: sportsController.text.toLowerCase() == 'true',
+      area: ClientRegistrationTEC.areaController.text,
+      activityLevel: getActivityLevelFromString(
+          ClientRegistrationTEC.activityLevelController.text),
+      YOYO: ClientRegistrationTEC.yoyoController.text.toLowerCase() == 'true',
+      sports:
+          ClientRegistrationTEC.sportsController.text.toLowerCase() == 'true',
     );
 
     ClientConstantInfoProvider clientConstantInfoProvider =
@@ -165,17 +208,22 @@ Future<String?> createClientConstantInfo(String clientId) async {
   }
 }
 
-Future<String?> createPreferredFoods(String clientId) async {
+Future<String?> createPreferredFoods(
+    String clientId) async {
   try {
     PreferredFoods pf = PreferredFoods(
       preferredFoodsId: '',
       clientId: clientId,
-      carbohydrates: carbohydratesController.text.toLowerCase() == 'true',
-      protein: proteinController.text.toLowerCase() == 'true',
-      dairy: dairyController.text.toLowerCase() == 'true',
-      veg: vegController.text.toLowerCase() == 'true',
-      fruits: fruitsController.text.toLowerCase() == 'true',
-      others: othersPreferredFoodsController.text,
+      carbohydrates:
+          ClientRegistrationTEC.carbohydratesController.text.toLowerCase() ==
+              'true',
+      protein:
+          ClientRegistrationTEC.proteinController.text.toLowerCase() == 'true',
+      dairy: ClientRegistrationTEC.dairyController.text.toLowerCase() == 'true',
+      veg: ClientRegistrationTEC.vegController.text.toLowerCase() == 'true',
+      fruits:
+          ClientRegistrationTEC.fruitsController.text.toLowerCase() == 'true',
+      others: ClientRegistrationTEC.othersPreferredFoodsController.text,
     );
 
     PreferredFoodsProvider preferredFoodsProvider = PreferredFoodsProvider();
@@ -189,18 +237,23 @@ Future<String?> createPreferredFoods(String clientId) async {
   }
 }
 
-Future<String?> createWeightAreas(String clientId) async {
+Future<String?> createWeightAreas(
+    String clientId) async {
   try {
     WeightAreas wa = WeightAreas(
       weightAreasId: '',
       clientId: clientId,
-      abdomen: abdomenController.text.toLowerCase() == 'true',
-      buttocks: buttocksController.text.toLowerCase() == 'true',
-      waist: waistController.text.toLowerCase() == 'true',
-      thighs: thighsController.text.toLowerCase() == 'true',
-      arms: armsController.text.toLowerCase() == 'true',
-      breast: breastController.text.toLowerCase() == 'true',
-      back: backController.text.toLowerCase() == 'true',
+      abdomen:
+          ClientRegistrationTEC.abdomenController.text.toLowerCase() == 'true',
+      buttocks:
+          ClientRegistrationTEC.buttocksController.text.toLowerCase() == 'true',
+      waist: ClientRegistrationTEC.waistController.text.toLowerCase() == 'true',
+      thighs:
+          ClientRegistrationTEC.thighsController.text.toLowerCase() == 'true',
+      arms: ClientRegistrationTEC.armsController.text.toLowerCase() == 'true',
+      breast:
+          ClientRegistrationTEC.breastController.text.toLowerCase() == 'true',
+      back: ClientRegistrationTEC.backController.text.toLowerCase() == 'true',
     );
 
     WeightAreasProvider weightAreasProvider = WeightAreasProvider();
@@ -212,148 +265,6 @@ Future<String?> createWeightAreas(String clientId) async {
     debugPrint('Error creating weight areas: $e');
     return null;
   }
-}
-
-void disposeControllers() {
-  // Client Controllers
-  nameController.dispose();
-  phoneController.dispose();
-  birthdateController.dispose();
-  dietController.dispose();
-  platControllers.forEach((element) {
-    element.dispose();
-  });
-  heightController.dispose();
-  weightController.dispose();
-  subscriptionTypeController.dispose();
-  notesController.dispose();
-  genderController.dispose();
-
-  // Disease Controllers
-  hypertensionController.dispose();
-  hypotensionController.dispose();
-  vascularController.dispose();
-  anemiaController.dispose();
-  otherHeartController.dispose();
-  colonController.dispose();
-  constipationController.dispose();
-  familyHistoryDMController.dispose();
-  previousOBMedController.dispose();
-  previousOBOperationsController.dispose();
-  renalController.dispose();
-  liverController.dispose();
-  gitController.dispose();
-  endocrineController.dispose();
-  rheumaticController.dispose();
-  allergiesController.dispose();
-  neuroController.dispose();
-  psychiatricController.dispose();
-  othersDiseaseController.dispose();
-  hormonalController.dispose();
-
-  // Client Constant Info Controllers
-  areaController.dispose();
-  activityLevelController.dispose();
-  yoyoController.dispose();
-  sportsController.dispose();
-
-  // Preferred Foods Controllers
-  carbohydratesController.dispose();
-  proteinController.dispose();
-  dairyController.dispose();
-  vegController.dispose();
-  fruitsController.dispose();
-  othersPreferredFoodsController.dispose();
-
-  // Weight Areas Controllers
-  abdomenController.dispose();
-  buttocksController.dispose();
-  waistController.dispose();
-  thighsController.dispose();
-  armsController.dispose();
-  breastController.dispose();
-  backController.dispose();
-
-  // Client Monthly Follow-Up Controllers
-  bmiController.dispose();
-  pbfController.dispose();
-  waterController.dispose();
-  maxWeightController.dispose();
-  optimalWeightController.dispose();
-  bmrController.dispose();
-  maxCaloriesController.dispose();
-  dailyCaloriesController.dispose();
-}
-
-void clearControllers() {
-  // Client Controllers
-  nameController.clear();
-  phoneController.clear();
-  birthdateController.clear();
-  dietController.clear();
-  platControllers.forEach((element) {
-    element.clear();
-  });
-  heightController.clear();
-  weightController.clear();
-  subscriptionTypeController.clear();
-  notesController.clear();
-  genderController.clear();
-
-  // Disease Controllers
-  hypertensionController.clear();
-  hypotensionController.clear();
-  vascularController.clear();
-  anemiaController.clear();
-  otherHeartController.clear();
-  colonController.clear();
-  constipationController.clear();
-  familyHistoryDMController.clear();
-  previousOBMedController.clear();
-  previousOBOperationsController.clear();
-  renalController.clear();
-  liverController.clear();
-  gitController.clear();
-  endocrineController.clear();
-  rheumaticController.clear();
-  allergiesController.clear();
-  neuroController.clear();
-  psychiatricController.clear();
-  othersDiseaseController.clear();
-  hormonalController.clear();
-
-  // Client Constant Info Controllers
-  areaController.clear();
-  activityLevelController.clear();
-  yoyoController.clear();
-  sportsController.clear();
-
-  // Preferred Foods Controllers
-  carbohydratesController.clear();
-  proteinController.clear();
-  dairyController.clear();
-  vegController.clear();
-  fruitsController.clear();
-  othersPreferredFoodsController.clear();
-
-  // Weight Areas Controllers
-  abdomenController.clear();
-  buttocksController.clear();
-  waistController.clear();
-  thighsController.clear();
-  armsController.clear();
-  breastController.clear();
-  backController.clear();
-
-  // Client Monthly Follow-Up Controllers
-  bmiController.clear();
-  pbfController.clear();
-  waterController.clear();
-  maxWeightController.clear();
-  optimalWeightController.clear();
-  bmrController.clear();
-  maxCaloriesController.clear();
-  dailyCaloriesController.clear();
 }
 
 SubscriptionType? getSubscriptionType(String value) {

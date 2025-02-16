@@ -5,11 +5,11 @@ import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
-import '../Controller/TextEditingControllers2.dart';
+import '../Controller/CheckInPageTEC.dart';
 import 'InfoCards/CheckInButton.dart';
 import 'InfoCards/ClientInfoCard.dart';
 import 'InfoCards/MeasurementsCard.dart';
-import 'InfoCards/subscriptionCard.dart';
+import 'InfoCards/SubscriptionCard.dart';
 
 class CheckInPage extends StatefulWidget {
   final Client? client;
@@ -20,16 +20,12 @@ class CheckInPage extends StatefulWidget {
 }
 
 class _CheckInPageState extends State<CheckInPage> {
-  final TextEditingController visitSubscriptionTypeController =
-      TextEditingController();
-  final TextEditingController visitSubscriptionPriceController =
-      TextEditingController();
-
   bool isLoading = true;
   String? errorMessage;
   Client? client;
   ClientConstantInfo? clientConstantInfo;
   Visit? lastClientVisit;
+  final CheckInPageTEC checkInPageTEC = CheckInPageTEC();
 
   @override
   void initState() {
@@ -73,9 +69,8 @@ class _CheckInPageState extends State<CheckInPage> {
 
   @override
   void dispose() {
-    visitSubscriptionTypeController.dispose();
-    visitSubscriptionPriceController.dispose();
-    super.dispose();
+    checkInPageTEC.dispose();
+    super.dispose(); //todo: verify it doesn't break
   }
 
   @override
@@ -119,9 +114,9 @@ class _CheckInPageState extends State<CheckInPage> {
                   SubscriptionCard(
                     client: client,
                     visitSubscriptionTypeController:
-                        visitSubscriptionTypeController,
+                    checkInPageTEC.visitSubscriptionTypeController,
                     visitSubscriptionPriceController:
-                        visitSubscriptionPriceController,
+                    checkInPageTEC.visitSubscriptionPriceController,
                   ),
                 ],
               ),
@@ -129,9 +124,9 @@ class _CheckInPageState extends State<CheckInPage> {
               CheckInButton(
                 client: client,
                 visitSubscriptionTypeController:
-                    visitSubscriptionTypeController,
+                checkInPageTEC.visitSubscriptionTypeController,
                 visitSubscriptionPriceController:
-                    visitSubscriptionPriceController,
+                checkInPageTEC.visitSubscriptionPriceController,
               ),
             ],
           ),

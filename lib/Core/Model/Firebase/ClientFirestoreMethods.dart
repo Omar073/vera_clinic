@@ -63,9 +63,13 @@ class ClientFirestoreMethods {
         .where('clientPhoneNum', isEqualTo: phoneNum)
         .get();
 
+    debugPrint("Query snapshot docs length: ${querySnapshot.docs.length}");
     clients.addAll(querySnapshot.docs
         .map((doc) => Client.fromFirestore(doc.data()))
         .toList());
+    for (Client c in clients) {
+      debugPrint("fetched client with phone: ${c.mClientPhoneNum}");
+    }
 
     return clients;
   }
