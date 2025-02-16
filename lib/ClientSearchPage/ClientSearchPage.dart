@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/CheckInPage/View/CheckInPage.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart';
-import '../../Model/Classes/Client.dart';
-import '../../../ClientDetailsPage/ClientDetailsPage.dart';
+import '../Core/Model/Classes/Client.dart';
+import '../ClientDetailsPage/ClientDetailsPage.dart';
 
 class ClientSearchPage extends StatefulWidget {
   final String state;

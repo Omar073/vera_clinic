@@ -28,24 +28,33 @@ class _CheckInButtonState extends State<CheckInButton> {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
+        //todo: maybe add loading animation when pressed w hateb2a agmad kaman lw t2dar ti ignore any new taps
         onPressed: () async {
           try {
             // Parse the subscription price
-            final double subscriptionPrice = double.parse(widget.visitSubscriptionPriceController.text);
+            final double subscriptionPrice =
+                double.parse(widget.visitSubscriptionPriceController.text);
             debugPrint('Parsed subscription price: $subscriptionPrice');
 
             // Set the subscription type for the client
-            widget.client?.subscriptionType = getSubscriptionType(widget.visitSubscriptionTypeController.text);
+            widget.client?.subscriptionType = getSubscriptionType(
+                widget.visitSubscriptionTypeController.text);
 
             // Check if the client is already checked in
-            bool isCheckedIn = await context.read<ClinicProvider>().isClientCheckedIn(widget.client!.mClientId);
+            bool isCheckedIn = await context
+                .read<ClinicProvider>()
+                .isClientCheckedIn(widget.client!.mClientId);
             if (!isCheckedIn) {
               // Add the client to the checked-in clients list
-              await context.read<ClinicProvider>().checkInClient(widget.client!);
+              await context
+                  .read<ClinicProvider>()
+                  .checkInClient(widget.client!);
               // Increment the daily patients count
               await context.read<ClinicProvider>().incrementDailyPatients();
               // Update the daily income
-              await context.read<ClinicProvider>().updateDailyIncome(subscriptionPrice);
+              await context
+                  .read<ClinicProvider>()
+                  .updateDailyIncome(subscriptionPrice);
 
               // Navigate to the HomePage
               Navigator.of(context).pushReplacement(
@@ -59,7 +68,6 @@ class _CheckInButtonState extends State<CheckInButton> {
                 ),
               );
             }
-
           } catch (e) {
             // Show an error message if the subscription price is invalid
             ScaffoldMessenger.of(context).showSnackBar(

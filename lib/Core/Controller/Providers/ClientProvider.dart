@@ -71,8 +71,8 @@ class ClientProvider with ChangeNotifier {
         .toList();
 
     final fetchedClients = await clientFirestoreMethods.fetchClientByName(name);
-    for (var client in fetchedClients ?? []) {
-      if (!clients.any((c) => c?.mClientId == client?.clientId)) {
+    for (var client in fetchedClients) {
+      if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
         clients.add(client!);
       }
     }
