@@ -21,8 +21,8 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ClinicProvider()),
         ChangeNotifierProvider(create: (_) => ClientProvider()),
+        ChangeNotifierProvider(create: (_) => ClinicProvider()),
         ChangeNotifierProvider(create: (_) => ClientConstantInfoProvider()),
         ChangeNotifierProvider(create: (_) => ClientMonthlyFollowUpProvider()),
         ChangeNotifierProvider(create: (_) => DiseaseProvider()),

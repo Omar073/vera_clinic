@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/TextEditingControllers.dart';
+import '../../Controller/NewClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 
 Widget bodyMeasurementsCard() {
@@ -13,7 +13,7 @@ Widget bodyMeasurementsCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: heightController,
+                myController: ClientRegistrationTEC.heightController,
                 hint: "أدخل الطول (سم)",
                 label: "الطول",
               ),
@@ -21,7 +21,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: weightController,
+                myController: ClientRegistrationTEC.weightController,
                 hint: "أدخل الوزن (كجم)",
                 label: "الوزن",
               ),
@@ -29,7 +29,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: bmiController,
+                myController: ClientRegistrationTEC.bmiController,
                 hint: "BMI ",
                 label: "مؤشر كتلة الجسم",
               ),
@@ -41,7 +41,7 @@ Widget bodyMeasurementsCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: waterController,
+                myController: ClientRegistrationTEC.waterController,
                 hint: '',
                 label: "الماء",
               ),
@@ -49,7 +49,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: pbfController,
+                myController: ClientRegistrationTEC.pbfController,
                 hint: "PBF ",
                 label: "نسبة الدهن",
               ),

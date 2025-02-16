@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/TextEditingControllers.dart';
+import '../../Controller/NewClientRegistrationTEC.dart';
 import '../UsedWidgets/ActivityLevelDropdownMenu.dart';
 import '../UsedWidgets/MyCheckBox.dart';
 
@@ -17,7 +17,7 @@ Widget dietPreferencesCard() {
           children: [
             const SizedBox(width: 16),
             ActivityLevelDropdownMenu(
-              activityLevelController: activityLevelController,
+              activityLevelController: ClientRegistrationTEC.activityLevelController,
             ),
           ],
         ),
@@ -34,17 +34,17 @@ Widget dietPreferencesCard() {
             SizedBox(
               width: 200,
               child: MyInputField(
-                myController: othersPreferredFoodsController,
+                myController: ClientRegistrationTEC.othersPreferredFoodsController,
                 hint: 'أخري',
                 label: 'أخري',
               ),
             ),
-            MyCheckBox(controller: fruitsController, text: "فاكهة"),
-            MyCheckBox(controller: vegController, text: "خضار"),
-            MyCheckBox(controller: dairyController, text: "ألبان"),
-            MyCheckBox(controller: proteinController, text: "بروتينات"),
+            MyCheckBox(controller: ClientRegistrationTEC.fruitsController, text: "فاكهة"),
+            MyCheckBox(controller: ClientRegistrationTEC.vegController, text: "خضار"),
+            MyCheckBox(controller: ClientRegistrationTEC.dairyController, text: "ألبان"),
+            MyCheckBox(controller: ClientRegistrationTEC.proteinController, text: "بروتينات"),
             MyCheckBox(
-                controller: carbohydratesController, text: "كربوهايدرات"),
+                controller: ClientRegistrationTEC.carbohydratesController, text: "كربوهايدرات"),
           ],
         ),
         const SizedBox(height: 16),
@@ -53,8 +53,8 @@ Widget dietPreferencesCard() {
           runSpacing: 12,
           alignment: WrapAlignment.end,
           children: [
-            MyCheckBox(controller: sportsController, text: 'ممارسة الرياضة'),
-            MyCheckBox(controller: yoyoController, text: '(رجيم سابق) YOYO'),
+            MyCheckBox(controller: ClientRegistrationTEC.sportsController, text: 'ممارسة الرياضة'),
+            MyCheckBox(controller: ClientRegistrationTEC.yoyoController, text: '(رجيم سابق) YOYO'),
           ],
         ),
       ],

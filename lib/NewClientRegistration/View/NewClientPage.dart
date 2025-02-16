@@ -3,7 +3,7 @@ import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.da
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 import '../../Core/View/Reusable widgets/MyInputField.dart';
-import '../Controller/TextEditingControllers.dart';
+import '../Controller/NewClientRegistrationTEC.dart';
 import 'InfoSections/PersonalInfoCard.dart';
 import 'InfoSections/actionButtons.dart';
 import 'InfoSections/bodyMeasurementsCard.dart';

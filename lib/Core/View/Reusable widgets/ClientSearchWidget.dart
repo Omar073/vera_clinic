@@ -19,9 +19,10 @@ class ClientSearchWidget extends StatefulWidget {
   State<ClientSearchWidget> createState() => _ClientSearchWidgetState();
 }
 
+//todo: revamp and update (fawwar) el search logic kolo and maybe even write it from scratch
+
 class _ClientSearchWidgetState extends State<ClientSearchWidget> {
   final TextEditingController _controller = TextEditingController();
-  ClientProvider clientProvider = ClientProvider();
 
   //* we did 2 changes here: 1- instead of using the list that was passed to us
   //* from the search page, instead we created a new list here and passed it to
@@ -31,16 +32,21 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
 
   Future<void> searchByName(String name) async {
     widget.onSearchButtonClicked();
-    final results = await clientProvider.getClientByName(name);
+    final results = await context.read<ClientProvider>().getClientByName(name);
     context.read<ClientProvider>().setSearchResults(results);
     widget.setHasSearched();
   }
 
   Future<void> searchByPhone(String phone) async {
     widget.onSearchButtonClicked();
-    final results = await clientProvider.getClientByPhone(phone);
+    final List<Client?> results =
+        await context.read<ClientProvider>().getClientByPhone(phone);
     context.read<ClientProvider>().setSearchResults(results);
     widget.setHasSearched();
+  }
+
+  Future<void> clickedSearchButton(String key, String type) async {
+    type == 'name' ? await searchByName(key) : await searchByPhone(key);
   }
 
   @override

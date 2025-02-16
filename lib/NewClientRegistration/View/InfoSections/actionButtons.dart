@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../NewVisit/View/NewVisit.dart';
+import '../../Controller/NewClientRegistrationTEC.dart';
 import '../../Controller/UtilityFunctions.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -21,7 +22,7 @@ class _ActionButtonsState extends State<ActionButtons> {
           ElevatedButton.icon(
             onPressed: () async {
               debugPrint("Button pressed: حفظ");
-              bool success = await createClient();
+              bool success = await createClient(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(success
@@ -32,7 +33,7 @@ class _ActionButtonsState extends State<ActionButtons> {
                 ),
               );
               if (success) {
-                disposeControllers();
+                ClientRegistrationTEC.dispose();
                 Navigator.pop(context); //todo: give the option to check-in? maybe in another button
               }
             },
@@ -75,7 +76,7 @@ class _ActionButtonsState extends State<ActionButtons> {
           const SizedBox(width: 16),
           ElevatedButton.icon(
             onPressed: () {
-              clearControllers();
+              ClientRegistrationTEC.clearControllers();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Controllers cleared'),
