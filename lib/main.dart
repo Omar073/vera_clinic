@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 
 Future<void> main() async {
+  //todo: check tips to Stay Within firebase daily quota limit
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

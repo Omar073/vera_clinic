@@ -83,6 +83,9 @@ class ClinicProvider with ChangeNotifier {
         debugPrint('Clinic is null');
         return [];
       }
+      for (var c in checkedInClients) {
+        debugPrint('Checked in client before: ${c?.mName}');
+      }
       for (var clientId in clinic!.mCheckedInClientsIds) {
         // check if the client is already checked in
         if (!checkedInClients.any((client) => client?.mClientId == clientId)) {
