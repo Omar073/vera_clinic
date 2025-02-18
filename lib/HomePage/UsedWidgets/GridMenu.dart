@@ -69,9 +69,7 @@ class _GridMenuState extends State<GridMenu> {
           ),
         ),
         menuCard('متابعة', Icons.calendar_today, Colors.purple, () async {
-          await context.read<ClinicProvider>().getCheckedInClients(
-              context); //!todo: do not call an async fn when the button is pressed and instead replace by future builder inside the page
-          Navigator.push(
+             Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CheckedInClientsPage(

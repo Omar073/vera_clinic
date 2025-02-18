@@ -15,10 +15,22 @@ class CheckedInClientsPage extends StatefulWidget {
 
 class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
   // List<Client?> checkedInClients = [];
+  bool isLoading = false;
+  Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+    await context.read<ClinicProvider>().getCheckedInClients(
+        context); //!todo: do not call an async fn when the button is pressed and instead replace by future builder inside the page
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchData();
     // print ids of all checked in clients
     for (var c in widget.checkedInClients) {
       debugPrint('Checked in client id: ${c?.mClientId}');
@@ -40,8 +52,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
 
   @override
   Widget build(BuildContext context) {
-    widget.checkedInClients =
-        context.watch<ClinicProvider>().checkedInClients;
+    widget.checkedInClients = context.watch<ClinicProvider>().checkedInClients;
 
     return Scaffold(
       appBar: AppBar(
@@ -55,19 +66,19 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
               icon: const Icon(Icons.refresh))
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 24),
-            CheckedInClientsList(checkInClients: widget.checkedInClients),
-          ],
-        ),
-      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 24),
+                  CheckedInClientsList(checkInClients: widget.checkedInClients),
+                ],
+              ),
+            ),
     );
   }
 }
-
-
 
 // Widget clientCard(Client client) {} //stful
