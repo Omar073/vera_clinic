@@ -24,6 +24,72 @@ class ClientFirestoreMethods {
     }
   }
 
+  Future<Client?> fetchClientById(String clientId) async {
+    try {
+      final querySnapshot = await FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .where('clientId', isEqualTo: clientId)
+          .get();
+
+      return querySnapshot.docs.isEmpty
+          ? null
+          : Client.fromFirestore(querySnapshot.docs.first.data());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching client by ID: ${e.message}');
+      return null;
+    } catch (e) {
+      debugPrint('Unknown error fetching client by ID: $e');
+      return null;
+    }
+  }
+
+  Future<List<Client?>> fetchClientByPhone(String phoneNum) async {
+    debugPrint("firebase fetching client by phone: $phoneNum");
+    List<Client> clients = [];
+
+    // final r = RetryOptions(maxAttempts: 3); //todo: add retry logic
+
+    try {
+      final querySnapshot = await FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .where('clientPhoneNum', isEqualTo: phoneNum)
+          .get();
+
+      debugPrint("Query snapshot docs length: ${querySnapshot.docs.length}");
+      clients.addAll(querySnapshot.docs
+          .map((doc) => Client.fromFirestore(doc.data()))
+          .toList());
+      for (Client c in clients) {
+        debugPrint("fetched client with phone: ${c.mClientPhoneNum}");
+      }
+    } on FirebaseException catch (e) {
+      debugPrint("Firebase error fetching client by phone: ${e.message}");
+    } catch (e) {
+      debugPrint("Unknown error fetching client by phone: $e");
+    }
+
+    return clients;
+  }
+
+  Future<List<Client?>> fetchClientByName(String name) async {
+    List<Client> clients = [];
+    try {
+      final querySnapshot = await FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .where('name', isEqualTo: name)
+          .get();
+      clients.addAll(querySnapshot.docs
+          .map((doc) => Client.fromFirestore(doc.data()))
+          .toList());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching client by name: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error fetching client by name: $e');
+    }
+
+    return clients;
+  }
+
   Future<void> updateClient(Client client) async {
     try {
       final clientRef = FirebaseSingleton.instance.firestore
@@ -39,48 +105,12 @@ class ClientFirestoreMethods {
       }
 
       await clientRef.update(client.toMap());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error updating client: ${e.message}');
+      throw Exception('Firebase error updating client: ${e.message}');
     } catch (e) {
-      throw Exception('Error updating client: $e');
+      debugPrint('Unknown error updating client: $e');
+      throw Exception('Unknown error updating client: $e');
     }
-  }
-
-  Future<Client?> fetchClientById(String clientId) async {
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Clients')
-        .where('clientId', isEqualTo: clientId)
-        .get();
-
-    return querySnapshot.docs.isEmpty
-        ? null
-        : Client.fromFirestore(querySnapshot.docs.first.data());
-  }
-
-  Future<List<Client?>> fetchClientByPhone(String phoneNum) async {
-    debugPrint("firebase fetching client by phone: $phoneNum");
-    List<Client> clients = [];
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Clients')
-        .where('clientPhoneNum', isEqualTo: phoneNum)
-        .get();
-
-    clients.addAll(querySnapshot.docs
-        .map((doc) => Client.fromFirestore(doc.data()))
-        .toList());
-
-    return clients;
-  }
-
-  Future<List<Client?>> fetchClientByName(String name) async {
-    //todo: maybe match by first name
-    List<Client> clients = [];
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Clients')
-        .where('name', isEqualTo: name)
-        .get();
-    clients.addAll(querySnapshot.docs
-        .map((doc) => Client.fromFirestore(doc.data()))
-        .toList());
-
-    return clients;
   }
 }

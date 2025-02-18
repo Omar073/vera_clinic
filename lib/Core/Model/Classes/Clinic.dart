@@ -78,14 +78,14 @@ class Clinic {
   }
 }
 
-Clinic clinic = Clinic(
-  dailyIncome: 1000.0,
-  monthlyIncome: 30000.0,
-  dailyPatients: 10,
-  monthlyPatients: 300,
-  dailyExpenses: 500.0,
-  monthlyExpenses: 15000.0,
-  dailyProfit: 500.0,
-  monthlyProfit: 15000.0,
-  checkedInClientsIds: [],
-);
+// Clinic clinic = Clinic(
+//   dailyIncome: 1000.0,
+//   monthlyIncome: 30000.0,
+//   dailyPatients: 10,
+//   monthlyPatients: 300,
+//   dailyExpenses: 500.0,
+//   monthlyExpenses: 15000.0,
+//   dailyProfit: 500.0,
+//   monthlyProfit: 15000.0,
+//   checkedInClientsIds: [],
+// );

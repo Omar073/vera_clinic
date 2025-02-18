@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/CheckedInClientsPage/CheckedInClientsPage.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 
 import '../../Core/View/Pages/AnalysisPage.dart';
-import '../../Core/View/Pages/ClientSearchPage.dart';
+import '../../ClientSearchPage/ClientSearchPage.dart';
 import '../../Core/View/Pages/FollowUpNav.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
+import 'menuCard.dart';
 
 class GridMenu extends StatefulWidget {
   const GridMenu({super.key});
@@ -31,10 +36,9 @@ class _GridMenuState extends State<GridMenu> {
             () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        ClientSearchPage(state: "search")))),
+                    builder: (context) => ClientSearchPage(state: "search")))),
         menuCard(
-          'عميل سابق',
+          'تسجيل دخول',
           Icons.person,
           Colors.blue,
           () => Navigator.push(
@@ -64,61 +68,17 @@ class _GridMenuState extends State<GridMenu> {
             MaterialPageRoute(builder: (context) => const AnalysisPage()),
           ),
         ),
-        menuCard(
-          'متابعة',
-          Icons.calendar_today,
-          Colors.purple,
-          () => Navigator.push(
+        menuCard('متابعة', Icons.calendar_today, Colors.purple, () async {
+             Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const FollowUpNav()),
-          ),
-        ),
+            MaterialPageRoute(
+                builder: (context) => CheckedInClientsPage(
+                    checkedInClients: context
+                        .watch<ClinicProvider>()
+                        .checkedInClients)), //* no need to recall getCheckedInClients() here since we already call it in the onTap() logic
+          );
+        }),
       ],
     );
   }
-}
-
-Widget menuCard(String title, IconData icon, Color color, VoidCallback onTap) {
-  return SizedBox(
-    width: 50,
-    height: 50,
-    child: GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.1),
-              spreadRadius: 2,
-              blurRadius: 10,
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: color, size: 30),
-            ),
-            const SizedBox(height: 15),
-            Text(
-              title,
-              style: GoogleFonts.cairo(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[800],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
 }

@@ -5,15 +5,19 @@ import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.dart';
 
-import '../../Controller/TextEditingControllers2.dart';
+import '../../Controller/CheckInPageTEC.dart';
 
 class CheckInButton extends StatefulWidget {
+  final TextEditingController visitSubscriptionTypeController;
+  final TextEditingController visitSubscriptionPriceController;
   final Client? client;
-  final TextEditingController subscriptionPriceController;
-  const CheckInButton(
-      {super.key,
-      required this.client,
-      required this.subscriptionPriceController});
+
+  const CheckInButton({
+    super.key,
+    required this.client,
+    required this.visitSubscriptionTypeController,
+    required this.visitSubscriptionPriceController,
+  });
 
   @override
   State<CheckInButton> createState() => _CheckInButtonState();
@@ -24,20 +28,55 @@ class _CheckInButtonState extends State<CheckInButton> {
   Widget build(BuildContext context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          widget.client?.subscriptionType =
-              getSubscriptionType(visitSubscriptionTypeController.text);
+        //todo: maybe add loading animation when pressed w hateb2a agmad kaman lw t2dar ti ignore any new taps
+        onPressed: () async {
+          try {
+            // Parse the subscription price
+            final double subscriptionPrice =
+                double.parse(widget.visitSubscriptionPriceController.text);
+            debugPrint('Parsed subscription price: $subscriptionPrice');
 
-          context.read<ClinicProvider>().addCheckedInClient(widget.client!);
-          context.read<ClinicProvider>().incrementDailyPatients();
-          context.read<ClinicProvider>().updateDailyIncome(
-              double.parse(widget.subscriptionPriceController.text));
+            // Set the subscription type for the client
+            widget.client?.subscriptionType = getSubscriptionType(
+                widget.visitSubscriptionTypeController.text);
 
-          Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (context) => const HomePage()));
+            // Check if the client is already checked in
+            bool isCheckedIn = await context
+                .read<ClinicProvider>()
+                .isClientCheckedIn(widget.client!.mClientId);
+            if (!isCheckedIn) {
+              // Add the client to the checked-in clients list
+              await context
+                  .read<ClinicProvider>()
+                  .checkInClient(widget.client!);
+              // Increment the daily patients count
+              await context.read<ClinicProvider>().incrementDailyPatients();
+              // Update the daily income
+              await context
+                  .read<ClinicProvider>()
+                  .updateDailyIncome(subscriptionPrice);
 
-          visitSubscriptionTypeController.dispose();
-          visitSubscriptionPriceController.dispose();
+              // Navigate to the HomePage
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const HomePage()));
+            } else {
+              // Show a message if the client is already checked in
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Client is already checked in'),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          } catch (e) {
+            // Show an error message if the subscription price is invalid
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Invalid subscription price'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
         },
         child: const Row(
           mainAxisSize: MainAxisSize.min,
