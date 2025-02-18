@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 
 Future<void> main() async {
+  //todo: check tips to Stay Within firebase daily quota limit
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -21,8 +22,8 @@ Future<void> main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ClinicProvider()),
         ChangeNotifierProvider(create: (_) => ClientProvider()),
+        ChangeNotifierProvider(create: (_) => ClinicProvider()),
         ChangeNotifierProvider(create: (_) => ClientConstantInfoProvider()),
         ChangeNotifierProvider(create: (_) => ClientMonthlyFollowUpProvider()),
         ChangeNotifierProvider(create: (_) => DiseaseProvider()),

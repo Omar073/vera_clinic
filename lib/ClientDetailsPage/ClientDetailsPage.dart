@@ -6,6 +6,7 @@ import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
 import 'package:vera_clinic/CheckInPage/View/CheckInPage.dart';
+import 'package:vera_clinic/VisitsDetailsPage/VisitsDetailsPage.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 
 import '../Core/Controller/Providers/ClientConstantInfoProvider.dart';
@@ -120,6 +121,17 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                       weightDistributionCard(myWeightAreas),
                       const SizedBox(height: 20),
                       medicalHistoryCard(myDisease),
+                      const SizedBox(height: 40),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      VisitsDetailsPage(client: client!)));
+                        },
+                        child: const Text('View client Visits'),
+                      ),
                     ],
                   ),
                 );

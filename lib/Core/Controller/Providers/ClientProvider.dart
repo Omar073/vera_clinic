@@ -35,17 +35,20 @@ class ClientProvider with ChangeNotifier {
   }
 
   Future<List<Client?>> getClientByPhone(String phoneNum) async {
-    List<Client?> clients = cachedClients  //todo: should this be removed or instead if the cached list that matches phone num is not empty then return it directly?
-        .where(
-          (client) => client?.mClientPhoneNum == phoneNum,
-        )
-        .toList();
+    debugPrint("getting client by phone number: $phoneNum");
+    List<Client?> clients =
+        cachedClients //todo: should this be removed or instead if the cached list that matches phone num is not empty then return it directly?, depeding on if the phone num attribute should be unique or not
+            .where(
+              (client) => client?.mClientPhoneNum == phoneNum,
+            )
+            .toList();
 
     final fetchedClients =
         await clientFirestoreMethods.fetchClientByPhone(phoneNum);
     for (var client in fetchedClients) {
       if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
         clients.add(client!);
+        debugPrint("client added: ${client.mName}");
       }
     }
 
@@ -61,16 +64,15 @@ class ClientProvider with ChangeNotifier {
   }
 
   Future<List<Client?>> getClientByName(String name) async {
-    List<Client?> clients = cachedClients  //? redundant
+    List<Client?> clients = cachedClients //? redundant
         .where(
           (client) => client?.mName == name,
         )
         .toList();
 
-    final fetchedClients =
-        await clientFirestoreMethods.fetchClientByName(name);
-    for (var client in fetchedClients ?? []) {
-      if (!clients.any((c) => c?.mClientId == client?.clientId)) {
+    final fetchedClients = await clientFirestoreMethods.fetchClientByName(name);
+    for (var client in fetchedClients) {
+      if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
         clients.add(client!);
       }
     }

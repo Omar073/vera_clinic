@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/TextEditingControllers.dart';
+import '../../Controller/NewClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 
 Widget weightHistoryCard() {
@@ -14,7 +14,7 @@ Widget weightHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: optimalWeightController,
+                myController: ClientRegistrationTEC.optimalWeightController,
                 hint: '',
                 label: "وزن مثالي",
               ),
@@ -22,7 +22,7 @@ Widget weightHistoryCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: maxWeightController,
+                myController: ClientRegistrationTEC.maxWeightController,
                 hint: '',
                 label: "أقصي وزن",
               ),
@@ -43,10 +43,11 @@ Widget weightHistoryCard() {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController:
-                    platControllers[platControllers.length - 6 - index],
+                myController: ClientRegistrationTEC.platControllers[
+                    ClientRegistrationTEC.platControllers.length - 6 - index],
                 hint: "",
-                label: "الوزن الثابت ${platControllers.length - 5 - index}",
+                label:
+                    "الوزن الثابت ${ClientRegistrationTEC.platControllers.length - 5 - index}",
               ),
             );
           }),
@@ -59,10 +60,11 @@ Widget weightHistoryCard() {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController:
-                    platControllers[platControllers.length - 1 - index],
+                myController: ClientRegistrationTEC.platControllers[
+                    ClientRegistrationTEC.platControllers.length - 1 - index],
                 hint: "",
-                label: "الوزن الثابت ${platControllers.length - index}",
+                label:
+                    "الوزن الثابت ${ClientRegistrationTEC.platControllers.length - index}",
               ),
             );
           }),
