@@ -68,14 +68,13 @@ class _GridMenuState extends State<GridMenu> {
             MaterialPageRoute(builder: (context) => const AnalysisPage()),
           ),
         ),
-        menuCard('متابعة', Icons.calendar_today, Colors.purple, () async {
-             Navigator.push(
+        menuCard('متابعة', Icons.calendar_today, Colors.purple, () {
+          Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CheckedInClientsPage(
-                    checkedInClients: context
-                        .watch<ClinicProvider>()
-                        .checkedInClients)), //* no need to recall getCheckedInClients() here since we already call it in the onTap() logic
+                    checkedInClients:
+                        context.watch<ClinicProvider>().checkedInClients)),
           );
         }),
       ],
