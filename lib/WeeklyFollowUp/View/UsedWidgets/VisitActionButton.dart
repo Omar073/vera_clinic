@@ -49,7 +49,7 @@ class _VisitActionButtonState extends State<VisitActionButton> {
         const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
-            VisitTEC.clearVisitTEC();
+            WeeklyFollowUpTEC.clear();
           },
           child: const Row(
             mainAxisSize: MainAxisSize.min,

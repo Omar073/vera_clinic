@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/NewClientRegistrationTEC.dart';
+import '../../Controller/ClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../UsedWidgets/MyCheckBox.dart';
 
@@ -17,7 +17,8 @@ Widget weightDistributionCard() {
           alignment: WrapAlignment.end,
           children: [
             MyCheckBox(
-                controller: ClientRegistrationTEC.backController, text: "ظهر"),
+                controller: ClientRegistrationTEC.backController,
+                text: "ظهر"),
             MyCheckBox(
                 controller: ClientRegistrationTEC.breastController,
                 text: "صدر"),
@@ -28,7 +29,8 @@ Widget weightDistributionCard() {
                 controller: ClientRegistrationTEC.thighsController,
                 text: "أفخاذ"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.waistController, text: "وسط"),
+                controller: ClientRegistrationTEC.waistController,
+                text: "وسط"),
             MyCheckBox(
                 controller: ClientRegistrationTEC.buttocksController,
                 text: "مقعدة"),

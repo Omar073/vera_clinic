@@ -3,7 +3,7 @@ import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.da
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 import '../../Core/View/Reusable widgets/MyInputField.dart';
-import '../Controller/NewClientRegistrationTEC.dart';
+import '../Controller/ClientRegistrationTEC.dart';
 import 'InfoSections/PersonalInfoCard.dart';
 import 'InfoSections/actionButtons.dart';
 import 'InfoSections/bodyMeasurementsCard.dart';
@@ -21,6 +21,19 @@ class NewClientPage extends StatefulWidget {
 }
 
 class _NewClientPageState extends State<NewClientPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    ClientRegistrationTEC.init();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    ClientRegistrationTEC.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

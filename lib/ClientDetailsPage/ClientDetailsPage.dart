@@ -99,41 +99,46 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                 return const Center(
                     child: Text('Error loading client details'));
               } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Client Details",
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height - 150,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            personalInfoCard(client, myConstantInfo!.mArea),
+                            const SizedBox(height: 20),
+                            bodyMeasurementsCard(client, myFollowUp!),
+                            const SizedBox(height: 20),
+                            dietPreferencesCard(client?.mDiet ?? '',
+                                myPreferredFoods!, myConstantInfo),
+                            const SizedBox(height: 20),
+                            weightHistoryCard(client),
+                            const SizedBox(height: 20),
+                            weightDistributionCard(myWeightAreas),
+                            const SizedBox(height: 20),
+                            medicalHistoryCard(myDisease),
+                          ],
+                        ),
                       ),
-                      const SizedBox(height: 16),
-                      personalInfoCard(client, myConstantInfo!.mArea),
-                      const SizedBox(height: 20),
-                      bodyMeasurementsCard(client, myFollowUp!),
-                      const SizedBox(height: 20),
-                      dietPreferencesCard(client?.mDiet ?? '',
-                          myPreferredFoods!, myConstantInfo),
-                      const SizedBox(height: 20),
-                      weightHistoryCard(client),
-                      const SizedBox(height: 20),
-                      weightDistributionCard(myWeightAreas),
-                      const SizedBox(height: 20),
-                      medicalHistoryCard(myDisease),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VisitsDetailsPage(client: client!)));
-                        },
-                        child: const Text('View client Visits'),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    VisitsDetailsPage(client: client!)));
+                      },
+                      child: const Text(
+                        'View client Visits',
+                        style: TextStyle(color: Colors.blueAccent),
                       ),
-                    ],
-                  ),
+                    ),
+                    // const SizedBox(height: 20),
+                  ],
                 );
               }
             },

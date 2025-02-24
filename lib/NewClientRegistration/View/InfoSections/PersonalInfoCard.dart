@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/NewClientRegistrationTEC.dart';
+import '../../Controller/ClientRegistrationTEC.dart';
 import '../UsedWidgets/GenderDropdownMenu.dart';
 import '../UsedWidgets/datePicker.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
@@ -16,7 +16,6 @@ class PersonalInfoCard extends StatefulWidget {
 }
 
 class _PersonalInfoCardState extends State<PersonalInfoCard> {
-
   @override
   void dispose() {
     ClientRegistrationTEC.dispose();
@@ -61,7 +60,8 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
             children: [
               Expanded(
                 child: GenderDropdownMenu(
-                    genderController: ClientRegistrationTEC.genderController),
+                    genderController:
+                        ClientRegistrationTEC.genderController),
               ),
               const SizedBox(width: 16),
               Expanded(
