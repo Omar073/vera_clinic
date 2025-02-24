@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../NewVisit/View/NewVisit.dart';
-import '../../Controller/NewClientRegistrationTEC.dart';
+import '../../Controller/ClientRegistrationTEC.dart';
 import '../../Controller/UtilityFunctions.dart';
 
 class ActionButtons extends StatefulWidget {
@@ -34,7 +34,8 @@ class _ActionButtonsState extends State<ActionButtons> {
               );
               if (success) {
                 ClientRegistrationTEC.dispose();
-                Navigator.pop(context); //todo: give the option to check-in? maybe in another button
+                Navigator.pop(
+                    context); //todo: give the option to check-in? maybe in another button
               }
             },
             icon: const Icon(Icons.save, color: Colors.white),
@@ -76,7 +77,7 @@ class _ActionButtonsState extends State<ActionButtons> {
           const SizedBox(width: 16),
           ElevatedButton.icon(
             onPressed: () {
-              ClientRegistrationTEC.clearControllers();
+              ClientRegistrationTEC.clear();
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text('Controllers cleared'),

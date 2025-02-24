@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/NewClientRegistrationTEC.dart';
+import '../../Controller/ClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 
 Widget bodyMeasurementsCard() {

@@ -1,10 +1,20 @@
 import 'package:flutter/cupertino.dart';
 
 class CheckInPageTEC {
-  final TextEditingController visitSubscriptionTypeController = TextEditingController();
-  final TextEditingController visitSubscriptionPriceController = TextEditingController();
+  static late TextEditingController visitSubscriptionTypeController;
+  static late TextEditingController visitSubscriptionPriceController;
 
-  void dispose() {
+  static void init() {
+    visitSubscriptionTypeController = TextEditingController();
+    visitSubscriptionPriceController = TextEditingController();
+  }
+
+  static void clear() {
+    visitSubscriptionTypeController.clear();
+    visitSubscriptionPriceController.clear();
+  }
+
+  static void dispose() {
     visitSubscriptionTypeController.dispose();
     visitSubscriptionPriceController.dispose();
   }
