@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/datePicker.dart';
-import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
+import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
+import 'package:vera_clinic/NewVisit/View/UsedWidgets/AddAnotherVisitButton.dart';
+import 'package:vera_clinic/NewVisit/View/UsedWidgets/SaveVisitButton.dart';
 
 import '../../Core/View/Reusable widgets/myCard.dart';
-import '../Controller/UtilityFunctions.dart';
+import '../Controller/NewVisitUF.dart';
 
 class NewVisit extends StatefulWidget {
   const NewVisit({super.key});
@@ -14,7 +16,17 @@ class NewVisit extends StatefulWidget {
 }
 
 class _NewVisitState extends State<NewVisit> {
-  // int visitCounter = 1;
+  @override
+  void initState() {
+    super.initState();
+    NewVisitTEC.init();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    NewVisitTEC.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +34,7 @@ class _NewVisitState extends State<NewVisit> {
       appBar: AppBar(
         backgroundColor: Colors.blue.shade100,
         centerTitle: true,
-        title: Text("${clientVisits.length + 1}# " "زيارة"),
+        title: Text("${NewVisitTEC.clientVisits.length + 1}# " "زيارة"),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0)
@@ -46,14 +58,16 @@ class _NewVisitState extends State<NewVisit> {
                             children: [
                               Expanded(
                                 child: MyInputField(
-                                    myController: visitDietController,
+                                    myController:
+                                        NewVisitTEC.visitDietController,
                                     hint: '',
                                     label: 'اسم النظام'),
                               ),
                               const SizedBox(width: 40),
                               Expanded(
                                 child: DatePicker(
-                                    textEditingController: visitDateController,
+                                    textEditingController:
+                                        NewVisitTEC.visitDateController,
                                     label: 'تاريخ الزيارة'),
                               ),
                             ],
@@ -63,21 +77,24 @@ class _NewVisitState extends State<NewVisit> {
                             children: [
                               Expanded(
                                 child: MyInputField(
-                                    myController: visitNotesController,
+                                    myController:
+                                        NewVisitTEC.visitNotesController,
                                     hint: '',
                                     label: 'ملاحظات'),
                               ),
                               const SizedBox(width: 40),
                               Expanded(
                                 child: MyInputField(
-                                    myController: visitWeightController,
+                                    myController:
+                                        NewVisitTEC.visitWeightController,
                                     hint: 'أدخل الوزن (كجم)',
                                     label: 'الوزن'),
                               ),
                               const SizedBox(width: 40),
                               Expanded(
                                 child: MyInputField(
-                                    myController: visitBMIController,
+                                    myController:
+                                        NewVisitTEC.visitBMIController,
                                     hint: 'BMI ',
                                     label: 'مؤشر كتلة الجسم'),
                               ),
@@ -88,88 +105,14 @@ class _NewVisitState extends State<NewVisit> {
                   const SizedBox(
                     height: 100,
                   ),
-                  Center(
+                  const Center(
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 8.0),
+                      padding: EdgeInsets.only(bottom: 8.0),
                       child: Wrap(
                         spacing: 20,
                         children: [
-                          ElevatedButton.icon(
-                            label: const Text(
-                              "تسجيل",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            onPressed: () async {
-                              debugPrint("Button pressed: حفظ");
-                              bool success = await createVisit();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Center(
-                                    child: Text(success
-                                        ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
-                                        : 'فشل حفظ الزيارة'),
-                                  ),
-                                  duration: const Duration(seconds: 2),
-                                  backgroundColor:
-                                      success ? Colors.green : Colors.red,
-                                ),
-                              );
-                              if (success) {
-                                disposeControllers();
-                                Navigator.pop(context);
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  const Color.fromARGB(255, 27, 169, 34),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 13),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                            icon: const Icon(
-                              Icons.save,
-                              color: Colors.white,
-                            ),
-                          ),
-                          ElevatedButton.icon(
-                            label: const Text(
-                              'إضافة زيارة أخري',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                            ),
-                            onPressed: () async {
-                              bool success = await createVisit();
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Center(
-                                    child: Text(success
-                                        ? 'تم حفظ الزيارة ${clientVisits.length + 1} بنجاح'
-                                        : 'فشل حفظ الزيارة'),
-                                  ),
-                                  duration: const Duration(seconds: 2),
-                                  backgroundColor:
-                                      success ? Colors.green : Colors.red,
-                                ),
-                              );
-                              setState(() {});
-                              // if (success) disposeControllers();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 13),
-                              textStyle: const TextStyle(fontSize: 20),
-                            ),
-                          ),
+                          SaveVisitButton(),
+                          AddAnotherVisitButton(),
                         ],
                       ),
                     ),

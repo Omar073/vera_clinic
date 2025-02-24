@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
+import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
@@ -22,10 +22,10 @@ Future<bool> createVisit(Client c, BuildContext context) async {
       visitId: "",
       clientId: c.mClientId,
       date: DateTime.now(),
-      diet: visitDietController.text,
-      weight: double.tryParse(visitWeightController.text) ?? 0,
-      bmi: double.tryParse(visitBMIController.text) ?? 0,
-      visitNotes: visitNotesController.text,
+      diet: NewVisitTEC.visitDietController.text,
+      weight: double.tryParse(NewVisitTEC.visitWeightController.text) ?? 0,
+      bmi: double.tryParse(NewVisitTEC.visitBMIController.text) ?? 0,
+      visitNotes: NewVisitTEC.visitNotesController.text,
     );
 
     await context.read<VisitProvider>().createVisit(v);

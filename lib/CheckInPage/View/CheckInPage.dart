@@ -25,13 +25,13 @@ class _CheckInPageState extends State<CheckInPage> {
   Client? client;
   ClientConstantInfo? clientConstantInfo;
   Visit? lastClientVisit;
-  final CheckInPageTEC checkInPageTEC = CheckInPageTEC();
 
   @override
   void initState() {
     super.initState();
     client = widget.client;
     _fetchData();
+    CheckInPageTEC.init();
   }
 
   Future<void> _fetchData() async {
@@ -69,7 +69,7 @@ class _CheckInPageState extends State<CheckInPage> {
 
   @override
   void dispose() {
-    checkInPageTEC.dispose();
+    CheckInPageTEC.dispose();
     super.dispose(); //todo: verify it doesn't break
   }
 
@@ -114,9 +114,9 @@ class _CheckInPageState extends State<CheckInPage> {
                   SubscriptionCard(
                     client: client,
                     visitSubscriptionTypeController:
-                    checkInPageTEC.visitSubscriptionTypeController,
+                    CheckInPageTEC.visitSubscriptionTypeController,
                     visitSubscriptionPriceController:
-                    checkInPageTEC.visitSubscriptionPriceController,
+                    CheckInPageTEC.visitSubscriptionPriceController,
                   ),
                 ],
               ),
@@ -124,9 +124,9 @@ class _CheckInPageState extends State<CheckInPage> {
               CheckInButton(
                 client: client,
                 visitSubscriptionTypeController:
-                checkInPageTEC.visitSubscriptionTypeController,
+                CheckInPageTEC.visitSubscriptionTypeController,
                 visitSubscriptionPriceController:
-                checkInPageTEC.visitSubscriptionPriceController,
+                CheckInPageTEC.visitSubscriptionPriceController,
               ),
             ],
           ),

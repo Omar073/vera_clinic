@@ -7,7 +7,7 @@ import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
-import 'package:vera_clinic/NewVisit/Controller/TextEditingControllers.dart';
+import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import '../../Core/Controller/Providers/PreferredFoodsProvider.dart';
@@ -16,8 +16,8 @@ import '../../Core/Controller/Providers/WeightAreasProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Disease.dart';
 import '../../Core/Model/Classes/Visit.dart';
-import '../../NewVisit/Controller/UtilityFunctions.dart';
-import 'NewClientRegistrationTEC.dart';
+import '../../NewVisit/Controller/NewVisitUF.dart';
+import 'ClientRegistrationTEC.dart';
 
 bool isNumOnly(String value) {
   final num? numValue = num.tryParse(value);
@@ -70,9 +70,9 @@ Future<bool> createClient(
     c.weightAreasId =
         await createWeightAreas(c.mClientId) ?? '';
 
-    if (clientVisits.isNotEmpty) {
+    if (NewVisitTEC.clientVisits.isNotEmpty) {
       c.lastVisitId = getLatestVisitId();
-      for (Visit v in clientVisits) {
+      for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = c.mClientId;
         VisitProvider visitProvider = VisitProvider();
         visitProvider.updateVisit(v);

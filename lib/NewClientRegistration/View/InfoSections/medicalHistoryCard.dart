@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/NewClientRegistrationTEC.dart';
+import '../../Controller/ClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../UsedWidgets/MyCheckBox.dart';
 
@@ -166,7 +166,8 @@ Widget medicalHistoryCard() {
           alignment: WrapAlignment.end,
           children: [
             MyCheckBox(
-              controller: ClientRegistrationTEC.previousOBOperationsController,
+              controller:
+                  ClientRegistrationTEC.previousOBOperationsController,
               text: "عمليات سمنة سابقة",
             ),
             MyCheckBox(
