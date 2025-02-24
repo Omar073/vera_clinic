@@ -17,7 +17,7 @@ Widget visitInfo2() {
             children: [
               Expanded(
                   child: MyInputField(
-                      myController: VisitTEC.visitNotesController,
+                      myController: WeeklyFollowUpTEC.visitNotesController,
                       hint: '',
                       label: "ملاحظات"))
             ],

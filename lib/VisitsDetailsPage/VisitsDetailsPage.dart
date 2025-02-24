@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
+import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitCard.dart';
 
 class VisitsDetailsPage extends StatefulWidget {
   final Client client;
@@ -32,7 +34,7 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('تفاصيل زيارات ${widget.client.mName}'),
+        title: Text('${widget.client.mName} :تفاصيل زيارات '),
         centerTitle: true,
       ),
       body: FutureBuilder<List<Visit?>?>(
@@ -56,23 +58,7 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
             itemCount: visits.length,
             itemBuilder: (context, index) {
               final visit = visits[index]!;
-              return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-                child: myCard(
-                  'زيارة رقم ${visits.length - index}',
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('التاريخ: ${visit.mDate.toLocal()}'),
-                      Text('النظام الغذائي: ${visit.mDiet}'),
-                      Text('الوزن: ${visit.mWeight} كجم'),
-                      Text('مؤشر كتلة الجسم: ${visit.mBMI}'),
-                      Text('ملاحظات: ${visit.mVisitNotes}'),
-                    ],
-                  ),
-                ),
-              );
+              return visitCard(visit, index + 1);
             },
           );
         },

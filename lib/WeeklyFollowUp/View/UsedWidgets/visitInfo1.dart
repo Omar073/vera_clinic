@@ -19,17 +19,17 @@ Widget visitInfo1() {
                 spacing: 60,
                 children: [
                   MyInputField(
-                    myController: VisitTEC.visitDietController,
+                    myController: WeeklyFollowUpTEC.visitDietController,
                     hint: "",
                     label: "اسم النظام",
                   ),
                   MyInputField(
-                    myController: VisitTEC.visitWeightController,
+                    myController: WeeklyFollowUpTEC.visitWeightController,
                     hint: "",
                     label: "الوزن",
                   ),
                   MyInputField(
-                    myController: VisitTEC.visitBMIController,
+                    myController: WeeklyFollowUpTEC.visitBMIController,
                     hint: "",
                     label: "مؤشر كتلة الجسم",
                   ),

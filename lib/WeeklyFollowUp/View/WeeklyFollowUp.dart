@@ -27,12 +27,12 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
   void initState() {
     super.initState();
     _lastVisitDate = _fetchLastVisitDate();
-    VisitTEC.initVisitTEC();
+    WeeklyFollowUpTEC.init();
   }
 
   @override
   void dispose() {
-    VisitTEC.disposeVisitTEC();
+    WeeklyFollowUpTEC.dispose();
     super.dispose();
   }
 
