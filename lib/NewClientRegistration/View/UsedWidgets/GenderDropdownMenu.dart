@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../Core/Model/Classes/Client.dart';
-import '../../Controller/UtilityFunctions.dart';
+import '../../Controller/ClientRegistrationUF.dart';
 
 class GenderDropdownMenu extends StatefulWidget {
   final TextEditingController genderController;

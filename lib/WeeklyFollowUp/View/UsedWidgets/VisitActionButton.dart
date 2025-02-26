@@ -20,12 +20,13 @@ class _VisitActionButtonState extends State<VisitActionButton> {
       children: [
         ElevatedButton(
           onPressed: () async {
-            bool success = await createVisit(widget.client, context);
+            bool success = await createWeeklyFollowUp(widget.client, context);
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(success
-                    ? 'Client registration successful'
-                    : 'Client registration failed'),
+                content: Center(
+                  child: Text(
+                      success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل'),
+                ),
                 backgroundColor: success ? Colors.green : Colors.red,
                 duration: const Duration(seconds: 2),
               ),

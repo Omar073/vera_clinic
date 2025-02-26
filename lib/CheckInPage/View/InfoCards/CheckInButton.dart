@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
-import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 
 import '../../Controller/CheckInPageTEC.dart';
 
@@ -63,7 +63,7 @@ class _CheckInButtonState extends State<CheckInButton> {
               // Show a message if the client is already checked in
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Client is already checked in'),
+                  content: Center(child: Text('العميل مسجل بالفعل')),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -72,7 +72,8 @@ class _CheckInButtonState extends State<CheckInButton> {
             // Show an error message if the subscription price is invalid
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
-                content: Text('Invalid subscription price'),
+                content:
+                    Center(child: Text('الرجاء إدخال سعر الاشتراك بشكل صحيح')),
                 backgroundColor: Colors.red,
               ),
             );

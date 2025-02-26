@@ -36,8 +36,8 @@ List<Widget> _buildMedicalHistoryRows(Disease myDisease) {
     infoRow('Allergies', myDisease.mAllergies),
     infoRow('Neuro', myDisease.mNeuro),
     infoRow('Psychiatric', myDisease.mPsychiatric),
-    infoRow('Others', myDisease.mOthers),
     infoRow('Hormonal', myDisease.mHormonal),
+    infoRow('Others', myDisease.mOthers),
   ];
 }
 
