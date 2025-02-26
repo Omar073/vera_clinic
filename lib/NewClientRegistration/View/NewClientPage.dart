@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/NewClientRegistration/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 import '../../Core/View/Reusable widgets/MyInputField.dart';
 import '../Controller/ClientRegistrationTEC.dart';
 import 'InfoSections/PersonalInfoCard.dart';
-import 'InfoSections/actionButtons.dart';
+import 'InfoSections/ActionButtons.dart';
 import 'InfoSections/bodyMeasurementsCard.dart';
 import 'InfoSections/dietPreferencesCard.dart';
 import 'InfoSections/medicalHistoryCard.dart';
@@ -21,7 +21,6 @@ class NewClientPage extends StatefulWidget {
 }
 
 class _NewClientPageState extends State<NewClientPage> {
-
   @override
   void initState() {
     super.initState();
@@ -42,25 +41,31 @@ class _NewClientPageState extends State<NewClientPage> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 208, 241, 255),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0).copyWith(top: 24),
-        child: Column(
-          children: [
-            const PersonalInfoCard(),
-            const SizedBox(height: 20),
-            bodyMeasurementsCard(),
-            const SizedBox(height: 20),
-            dietPreferencesCard(),
-            const SizedBox(height: 20),
-            weightHistoryCard(),
-            const SizedBox(height: 20),
-            weightDistributionCard(),
-            const SizedBox(height: 20),
-            medicalHistoryCard(),
-            const SizedBox(height: 20),
-            const ActionButtons(),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0).copyWith(top: 24),
+              child: Column(
+                children: [
+                  const PersonalInfoCard(),
+                  const SizedBox(height: 20),
+                  bodyMeasurementsCard(),
+                  const SizedBox(height: 20),
+                  dietPreferencesCard(),
+                  const SizedBox(height: 20),
+                  weightHistoryCard(),
+                  const SizedBox(height: 20),
+                  weightDistributionCard(),
+                  const SizedBox(height: 20),
+                  medicalHistoryCard(),
+                ],
+              ),
+            ),
+          ),
+          const ActionButtons(),
+        ],
       ),
     );
   }

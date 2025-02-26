@@ -65,12 +65,12 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text(
-                        "نظام اخر متابعة: Loading...",
+                        "نظام اخر متابعة: جاري التحميل...",
                         style: TextStyle(fontSize: 20),
                       );
                     } else if (snapshot.hasError) {
                       return const Text(
-                        "نظام اخر متابعة: Error",
+                        "نظام اخر متابعة: خطأ",
                         style: TextStyle(fontSize: 20),
                       );
                     } else {
@@ -82,15 +82,15 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                             spacing: 60,
                             children: [
                               Text(
-                                "${snapshot.data?.mDiet ?? 'No last visit diet'} :نظام اخر متابعة ",
+                                "${snapshot.data?.mDiet ?? 'لا يوجد نظام متابعة'} :نظام اخر متابعة ",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                "وزن اخر متابعة: ${snapshot.data?.mWeight ?? 'No last visit weight'}",
+                                "وزن اخر متابعة: ${snapshot.data?.mWeight ?? 'لا يوجد وزن متابعة'}",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                "تاريخ اخر متابعة: ${snapshot.data?.mDate.toLocal().toString().split(' ')[0] ?? 'No last visit date'}",
+                                "تاريخ اخر متابعة: ${snapshot.data?.mDate.toLocal().toString().split(' ')[0] ?? 'لا يوجد تاريخ متابعة'}",
                                 style: const TextStyle(fontSize: 20),
                               )
                             ],

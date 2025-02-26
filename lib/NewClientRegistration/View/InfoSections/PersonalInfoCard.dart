@@ -60,8 +60,7 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
             children: [
               Expanded(
                 child: GenderDropdownMenu(
-                    genderController:
-                        ClientRegistrationTEC.genderController),
+                    genderController: ClientRegistrationTEC.genderController),
               ),
               const SizedBox(width: 16),
               Expanded(
