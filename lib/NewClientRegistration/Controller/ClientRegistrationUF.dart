@@ -8,7 +8,7 @@ bool isNumOnly(String value) {
   return numValue != null;
 }
 
-bool verifyInput(BuildContext context) {
+bool verifyClientInput(BuildContext context) {
   bool isValid = true;
   if (ClientRegistrationTEC.phoneController.text.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(

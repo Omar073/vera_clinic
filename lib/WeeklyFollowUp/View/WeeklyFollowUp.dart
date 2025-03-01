@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/VisitActionButton.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/visitInfo1.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/visitInfo2.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUActionButton.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo1.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo2.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 import '../Controller/VisitTEC.dart';
-import 'UsedWidgets/visitClientInfoCard.dart';
+import 'UsedWidgets/WFUClientInfoCard.dart';
 
 class WeeklyFollowUp extends StatefulWidget {
   final Client client;

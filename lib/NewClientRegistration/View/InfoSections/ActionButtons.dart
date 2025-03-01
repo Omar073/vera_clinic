@@ -79,37 +79,43 @@ class _ActionButtonsState extends State<ActionButtons> {
     );
   }
 
-  Widget _saveButton() {
-    //todo: reduce complexity
-    return ElevatedButton.icon(
-      onPressed: isSaving
-          ? null
-          : () async {
-              debugPrint("Button pressed: حفظ");
-              if (!verifyInput(context)) return;
+  Widget _saveButton() { //todo: separate into different files
+    return _buildButton(
+      isLoading: isSaving,
+      onPressed: () async {
+        await _handleSave();
+      },
+      icon: Icons.save,
+      loadingText: 'جاري الحفظ...',
+      text: 'حفظ',
+      backgroundColor: Colors.blueAccent,
+    );
+  }
 
-              setState(() => isSaving = true);
-              try {
-                bool success = await createClient(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                      child: Text(success
-                          ? 'تم تسجيل العميل بنجاح'
-                          : 'فشل تسجيل العميل'),
-                    ),
-                    backgroundColor: success ? Colors.green : Colors.red,
-                  ),
-                );
-                if (success) {
-                  ClientRegistrationTEC.dispose();
-                  Navigator.pop(context);
-                }
-              } finally {
-                setState(() => isSaving = false);
-              }
-            },
-      icon: isSaving
+  Widget _loginButton() {
+    return _buildButton(
+      isLoading: isLoggingIn,
+      onPressed: () async {
+        await _handleLogin();
+      },
+      icon: Icons.person_add,
+      loadingText: 'جاري التسجيل...',
+      text: 'تسجيل دخول',
+      backgroundColor: Colors.teal,
+    );
+  }
+
+  Widget _buildButton({
+    required bool isLoading,
+    required VoidCallback onPressed,
+    required IconData icon,
+    required String loadingText,
+    required String text,
+    required Color backgroundColor,
+  }) {
+    return ElevatedButton.icon(
+      onPressed: isLoading ? null : onPressed,
+      icon: isLoading
           ? const SizedBox(
               width: 24,
               height: 24,
@@ -118,73 +124,67 @@ class _ActionButtonsState extends State<ActionButtons> {
                 strokeWidth: 3,
               ),
             )
-          : const Icon(Icons.save, color: Colors.white),
+          : Icon(icon, color: Colors.white),
       label: Text(
-        isSaving ? 'جاري الحفظ...' : 'حفظ',
+        isLoading ? loadingText : text,
         style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: backgroundColor,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
         textStyle: const TextStyle(fontSize: 20),
       ),
     );
   }
 
-  Widget _loginButton() {
-    //todo: reduce complexity
-    return ElevatedButton.icon(
-      onPressed: isLoggingIn
-          ? null
-          : () async {
-              debugPrint("Button pressed: تسجيل دخول");
-              if (!verifyInput(context)) return;
+  Future<void> _handleSave() async {
+    debugPrint("Button pressed: حفظ");
+    if (!verifyClientInput(context)) return;
 
-              setState(() => isLoggingIn = true);
-              try {
-                bool success = await createClient(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Center(
-                        child:
-                            Text(success ? 'تم التسجيل بنجاح' : 'فشل التسجيل')),
-                    backgroundColor: success ? Colors.green : Colors.red,
-                  ),
-                );
-                if (success) {
-                  checkInNewClient(context);
-                  ClientRegistrationTEC.dispose();
-                  Navigator.pop(context);
-                }
-              } finally {
-                setState(() => isLoggingIn = false);
-              }
-            },
-      icon: isLoggingIn
-          ? const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 3,
-              ),
-            )
-          : const Icon(Icons.person_add, color: Colors.white),
-      label: Text(
-        isLoggingIn ? 'جاري التسجيل...' : 'تسجيل دخول',
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+    setState(() => isSaving = true);
+    try {
+      bool success = await createClient(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+            child: Text(success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل'),
+          ),
+          backgroundColor: success ? Colors.green : Colors.red,
         ),
-      ),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.teal,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-        textStyle: const TextStyle(fontSize: 20),
-      ),
-    );
+      );
+      if (success) {
+        ClientRegistrationTEC.dispose();
+        Navigator.pop(context);
+      }
+    } finally {
+      setState(() => isSaving = false);
+    }
+  }
+
+  Future<void> _handleLogin() async {
+    debugPrint("Button pressed: تسجيل دخول");
+    if (!verifyClientInput(context)) return;
+
+    setState(() => isLoggingIn = true);
+    try {
+      bool success = await createClient(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+              child: Text(success ? 'تم التسجيل بنجاح' : 'فشل التسجيل')),
+          backgroundColor: success ? Colors.green : Colors.red,
+        ),
+      );
+      if (success) {
+        checkInNewClient(context);
+        ClientRegistrationTEC.dispose();
+        Navigator.pop(context);
+      }
+    } finally {
+      setState(() => isLoggingIn = false);
+    }
   }
 }
