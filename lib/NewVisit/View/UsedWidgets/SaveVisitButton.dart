@@ -7,47 +7,61 @@ class SaveVisitButton extends StatefulWidget {
   const SaveVisitButton({super.key});
 
   @override
-  State<SaveVisitButton> createState() => _ActionbuttonState();
+  State<SaveVisitButton> createState() => _SaveVisitButtonState();
 }
 
-class _ActionbuttonState extends State<SaveVisitButton> {
+class _SaveVisitButtonState extends State<SaveVisitButton> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      label: const Text(
-        "تسجيل",
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onPressed: () async {
-        debugPrint("Button pressed: حفظ");
-        bool success = await createVisit();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Center(
-              child: Text(success
-                  ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
-                  : 'فشل حفظ الزيارة'),
+    return _isLoading
+        ? const CircularProgressIndicator()
+        : ElevatedButton.icon(
+            label: const Text(
+              "تسجيل",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            duration: const Duration(seconds: 2),
-            backgroundColor: success ? Colors.green : Colors.red,
-          ),
-        );
-        if (success) {
-          Navigator.pop(context);
-        }
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 27, 169, 34),
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-        textStyle: const TextStyle(fontSize: 20),
-      ),
-      icon: const Icon(
-        Icons.save,
-        color: Colors.white,
-      ),
-    );
+            onPressed: () async {
+              if (!verifyVisitInput(context)) return;
+              
+              setState(() {
+                _isLoading = true;
+              });
+
+              debugPrint("Button pressed: حفظ");
+              bool success = await createVisit();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Center(
+                    child: Text(success
+                        ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
+                        : 'فشل حفظ الزيارة'),
+                  ),
+                  duration: const Duration(seconds: 2),
+                  backgroundColor: success ? Colors.green : Colors.red,
+                ),
+              );
+              if (success) {
+                Navigator.pop(context);
+              }
+
+              setState(() {
+                _isLoading = false;
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 27, 169, 34),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
+              textStyle: const TextStyle(fontSize: 20),
+            ),
+            icon: const Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
+          );
   }
 }
