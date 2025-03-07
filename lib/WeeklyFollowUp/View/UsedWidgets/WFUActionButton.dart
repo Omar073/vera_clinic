@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
+import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/VisitTEC.dart';
 
 class VisitActionButton extends StatefulWidget {
@@ -21,15 +22,9 @@ class _VisitActionButtonState extends State<VisitActionButton> {
         ElevatedButton(
           onPressed: () async {
             bool success = await createWeeklyFollowUp(widget.client, context);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Center(
-                  child: Text(
-                      success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل'),
-                ),
-                backgroundColor: success ? Colors.green : Colors.red,
-                duration: const Duration(seconds: 2),
-              ),
+            MySnackBar(
+              message: success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+              color: success ? Colors.green : Colors.red,
             );
             if (success) {
               Navigator.pop(context);

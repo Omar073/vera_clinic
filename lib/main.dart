@@ -20,7 +20,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    MultiProvider(
+    MultiProvider( //todo: only wrap each provider at the level it is needed
       providers: [
         ChangeNotifierProvider(create: (_) => ClientProvider()),
         ChangeNotifierProvider(create: (_) => ClinicProvider()),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 import '../../Controller/NewVisitUF.dart';
 
@@ -37,16 +38,11 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
               });
 
               bool success = await createVisit();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Center(
-                    child: Text(success
-                        ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
-                        : 'فشل حفظ الزيارة'),
-                  ),
-                  duration: const Duration(seconds: 2),
-                  backgroundColor: success ? Colors.green : Colors.red,
-                ),
+              MySnackBar(
+                message: success
+                    ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
+                    : 'فشل حفظ الزيارة',
+                color: success ? Colors.green : Colors.red,
               );
 
               setState(() {

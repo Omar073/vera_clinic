@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitUF.dart';
 
+import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 
 class SaveVisitButton extends StatefulWidget {
@@ -27,24 +28,19 @@ class _SaveVisitButtonState extends State<SaveVisitButton> {
             ),
             onPressed: () async {
               if (!verifyVisitInput(context)) return;
-              
+
               setState(() {
                 _isLoading = true;
               });
 
               debugPrint("Button pressed: حفظ");
               bool success = await createVisit();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Center(
-                    child: Text(success
-                        ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
-                        : 'فشل حفظ الزيارة'),
-                  ),
-                  duration: const Duration(seconds: 2),
-                  backgroundColor: success ? Colors.green : Colors.red,
-                ),
-              );
+              MySnackBar(
+                  message: success
+                      ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
+                      : 'فشل حفظ الزيارة',
+                  color: success ? Colors.green : Colors.red);
+
               if (success) {
                 Navigator.pop(context);
               }
