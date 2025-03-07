@@ -14,34 +14,51 @@ class VisitActionButton extends StatefulWidget {
 }
 
 class _VisitActionButtonState extends State<VisitActionButton> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          onPressed: () async {
-            bool success = await createWeeklyFollowUp(widget.client, context);
-            MySnackBar(
-              message: success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
-              color: success ? Colors.green : Colors.red,
-            );
-            if (success) {
-              Navigator.pop(context);
-            }
-          },
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.check, color: Colors.blueAccent),
-              SizedBox(width: 12),
-              Text('حفظ',
-                  style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
-            ],
-          ),
-        ),
+        _isLoading
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    _isLoading = true;
+                  });
+
+                  try {
+                    bool success =
+                        await createWeeklyFollowUp(widget.client, context);
+                    MySnackBar(
+                      message: success
+                          ? 'تم تسجيل العميل بنجاح'
+                          : 'فشل تسجيل العميل',
+                      color: success ? Colors.green : Colors.red,
+                    );
+                    if (success) {
+                      Navigator.pop(context);
+                    }
+                  } finally {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
+                },
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.check, color: Colors.blueAccent),
+                    SizedBox(width: 12),
+                    Text('حفظ',
+                        style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                  ],
+                ),
+              ),
         const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
