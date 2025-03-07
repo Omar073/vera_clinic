@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../../NewVisit/View/NewVisit.dart';
 import '../../Controller/ClientRegistrationTEC.dart';
 import '../../Controller/ClientRegistrationUF.dart';
@@ -52,13 +53,8 @@ class _ActionButtonsState extends State<ActionButtons> {
           ElevatedButton.icon(
             onPressed: () {
               ClientRegistrationTEC.clear();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Center(child: Text('تم مسح البيانات')),
-                  backgroundColor: Colors.blueAccent,
-                  duration: Duration(seconds: 2),
-                ),
-              );
+              const MySnackBar(
+                  message: 'تم مسح البيانات', color: Colors.blueAccent);
             },
             icon: const Icon(Icons.clear, color: Colors.white),
             label: const Text(
@@ -79,7 +75,8 @@ class _ActionButtonsState extends State<ActionButtons> {
     );
   }
 
-  Widget _saveButton() { //todo: separate into different files
+  Widget _saveButton() {
+    //todo: separate into different files
     return _buildButton(
       isLoading: isSaving,
       onPressed: () async {
@@ -142,19 +139,15 @@ class _ActionButtonsState extends State<ActionButtons> {
 
   Future<void> _handleSave() async {
     debugPrint("Button pressed: حفظ");
-    if (!verifyClientInput(context)) return;
+    if (!verifyRequiredFields(context)) return;
 
     setState(() => isSaving = true);
     try {
       bool success = await createClient(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Center(
-            child: Text(success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل'),
-          ),
-          backgroundColor: success ? Colors.green : Colors.red,
-        ),
-      );
+      MySnackBar(
+          message: success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+          color: success ? Colors.green : Colors.red);
+
       if (success) {
         ClientRegistrationTEC.dispose();
         Navigator.pop(context);
@@ -166,18 +159,14 @@ class _ActionButtonsState extends State<ActionButtons> {
 
   Future<void> _handleLogin() async {
     debugPrint("Button pressed: تسجيل دخول");
-    if (!verifyClientInput(context)) return;
+    if (!verifyRequiredFields(context)) return;
 
     setState(() => isLoggingIn = true);
     try {
       bool success = await createClient(context);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Center(
-              child: Text(success ? 'تم التسجيل بنجاح' : 'فشل التسجيل')),
-          backgroundColor: success ? Colors.green : Colors.red,
-        ),
-      );
+      MySnackBar(
+          message: success ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
+          color: success ? Colors.green : Colors.red);
       if (success) {
         checkInNewClient(context);
         ClientRegistrationTEC.dispose();

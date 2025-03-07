@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
+import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 Future<bool> createVisit() async {
@@ -31,23 +32,13 @@ Future<bool> createVisit() async {
 bool verifyVisitInput(BuildContext context) {
   bool isValid = true;
   if (NewVisitTEC.visitWeightController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Center(child: Text('الوزن لا يمكن أن يكون فارغًا')),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
-      ),
-    );
+    const MySnackBar(
+        message: 'الوزن لا يمكن أن يكون فارغًا', color: Colors.red);
     isValid = false;
   }
   if (NewVisitTEC.visitDateController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Center(child: Text('تاريخ الزيارة لا يمكن أن يكون فارغًا')),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
-      ),
-    );
+    const MySnackBar(
+        message: 'تاريخ الزيارة لا يمكن أن يكون فارغًا', color: Colors.red);
     isValid = false;
   }
   return isValid;

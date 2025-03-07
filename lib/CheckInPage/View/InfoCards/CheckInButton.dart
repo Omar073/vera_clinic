@@ -5,6 +5,7 @@ import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 
+import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/CheckInPageTEC.dart';
 
 class CheckInButton extends StatefulWidget {
@@ -24,73 +25,77 @@ class CheckInButton extends StatefulWidget {
 }
 
 class _CheckInButtonState extends State<CheckInButton> {
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ElevatedButton(
-        //todo: maybe add loading animation when pressed w hateb2a agmad kaman lw t2dar ti ignore any new taps
-        onPressed: () async {
-          try {
-            // Parse the subscription price
-            final double subscriptionPrice =
-                double.parse(widget.visitSubscriptionPriceController.text);
-            debugPrint('Parsed subscription price: $subscriptionPrice');
+      child: _isLoading
+          ? const CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: () async {
+                setState(() {
+                  _isLoading = true;
+                });
 
-            // Set the subscription type for the client
-            widget.client?.subscriptionType = getSubscriptionType(
-                widget.visitSubscriptionTypeController.text);
+                try {
+                  // Parse the subscription price
+                  final double subscriptionPrice = double.parse(
+                      widget.visitSubscriptionPriceController.text);
+                  debugPrint('Parsed subscription price: $subscriptionPrice');
 
-            // Check if the client is already checked in
-            bool isCheckedIn = await context
-                .read<ClinicProvider>()
-                .isClientCheckedIn(widget.client!.mClientId);
-            if (!isCheckedIn) {
-              // Add the client to the checked-in clients list
-              await context
-                  .read<ClinicProvider>()
-                  .checkInClient(widget.client!);
-              // Increment the daily patients count
-              await context.read<ClinicProvider>().incrementDailyPatients();
-              // Update the daily income
-              await context
-                  .read<ClinicProvider>()
-                  .updateDailyIncome(subscriptionPrice);
+                  // Set the subscription type for the client
+                  widget.client?.subscriptionType = getSubscriptionType(
+                      widget.visitSubscriptionTypeController.text);
 
-              // Navigate to the HomePage
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const HomePage()));
-            } else {
-              // Show a message if the client is already checked in
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Center(child: Text('العميل مسجل بالفعل')),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-          } catch (e) {
-            // Show an error message if the subscription price is invalid
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content:
-                    Center(child: Text('الرجاء إدخال سعر الاشتراك بشكل صحيح')),
-                backgroundColor: Colors.red,
+                  // Check if the client is already checked in
+                  bool isCheckedIn = await context
+                      .read<ClinicProvider>()
+                      .isClientCheckedIn(widget.client!.mClientId);
+                  if (!isCheckedIn) {
+                    // Add the client to the checked-in clients list
+                    await context
+                        .read<ClinicProvider>()
+                        .checkInClient(widget.client!);
+                    // Increment the daily patients count
+                    await context
+                        .read<ClinicProvider>()
+                        .incrementDailyPatients();
+                    // Update the daily income
+                    await context
+                        .read<ClinicProvider>()
+                        .updateDailyIncome(subscriptionPrice);
+
+                    // Navigate to the HomePage
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const HomePage()));
+                  } else {
+                    const MySnackBar(
+                        message: 'العميل مسجل بالفعل', color: Colors.red);
+                  }
+                } catch (e) {
+                  // Show an error message if the subscription price is invalid
+                  const MySnackBar(
+                      message: 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
+                      color: Colors.red);
+                } finally {
+                  setState(() {
+                    _isLoading = false;
+                  });
+                }
+              },
+              child: const Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(Icons.check, color: Colors.blueAccent),
+                  SizedBox(width: 12),
+                  Text('تسجيل الدخول',
+                      style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                ],
               ),
-            );
-          }
-        },
-        child: const Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(Icons.check, color: Colors.blueAccent),
-            SizedBox(width: 12),
-            Text('تسجيل الدخول',
-                style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
-          ],
-        ),
-      ),
+            ),
     );
   }
 }

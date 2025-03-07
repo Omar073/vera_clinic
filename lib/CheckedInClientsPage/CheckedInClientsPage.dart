@@ -15,6 +15,7 @@ class CheckedInClientsPage extends StatefulWidget {
 
 class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
   late Future<void> _fetchDataFuture;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -24,10 +25,17 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
 
   Future<void> fetchData() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       widget.checkedInClients =
           await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error getting checked-in clients: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -38,12 +46,21 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
         title: const Text('Checked In Clients'),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () {
-              _fetchDataFuture = fetchData();
-            },
-            icon: const Icon(Icons.refresh),
-          ),
+          _isLoading
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _fetchDataFuture = fetchData();
+                    });
+                  },
+                  icon: const Icon(Icons.refresh),
+                ),
         ],
       ),
       body: FutureBuilder<void>(

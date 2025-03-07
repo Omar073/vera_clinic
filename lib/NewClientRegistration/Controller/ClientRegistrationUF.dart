@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/View/SnackBars/RequiredFieldSnackBar.dart';
 import '../../Core/Model/Classes/Client.dart';
 import 'ClientRegistrationTEC.dart';
 
@@ -8,26 +9,15 @@ bool isNumOnly(String value) {
   return numValue != null;
 }
 
-bool verifyClientInput(BuildContext context) {
+bool verifyRequiredFields(BuildContext context) {
   bool isValid = true;
   if (ClientRegistrationTEC.phoneController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Center(child: Text('رقم الهاتف لا يمكن أن يكون فارغًا')),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
-      ),
-    );
+    showRequiredFieldSnackBar(context, 'رقم الهاتف');
     isValid = false;
   }
   if (ClientRegistrationTEC.nameController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Center(child: Text('الاسم لا يمكن أن يكون فارغًا')),
-        backgroundColor: Colors.red,
-        duration: Duration(seconds: 2),
-      ),
-    );
+    showRequiredFieldSnackBar(context, 'الاسم');
+
     isValid = false;
   }
   return isValid;

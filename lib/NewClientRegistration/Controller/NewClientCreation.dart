@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
+import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 
 import '../../Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import '../../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
@@ -39,13 +40,7 @@ Future<bool> createClient(BuildContext context) async {
     if (await context
         .read<ClientProvider>()
         .isPhoneNumUsed(ClientRegistrationTEC.phoneController.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Center(child: Text('العميل موجود بالفعل')),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 2),
-        ),
-      );
+      const MySnackBar(message: 'العميل موجود بالفعل', color: Colors.red);
       return false;
     }
 
