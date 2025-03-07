@@ -38,7 +38,7 @@ class _SaveVisitButtonState extends State<SaveVisitButton> {
               showMySnackBar(
                   context,
                   success
-                      ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
+                      ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
                       : 'فشل حفظ الزيارة',
                   success ? Colors.green : Colors.red);
 

@@ -29,8 +29,8 @@ class _NewClientPageState extends State<NewClientPage> {
 
   @override
   void dispose() {
-    super.dispose();
     ClientRegistrationTEC.dispose();
+    super.dispose();
   }
 
   @override
