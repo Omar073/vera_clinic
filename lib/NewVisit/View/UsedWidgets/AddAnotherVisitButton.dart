@@ -5,7 +5,9 @@ import '../../Controller/NewVisitTEC.dart';
 import '../../Controller/NewVisitUF.dart';
 
 class AddAnotherVisitButton extends StatefulWidget {
-  const AddAnotherVisitButton({super.key});
+  final VoidCallback onVisitAdded;
+
+  const AddAnotherVisitButton({super.key, required this.onVisitAdded});
 
   @override
   State<AddAnotherVisitButton> createState() => _AddAnotherVisitButtonState();
@@ -38,13 +40,22 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
               });
 
               bool success = await createVisit();
+              if (!mounted) {
+                debugPrint('Widget is not mounted');
+                return;
+              } // Check if the widget is still mounted
+
               showMySnackBar(
                 context,
                 success
-                    ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
+                    ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
                     : 'فشل حفظ الزيارة',
                 success ? Colors.green : Colors.red,
               );
+
+              if (success) {
+                widget.onVisitAdded();
+              }
 
               setState(() {
                 _isLoading = false;

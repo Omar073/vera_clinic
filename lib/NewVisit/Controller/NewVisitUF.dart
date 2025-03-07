@@ -5,6 +5,8 @@ import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
 import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
+import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
+
 Future<bool> createVisit() async {
   try {
     Visit v = Visit(
@@ -32,11 +34,11 @@ Future<bool> createVisit() async {
 bool verifyVisitInput(BuildContext context) {
   bool isValid = true;
   if (NewVisitTEC.visitWeightController.text.isEmpty) {
-    showMySnackBar(context, 'الوزن لا يمكن أن يكون فارغًا', Colors.red);
+    showRequiredFieldSnackBar(context, 'الوزن');
     isValid = false;
   }
   if (NewVisitTEC.visitDateController.text.isEmpty) {
-    showMySnackBar(context, 'تاريخ الزيارة لا يمكن أن يكون فارغًا', Colors.red);
+    showRequiredFieldSnackBar(context, 'تاريخ الزيارة');
     isValid = false;
   }
   return isValid;
