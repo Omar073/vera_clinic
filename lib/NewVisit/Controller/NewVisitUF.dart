@@ -32,13 +32,11 @@ Future<bool> createVisit() async {
 bool verifyVisitInput(BuildContext context) {
   bool isValid = true;
   if (NewVisitTEC.visitWeightController.text.isEmpty) {
-    const MySnackBar(
-        message: 'الوزن لا يمكن أن يكون فارغًا', color: Colors.red);
+    showMySnackBar(context, 'الوزن لا يمكن أن يكون فارغًا', Colors.red);
     isValid = false;
   }
   if (NewVisitTEC.visitDateController.text.isEmpty) {
-    const MySnackBar(
-        message: 'تاريخ الزيارة لا يمكن أن يكون فارغًا', color: Colors.red);
+    showMySnackBar(context, 'تاريخ الزيارة لا يمكن أن يكون فارغًا', Colors.red);
     isValid = false;
   }
   return isValid;

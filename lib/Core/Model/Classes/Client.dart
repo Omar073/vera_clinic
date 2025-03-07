@@ -1,12 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
-
-import 'Disease.dart';
-import 'Visit.dart';
-import 'WeightAreas.dart';
 
 enum SubscriptionType {
   none,

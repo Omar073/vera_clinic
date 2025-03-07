@@ -32,11 +32,10 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                   try {
                     bool success =
                         await createWeeklyFollowUp(widget.client, context);
-                    MySnackBar(
-                      message: success
-                          ? 'تم تسجيل العميل بنجاح'
-                          : 'فشل تسجيل العميل',
-                      color: success ? Colors.green : Colors.red,
+                    showMySnackBar(
+                      context,
+                      success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+                      success ? Colors.green : Colors.red,
                     );
                     if (success) {
                       Navigator.pop(context);
@@ -55,7 +54,8 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                     Icon(Icons.check, color: Colors.blueAccent),
                     SizedBox(width: 12),
                     Text('حفظ',
-                        style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                        style:
+                            TextStyle(fontSize: 16, color: Colors.blueAccent)),
                   ],
                 ),
               ),

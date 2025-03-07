@@ -70,14 +70,12 @@ class _CheckInButtonState extends State<CheckInButton> {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const HomePage()));
                   } else {
-                    const MySnackBar(
-                        message: 'العميل مسجل بالفعل', color: Colors.red);
+                    showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
                   }
                 } catch (e) {
                   // Show an error message if the subscription price is invalid
-                  const MySnackBar(
-                      message: 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
-                      color: Colors.red);
+                  showMySnackBar(context, 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
+                      Colors.red);
                 } finally {
                   setState(() {
                     _isLoading = false;

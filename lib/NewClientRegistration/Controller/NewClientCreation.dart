@@ -40,16 +40,14 @@ Future<bool> createClient(BuildContext context) async {
     if (await context
         .read<ClientProvider>()
         .isPhoneNumUsed(ClientRegistrationTEC.phoneController.text)) {
-      const MySnackBar(message: 'العميل موجود بالفعل', color: Colors.red);
+      showMySnackBar(context, 'العميل موجود بالفعل', Colors.red);
       return false;
     }
 
     _c = Client(
         clientId: '',
         name: ClientRegistrationTEC.nameController.text,
-        clientPhoneNum: isNumOnly(ClientRegistrationTEC.phoneController.text)
-            ? ClientRegistrationTEC.phoneController.text
-            : '',
+        clientPhoneNum: ClientRegistrationTEC.phoneController.text,
         birthdate:
             DateTime.tryParse(ClientRegistrationTEC.birthdateController.text),
         diet: ClientRegistrationTEC.dietController.text,
