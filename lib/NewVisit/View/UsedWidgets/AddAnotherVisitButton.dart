@@ -38,11 +38,12 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
               });
 
               bool success = await createVisit();
-              MySnackBar(
-                message: success
+              showMySnackBar(
+                context,
+                success
                     ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length + 1} بنجاح'
                     : 'فشل حفظ الزيارة',
-                color: success ? Colors.green : Colors.red,
+                success ? Colors.green : Colors.red,
               );
 
               setState(() {

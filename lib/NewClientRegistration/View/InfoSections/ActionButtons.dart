@@ -53,8 +53,7 @@ class _ActionButtonsState extends State<ActionButtons> {
           ElevatedButton.icon(
             onPressed: () {
               ClientRegistrationTEC.clear();
-              const MySnackBar(
-                  message: 'تم مسح البيانات', color: Colors.blueAccent);
+              showMySnackBar(context, 'تم مسح البيانات', Colors.blueAccent);
             },
             icon: const Icon(Icons.clear, color: Colors.white),
             label: const Text(
@@ -139,14 +138,17 @@ class _ActionButtonsState extends State<ActionButtons> {
 
   Future<void> _handleSave() async {
     debugPrint("Button pressed: حفظ");
-    if (!verifyRequiredFields(context)) return;
+    if (!verifyRequiredFields(context) || !verifyFieldsDataType(context)) {
+      return;
+    }
 
     setState(() => isSaving = true);
     try {
       bool success = await createClient(context);
-      MySnackBar(
-          message: success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
-          color: success ? Colors.green : Colors.red);
+      showMySnackBar(
+          context,
+          success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+          success ? Colors.green : Colors.red);
 
       if (success) {
         ClientRegistrationTEC.dispose();
@@ -159,14 +161,15 @@ class _ActionButtonsState extends State<ActionButtons> {
 
   Future<void> _handleLogin() async {
     debugPrint("Button pressed: تسجيل دخول");
-    if (!verifyRequiredFields(context)) return;
+    if (!verifyRequiredFields(context) || !verifyFieldsDataType(context)) {
+      return;
+    }
 
     setState(() => isLoggingIn = true);
     try {
       bool success = await createClient(context);
-      MySnackBar(
-          message: success ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
-          color: success ? Colors.green : Colors.red);
+      showMySnackBar(context, success ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
+          success ? Colors.green : Colors.red);
       if (success) {
         checkInNewClient(context);
         ClientRegistrationTEC.dispose();
