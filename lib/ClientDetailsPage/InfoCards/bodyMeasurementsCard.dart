@@ -2,29 +2,29 @@ import 'package:flutter/cupertino.dart';
 
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
-import 'infoRow.dart';
+import '../UsedWidgets/detailsCard.dart';
+import '../UsedWidgets/infoRow.dart';
 
 Widget bodyMeasurementsCard(
     Client? client, ClientMonthlyFollowUp? monthlyFollowUp) {
-  return myCard(
-    'Body Measurements',
+  return detailsCard(
+    'قياسات الجسم',
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (monthlyFollowUp != null) ...[
-          infoRow('Height', '${client?.mHeight ?? 0} cm'),
-          infoRow('Weight', '${client?.mWeight ?? 0} kg'),
-          infoRow('BMI', '${monthlyFollowUp.mBMI}'),
-          infoRow('PBF', '${monthlyFollowUp.mPBF} %'),
-          infoRow('Water', '${monthlyFollowUp.mWater}'),
-          infoRow('Max Weight', '${monthlyFollowUp.mMaxWeight} kg'),
-          infoRow('Optimal Weight', '${monthlyFollowUp.mOptimalWeight} kg'),
-          infoRow('BMR', '${monthlyFollowUp.mBMR}'),
-          infoRow('Max Calories', '${monthlyFollowUp.mMaxCalories}'),
-          infoRow('Daily Calories', '${monthlyFollowUp.mDailyCalories}'),
+          infoRow('الطول', '${client?.mHeight ?? 0} cm'),
+          infoRow('الوزن', '${client?.mWeight ?? 0} kg'),
+          infoRow('مؤشر كتلة الجسم', '${monthlyFollowUp.mBMI}'),
+          infoRow('نسبة الدهون في الجسم', '${monthlyFollowUp.mPBF} %'),
+          infoRow('الماء', '${monthlyFollowUp.mWater}'),
+          infoRow('الوزن الأقصى', '${monthlyFollowUp.mMaxWeight} kg'),
+          infoRow('الوزن المثالي', '${monthlyFollowUp.mOptimalWeight} kg'),
+          infoRow('معدل الأيض الأساسي', '${monthlyFollowUp.mBMR}'),
+          infoRow('السعرات الحرارية القصوى', '${monthlyFollowUp.mMaxCalories}'),
+          infoRow('السعرات الحرارية اليومية', '${monthlyFollowUp.mDailyCalories}'),
         ] else ...[
-          const Center(child: Text('No body measurements data available')),
+          const Center(child: Text('لا توجد بيانات قياسات الجسم')),
         ]
       ],
     ),

@@ -14,71 +14,90 @@ class CheckedInClientsPage extends StatefulWidget {
 }
 
 class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
-  // List<Client?> checkedInClients = [];
-  bool isLoading = false;
-  Future<void> fetchData() async {
-    setState(() {
-      isLoading = true;
-    });
-    await context.read<ClinicProvider>().getCheckedInClients(
-        context); //!todo: do not call an async fn when the button is pressed and instead replace by future builder inside the page
-    setState(() {
-      isLoading = false;
-    });
-  }
+  late Future<void> _fetchDataFuture;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    fetchData();
-    // print ids of all checked in clients
-    for (var c in widget.checkedInClients) {
-      debugPrint('Checked in client id: ${c?.mClientId}');
-    }
-    // Fetch the checked-in clients list
-    // getCheckedInClients();
+    _fetchDataFuture = fetchData();
   }
 
-  Future<void> getCheckedInClients() async {
+  Future<void> fetchData() async {
     try {
+      setState(() {
+        _isLoading = true;
+      });
       widget.checkedInClients =
           await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error getting checked-in clients: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
-//! I am thinking of using both watch and read of provider, initially use read to fetch the value of the checked-in clients then use watch to keep track of any changes, unless I can replace that by using only watch and initialize the list using another method like when the initial button from the home page is pressed?
-
   @override
   Widget build(BuildContext context) {
-    widget.checkedInClients = context.watch<ClinicProvider>().checkedInClients;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Checked In Clients'),
         centerTitle: true,
         actions: [
-          IconButton(
-              onPressed: () {
-                getCheckedInClients();
-              },
-              icon: const Icon(Icons.refresh))
+          _isLoading
+              ? const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                )
+              : IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _fetchDataFuture = fetchData();
+                    });
+                  },
+                  icon: const Icon(Icons.refresh),
+                ),
         ],
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(
-                children: [
-                  const SizedBox(height: 24),
-                  CheckedInClientsList(checkInClients: widget.checkedInClients),
-                ],
-              ),
-            ),
+      body: FutureBuilder<void>(
+        future: _fetchDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error loading client details'));
+          } else {
+            // todo: understand why we used a consumer inside a future builder and why the future builder alone wasn't enough and why we needed to create a private variable for the future and assign it to fetchData() and call it in the future builder
+            return Consumer<ClinicProvider>(
+              builder: (context, clinicProvider, child) {
+                if (clinicProvider.checkedInClients.isEmpty) {
+                  return const Center(
+                    child: Text('No clients checked in'),
+                  );
+                } else {
+                  return Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 24),
+                        Expanded(
+                          child: CheckedInClientsList(
+                            checkInClients: clinicProvider.checkedInClients,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }
-
-// Widget clientCard(Client client) {} //stful

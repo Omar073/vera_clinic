@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/VisitActionButton.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/visitInfo1.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/visitInfo2.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUActionButton.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo1.dart';
+import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo2.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 import '../Controller/VisitTEC.dart';
-import 'UsedWidgets/visitClientInfoCard.dart';
+import 'UsedWidgets/WFUClientInfoCard.dart';
 
 class WeeklyFollowUp extends StatefulWidget {
   final Client client;
@@ -65,12 +65,12 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Text(
-                        "نظام اخر متابعة: Loading...",
+                        "نظام اخر متابعة: جاري التحميل...",
                         style: TextStyle(fontSize: 20),
                       );
                     } else if (snapshot.hasError) {
                       return const Text(
-                        "نظام اخر متابعة: Error",
+                        "نظام اخر متابعة: خطأ",
                         style: TextStyle(fontSize: 20),
                       );
                     } else {
@@ -82,15 +82,15 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                             spacing: 60,
                             children: [
                               Text(
-                                "${snapshot.data?.mDiet ?? 'No last visit diet'} :نظام اخر متابعة ",
+                                "${snapshot.data?.mDiet ?? 'لا يوجد نظام متابعة'} :نظام اخر متابعة ",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                "وزن اخر متابعة: ${snapshot.data?.mWeight ?? 'No last visit weight'}",
+                                "وزن اخر متابعة: ${snapshot.data?.mWeight ?? 'لا يوجد وزن متابعة'}",
                                 style: const TextStyle(fontSize: 20),
                               ),
                               Text(
-                                "تاريخ اخر متابعة: ${snapshot.data?.mDate.toLocal().toString().split(' ')[0] ?? 'No last visit date'}",
+                                "تاريخ اخر متابعة: ${snapshot.data?.mDate.toLocal().toString().split(' ')[0] ?? 'لا يوجد تاريخ متابعة'}",
                                 style: const TextStyle(fontSize: 20),
                               )
                             ],
