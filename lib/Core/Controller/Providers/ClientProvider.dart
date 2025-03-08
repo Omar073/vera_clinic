@@ -87,6 +87,12 @@ class ClientProvider with ChangeNotifier {
     return clients;
   }
 
+  Future<bool> isPhoneNumUsed(String phoneNum) async {
+    final clients = await clientFirestoreMethods.fetchClientByPhone(phoneNum);
+    return clients.isNotEmpty;
+    // returns true if the phone number is already used by a client else false
+  }
+
   Future<void> updateClient(Client client) async {
     await clientFirestoreMethods.updateClient(client);
     notifyListeners();

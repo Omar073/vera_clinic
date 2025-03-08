@@ -19,16 +19,16 @@ Widget visitClientInfoCard(Client client) {
               Wrap(
                 spacing: 60,
                 children: [
-                  Text("${client.mDiet ?? 'No Diet'} :إسم النظام الحالي ",
+                  Text("${client.mDiet ?? 'لا يوجد نظام غذائي'} :إسم النظام الحالي ",
                       style: const TextStyle(fontSize: 20)),
-                  Text("الوزن: ${client.mWeight ?? 'No weight'}",
+                  Text("الوزن: ${client.mWeight ?? 'لا يوجد وزن'}",
                       style: const TextStyle(fontSize: 20)),
                   Text(
-                    'السن: ${getAge(client.mBirthdate) ?? 'No age'}',
+                    'السن: ${getAge(client.mBirthdate) ?? 'لا يوجد سن'}',
                     style: const TextStyle(fontSize: 20),
                   ),
                   Text(
-                    '${client.mName ?? 'No name'} :الإسم',
+                    '${client.mName ?? 'لا يوجد اسم'} :الإسم',
                     style: const TextStyle(fontSize: 20),
                   ),
                 ],

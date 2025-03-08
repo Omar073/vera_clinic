@@ -228,10 +228,9 @@ class ClientRegistrationTEC {
     phoneController.dispose();
     birthdateController.dispose();
     dietController.dispose();
-    platControllers.forEach((element) {
-      ;
-      element.dispose();
-    });
+    for (var controller in platControllers) {
+      controller.dispose();
+    }
     heightController.dispose();
     weightController.dispose();
     subscriptionTypeController.dispose();

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
-import '../../Controller/MonthlyFollowUpTEC.dart';
-import '../../Controller/UtilityFunctions.dart';
+import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../Controller/VisitTEC.dart';
 
-class ActionButton extends StatefulWidget {
+class VisitActionButton extends StatefulWidget {
   final Client client;
-  const ActionButton({super.key, required this.client});
+  const VisitActionButton({super.key, required this.client});
 
   @override
-  State<ActionButton> createState() => _ActionButtonState();
+  State<VisitActionButton> createState() => _VisitActionButtonState();
 }
 
-class _ActionButtonState extends State<ActionButton> {
+class _VisitActionButtonState extends State<VisitActionButton> {
   bool _isLoading = false;
 
   @override
@@ -29,7 +30,16 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    await createMonthlyFollowUp(widget.client, context);
+                    bool success =
+                        await createWeeklyFollowUp(widget.client, context);
+                    showMySnackBar(
+                      context,
+                      success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+                      success ? Colors.green : Colors.red,
+                    );
+                    if (success) {
+                      Navigator.pop(context);
+                    }
                   } finally {
                     setState(() {
                       _isLoading = false;
@@ -52,7 +62,7 @@ class _ActionButtonState extends State<ActionButton> {
         const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
-            MonthlyFollowUpTEC.clearMonthlyFollowUpTEC();
+            WeeklyFollowUpTEC.clear();
           },
           child: const Row(
             mainAxisSize: MainAxisSize.min,

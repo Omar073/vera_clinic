@@ -20,7 +20,7 @@ import 'InfoCards/weightHistoryCard.dart';
 import 'InfoCards/dietPreferencesCard.dart';
 import 'InfoCards/bodyMeasurementsCard.dart';
 import 'InfoCards/medicalHistoryCard.dart';
-import 'InfoCards/infoRow.dart';
+import 'UsedWidgets/infoRow.dart';
 import 'InfoCards/personalInfoCard.dart';
 
 class ClientDetailsPage extends StatefulWidget {
@@ -46,6 +46,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
   }
 
   Future<void> _loadClientDetails() async {
+    //todo: extract?
     client = widget.client;
 
     myDisease = await context
@@ -86,24 +87,21 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         backgroundColor: const Color.fromARGB(255, 208, 241, 255),
       ),
       body: Center(
-        child: Container(
-          constraints:
-              const BoxConstraints(maxWidth: 800), // Scales for desktop
-          padding: const EdgeInsets.all(16.0),
-          child: FutureBuilder<void>(
-            future: _loadClientDetails(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return const Center(
-                    child: Text('Error loading client details'));
-              } else {
-                return Column(
+        child: FutureBuilder<void>(
+          future: _loadClientDetails(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Error loading client details'));
+            } else {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 200.0)
+                    .copyWith(top: 12),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height - 150,
+                    Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
@@ -123,26 +121,28 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    VisitsDetailsPage(client: client!)));
-                      },
-                      child: const Text(
-                        'View client Visits',
-                        style: TextStyle(color: Colors.blueAccent),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      VisitsDetailsPage(client: client!)));
+                        },
+                        child: const Text(
+                            'عرض زيارات العميل',
+                          style: TextStyle(color: Colors.blueAccent),
+                        ),
                       ),
                     ),
                     // const SizedBox(height: 20),
                   ],
-                );
-              }
-            },
-          ),
+                ),
+              );
+            }
+          },
         ),
       ),
     );

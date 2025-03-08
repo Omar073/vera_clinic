@@ -16,7 +16,7 @@ String getAge(DateTime? birthDate) {
   return age.toString();
 }
 
-Future<bool> createVisit(Client c, BuildContext context) async {
+Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
   try {
     Visit v = Visit(
       visitId: "",

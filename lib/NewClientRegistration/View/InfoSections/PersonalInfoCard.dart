@@ -16,12 +16,7 @@ class PersonalInfoCard extends StatefulWidget {
 }
 
 class _PersonalInfoCardState extends State<PersonalInfoCard> {
-  @override
-  void dispose() {
-    ClientRegistrationTEC.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return myCard(
@@ -60,8 +55,7 @@ class _PersonalInfoCardState extends State<PersonalInfoCard> {
             children: [
               Expanded(
                 child: GenderDropdownMenu(
-                    genderController:
-                        ClientRegistrationTEC.genderController),
+                    genderController: ClientRegistrationTEC.genderController),
               ),
               const SizedBox(width: 16),
               Expanded(

@@ -1,38 +1,53 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
-import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
-import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
-import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
-import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
+import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 
 import '../../Core/Controller/Providers/ClientConstantInfoProvider.dart';
+import '../../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
+import '../../Core/Controller/Providers/ClientProvider.dart';
+import '../../Core/Controller/Providers/DiseaseProvider.dart';
 import '../../Core/Controller/Providers/PreferredFoodsProvider.dart';
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Controller/Providers/WeightAreasProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
+import '../../Core/Model/Classes/ClientConstantInfo.dart';
+import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../Core/Model/Classes/Disease.dart';
+import '../../Core/Model/Classes/PreferredFoods.dart';
 import '../../Core/Model/Classes/Visit.dart';
+import '../../Core/Model/Classes/WeightAreas.dart';
+import '../../NewVisit/Controller/NewVisitTEC.dart';
 import '../../NewVisit/Controller/NewVisitUF.dart';
 import 'ClientRegistrationTEC.dart';
+import 'ClientRegistrationUF.dart';
 
-bool isNumOnly(String value) {
-  final num? numValue = num.tryParse(value);
-  return numValue != null;
+late Client _c;
+
+Future<void> checkInNewClient(BuildContext context) async {
+  bool valid = false;
+  try {
+    valid = await createClient(context);
+  } on Exception catch (e) {
+    debugPrint('Error checking in new client: $e');
+  }
+  (valid == false) ? null : context.read<ClinicProvider>().checkInClient(_c);
 }
 
-Future<bool> createClient(
-    BuildContext context) async {
+Future<bool> createClient(BuildContext context) async {
   try {
-    Client c = Client(
+    if (await context
+        .read<ClientProvider>()
+        .isPhoneNumUsed(ClientRegistrationTEC.phoneController.text)) {
+      showMySnackBar(context, 'العميل موجود بالفعل', Colors.red);
+      return false;
+    }
+
+    _c = Client(
         clientId: '',
         name: ClientRegistrationTEC.nameController.text,
-        clientPhoneNum: isNumOnly(ClientRegistrationTEC.phoneController.text)
-            ? ClientRegistrationTEC.phoneController.text
-            : '',
+        clientPhoneNum: ClientRegistrationTEC.phoneController.text,
         birthdate:
             DateTime.tryParse(ClientRegistrationTEC.birthdateController.text),
         diet: ClientRegistrationTEC.dietController.text,
@@ -57,34 +72,30 @@ Future<bool> createClient(
 
     await context
         .read<ClientProvider>()
-        .createClient(c); // client ID is generated here
+        .createClient(_c); // client ID is generated here
 
-    c.clientConstantInfoId =
-        await createClientConstantInfo(c.mClientId);
-    c.diseaseId = await createDisease(c.mClientId) ?? '';
-    c.clientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(c.mClientId) ??
-            '';
-    c.preferredFoodsId =
-        await createPreferredFoods(c.mClientId) ?? '';
-    c.weightAreasId =
-        await createWeightAreas(c.mClientId) ?? '';
+    _c.clientConstantInfoId = await createClientConstantInfo(_c.mClientId);
+    _c.diseaseId = await createDisease(_c.mClientId) ?? '';
+    _c.clientMonthlyFollowUpId =
+        await createClientMonthlyFollowUp(_c.mClientId) ?? '';
+    _c.preferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
+    _c.weightAreasId = await createWeightAreas(_c.mClientId) ?? '';
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
-      c.lastVisitId = getLatestVisitId();
+      _c.lastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
-        v.mClientId = c.mClientId;
+        v.mClientId = _c.mClientId;
         VisitProvider visitProvider = VisitProvider();
         visitProvider.updateVisit(v);
       }
     }
-    // c.lastVisitId = getLatestVisitId() ?? '';
+    // _c.lastVisitId = getLatestVisitId() ?? '';
 
     // only after you add all extra IDs to the client object
     await context
         .read<ClientProvider>()
-        .updateClient(c); // Update the client with new IDs
-    c.printClientInfo();
+        .updateClient(_c); // Update the client with new IDs
+    _c.printClientInfo();
     return true;
   } catch (e) {
     debugPrint('Error creating client: $e');
@@ -92,8 +103,7 @@ Future<bool> createClient(
   }
 }
 
-Future<String?> createDisease(
-    String clientId) async {
+Future<String?> createDisease(String clientId) async {
   try {
     Disease d = Disease(
       diseaseId: '',
@@ -146,8 +156,7 @@ Future<String?> createDisease(
   }
 }
 
-Future<String?> createClientMonthlyFollowUp(
-    String clientId) async {
+Future<String?> createClientMonthlyFollowUp(String clientId) async {
   try {
     ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
       clientId: clientId,
@@ -182,8 +191,7 @@ Future<String?> createClientMonthlyFollowUp(
   }
 }
 
-Future<String?> createClientConstantInfo(
-    String clientId) async {
+Future<String?> createClientConstantInfo(String clientId) async {
   try {
     ClientConstantInfo cci = ClientConstantInfo(
       clientId: clientId,
@@ -208,8 +216,7 @@ Future<String?> createClientConstantInfo(
   }
 }
 
-Future<String?> createPreferredFoods(
-    String clientId) async {
+Future<String?> createPreferredFoods(String clientId) async {
   try {
     PreferredFoods pf = PreferredFoods(
       preferredFoodsId: '',
@@ -237,8 +244,7 @@ Future<String?> createPreferredFoods(
   }
 }
 
-Future<String?> createWeightAreas(
-    String clientId) async {
+Future<String?> createWeightAreas(String clientId) async {
   try {
     WeightAreas wa = WeightAreas(
       weightAreasId: '',
@@ -264,101 +270,5 @@ Future<String?> createWeightAreas(
   } catch (e) {
     debugPrint('Error creating weight areas: $e');
     return null;
-  }
-}
-
-SubscriptionType? getSubscriptionType(String value) {
-  switch (value) {
-    case 'none':
-      return SubscriptionType.none;
-    case 'newClient':
-      return SubscriptionType.newClient;
-    case 'singleVisit':
-      return SubscriptionType.singleVisit;
-    case 'weeklyVisit':
-      return SubscriptionType.weeklyVisit;
-    case 'monthlyVisit':
-      return SubscriptionType.monthlyVisit;
-    case 'afterBreak':
-      return SubscriptionType.afterBreak;
-    case 'cavSess':
-      return SubscriptionType.cavSess;
-    case 'cavSess6':
-      return SubscriptionType.cavSess6;
-    case 'miso':
-      return SubscriptionType.miso;
-    case 'punctureSess':
-      return SubscriptionType.punctureSess;
-    case 'punctureSess6':
-      return SubscriptionType.punctureSess6;
-    case 'other':
-      return SubscriptionType.other;
-    default:
-      return null;
-  }
-}
-
-Gender getGenderFromString(String value) {
-  switch (value) {
-    case 'male':
-      return Gender.male;
-    case 'female':
-      return Gender.female;
-    case 'none':
-      return Gender.none;
-    default:
-      return Gender.none;
-  }
-}
-
-Activity getActivityLevelFromString(String value) {
-  // switch (value) {
-  //   case 'sedentary':
-  //     return Activity.sedentary;
-  //   case 'mid':
-  //     return Activity.mid;
-  //   case 'high':
-  //     return Activity.high;
-  //   case 'none':
-  //     return Activity.none;
-  //   default:
-  //     return Activity.none;
-  // }
-  // create a map to get the first instance of enum that has same name as given value
-  //Gender.values.firstWhere(
-  //         (e) => e.name == data['Gender'],
-  //         orElse: () => Gender.none,
-  return Activity.values.firstWhere(
-    //todo: verify functionality
-    (e) => e.name == value,
-    orElse: () => Activity.none,
-  );
-}
-
-String getGenderLabel(Gender g) {
-  switch (g) {
-    case Gender.male:
-      return 'ذكر';
-    case Gender.female:
-      return 'أنثي';
-    case Gender.none:
-      return '';
-    default:
-      return '';
-  }
-}
-
-String getActivityLevelLabel(Activity a) {
-  switch (a) {
-    case Activity.sedentary:
-      return 'ضعيف';
-    case Activity.mid:
-      return 'متوسط';
-    case Activity.high:
-      return 'عالي';
-    case Activity.none:
-      return '';
-    default:
-      return '';
   }
 }

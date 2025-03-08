@@ -24,8 +24,12 @@ class _NewVisitState extends State<NewVisit> {
 
   @override
   void dispose() {
-    super.dispose();
     NewVisitTEC.dispose();
+    super.dispose();
+  }
+
+  void _updateVisitCount() {
+    setState(() {});
   }
 
   @override
@@ -105,14 +109,14 @@ class _NewVisitState extends State<NewVisit> {
                   const SizedBox(
                     height: 100,
                   ),
-                  const Center(
+                  Center(
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
+                      padding: const EdgeInsets.only(bottom: 8.0),
                       child: Wrap(
                         spacing: 20,
                         children: [
-                          SaveVisitButton(),
-                          AddAnotherVisitButton(),
+                          const SaveVisitButton(),
+                          AddAnotherVisitButton(onVisitAdded: _updateVisitCount),
                         ],
                       ),
                     ),

@@ -26,7 +26,6 @@ class _ClientCardState extends State<ClientCard> {
           title: Wrap(
             spacing: 30,
             children: [
-              //client name
               Text('عميل: ' '${widget.index + 1}'),
               Text('الاسم: ${widget.client?.mName ?? 'No name'}'),
             ],
