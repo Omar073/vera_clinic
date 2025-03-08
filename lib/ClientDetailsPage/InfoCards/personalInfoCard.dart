@@ -2,25 +2,25 @@ import 'package:flutter/cupertino.dart';
 
 import '../../CheckInPage/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
-import 'infoRow.dart';
+import '../UsedWidgets/detailsCard.dart';
+import '../UsedWidgets/infoRow.dart';
 
 Widget personalInfoCard(Client? client, String area) {
-  return myCard(
-    'Personal Information',
+  return detailsCard(
+    'المعلومات الشخصية',
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        infoRow('Name', client?.mName ?? 'Unknown'),
-        infoRow('Phone Number', client?.mClientPhoneNum ?? 'Unknown'),
-        infoRow('Gender', client?.mGender.name ?? 'Unknown'),
+        infoRow('الاسم', client?.mName ?? 'Unknown'),
+        infoRow('رقم الهاتف', client?.mClientPhoneNum ?? 'Unknown'),
+        infoRow('الجنس', client?.mGender.name ?? 'Unknown'),
         infoRow(
-            'Birthdate',
+            'تاريخ الميلاد',
             client?.mBirthdate?.toLocal().toString().split(' ')[0] ??
                 'Unknown'),
-        infoRow('Area', area),
+        infoRow('المنطقة', area),
         infoRow(
-            'Subscription Type',
+            'نوع الاشتراك',
             getSubscriptionTypeLabel(
                 client!.mSubscriptionType ?? SubscriptionType.none)),
       ],

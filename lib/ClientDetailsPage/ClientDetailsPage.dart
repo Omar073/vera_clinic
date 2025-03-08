@@ -20,7 +20,7 @@ import 'InfoCards/weightHistoryCard.dart';
 import 'InfoCards/dietPreferencesCard.dart';
 import 'InfoCards/bodyMeasurementsCard.dart';
 import 'InfoCards/medicalHistoryCard.dart';
-import 'InfoCards/infoRow.dart';
+import 'UsedWidgets/infoRow.dart';
 import 'InfoCards/personalInfoCard.dart';
 
 class ClientDetailsPage extends StatefulWidget {

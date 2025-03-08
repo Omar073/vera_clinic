@@ -4,7 +4,8 @@ import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../UsedWidgets/TableRow.dart';
 
-Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo, Visit lastClientVisit) {
+Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
+    Visit lastClientVisit) {
   return Card(
     elevation: 2,
     child: Padding(
@@ -31,7 +32,7 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo, Vis
                 'رقم العميل',
                 client?.mClientPhoneNum ?? 'unknown',
               ),
-                tableRow(
+              tableRow(
                 'المنطقة',
                 clientConstantInfo.mArea,
                 'تاريخ اخر زيارة',

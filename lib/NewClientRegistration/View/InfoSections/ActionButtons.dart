@@ -145,6 +145,7 @@ class _ActionButtonsState extends State<ActionButtons> {
     setState(() => isSaving = true);
     try {
       bool success = await createClient(context);
+      if (!mounted) return; // Check if the widget is still mounted
       showMySnackBar(
           context,
           success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
@@ -168,6 +169,7 @@ class _ActionButtonsState extends State<ActionButtons> {
     setState(() => isLoggingIn = true);
     try {
       bool success = await createClient(context);
+      if (!mounted) return;
       showMySnackBar(context, success ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
           success ? Colors.green : Colors.red);
       if (success) {
