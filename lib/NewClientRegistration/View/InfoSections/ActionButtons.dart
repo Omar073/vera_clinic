@@ -152,7 +152,6 @@ class _ActionButtonsState extends State<ActionButtons> {
           success ? Colors.green : Colors.red);
 
       if (success) {
-        ClientRegistrationTEC.dispose();
         Navigator.pop(context);
       }
     } finally {
@@ -174,7 +173,6 @@ class _ActionButtonsState extends State<ActionButtons> {
           success ? Colors.green : Colors.red);
       if (success) {
         checkInNewClient(context);
-        ClientRegistrationTEC.dispose();
         Navigator.pop(context);
       }
     } finally {

@@ -16,12 +16,7 @@ class PersonalInfoCard extends StatefulWidget {
 }
 
 class _PersonalInfoCardState extends State<PersonalInfoCard> {
-  @override
-  void dispose() {
-    ClientRegistrationTEC.dispose();
-    super.dispose();
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return myCard(
