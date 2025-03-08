@@ -2,32 +2,35 @@ import 'package:flutter/cupertino.dart';
 
 import '../../Core/Model/Classes/WeightAreas.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
-import 'infoRow.dart';
+import '../UsedWidgets/detailsCard.dart';
+import '../UsedWidgets/infoRow.dart';
 
 Widget weightDistributionCard(WeightAreas? weightAreas) {
-  return myCard(
-    'Weight Distribution',
+  return detailsCard(
+    'توزيع الوزن',
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: weightAreas != null
           ? _buildWeightDistributionRows(weightAreas)
-          : [const Center(child: Text('No weight distribution data available'))],
+          : [
+              const Center(child: Text('لا توجد بيانات توزيع الوزن'))
+            ],
     ),
   );
 }
 
 List<Widget> _buildWeightDistributionRows(WeightAreas weightAreas) {
   return [
-    _buildInfoRow('Abdomen', weightAreas.mAbdomen),
-    _buildInfoRow('Buttocks', weightAreas.mButtocks),
-    _buildInfoRow('Waist', weightAreas.mWaist),
-    _buildInfoRow('Thighs', weightAreas.mThighs),
-    _buildInfoRow('Arms', weightAreas.mArms),
-    _buildInfoRow('Breast', weightAreas.mBreast),
-    _buildInfoRow('Back', weightAreas.mBack),
+    _buildInfoRow('البطن', weightAreas.mAbdomen),
+    _buildInfoRow('مقعدة', weightAreas.mButtocks),
+    _buildInfoRow('الوسط', weightAreas.mWaist),
+    _buildInfoRow('الفخذين', weightAreas.mThighs),
+    _buildInfoRow('الذراعين', weightAreas.mArms),
+    _buildInfoRow('الصدر', weightAreas.mBreast),
+    _buildInfoRow('الظهر', weightAreas.mBack),
   ];
 }
 
 Widget _buildInfoRow(String label, bool value) {
-  return infoRow(label, value ? 'Yes' : 'No');
+  return infoRow(label, value ? 'نعم' : 'لا');
 }
