@@ -12,7 +12,7 @@ Widget medicalHistoryCard() {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         const Text(
-          "أمراض القلب والأوعية الدموية:",
+          ":أمراض القلب والأوعية الدموية",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Wrap(
@@ -45,7 +45,7 @@ Widget medicalHistoryCard() {
         ),
         const SizedBox(height: 24),
         const Text(
-          "أمراض الجهاز الهضمي:",
+          ":أمراض الجهاز الهضمي",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Row(
@@ -109,7 +109,7 @@ Widget medicalHistoryCard() {
         ),
         const SizedBox(height: 24),
         const Text(
-          "معلومات طبية إضافية:",
+          ":معلومات طبية إضافية",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Row(

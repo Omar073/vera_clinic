@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../Controller/CheckInPageTEC.dart';
@@ -99,36 +100,38 @@ class _CheckInPageState extends State<CheckInPage> {
         title: Text('Check In: ${client?.mName}'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  clientInfoCard(client, clientConstantInfo!, lastClientVisit!),
-                  const SizedBox(height: 24),
-                  measurementsCard(client),
-                  const SizedBox(height: 24),
-                  SubscriptionCard(
-                    client: client,
-                    visitSubscriptionTypeController:
-                    CheckInPageTEC.visitSubscriptionTypeController,
-                    visitSubscriptionPriceController:
-                    CheckInPageTEC.visitSubscriptionPriceController,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              CheckInButton(
-                client: client,
-                visitSubscriptionTypeController:
-                CheckInPageTEC.visitSubscriptionTypeController,
-                visitSubscriptionPriceController:
-                CheckInPageTEC.visitSubscriptionPriceController,
-              ),
-            ],
+      body: Background(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    clientInfoCard(client, clientConstantInfo!, lastClientVisit!),
+                    const SizedBox(height: 24),
+                    measurementsCard(client),
+                    const SizedBox(height: 24),
+                    SubscriptionCard(
+                      client: client,
+                      visitSubscriptionTypeController:
+                      CheckInPageTEC.visitSubscriptionTypeController,
+                      visitSubscriptionPriceController:
+                      CheckInPageTEC.visitSubscriptionPriceController,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                CheckInButton(
+                  client: client,
+                  visitSubscriptionTypeController:
+                  CheckInPageTEC.visitSubscriptionTypeController,
+                  visitSubscriptionPriceController:
+                  CheckInPageTEC.visitSubscriptionPriceController,
+                ),
+              ],
+            ),
           ),
         ),
       ),

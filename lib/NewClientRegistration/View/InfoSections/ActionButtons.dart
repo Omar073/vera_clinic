@@ -64,7 +64,7 @@ class _ActionButtonsState extends State<ActionButtons> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: Colors.red[700],
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
               textStyle: const TextStyle(fontSize: 20),
             ),
@@ -137,7 +137,6 @@ class _ActionButtonsState extends State<ActionButtons> {
   }
 
   Future<void> _handleSave() async {
-    debugPrint("Button pressed: حفظ");
     if (!verifyRequiredFields(context) || !verifyFieldsDataType(context)) {
       return;
     }
@@ -160,7 +159,6 @@ class _ActionButtonsState extends State<ActionButtons> {
   }
 
   Future<void> _handleLogin() async {
-    debugPrint("Button pressed: تسجيل دخول");
     if (!verifyRequiredFields(context) || !verifyFieldsDataType(context)) {
       return;
     }

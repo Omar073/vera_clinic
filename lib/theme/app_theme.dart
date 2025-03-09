@@ -7,3 +7,9 @@ class AppColors {
   static final textPrimary = Colors.grey[800];
   static final textSecondary = Colors.grey[600];
 }
+
+class AppTheme {
+  static ThemeData themeData = ThemeData(
+    cardColor: Colors.white,
+  );
+}

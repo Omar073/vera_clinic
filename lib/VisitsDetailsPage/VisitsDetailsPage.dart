@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitCard.dart';
 
 class VisitsDetailsPage extends StatefulWidget {
@@ -37,31 +36,33 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
         title: Text('${widget.client.mName} :تفاصيل زيارات '),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<Visit?>?>(
-        future: _visitsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return const Center(child: Text('حدث خطأ ما'));
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('لا توجد زيارات'));
-          }
+      body: Background(
+        child: FutureBuilder<List<Visit?>?>(
+          future: _visitsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.hasError) {
+              return const Center(child: Text('حدث خطأ ما'));
+            }
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('لا توجد زيارات'));
+            }
 
-          final visits = snapshot.data!;
-          visits.sort((a, b) => b!.mDate
-              .compareTo(a!.mDate)); // Sort visits from most recent to oldest
+            final visits = snapshot.data!;
+            visits.sort((a, b) => b!.mDate
+                .compareTo(a!.mDate)); // Sort visits from most recent to oldest
 
-          return ListView.builder(
-            itemCount: visits.length,
-            itemBuilder: (context, index) {
-              final visit = visits[index]!;
-              return visitCard(visit, index + 1);
-            },
-          );
-        },
+            return ListView.builder(
+              itemCount: visits.length,
+              itemBuilder: (context, index) {
+                final visit = visits[index]!;
+                return visitCard(visit, index + 1);
+              },
+            );
+          },
+        ),
       ),
     );
   }

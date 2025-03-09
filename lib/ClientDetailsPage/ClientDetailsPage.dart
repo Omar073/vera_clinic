@@ -5,9 +5,8 @@ import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
-import 'package:vera_clinic/CheckInPage/View/CheckInPage.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/VisitsDetailsPage/VisitsDetailsPage.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
 
 import '../Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import '../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
@@ -20,7 +19,6 @@ import 'InfoCards/weightHistoryCard.dart';
 import 'InfoCards/dietPreferencesCard.dart';
 import 'InfoCards/bodyMeasurementsCard.dart';
 import 'InfoCards/medicalHistoryCard.dart';
-import 'UsedWidgets/infoRow.dart';
 import 'InfoCards/personalInfoCard.dart';
 
 class ClientDetailsPage extends StatefulWidget {
@@ -86,63 +84,65 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 208, 241, 255),
       ),
-      body: Center(
-        child: FutureBuilder<void>(
-          future: _loadClientDetails(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('Error loading client details'));
-            } else {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 200.0)
-                    .copyWith(top: 12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            personalInfoCard(client, myConstantInfo!.mArea),
-                            const SizedBox(height: 20),
-                            bodyMeasurementsCard(client, myFollowUp!),
-                            const SizedBox(height: 20),
-                            dietPreferencesCard(client?.mDiet ?? '',
-                                myPreferredFoods!, myConstantInfo),
-                            const SizedBox(height: 20),
-                            weightHistoryCard(client),
-                            const SizedBox(height: 20),
-                            weightDistributionCard(myWeightAreas),
-                            const SizedBox(height: 20),
-                            medicalHistoryCard(myDisease),
-                          ],
+      body: Background(
+        child: Center(
+          child: FutureBuilder<void>(
+            future: _loadClientDetails(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return const Center(child: Text('Error loading client details'));
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 200.0)
+                      .copyWith(top: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              personalInfoCard(client, myConstantInfo!.mArea),
+                              const SizedBox(height: 20),
+                              bodyMeasurementsCard(client, myFollowUp!),
+                              const SizedBox(height: 20),
+                              dietPreferencesCard(client?.mDiet ?? '',
+                                  myPreferredFoods!, myConstantInfo),
+                              const SizedBox(height: 20),
+                              weightHistoryCard(client),
+                              const SizedBox(height: 20),
+                              weightDistributionCard(myWeightAreas),
+                              const SizedBox(height: 20),
+                              medicalHistoryCard(myDisease),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      VisitsDetailsPage(client: client!)));
-                        },
-                        child: const Text(
-                            'عرض زيارات العميل',
-                          style: TextStyle(color: Colors.blueAccent),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        VisitsDetailsPage(client: client!)));
+                          },
+                          child: const Text(
+                              'عرض زيارات العميل',
+                            style: TextStyle(color: Colors.blueAccent),
+                          ),
                         ),
                       ),
-                    ),
-                    // const SizedBox(height: 20),
-                  ],
-                ),
-              );
-            }
-          },
+                      // const SizedBox(height: 20),
+                    ],
+                  ),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

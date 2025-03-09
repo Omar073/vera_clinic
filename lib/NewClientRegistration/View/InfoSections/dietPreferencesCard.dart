@@ -24,7 +24,7 @@ Widget dietPreferencesCard() {
         ),
         const SizedBox(height: 24),
         const Text(
-          "الطعام المفضل:",
+          ":الطعام المفضل",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Wrap(
