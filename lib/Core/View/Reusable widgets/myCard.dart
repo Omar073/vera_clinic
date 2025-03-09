@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 Widget myCard(String title, Widget content) {
   return Card(
-    elevation: 2,
+    color: Colors.white,
+    elevation: 1,
     child: Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
