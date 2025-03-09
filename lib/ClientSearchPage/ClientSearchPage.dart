@@ -43,9 +43,11 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
     searchResults = context.watch<ClientProvider>().searchResults;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( //todo: change UI to match background
         title: const Text('بحث عن عميل'),
         centerTitle: true,
+        backgroundColor: Colors.white70, // or your brand’s light color
+        elevation: 0, // removes the default AppBar shadow
       ),
       body: Background(
         child: Center(
@@ -56,10 +58,6 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const Text(
-                //   "Search for a Client",
-                //   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                // ),
                 const SizedBox(height: 16),
                 ClientSearchWidget(
                   hintText: "أدخل اسم او رقم العميل",
@@ -84,38 +82,59 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                               itemCount: searchResults.length,
                               itemBuilder: (context, index) {
                                 final client = searchResults[index];
-                                return ListTile(
-                                  title: Text(client?.mName ?? 'Unknown'),
-                                  subtitle:
-                                      Text(client?.mClientPhoneNum ?? 'Unknown'),
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          if (widget.state == "checkIn") {
-                                            return CheckInPage(client: client);
-                                          } else if (widget.state == "search") {
-                                            return ClientDetailsPage(
-                                                client: client);
-                                          } else {
-                                            return Container(); // or any other default widget
-                                          }
-                                        },
+                                return Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white, // or a very light grey
+                                    borderRadius: BorderRadius.circular(8),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.1),
+                                        blurRadius: 4,
+                                        offset: const Offset(0, 2),
                                       ),
-                                    );
-                                  },
+                                    ],
+                                  ),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.grey.shade200,
+                                      child: const Icon(Icons.person),
+                                    ),
+                                    title: Text(
+                                      client?.mName ?? 'Unknown',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(
+                                        client?.mClientPhoneNum ?? 'Unknown'),
+                                    trailing: const Icon(
+                                        Icons.arrow_forward_ios,
+                                        size: 16),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            if (widget.state == "checkIn") {
+                                              return CheckInPage(
+                                                  client: client);
+                                            } else if (widget.state ==
+                                                "search") {
+                                              return ClientDetailsPage(
+                                                  client: client);
+                                            } else {
+                                              return Container(); // or any other default widget
+                                            }
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                             ),
                 ),
-                // const SizedBox(height: 50),
-                // widget.state == "checkIn"
-                //     ? ElevatedButton(
-                //         onPressed: widget.onTap,
-                //         child: const Text('Check In'),
-                //       )
-                //     : const Text("search"),
               ],
             ),
           ),

@@ -42,7 +42,6 @@ class _CheckInButtonState extends State<CheckInButton> {
                   // Parse the subscription price
                   final double subscriptionPrice = double.parse(
                       widget.visitSubscriptionPriceController.text);
-                  debugPrint('Parsed subscription price: $subscriptionPrice');
 
                   // Set the subscription type for the client
                   widget.client?.subscriptionType = getSubscriptionType(
@@ -82,6 +81,14 @@ class _CheckInButtonState extends State<CheckInButton> {
                   });
                 }
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Set background color to white
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 24.0, vertical: 12.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+              ),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,

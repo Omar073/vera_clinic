@@ -11,5 +11,7 @@ class AppColors {
 class AppTheme {
   static ThemeData themeData = ThemeData(
     cardColor: Colors.white,
+    cardTheme: const CardTheme(
+      color: Colors.white,),
   );
 }

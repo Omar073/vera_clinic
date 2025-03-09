@@ -35,6 +35,12 @@ class _CheckInPageState extends State<CheckInPage> {
     CheckInPageTEC.init();
   }
 
+  @override
+  void dispose() {
+    CheckInPageTEC.dispose();
+    super.dispose();
+  }
+
   Future<void> _fetchData() async {
     try {
       // Fetch client constant info
@@ -69,12 +75,6 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
   @override
-  void dispose() {
-    CheckInPageTEC.dispose();
-    super.dispose(); //todo: verify it doesn't break
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return const Scaffold(
@@ -101,37 +101,43 @@ class _CheckInPageState extends State<CheckInPage> {
         centerTitle: true,
       ),
       body: Background(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    clientInfoCard(client, clientConstantInfo!, lastClientVisit!),
-                    const SizedBox(height: 24),
-                    measurementsCard(client),
-                    const SizedBox(height: 24),
-                    SubscriptionCard(
-                      client: client,
-                      visitSubscriptionTypeController:
-                      CheckInPageTEC.visitSubscriptionTypeController,
-                      visitSubscriptionPriceController:
-                      CheckInPageTEC.visitSubscriptionPriceController,
-                    ),
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      clientInfoCard(
+                          client, clientConstantInfo!, lastClientVisit!),
+                      const SizedBox(height: 24),
+                      measurementsCard(client),
+                      const SizedBox(height: 24),
+                      SubscriptionCard(
+                        client: client,
+                        visitSubscriptionTypeController:
+                            CheckInPageTEC.visitSubscriptionTypeController,
+                        visitSubscriptionPriceController:
+                            CheckInPageTEC.visitSubscriptionPriceController,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 24),
-                CheckInButton(
+              ),
+              // const SizedBox(height: 24),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: CheckInButton(
                   client: client,
                   visitSubscriptionTypeController:
-                  CheckInPageTEC.visitSubscriptionTypeController,
+                      CheckInPageTEC.visitSubscriptionTypeController,
                   visitSubscriptionPriceController:
-                  CheckInPageTEC.visitSubscriptionPriceController,
+                      CheckInPageTEC.visitSubscriptionPriceController,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
