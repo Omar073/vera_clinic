@@ -46,7 +46,7 @@ Future<bool> createClient(BuildContext context) async {
 
     _c = Client(
         clientId: '',
-        name: ClientRegistrationTEC.nameController.text,
+        name: ClientRegistrationTEC.nameController.text.toLowerCase(),
         clientPhoneNum: ClientRegistrationTEC.phoneController.text,
         birthdate:
             DateTime.tryParse(ClientRegistrationTEC.birthdateController.text),

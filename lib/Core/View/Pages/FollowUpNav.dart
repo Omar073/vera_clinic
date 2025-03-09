@@ -71,16 +71,24 @@ class _FollowUpNavState extends State<FollowUpNav> {
                           MaterialPageRoute(
                               builder: (context) => const HomePage()));
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 226, 72, 70),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                      ),
+                    ),
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Icon(Icons.check, color: Colors.redAccent),
-                        SizedBox(width: 12),
+                        // Icon(Icons.trash, color: Colors.white),
+                        // const SizedBox(width: 12),
                         Text('تسجيل خروج',
                             style:
-                                TextStyle(fontSize: 16, color: Colors.redAccent)),
+                                TextStyle(fontSize: 16, color: Colors.white)),
                       ],
                     ),
                   ),
