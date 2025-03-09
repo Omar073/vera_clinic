@@ -92,7 +92,12 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return const Center(child: Text('Error loading client details'));
+                return const Center(
+                    child: Text(
+                  'Error loading client details',
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  textAlign: TextAlign.center,
+                ));
               } else {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 200.0)
@@ -131,7 +136,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                                         VisitsDetailsPage(client: client!)));
                           },
                           child: const Text(
-                              'عرض زيارات العميل',
+                            'عرض زيارات العميل',
                             style: TextStyle(color: Colors.blueAccent),
                           ),
                         ),
