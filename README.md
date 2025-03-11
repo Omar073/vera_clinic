@@ -42,7 +42,9 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
     ```
 
 ## Project Structure
-
+<details>
+  <summary>Click to expand</summary>
+                              
 ```plaintext
 ├── lib\
 │   ├── CheckInPage\
@@ -174,6 +176,7 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
 │       │   └── WeeklyFollowUp.dart
 └── main.dart
 ```
+</details>
 
 ## Key Components
 
