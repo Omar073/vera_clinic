@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextField.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitTextBox.dart';
 
 import '../../Core/Model/Classes/Visit.dart';
