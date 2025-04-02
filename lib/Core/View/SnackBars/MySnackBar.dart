@@ -5,6 +5,7 @@ void showMySnackBar(BuildContext context, String? message, Color? color) {
     SnackBar(
       content: Center(child: Text(message!)),
       backgroundColor: color,
+      duration: const Duration(seconds: 2),
     ),
   );
 }

@@ -65,6 +65,8 @@ class _CheckInButtonState extends State<CheckInButton> {
                         .read<ClinicProvider>()
                         .updateDailyIncome(subscriptionPrice);
 
+                    showMySnackBar(context, 'تم تسجيل العميل بنجاح', Colors.green);
+
                     // Navigate to the HomePage
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const HomePage()));
