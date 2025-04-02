@@ -72,7 +72,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                               builder: (context) => const HomePage()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 226, 72, 70),
+                      backgroundColor: Colors.red,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24.0, vertical: 12.0),
                       shape: RoundedRectangleBorder(
@@ -88,7 +88,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                         // const SizedBox(width: 12),
                         Text('تسجيل خروج',
                             style:
-                                TextStyle(fontSize: 16, color: Colors.white)),
+                                TextStyle(fontSize: 18, color: Colors.white)),
                       ],
                     ),
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUActionButton.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo1.dart';
@@ -56,7 +57,8 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
             child: SingleChildScrollView(
           child: Column(
             children: [
-              visitClientInfoCard(widget.client),
+              WFUClientInfoCard(
+                  widget.client, MediaQuery.of(context).size.width),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -83,17 +85,22 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                             Wrap(
                               spacing: 60,
                               children: [
-                                Text(
-                                  "${snapshot.data?.mDiet ?? 'لا يوجد نظام متابعة'} :نظام اخر متابعة ",
-                                  style: const TextStyle(fontSize: 20),
+                                MyTextBox(
+                                    title: "نظام اخر متابعة",
+                                    value: snapshot.data?.mDiet ??
+                                        'لا يوجد نظام متابعة'),
+                                MyTextBox(
+                                  title: "وزن اخر متابعة",
+                                  value: snapshot.data?.mWeight.toString() ??
+                                      'لا يوجد وزن متابعة',
                                 ),
-                                Text(
-                                  "وزن اخر متابعة: ${snapshot.data?.mWeight ?? 'لا يوجد وزن متابعة'}",
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                                Text(
-                                  "تاريخ اخر متابعة: ${snapshot.data?.mDate.toLocal().toString().split(' ')[0] ?? 'لا يوجد تاريخ متابعة'}",
-                                  style: const TextStyle(fontSize: 20),
+                                MyTextBox(
+                                  title: "تاريخ اخر متابعة",
+                                  value: snapshot.data?.mDate
+                                          .toLocal()
+                                          .toString()
+                                          .split(' ')[0] ??
+                                      'لا يوجد تاريخ متابعة',
                                 )
                               ],
                             ),

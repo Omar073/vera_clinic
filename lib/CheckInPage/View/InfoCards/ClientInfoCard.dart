@@ -28,19 +28,21 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             textDirection: TextDirection.rtl,
             children: [
-              tableRow(
-                'اسم العميل',
-                client?.mName ?? 'unknown',
-                'رقم العميل',
-                client?.mClientPhoneNum ?? 'unknown',
-              ),
-              tableRow(
-                'المنطقة',
-                clientConstantInfo.mArea,
-                'تاريخ اخر زيارة',
-                "${lastClientVisit.mDate.day}/${lastClientVisit.mDate.month}"
-                    "/${lastClientVisit.mDate.year}",
-              ),
+              tableRow([
+                {'label': 'اسم العميل', 'value': client?.mName ?? 'unknown'},
+                {
+                  'label': 'رقم العميل',
+                  'value': client?.mClientPhoneNum ?? 'unknown'
+                },
+              ]),
+              tableRow([
+                {'label': 'المنطقة', 'value': clientConstantInfo.mArea},
+                {
+                  'label': 'تاريخ اخر زيارة',
+                  'value':
+                      "${lastClientVisit.mDate.day}/${lastClientVisit.mDate.month}/${lastClientVisit.mDate.year}"
+                },
+              ]),
             ],
           ),
         ],

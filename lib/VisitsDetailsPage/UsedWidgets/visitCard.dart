@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitTextBox.dart';
 
 import '../../Core/Model/Classes/Visit.dart';
@@ -37,8 +36,8 @@ Widget visitCard(Visit visit, int num) {
               children: [
                 Expanded(
                   child: visitTextBox(
-                    title: "الوزن",
-                    value: "${visit.mWeight} كجم",
+                    title: "(كجم) الوزن",
+                    value: "${visit.mWeight}",
                   ),
                 ),
                 Expanded(
@@ -49,10 +48,13 @@ Widget visitCard(Visit visit, int num) {
                 ),
               ],
             ),
-            visitTextBox(
-              title: "ملاحظات",
-              value: visit.mVisitNotes,
-            ),
+            Wrap(
+              children: [
+              visitTextBox(
+                title: "ملاحظات",
+                value: visit.mVisitNotes,
+              ),
+            ]),
           ],
         ),
       ),
