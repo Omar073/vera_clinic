@@ -8,8 +8,10 @@ class MyTextBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min, // This helps shrink-wrap the children
       children: [
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: Text(
             value,
             style: const TextStyle(
@@ -17,7 +19,8 @@ class MyTextBox extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
+        Flexible(
+          fit: FlexFit.loose,
           child: Text(
             " : $title",
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
