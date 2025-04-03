@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/VisitTEC.dart';
+import '../../Controller/WeeklyFollowUpTEC.dart';
 
 Widget visitInfo2() {
   return Padding(

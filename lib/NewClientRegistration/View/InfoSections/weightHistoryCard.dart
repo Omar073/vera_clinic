@@ -31,7 +31,7 @@ Widget weightHistoryCard() {
         ),
         const SizedBox(height: 24),
         const Text(
-          "الأوزان الثابتة السابقة:",
+          ":الأوزان الثابتة السابقة",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 16),

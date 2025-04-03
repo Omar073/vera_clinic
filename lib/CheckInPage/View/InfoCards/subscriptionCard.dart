@@ -29,6 +29,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -62,10 +63,6 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
                       widget.visitSubscriptionTypeController),
                 ),
                 const SizedBox(width: 16),
-                // const Text(
-                //   ": نوع الكشف",
-                //   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                // ),
               ],
             ),
           ],

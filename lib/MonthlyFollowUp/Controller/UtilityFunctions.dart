@@ -6,28 +6,40 @@ import '../../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import 'MonthlyFollowUpTEC.dart';
 
-Future<void> createMonthlyFollowUp(Client c, BuildContext context) async {
+Future<void> createMonthlyFollowUp(
+    Client c, ClientMonthlyFollowUp cmfu, BuildContext context) async {
   try {
-    ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
-        clientMonthlyFollowUpId: '',
-        clientId: c.mClientId,
-        bmi: double.tryParse(MonthlyFollowUpTEC.mBMIController.text),
-        pbf: double.tryParse(MonthlyFollowUpTEC.mPBFController.text),
-        water: double.tryParse(MonthlyFollowUpTEC.mWaterController.text),
-        maxWeight:
-            double.tryParse(MonthlyFollowUpTEC.mMaxWeightController.text),
-        optimalWeight:
-            double.tryParse(MonthlyFollowUpTEC.mOptimalWeightController.text),
-        bmr: double.tryParse(MonthlyFollowUpTEC.mBMRController.text),
-        maxCalories:
-            double.tryParse(MonthlyFollowUpTEC.mMaxCaloriesController.text),
-        dailyCalories:
-            double.tryParse(MonthlyFollowUpTEC.mDailyCaloriesController.text));
+    // Helper function to parse text or fallback to the existing value
+    double? parseOrFallback(String text, double? fallback) {
+      return text.isEmpty ? fallback : double.tryParse(text) ?? fallback;
+    }
 
+    // Create the ClientMonthlyFollowUp object
+    ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
+      clientMonthlyFollowUpId: '',
+      clientId: c.mClientId,
+      bmi: parseOrFallback(MonthlyFollowUpTEC.mBMIController.text, cmfu.mBMI),
+      pbf: parseOrFallback(MonthlyFollowUpTEC.mPBFController.text, cmfu.mPBF),
+      water:
+          parseOrFallback(MonthlyFollowUpTEC.mWaterController.text, cmfu.mWater),
+      maxWeight: parseOrFallback(
+          MonthlyFollowUpTEC.mMaxWeightController.text, cmfu.mMaxWeight),
+      optimalWeight: parseOrFallback(
+          MonthlyFollowUpTEC.mOptimalWeightController.text, cmfu.mOptimalWeight),
+      bmr: parseOrFallback(MonthlyFollowUpTEC.mBMRController.text, cmfu.mBMR),
+      maxCalories: parseOrFallback(
+          MonthlyFollowUpTEC.mMaxCaloriesController.text, cmfu.mMaxCalories),
+      dailyCalories: parseOrFallback(
+          MonthlyFollowUpTEC.mDailyCaloriesController.text, cmfu.mDailyCalories),
+    );
+
+    // Save the ClientMonthlyFollowUp object
     await context
         .read<ClientMonthlyFollowUpProvider>()
-        .createClientMonthlyFollowUp(cmfu);
-    cmfu.printClientMonthlyFollowUp();
+        .createClientMonthlyFollowUp(clientMonthlyFollowUp);
+
+    // Print the created object for debugging
+    clientMonthlyFollowUp.printClientMonthlyFollowUp();
   } on Exception catch (e) {
     debugPrint('Error creating monthly follow up: $e');
   }

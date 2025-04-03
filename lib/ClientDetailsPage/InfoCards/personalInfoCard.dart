@@ -13,7 +13,7 @@ Widget personalInfoCard(Client? client, String area) {
       children: [
         infoRow('الاسم', client?.mName ?? 'Unknown'),
         infoRow('رقم الهاتف', client?.mClientPhoneNum ?? 'Unknown'),
-        infoRow('الجنس', client?.mGender.name ?? 'Unknown'),
+        infoRow('النوع', client?.mGender.name ?? 'Unknown'),
         infoRow(
             'تاريخ الميلاد',
             client?.mBirthdate?.toLocal().toString().split(' ')[0] ??

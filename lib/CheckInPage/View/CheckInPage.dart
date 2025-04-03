@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../Controller/CheckInPageTEC.dart';
@@ -32,6 +33,12 @@ class _CheckInPageState extends State<CheckInPage> {
     client = widget.client;
     _fetchData();
     CheckInPageTEC.init();
+  }
+
+  @override
+  void dispose() {
+    CheckInPageTEC.dispose();
+    super.dispose();
   }
 
   Future<void> _fetchData() async {
@@ -68,68 +75,62 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
   @override
-  void dispose() {
-    CheckInPageTEC.dispose();
-    super.dispose(); //todo: verify it doesn't break
-  }
-
-  @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    if (errorMessage != null) {
-      return Scaffold(
-        body: Center(child: Text(errorMessage!)),
-      );
-    }
-
-    // Add explicit null checks for safety
-    if (clientConstantInfo == null || lastClientVisit == null) {
-      return const Scaffold(
-        body: Center(child: Text('Client data not found')),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Check In: ${client?.mName}'),
+        title: Text('Check In: ${client?.mName ?? ''}'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: Background(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  clientInfoCard(client, clientConstantInfo!, lastClientVisit!),
-                  const SizedBox(height: 24),
-                  measurementsCard(client),
-                  const SizedBox(height: 24),
-                  SubscriptionCard(
-                    client: client,
-                    visitSubscriptionTypeController:
-                    CheckInPageTEC.visitSubscriptionTypeController,
-                    visitSubscriptionPriceController:
-                    CheckInPageTEC.visitSubscriptionPriceController,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 24),
-              CheckInButton(
-                client: client,
-                visitSubscriptionTypeController:
-                CheckInPageTEC.visitSubscriptionTypeController,
-                visitSubscriptionPriceController:
-                CheckInPageTEC.visitSubscriptionPriceController,
-              ),
-            ],
-          ),
+          child: isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : errorMessage != null
+                  ? Center(
+                      child: Text(
+                        errorMessage!,
+                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                        textAlign: TextAlign.center,
+                      ),
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                clientInfoCard(client, clientConstantInfo!,
+                                    lastClientVisit!),
+                                const SizedBox(height: 24),
+                                measurementsCard(client),
+                                const SizedBox(height: 24),
+                                SubscriptionCard(
+                                  client: client,
+                                  visitSubscriptionTypeController:
+                                      CheckInPageTEC
+                                          .visitSubscriptionTypeController,
+                                  visitSubscriptionPriceController:
+                                      CheckInPageTEC
+                                          .visitSubscriptionPriceController,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: CheckInButton(
+                            client: client,
+                            visitSubscriptionTypeController:
+                                CheckInPageTEC.visitSubscriptionTypeController,
+                            visitSubscriptionPriceController:
+                                CheckInPageTEC.visitSubscriptionPriceController,
+                          ),
+                        ),
+                      ],
+                    ),
         ),
       ),
     );

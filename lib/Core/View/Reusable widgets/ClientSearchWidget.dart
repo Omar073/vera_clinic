@@ -37,7 +37,12 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
       _isLoadingName = true;
     });
     widget.onSearchButtonClicked();
-    final results = await context.read<ClientProvider>().getClientByName(name);
+    List<Client?> results = [];
+    if (name.trim().split(" ").length == 1) {
+      results = await context.read<ClientProvider>().getClientByFirstName(name);
+    } else {
+      results = await context.read<ClientProvider>().getClientByName(name);
+    }
     context.read<ClientProvider>().setSearchResults(results);
     widget.setHasSearched();
     setState(() {
@@ -72,6 +77,7 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
           textAlign: TextAlign.right,
           decoration: InputDecoration(
             hintText: widget.hintText,
+            hintStyle: const TextStyle(fontWeight: FontWeight.w400),
             hintTextDirection: TextDirection.rtl,
             suffixIcon: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0),
@@ -90,18 +96,42 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
               _isLoadingName
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blueAccent,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 12.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                      ),
                       onPressed: () async {
-                        await searchByName(_controller.text);
+                        await searchByName(_controller.text.toLowerCase());
                       },
-                      child: const Text('إبحث بالاسم'),
+                      child: const Text(
+                        'إبحث بالاسم',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
                     ),
               _isLoadingPhone
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: Colors.blueAccent, // Text color
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24.0, vertical: 12.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24.0),
+                        ),
+                      ),
                       onPressed: () async {
                         await searchByPhone(_controller.text);
                       },
-                      child: const Text('إبحث بالهاتف'),
+                      child: const Text(
+                        'إبحث بالهاتف',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
                     ),
             ],
           ),

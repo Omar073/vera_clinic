@@ -71,6 +71,27 @@ class ClientFirestoreMethods {
     return clients;
   }
 
+  Future<List<Client?>> fetchClientByFirstName(String name) async {
+    List<Client> clients = [];
+    try {
+      final querySnapshot = await FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .where('name', isGreaterThanOrEqualTo: name)
+          .where('name', isLessThanOrEqualTo: '$name\uf8ff')
+          .get();
+
+      clients.addAll(querySnapshot.docs
+          .map((doc) => Client.fromFirestore(doc.data()))
+          .toList());
+
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching client by first name: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error fetching client by first name: $e');
+    }
+    return clients;
+  }
+
   Future<List<Client?>> fetchClientByName(String name) async {
     List<Client> clients = [];
     try {
@@ -86,7 +107,6 @@ class ClientFirestoreMethods {
     } catch (e) {
       debugPrint('Unknown error fetching client by name: $e');
     }
-
     return clients;
   }
 
@@ -113,4 +133,5 @@ class ClientFirestoreMethods {
       throw Exception('Unknown error updating client: $e');
     }
   }
+
 }
