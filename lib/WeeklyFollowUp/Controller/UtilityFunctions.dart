@@ -5,6 +5,8 @@ import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
+import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
+import 'WeeklyFollowUpTEC.dart';
 
 String getAge(DateTime? birthDate) {
   final now = DateTime.now();
@@ -22,10 +24,10 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
       visitId: "",
       clientId: c.mClientId,
       date: DateTime.now(),
-      diet: NewVisitTEC.visitDietController.text,
-      weight: double.tryParse(NewVisitTEC.visitWeightController.text) ?? 0,
-      bmi: double.tryParse(NewVisitTEC.visitBMIController.text) ?? 0,
-      visitNotes: NewVisitTEC.visitNotesController.text,
+      diet: WeeklyFollowUpTEC.visitDietController.text,
+      weight: double.tryParse(WeeklyFollowUpTEC.visitWeightController.text) ?? 0,
+      bmi: double.tryParse(WeeklyFollowUpTEC.visitBMIController.text) ?? 0,
+      visitNotes: WeeklyFollowUpTEC.visitNotesController.text,
     );
 
     await context.read<VisitProvider>().createVisit(v);
@@ -35,4 +37,13 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
     debugPrint('Error creating visit: $e');
     return false;
   }
+}
+
+bool verifyWFUInput(BuildContext context) {
+  bool isValid = true;
+  if (WeeklyFollowUpTEC.visitWeightController.text.isEmpty) {
+    showRequiredFieldSnackBar(context, 'الوزن');
+    isValid = false;
+  }
+  return isValid;
 }

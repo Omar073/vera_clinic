@@ -11,7 +11,7 @@ import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
-import '../Controller/VisitTEC.dart';
+import '../Controller/WeeklyFollowUpTEC.dart';
 import 'UsedWidgets/WFUClientInfoCard.dart';
 
 class WeeklyFollowUp extends StatefulWidget {
