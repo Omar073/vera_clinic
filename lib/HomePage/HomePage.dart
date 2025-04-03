@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/HomePage/UsedWidgets/WelcomeSection.dart';
 
+import '../Core/View/Reusable widgets/BackGround.dart';
 import 'UsedWidgets/GridMenu.dart';
 import 'UsedWidgets/Header.dart';
 
@@ -28,17 +29,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Colors.blue[50]!,
-              Colors.white,
-            ],
-          ),
-        ),
+      body: Background(
         child: SafeArea(
           child: Column(
             children: [

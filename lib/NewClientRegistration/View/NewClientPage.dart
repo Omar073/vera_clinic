@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
@@ -39,33 +40,36 @@ class _NewClientPageState extends State<NewClientPage> {
       appBar: AppBar(
         title: const Text('تسجيل عميل جديد'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 208, 241, 255),
+        backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0)
-                  .copyWith(top: 24),
-              child: Column(
-                children: [
-                  const PersonalInfoCard(),
-                  const SizedBox(height: 20),
-                  bodyMeasurementsCard(),
-                  const SizedBox(height: 20),
-                  dietPreferencesCard(),
-                  const SizedBox(height: 20),
-                  weightHistoryCard(),
-                  const SizedBox(height: 20),
-                  weightDistributionCard(),
-                  const SizedBox(height: 20),
-                  medicalHistoryCard(),
-                ],
+      body: Background(
+        child: Column(
+          children: [
+            const SizedBox(height: 12),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0)
+                    .copyWith(top: 12),
+                child: Column(
+                  children: [
+                    const PersonalInfoCard(),
+                    const SizedBox(height: 20),
+                    bodyMeasurementsCard(),
+                    const SizedBox(height: 20),
+                    dietPreferencesCard(),
+                    const SizedBox(height: 20),
+                    weightHistoryCard(),
+                    const SizedBox(height: 20),
+                    weightDistributionCard(),
+                    const SizedBox(height: 20),
+                    medicalHistoryCard(),
+                  ],
+                ),
               ),
             ),
-          ),
-          const ActionButtons(),
-        ],
+            const ActionButtons(),
+          ],
+        ),
       ),
     );
   }

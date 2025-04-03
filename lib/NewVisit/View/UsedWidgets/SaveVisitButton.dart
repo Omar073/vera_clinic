@@ -33,7 +33,6 @@ class _SaveVisitButtonState extends State<SaveVisitButton> {
                 _isLoading = true;
               });
 
-              debugPrint("Button pressed: حفظ");
               bool success = await createVisit();
               showMySnackBar(
                   context,

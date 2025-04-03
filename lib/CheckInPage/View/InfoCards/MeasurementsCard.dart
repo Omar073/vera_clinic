@@ -5,6 +5,7 @@ import '../UsedWidgets/TableRow.dart';
 
 Widget measurementsCard(Client? client) {
   return Card(
+    color: Colors.white,
     elevation: 2,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -24,12 +25,16 @@ Widget measurementsCard(Client? client) {
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             textDirection: TextDirection.rtl,
             children: [
-              tableRow(
-                'الطول',
-                '${client?.mHeight} سم',
-                'الوزن',
-                '${client?.mWeight} كجم',
-              ),
+              tableRow([
+                {
+                  'label': 'الطول',
+                  'value': '${client?.mHeight ?? 'غير متوفر'} سم'
+                },
+                {
+                  'label': 'الوزن',
+                  'value': '${client?.mWeight ?? 'غير متوفر'} كجم'
+                },
+              ]),
             ],
           ),
         ],

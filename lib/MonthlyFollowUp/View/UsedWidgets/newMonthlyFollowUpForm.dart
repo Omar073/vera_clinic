@@ -16,32 +16,32 @@ Widget newMonthlyFollowUpForm() {
               Expanded(
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mBMIController,
-                  hint: 'مؤشر كتلة الجسم',
-                  label: 'BMI',
+                  label: 'مؤشر كتلة الجسم',
+                  hint: 'BMI',
                 ),
               ),
               const SizedBox(width: 20),
               Expanded(
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mPBFController,
-                  hint: 'نسبة الدهون',
-                  label: 'PBF',
+                  label: 'نسبة الدهون',
+                  hint: 'PBF',
                 ),
               ),
               const SizedBox(width: 20),
               Expanded(
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mBMRController,
-                  hint: 'حد الحرق الأدني',
-                  label: 'BMR',
+                  label: 'حد الحرق الأدني',
+                  hint: 'BMR',
                 ),
               ),
               const SizedBox(width: 20),
               Expanded(
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mWaterController,
-                  hint: '',
-                  label: 'Water',
+                  hint: 'Water',
+                  label: 'الماء',
                 ),
               ),
               const SizedBox(width: 20),
@@ -55,7 +55,7 @@ Widget newMonthlyFollowUpForm() {
                   myController:
                   MonthlyFollowUpTEC.mMaxWeightController,
                   hint: '',
-                  label: 'Max weight',
+                  label: 'أقصي وزن',
                 ),
               ),
               const SizedBox(width: 20),
@@ -64,7 +64,7 @@ Widget newMonthlyFollowUpForm() {
                   myController:
                   MonthlyFollowUpTEC.mOptimalWeightController,
                   hint: '',
-                  label: 'Optimal weight',
+                  label: 'الوزن المثالي',
                 ),
               ),
               const SizedBox(width: 20),
@@ -73,7 +73,7 @@ Widget newMonthlyFollowUpForm() {
                   myController:
                   MonthlyFollowUpTEC.mMaxCaloriesController,
                   hint: '',
-                  label: 'Max calories',
+                  label: 'أقصي سعرات',
                 ),
               ),
               const SizedBox(width: 20),
@@ -82,7 +82,7 @@ Widget newMonthlyFollowUpForm() {
                   myController:
                   MonthlyFollowUpTEC.mDailyCaloriesController,
                   hint: '',
-                  label: 'Daily calories',
+                  label: 'السعرات اليومية',
                 ),
               ),
               const SizedBox(width: 20),

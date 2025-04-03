@@ -18,7 +18,7 @@ class MyInputField extends StatefulWidget {
 class _MyInputFieldState extends State<MyInputField> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 200,
       child: TextField(
         style: const TextStyle(fontSize: 20),
@@ -27,9 +27,9 @@ class _MyInputFieldState extends State<MyInputField> {
         maxLines: widget.maxLines ?? 1,
         decoration: InputDecoration(
           hintText: widget.hint,
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             fontSize: 15,
-            color: Colors.grey.withOpacity(1), // Adjust opacity
+            color: Colors.grey, // Adjust opacity
             fontWeight: FontWeight.w300, // Adjust thickness
           ),
           label: Row(

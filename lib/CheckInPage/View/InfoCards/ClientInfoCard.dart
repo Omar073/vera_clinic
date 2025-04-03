@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../UsedWidgets/TableRow.dart';
@@ -7,6 +8,7 @@ import '../UsedWidgets/TableRow.dart';
 Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
     Visit lastClientVisit) {
   return Card(
+    color: Colors.white,
     elevation: 2,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
@@ -26,28 +28,21 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
             defaultVerticalAlignment: TableCellVerticalAlignment.middle,
             textDirection: TextDirection.rtl,
             children: [
-              tableRow(
-                'اسم العميل',
-                client?.mName ?? 'unknown',
-                'رقم العميل',
-                client?.mClientPhoneNum ?? 'unknown',
-              ),
-              tableRow(
-                'المنطقة',
-                clientConstantInfo.mArea,
-                'تاريخ اخر زيارة',
-                "${lastClientVisit.mDate.day}/${lastClientVisit.mDate.month}/${lastClientVisit.mDate.year}",
-              ),
-              // _buildTableRow(
-              //   'تاريخ اخر متابعة',
-              //   "${visit.mDate.day}/${visit.mDate.month}/${visit.mDate.year}",
-              //   'منطقة العميل',
-              //   'placeholder',
-              //   // await clientConstantInfoProvider
-              //   //     .getClientConstantInfoByClientId(client.mClientId)
-              //   //     ?.area ?? 'Unknown',
-              //   //todo: fix this
-              // ),
+              tableRow([
+                {'label': 'اسم العميل', 'value': client?.mName ?? 'unknown'},
+                {
+                  'label': 'رقم العميل',
+                  'value': client?.mClientPhoneNum ?? 'unknown'
+                },
+              ]),
+              tableRow([
+                {'label': 'المنطقة', 'value': clientConstantInfo.mArea},
+                {
+                  'label': 'تاريخ اخر زيارة',
+                  'value':
+                      "${lastClientVisit.mDate.day}/${lastClientVisit.mDate.month}/${lastClientVisit.mDate.year}"
+                },
+              ]),
             ],
           ),
         ],

@@ -8,6 +8,7 @@ import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dar
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
+import 'package:vera_clinic/theme/app_theme.dart';
 import 'Core/Controller/Providers/ClientProvider.dart';
 import 'Core/Model/Firebase/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -41,9 +42,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: AppTheme.themeData,
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
