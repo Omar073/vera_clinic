@@ -3,7 +3,7 @@ import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/SnackBars/MySnackBar.dart';
-import '../../Controller/VisitTEC.dart';
+import '../../Controller/WeeklyFollowUpTEC.dart';
 
 class VisitActionButton extends StatefulWidget {
   final Client client;
@@ -30,8 +30,11 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                   });
 
                   try {
+                    if (!verifyWFUInput(context)) return;
+
                     bool success =
                         await createWeeklyFollowUp(widget.client, context);
+
                     showMySnackBar(
                       context,
                       success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',

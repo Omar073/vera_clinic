@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/MonthlyFollowUp/View/UsedWidgets/ActionButton.dart';
 
 import '../../Core/Model/Classes/Client.dart';
@@ -74,23 +75,23 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                                 child: infoCard(
                                   "تفاصيل المتابعة الشهرية السابقة",
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Expanded(
                                           child: infoField(
-                                              title: "BMI",
+                                              title: "مؤشر كتلة الجسم",
                                               value: "${cmfu.mBMI}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "PBF",
+                                              title: "نسبة الدهون",
                                               value: "${cmfu.mPBF}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "BMR",
+                                              title: "حد الحرق الأدني",
                                               value: "${cmfu.mBMR}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "Water",
+                                              title: "الماء",
                                               value: "${cmfu.mWater}")),
                                     ],
                                   ),
@@ -107,35 +108,34 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                                     children: [
                                       Expanded(
                                           child: infoField(
-                                              title: "Max weight",
+                                              title: "أقصي وزن",
                                               value: "${cmfu.mMaxWeight}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "Optimal weight",
+                                              title: "الوزن المثالي",
                                               value: "${cmfu.mOptimalWeight}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "Max calories",
+                                              title: "أقصي سعرات",
                                               value: "${cmfu.mMaxCalories}")),
                                       Expanded(
                                           child: infoField(
-                                              title: "Daily calories",
+                                              title: "السعرات اليومية",
                                               value: "${cmfu.mDailyCalories}")),
                                     ],
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(height: 20),
+                              newMonthlyFollowUpForm(),
+                              const SizedBox(height: 70),
+                              ActionButton(client: widget.client, cmfu: cmfu),
                             ],
                           );
                         } else {
                           return const Center(child: Text('لا توجد بيانات'));
                         }
                       }),
-                  const SizedBox(height: 20),
-                  newMonthlyFollowUpForm(),
-                  const SizedBox(height: 70),
-                  // Expanded(child: Container()),
-                  ActionButton(client: widget.client),
                 ],
               ),
             ),

@@ -86,10 +86,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                       child: Column(
                         children: [
                           const SizedBox(height: 24),
-                          Expanded(
-                            child: CheckedInClientsList(
-                              checkInClients: clinicProvider.checkedInClients,
-                            ),
+                          CheckedInClientsList(
+                            checkInClients: clinicProvider.checkedInClients,
                           ),
                         ],
                       ),

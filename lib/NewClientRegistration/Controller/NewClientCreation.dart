@@ -40,7 +40,7 @@ Future<bool> createClient(BuildContext context) async {
     if (await context
         .read<ClientProvider>()
         .isPhoneNumUsed(ClientRegistrationTEC.phoneController.text)) {
-      showMySnackBar(context, 'العميل موجود بالفعل', Colors.red);
+      showMySnackBar(context, 'هذا الرقم مستخدم بالفعل', Colors.red);
       return false;
     }
 

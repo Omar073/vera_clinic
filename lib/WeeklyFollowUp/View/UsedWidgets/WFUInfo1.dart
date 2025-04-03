@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/VisitTEC.dart';
+import '../../Controller/WeeklyFollowUpTEC.dart';
 
 Widget visitInfo1() {
   return Padding(
@@ -22,6 +22,7 @@ Widget visitInfo1() {
                     myController: WeeklyFollowUpTEC.visitDietController,
                     hint: "",
                     label: "اسم النظام",
+                    // maxLines: 2,
                   ),
                   MyInputField(
                     myController: WeeklyFollowUpTEC.visitWeightController,

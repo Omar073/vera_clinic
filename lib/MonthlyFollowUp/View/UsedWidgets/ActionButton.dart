@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
+import '../../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../Controller/MonthlyFollowUpTEC.dart';
 import '../../Controller/UtilityFunctions.dart';
 
 class ActionButton extends StatefulWidget {
   final Client client;
-  const ActionButton({super.key, required this.client});
+  final ClientMonthlyFollowUp cmfu;
+  const ActionButton({super.key, required this.client, required this.cmfu});
 
   @override
   State<ActionButton> createState() => _ActionButtonState();
@@ -29,7 +31,7 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    await createMonthlyFollowUp(widget.client, context);
+                    await createMonthlyFollowUp(widget.client, widget.cmfu, context);
                   } finally {
                     setState(() {
                       _isLoading = false;

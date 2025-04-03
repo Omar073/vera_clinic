@@ -25,7 +25,7 @@ Widget WFUClientInfoCard(Client client, double width) {
                       title: "إسم النظام الحالي",
                       value: client.mDiet ?? 'لا يوجد نظام غذائي'),
                   MyTextBox(
-                      title: "الوزن",
+                      title: "الوزن (كجم)",
                       value: client.mWeight?.toString() ?? 'لا يوجد وزن'),
                   MyTextBox(
                       title: "السن",
