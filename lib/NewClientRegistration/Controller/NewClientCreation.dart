@@ -74,15 +74,15 @@ Future<bool> createClient(BuildContext context) async {
         .read<ClientProvider>()
         .createClient(_c); // client ID is generated here
 
-    _c.clientConstantInfoId = await createClientConstantInfo(_c.mClientId);
-    _c.diseaseId = await createDisease(_c.mClientId) ?? '';
-    _c.clientMonthlyFollowUpId =
+    _c.mClientConstantInfoId = await createClientConstantInfo(_c.mClientId);
+    _c.mDiseaseId = await createDisease(_c.mClientId) ?? '';
+    _c.mClientMonthlyFollowUpId =
         await createClientMonthlyFollowUp(_c.mClientId) ?? '';
-    _c.preferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
-    _c.weightAreasId = await createWeightAreas(_c.mClientId) ?? '';
+    _c.mPreferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
+    _c.mWeightAreasId = await createWeightAreas(_c.mClientId) ?? '';
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
-      _c.lastVisitId = getLatestVisitId();
+      _c.mLastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = _c.mClientId;
         VisitProvider visitProvider = VisitProvider();

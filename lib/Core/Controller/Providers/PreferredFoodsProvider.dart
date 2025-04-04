@@ -16,7 +16,7 @@ class PreferredFoodsProvider with ChangeNotifier {
       _preferredFoodsFirestoreMethods;
 
   Future<void> createPreferredFoods(PreferredFoods preferredFoods) async {
-    preferredFoods.preferredFoodsId = await preferredFoodsFirestoreMethods
+    preferredFoods.mPreferredFoodsId = await preferredFoodsFirestoreMethods
         .createPreferredFoods(preferredFoods);
     cachedPreferredFoods.add(preferredFoods);
     notifyListeners();

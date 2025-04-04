@@ -15,7 +15,7 @@ class WeightAreasProvider with ChangeNotifier {
       _weightAreasFirestoreMethods;
 
   Future<void> createWeightAreas(WeightAreas weightAreas) async {
-    weightAreas.weightAreasId =
+    weightAreas.mWeightAreasId =
         await weightAreasFirestoreMethods.createWeightAreas(weightAreas);
 
     _cachedWeightAreas.add(weightAreas);
