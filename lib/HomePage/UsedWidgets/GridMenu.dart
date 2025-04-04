@@ -5,7 +5,7 @@ import 'package:vera_clinic/CheckedInClientsPage/CheckedInClientsPage.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 
-import '../../Core/View/Pages/AnalysisPage.dart';
+import '../../AnalysisPage/AnalysisPage.dart';
 import '../../ClientSearchPage/ClientSearchPage.dart';
 import '../../Core/View/Pages/FollowUpNav.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
