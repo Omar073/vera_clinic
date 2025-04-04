@@ -44,7 +44,7 @@ class _CheckInButtonState extends State<CheckInButton> {
                       widget.visitSubscriptionPriceController.text);
 
                   // Set the subscription type for the client
-                  widget.client?.subscriptionType = getSubscriptionType(
+                  widget.client?.mSubscriptionType = getSubscriptionType(
                       widget.visitSubscriptionTypeController.text);
 
                   // Check if the client is already checked in
