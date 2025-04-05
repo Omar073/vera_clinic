@@ -18,46 +18,50 @@ class _SaveVisitButtonState extends State<SaveVisitButton> {
   Widget build(BuildContext context) {
     return _isLoading
         ? const CircularProgressIndicator()
-        : ElevatedButton.icon(
-            label: const Text(
-              "تسجيل",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            onPressed: () async {
-              if (!verifyVisitInput(context)) return;
+        : _buildSaveVisitButton(context);
+  }
 
-              setState(() {
-                _isLoading = true;
-              });
+  Widget _buildSaveVisitButton(BuildContext context) {
+    return ElevatedButton.icon(
+      label: const Text(
+        "تسجيل",
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: () async {
+        if (!verifyVisitInput(context)) return;
 
-              bool success = await createVisit();
-              showMySnackBar(
-                  context,
-                  success
-                      ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
-                      : 'فشل حفظ الزيارة',
-                  success ? Colors.green : Colors.red);
+        setState(() {
+          _isLoading = true;
+        });
 
-              if (success) {
-                Navigator.pop(context);
-              }
+        bool success = await createVisit(context);
+        showMySnackBar(
+            context,
+            success
+                ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
+                : 'فشل حفظ الزيارة',
+            success ? Colors.green : Colors.red);
 
-              setState(() {
-                _isLoading = false;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 27, 169, 34),
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-              textStyle: const TextStyle(fontSize: 20),
-            ),
-            icon: const Icon(
-              Icons.save,
-              color: Colors.white,
-            ),
-          );
+        if (success) {
+          Navigator.pop(context);
+        }
+
+        setState(() {
+          _isLoading = false;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 27, 169, 34),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
+        textStyle: const TextStyle(fontSize: 20),
+      ),
+      icon: const Icon(
+        Icons.save,
+        color: Colors.white,
+      ),
+    );
   }
 }
