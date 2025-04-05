@@ -16,12 +16,14 @@ class ClinicProvider with ChangeNotifier {
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
   List<Client?> get checkedInClients => _checkedInClients;
 
-  Future<void> getClinic() async {
+  Future<Clinic?> getClinic() async {
     try {
       clinic = await _clinicFirestoreMethods.fetchClinic();
       notifyListeners();
+      return clinic;
     } catch (e) {
       debugPrint('Error getting clinic: $e');
+      return null;
     }
   }
 

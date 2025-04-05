@@ -74,17 +74,6 @@ Future<bool> createClient(BuildContext context) async {
         .read<ClientProvider>()
         .createClient(_c); // client ID is generated here
 
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    _c.clientConstantInfoId = await createClientConstantInfo(_c.mClientId);
-    _c.diseaseId = await createDisease(_c.mClientId) ?? '';
-    _c.clientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(_c.mClientId) ?? '';
-    _c.preferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
-    _c.weightAreasId = await createWeightAreas(_c.mClientId) ?? '';
-=======
-=======
->>>>>>> Stashed changes
     _c.mClientConstantInfoId =
         await createClientConstantInfo(_c.mClientId, context) ?? '';
     _c.mDiseaseId = await createDisease(_c.mClientId, context) ?? '';
@@ -93,13 +82,9 @@ Future<bool> createClient(BuildContext context) async {
     _c.mPreferredFoodsId =
         await createPreferredFoods(_c.mClientId, context) ?? '';
     _c.mWeightAreasId = await createWeightAreas(_c.mClientId, context) ?? '';
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
-      _c.lastVisitId = getLatestVisitId();
+      _c.mLastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = _c.mClientId;
         await context.read<VisitProvider>().updateVisit(v);
