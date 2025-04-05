@@ -75,6 +75,7 @@ Future<bool> createClient(BuildContext context) async {
         .createClient(_c); // client ID is generated here
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     _c.clientConstantInfoId = await createClientConstantInfo(_c.mClientId);
     _c.diseaseId = await createDisease(_c.mClientId) ?? '';
     _c.clientMonthlyFollowUpId =
@@ -82,6 +83,8 @@ Future<bool> createClient(BuildContext context) async {
     _c.preferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
     _c.weightAreasId = await createWeightAreas(_c.mClientId) ?? '';
 =======
+=======
+>>>>>>> Stashed changes
     _c.mClientConstantInfoId =
         await createClientConstantInfo(_c.mClientId, context) ?? '';
     _c.mDiseaseId = await createDisease(_c.mClientId, context) ?? '';
@@ -90,6 +93,9 @@ Future<bool> createClient(BuildContext context) async {
     _c.mPreferredFoodsId =
         await createPreferredFoods(_c.mClientId, context) ?? '';
     _c.mWeightAreasId = await createWeightAreas(_c.mClientId, context) ?? '';
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
