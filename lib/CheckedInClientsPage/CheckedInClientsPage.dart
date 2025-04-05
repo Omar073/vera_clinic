@@ -76,7 +76,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
               // todo: understand why we used a consumer inside a future builder and why the future builder alone wasn't enough and why we needed to create a private variable for the future and assign it to fetchData() and call it in the future builder
               return Consumer<ClinicProvider>(
                 builder: (context, clinicProvider, child) {
-                  if (clinicProvider.checkedInClients.isEmpty) {
+                  if (context.read<ClinicProvider>().checkedInClients.isEmpty) {
                     return const Center(
                       child: Text('No clients checked in'),
                     );
@@ -87,7 +87,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                         children: [
                           const SizedBox(height: 24),
                           CheckedInClientsList(
-                            checkInClients: clinicProvider.checkedInClients,
+                            checkInClients:
+                                context.read<ClinicProvider>().checkedInClients,
                           ),
                         ],
                       ),
