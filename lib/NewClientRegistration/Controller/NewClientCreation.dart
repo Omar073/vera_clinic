@@ -74,19 +74,20 @@ Future<bool> createClient(BuildContext context) async {
         .read<ClientProvider>()
         .createClient(_c); // client ID is generated here
 
-    _c.mClientConstantInfoId = await createClientConstantInfo(_c.mClientId);
-    _c.mDiseaseId = await createDisease(_c.mClientId) ?? '';
+    _c.mClientConstantInfoId =
+        await createClientConstantInfo(_c.mClientId, context) ?? '';
+    _c.mDiseaseId = await createDisease(_c.mClientId, context) ?? '';
     _c.mClientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(_c.mClientId) ?? '';
-    _c.mPreferredFoodsId = await createPreferredFoods(_c.mClientId) ?? '';
-    _c.mWeightAreasId = await createWeightAreas(_c.mClientId) ?? '';
+        await createClientMonthlyFollowUp(_c.mClientId, context) ?? '';
+    _c.mPreferredFoodsId =
+        await createPreferredFoods(_c.mClientId, context) ?? '';
+    _c.mWeightAreasId = await createWeightAreas(_c.mClientId, context) ?? '';
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
       _c.mLastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = _c.mClientId;
-        VisitProvider visitProvider = VisitProvider();
-        visitProvider.updateVisit(v);
+        await context.read<VisitProvider>().updateVisit(v);
       }
     }
     // _c.lastVisitId = getLatestVisitId() ?? '';
@@ -103,7 +104,7 @@ Future<bool> createClient(BuildContext context) async {
   }
 }
 
-Future<String?> createDisease(String clientId) async {
+Future<String?> createDisease(String clientId, BuildContext context) async {
   try {
     Disease d = Disease(
       diseaseId: '',
@@ -145,8 +146,7 @@ Future<String?> createDisease(String clientId) async {
       hormonal: ClientRegistrationTEC.hormonalController.text,
     );
 
-    DiseaseProvider diseaseProvider = DiseaseProvider();
-    await diseaseProvider.createDisease(d);
+    await context.read<DiseaseProvider>().createDisease(d);
     d.printDisease();
 
     return d.mDiseaseId;
@@ -156,7 +156,8 @@ Future<String?> createDisease(String clientId) async {
   }
 }
 
-Future<String?> createClientMonthlyFollowUp(String clientId) async {
+Future<String?> createClientMonthlyFollowUp(
+    String clientId, BuildContext context) async {
   try {
     ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
       clientId: clientId,
@@ -179,9 +180,9 @@ Future<String?> createClientMonthlyFollowUp(String clientId) async {
               0.0,
     );
 
-    ClientMonthlyFollowUpProvider clientMonthlyFollowUpProvider =
-        ClientMonthlyFollowUpProvider();
-    await clientMonthlyFollowUpProvider.createClientMonthlyFollowUp(cmfu);
+    await context
+        .read<ClientMonthlyFollowUpProvider>()
+        .createClientMonthlyFollowUp(cmfu);
     cmfu.printClientMonthlyFollowUp();
 
     return cmfu.mClientMonthlyFollowUpId;
@@ -191,7 +192,8 @@ Future<String?> createClientMonthlyFollowUp(String clientId) async {
   }
 }
 
-Future<String?> createClientConstantInfo(String clientId) async {
+Future<String?> createClientConstantInfo(
+    String clientId, BuildContext context) async {
   try {
     ClientConstantInfo cci = ClientConstantInfo(
       clientId: clientId,
@@ -204,9 +206,9 @@ Future<String?> createClientConstantInfo(String clientId) async {
           ClientRegistrationTEC.sportsController.text.toLowerCase() == 'true',
     );
 
-    ClientConstantInfoProvider clientConstantInfoProvider =
-        ClientConstantInfoProvider();
-    await clientConstantInfoProvider.createClientConstantInfo(cci);
+    await context
+        .read<ClientConstantInfoProvider>()
+        .createClientConstantInfo(cci);
     cci.printClientConstantInfo();
 
     return cci.mClientConstantInfoId;
@@ -216,7 +218,8 @@ Future<String?> createClientConstantInfo(String clientId) async {
   }
 }
 
-Future<String?> createPreferredFoods(String clientId) async {
+Future<String?> createPreferredFoods(
+    String clientId, BuildContext context) async {
   try {
     PreferredFoods pf = PreferredFoods(
       preferredFoodsId: '',
@@ -233,8 +236,7 @@ Future<String?> createPreferredFoods(String clientId) async {
       others: ClientRegistrationTEC.othersPreferredFoodsController.text,
     );
 
-    PreferredFoodsProvider preferredFoodsProvider = PreferredFoodsProvider();
-    await preferredFoodsProvider.createPreferredFoods(pf);
+    await context.read<PreferredFoodsProvider>().createPreferredFoods(pf);
     pf.printPreferredFoods();
 
     return pf.mPreferredFoodsId;
@@ -244,7 +246,7 @@ Future<String?> createPreferredFoods(String clientId) async {
   }
 }
 
-Future<String?> createWeightAreas(String clientId) async {
+Future<String?> createWeightAreas(String clientId, BuildContext context) async {
   try {
     WeightAreas wa = WeightAreas(
       weightAreasId: '',
@@ -262,8 +264,7 @@ Future<String?> createWeightAreas(String clientId) async {
       back: ClientRegistrationTEC.backController.text.toLowerCase() == 'true',
     );
 
-    WeightAreasProvider weightAreasProvider = WeightAreasProvider();
-    await weightAreasProvider.createWeightAreas(wa);
+    await context.read<WeightAreasProvider>().createWeightAreas(wa);
     wa.printWeightAreas();
 
     return wa.mWeightAreasId;
