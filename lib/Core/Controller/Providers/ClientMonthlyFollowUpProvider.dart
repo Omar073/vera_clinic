@@ -20,7 +20,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
 
   Future<void> createClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) async {
-    clientMonthlyFollowUp.clientMonthlyFollowUpId =
+    clientMonthlyFollowUp.mClientMonthlyFollowUpId =
         await clientMonthlyFollowUpFirestoreMethods
             .createClientMonthlyFollowUp(clientMonthlyFollowUp);
     cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp);

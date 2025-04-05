@@ -26,35 +26,6 @@ class Visit {
         mBMI = bmi,
         mVisitNotes = visitNotes;
 
-  // Setters
-  set visitId(String visitId) {
-    mVisitId = visitId;
-  }
-
-  set date(DateTime date) {
-    mDate = date;
-  }
-
-  set clientId(String? clientId) {
-    mClientId = clientId;
-  }
-
-  set diet(String diet) {
-    mDiet = diet;
-  }
-
-  set weight(double weight) {
-    mWeight = weight;
-  }
-
-  set bmi(double bmi) {
-    mBMI = bmi;
-  }
-
-  set visitNotes(String visitNotes) {
-    mVisitNotes = visitNotes;
-  }
-
   void printVisit() {
     debugPrint('\n\t\t<<Visit>>\n'
         'Visit ID: $mVisitId, Client ID: $mClientId, Date: $mDate, '

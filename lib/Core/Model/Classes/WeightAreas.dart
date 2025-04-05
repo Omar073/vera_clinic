@@ -32,43 +32,6 @@ class WeightAreas {
         mBreast = breast,
         mBack = back;
 
-  // Setters
-  set weightAreasId(String weightAreasId) {
-    mWeightAreasId = weightAreasId;
-  }
-
-  set clientId(String? clientId) {
-    mClientId = clientId;
-  }
-
-  set abdomen(bool abdomen) {
-    mAbdomen = abdomen;
-  }
-
-  set buttocks(bool buttocks) {
-    mButtocks = buttocks;
-  }
-
-  set waist(bool waist) {
-    mWaist = waist;
-  }
-
-  set thighs(bool thighs) {
-    mThighs = thighs;
-  }
-
-  set arms(bool arms) {
-    mArms = arms;
-  }
-
-  set breast(bool breast) {
-    mBreast = breast;
-  }
-
-  set back(bool back) {
-    mBack = back;
-  }
-
   void printWeightAreas() {
     debugPrint('\n\t\t<<WeightAreas>>\n'
         'WeightAreasId: $mWeightAreasId, ClientId: $mClientId, '

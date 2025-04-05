@@ -19,7 +19,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
 
   Future<void> createClientConstantInfo(
       ClientConstantInfo clientConstantInfo) async {
-    clientConstantInfo.clientConstantInfoId =
+    clientConstantInfo.mClientConstantInfoId =
         await clientConstantInfoFirestoreMethods
             .createClientConstantInfo(clientConstantInfo);
     //! no need to update the firebase instance with the new ID as this already happens in the firebase method
