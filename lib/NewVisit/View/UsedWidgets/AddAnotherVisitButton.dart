@@ -20,52 +20,56 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
   Widget build(BuildContext context) {
     return _isLoading
         ? const CircularProgressIndicator()
-        : ElevatedButton.icon(
-            label: const Text(
-              'إضافة زيارة أخري',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: () async {
-              if (!verifyVisitInput(context)) return;
+        : _buildAddVisitButton(context);
+  }
 
-              setState(() {
-                _isLoading = true;
-              });
+  Widget _buildAddVisitButton(BuildContext context) {
+    return ElevatedButton.icon(
+      label: const Text(
+        'إضافة زيارة أخري',
+        style: TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      icon: const Icon(
+        Icons.add,
+        color: Colors.white,
+      ),
+      onPressed: () async {
+        if (!verifyVisitInput(context)) return;
 
-              bool success = await createVisit();
-              if (!mounted) {
-                debugPrint('Widget is not mounted');
-                return;
-              } // Check if the widget is still mounted
+        setState(() {
+          _isLoading = true;
+        });
 
-              showMySnackBar(
-                context,
-                success
-                    ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
-                    : 'فشل حفظ الزيارة',
-                success ? Colors.green : Colors.red,
-              );
+        bool success = await createVisit(context);
+        if (!mounted) {
+          debugPrint('Widget is not mounted');
+          return;
+        } // Check if the widget is still mounted
 
-              if (success) {
-                widget.onVisitAdded();
-              }
+        showMySnackBar(
+          context,
+          success
+              ? 'تم حفظ الزيارة ${NewVisitTEC.clientVisits.length} بنجاح'
+              : 'فشل حفظ الزيارة',
+          success ? Colors.green : Colors.red,
+        );
 
-              setState(() {
-                _isLoading = false;
-              });
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueAccent,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-              textStyle: const TextStyle(fontSize: 20),
-            ),
-          );
+        if (success) {
+          widget.onVisitAdded();
+        }
+
+        setState(() {
+          _isLoading = false;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.blueAccent,
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
+        textStyle: const TextStyle(fontSize: 20),
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
 import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
@@ -7,7 +8,7 @@ import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
 
-Future<bool> createVisit() async {
+Future<bool> createVisit(BuildContext context) async {
   try {
     Visit v = Visit(
       visitId: '',
@@ -20,8 +21,7 @@ Future<bool> createVisit() async {
       visitNotes: NewVisitTEC.visitNotesController.text,
     );
 
-    VisitProvider visitProvider = VisitProvider();
-    await visitProvider.createVisit(v);
+    await context.read<VisitProvider>().createVisit(v);
 
     NewVisitTEC.clientVisits.add(v);
     return true;
