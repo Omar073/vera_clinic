@@ -41,6 +41,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
     final String currentMonth = DateFormat('MMMM').format(currentDate);
     final int weekOfMonth = getWeekOfMonth(currentDate);
     String dayName = DateFormat('EEEE').format(currentDate);
+    // clinic = context.watch<ClinicProvider>().clinic;
 
     return Scaffold(
       appBar: AppBar(
@@ -105,10 +106,13 @@ class _AnalysisPageState extends State<AnalysisPage> {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 16),
-                                // Text('الدخل اليوم: \$${clinic.mDailyIncome}'),
-                                // Text('عدد العملاء اليوم: ${clinic.mDailyPatients}'),
-                                // Text('الصاريف اليوم: \$${clinic.mDailyExpenses}'),
-                                // Text('الربح اليوم: \$${clinic.mDailyProfit}'),
+                                Text(
+                                  'الدخل اليوم: \$${clinic?.mDailyIncome ?? ''}\n'
+                                  'عدد العملاء اليوم: ${clinic?.mDailyPatients ?? ''}\n'
+                                  'الصاريف اليوم: \$${clinic?.mDailyExpenses ?? ''}\n'
+                                  'الربح اليوم: \$${clinic?.mDailyProfit ?? ''}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ),
@@ -137,17 +141,19 @@ class _AnalysisPageState extends State<AnalysisPage> {
                                 ),
                                 const SizedBox(height: 20),
                                 const Text(
-                                  'Monthly Analysis',
+                                  'البيانات الشهرية',
                                   style: TextStyle(
                                       fontSize: 24,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 16),
-                                // Text('الدخل الشهري: \$${clinic.mMonthlyIncome}'),
-                                // Text(
-                                //     'عدد العملاء هذا الشهر: ${clinic.mMonthlyPatients}'),
-                                // Text('الصاريف هذا الشهر: \$${clinic.mMonthlyExpenses}'),
-                                // Text('الربح هذا الشهر: \$${clinic.mMonthlyProfit}'),
+                                Text(
+                                  'الدخل الشهري: \$${clinic?.mMonthlyIncome ?? ''}\n'
+                                  'عدد العملاء هذا الشهر: ${clinic?.mMonthlyPatients ?? ''}\n'
+                                  'الصاريف هذا الشهر: \$${clinic?.mMonthlyExpenses ?? ''}\n'
+                                  'الربح هذا الشهر: \$${clinic?.mMonthlyProfit ?? ''}',
+                                  style: const TextStyle(fontSize: 20),
+                                ),
                               ],
                             ),
                           ),

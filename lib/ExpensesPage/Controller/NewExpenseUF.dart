@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 
+import '../../Core/Controller/Providers/ClinicProvider.dart';
 import '../../Core/Model/Classes/Expense.dart';
 import 'NewExpenseTEC.dart';
 
@@ -14,8 +15,8 @@ Future<bool> createExpense(BuildContext context) async {
       date: DateTime.now(),
     );
 
-    ExpenseProvider expenseProvider = ExpenseProvider();
     await context.read<ExpenseProvider>().createExpense(e);
+    await context.read<ClinicProvider>().incrementDailyExpenses(e.mAmount ?? 0);
 
     return true;
   } on Exception catch (e) {

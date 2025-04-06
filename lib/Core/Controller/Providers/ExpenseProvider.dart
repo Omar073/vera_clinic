@@ -40,12 +40,7 @@ class ExpenseProvider with ChangeNotifier {
     return expenses;
   }
 
-  Future<void> updateExpense(Expense expense) async {
-    await expenseFirestoreMethods.updateExpense(expense);
-    notifyListeners();
-  }
-
-  Future<void> clearExpenses() async {
+  Future<void> monthlyClearExpenses() async {
     _mCachedExpenses.clear();
     await expenseFirestoreMethods.clearAllExpenses();
     notifyListeners();
