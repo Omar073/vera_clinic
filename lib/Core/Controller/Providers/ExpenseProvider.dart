@@ -40,14 +40,15 @@ class ExpenseProvider with ChangeNotifier {
     return expenses;
   }
 
-  Future<void> updateExpense(Expense expense) async {
-    await expenseFirestoreMethods.updateExpense(expense);
+  Future<void> monthlyClearExpenses() async {
+    _mCachedExpenses.clear();
+    await expenseFirestoreMethods.clearAllExpenses();
     notifyListeners();
   }
 
-  Future<void> clearExpenses() async {
-    _mCachedExpenses.clear();
-    await expenseFirestoreMethods.clearAllExpenses();
+  Future<void> deleteExpense(Expense expense) async {
+    _mCachedExpenses.removeWhere((e) => e?.mExpenseId == expense.mExpenseId);
+    await expenseFirestoreMethods.deleteExpense(expense);
     notifyListeners();
   }
 }
