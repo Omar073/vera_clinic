@@ -63,7 +63,7 @@ class _CheckInButtonState extends State<CheckInButton> {
                     // Update the daily income
                     await context
                         .read<ClinicProvider>()
-                        .updateDailyIncome(subscriptionPrice);
+                        .incrementDailyIncome(subscriptionPrice);
 
                     showMySnackBar(context, 'تم تسجيل العميل بنجاح', Colors.green);
 
