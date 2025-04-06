@@ -45,4 +45,10 @@ class ExpenseProvider with ChangeNotifier {
     await expenseFirestoreMethods.clearAllExpenses();
     notifyListeners();
   }
+
+  Future<void> deleteExpense(Expense expense) async {
+    _mCachedExpenses.removeWhere((e) => e?.mExpenseId == expense.mExpenseId);
+    await expenseFirestoreMethods.deleteExpense(expense);
+    notifyListeners();
+  }
 }

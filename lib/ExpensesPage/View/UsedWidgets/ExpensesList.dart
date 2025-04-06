@@ -16,7 +16,13 @@ class ExpensesList extends StatelessWidget {
     final sortedExpenses = List<Expense?>.from(expenses)
       ..sort((a, b) => b!.mDate.compareTo(a!.mDate));
 
-    return ListView.builder(
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2, // Two cards per row
+        crossAxisSpacing: 8.0,
+        mainAxisSpacing: 8.0,
+        childAspectRatio: 12 / 3, // Adjusted aspect ratio to reduce vertical space
+      ),
       itemCount: sortedExpenses.length,
       itemBuilder: (context, index) {
         return ExpenseCard(expense: sortedExpenses[index]);
