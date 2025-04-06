@@ -25,7 +25,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: AppBar(
         title: const Text('Expenses Page'),
         centerTitle: true,

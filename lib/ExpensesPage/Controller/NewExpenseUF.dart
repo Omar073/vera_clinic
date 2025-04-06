@@ -24,3 +24,12 @@ Future<bool> createExpense(BuildContext context) async {
     return false;
   }
 }
+
+void deleteExpense(Expense e, BuildContext context) {
+  try {
+    context.read<ExpenseProvider>().deleteExpense(e);
+    context.read<ClinicProvider>().incrementDailyExpenses(-(e.mAmount ?? 0));
+  } on Exception catch (e) {
+    debugPrint("Error deleting expense: $e");
+  }
+}
