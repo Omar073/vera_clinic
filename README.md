@@ -42,34 +42,141 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
     ```
 
 ## Project Structure
-
+<details>
+  <summary>Click to expand</summary>
+                              
 ```plaintext
-lib/
-├── Core/
-│   ├── Controller/
-│   │   ├── Providers/
-│   │   ├── UtilityFunctions.dart
-│   ├── Model/
-│   │   ├── Classes/
-│   │   ├── Firebase/
-│   ├── View/
-│   │   ├── Pages/
-│   │   ├── Reusable widgets/
-├── NewClientRegistration/
-│   ├── Controller/
-│   │   ├── TextEditingControllers.dart
-│   │   ├── UtilityFunctions.dart
-│   ├── View/
-│   │   ├── NewClientPage.dart
-│   │   ├── UsedWidgets/
-├── NewVisit/
-│   ├── Controller/
-│   │   ├── TextEditingControllers.dart
-│   │   ├── UtilityFunctions.dart
-│   ├── View/
-│   │   ├── NewVisit.dart
-├── main.dart
+├── lib\
+│   ├── CheckInPage\
+│   │   ├── Controller\
+│   │   │   ├── CheckInPageTEC.dart
+│   │   │   └── UtilityFunctions.dart
+│   │   ├── View\
+│   │   │   ├── InfoCards\
+│   │   │   │   ├── CheckInButton.dart
+│   │   │   │   ├── ClientInfoCard.dart
+│   │   │   │   ├── MeasurementsCard.dart
+│   │   │   │   └── SubscriptionCard.dart
+│   │   │   └── CheckInPage.dart
+│   ├── ClientDetailsPage\
+│   │   ├── InfoCards\
+│   │   │   ├── bodyMeasurementsCard.dart
+│   │   │   ├── dietPreferencesCard.dart
+│   │   │   ├── medicalHistoryCard.dart
+│   │   │   ├── personalInfoCard.dart
+│   │   │   ├── weightDistributionCard.dart
+│   │   │   └── weightHistoryCard.dart
+│   │   └── ClientDetailsPage.dart
+│   ├── ClientSearchPage\
+│   │   ├── ClientSearchPage.dart
+│   │   └── UsedWidgets\
+│   │       └── ClientSearchWidget.dart
+│   ├── Core\
+│   │   ├── Controller\
+│   │   │   ├── Providers\
+│   │   │   │   ├── ClientConstantInfoProvider.dart
+│   │   │   │   ├── ClientMonthlyFollowUpProvider.dart
+│   │   │   │   ├── ClientProvider.dart
+│   │   │   │   ├── ClinicProvider.dart
+│   │   │   │   ├── DiseaseProvider.dart
+│   │   │   │   ├── PreferredFoodsProvider.dart
+│   │   │   │   ├── VisitProvider.dart
+│   │   │   │   └── WeightAreasProvider.dart
+│   │   ├── Model\
+│   │   │   ├── Classes\
+│   │   │   │   ├── Client.dart
+│   │   │   │   ├── ClientConstantInfo.dart
+│   │   │   │   ├── ClientMonthlyFollowUp.dart
+│   │   │   │   ├── Clinic.dart
+│   │   │   │   ├── Disease.dart
+│   │   │   │   ├── PreferredFoods.dart
+│   │   │   │   ├── Visit.dart
+│   │   │   │   └── WeightAreas.dart
+│   │   │   ├── Firebase\
+│   │   │   │   ├── ClientFirestoreMethods.dart
+│   │   │   │   ├── ClientConstantInfoFirestoreMethods.dart
+│   │   │   │   ├── ClientMonthlyFollowUpFirestoreMethods.dart
+│   │   │   │   ├── ClinicFirestoreMethods.dart
+│   │   │   │   ├── DiseaseFirestoreMethods.dart
+│   │   │   │   ├── DefaultFirebaseOptions.dart
+│   │   │   │   ├── FirebaseSingleton.dart
+│   │   │   │   ├── PreferredFoodsFirestoreMethods.dart
+│   │   │   │   ├── VisitFirestoreMethods.dart
+│   │   │   │   └── WeightAreasFirestoreMethods.dart
+│   │   └── View\
+│   │       ├── Pages\
+│   │       │   ├── FollowUpNav.dart
+│   │       │   ├── AnalysisPage.dart
+│   │       ├── Reusable widgets\
+│   │       │   ├── BackGround.dart
+│   │       │   ├── ClientSearchWidget.dart
+│   │       │   ├── myCard.dart
+│   │       │   ├── MyInputField.dart
+│   │       │   ├── MyNavigationButton.dart
+│   │       │   ├── MyTextBox.dart
+│   │       │   └── SnackBars\
+│   │       │       ├── InvalidDataTypeSnackBar.dart
+│   │       │       ├── MySnackBar.dart
+│   │       │       └── RequiredFieldSnackBar.dart
+│   ├── HomePage\
+│   │   ├── HomePage.dart
+│   │   └── UsedWidgets\
+│   │       ├── GridMenu.dart
+│   │       ├── Header.dart
+│   │       └── WelcomeSection.dart
+│   ├── MonthlyFollowUp\
+│   │   ├── Controller\
+│   │   │   ├── MonthlyFollowUpTEC.dart
+│   │   ├── View\
+│   │       ├── MonthlyFollowUp.dart
+│   │       └── UsedWidgets\
+│   │           ├── ActionButton.dart
+│   │           ├── infoCard.dart
+│   │           ├── infoField.dart
+│   │           └── newMonthlyFollowUpForm.dart
+│   ├── NewClientRegistration\
+│   │   ├── Controller\
+│   │   │   ├── ClientRegistrationTEC.dart
+│   │   │   ├── ClientRegistrationUF.dart
+│   │   │   └── NewClientCreation.dart
+│   │   ├── View\
+│   │       ├── InfoSections\
+│   │       │   ├── ActionButtons.dart
+│   │       │   ├── PersonalInfoCard.dart
+│   │       │   ├── bodyMeasurementsCard.dart
+│   │       │   ├── dietPreferencesCard.dart
+│   │       │   ├── medicalHistoryCard.dart
+│   │       │   ├── weightDistributionCard.dart
+│   │       │   ├── weightHistoryCard.dart
+│   │       ├── UsedWidgets\
+│   │       │   ├── ActivityLevelDropdownMenu.dart
+│   │       │   ├── MyCheckBox.dart
+│   │       │   └── SubscriptionTypeDropdown.dart
+│   │       └── NewClientPage.dart
+│   ├── NewVisit\
+│   │   ├── Controller\
+│   │   │   ├── NewVisitTEC.dart
+│   │   │   └── NewVisitUF.dart
+│   │   ├── View\
+│   │       └── NewVisit.dart
+│   ├── VisitsDetailsPage\
+│   │   ├── UsedWidgets\
+│   │   │   └── visitCard.dart
+│   │   └── VisitsDetailsPage.dart
+│   └── WeeklyFollowUp\
+│       ├── Controller\
+│       │   ├── UtilityFunctions.dart
+│       │   └── VisitTEC.dart
+│       ├── View\
+│       │   ├── UsedWidgets\
+│       │   │   ├── WFUActionButton.dart
+│       │   │   ├── WFUClientInfoCard.dart
+│       │   │   ├── WFUInfo1.dart
+│       │   │   └── WFUInfo2.dart
+│       │   └── WeeklyFollowUp.dart
+└── main.dart
 ```
+</details>
 
 ## Key Components
 

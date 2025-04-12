@@ -7,11 +7,8 @@ class ClientConstantInfoProvider with ChangeNotifier {
       _mClientConstantInfoFirestoreMethods =
       ClientConstantInfoFirestoreMethods();
 
-  ClientConstantInfo? _mCurrentClientConstantInfo;
   List<ClientConstantInfo?> _mCachedClientConstantInfo = [];
 
-  ClientConstantInfo? get currentClientConstantInfo =>
-      _mCurrentClientConstantInfo;
   List<ClientConstantInfo?> get cachedClientConstantInfo =>
       _mCachedClientConstantInfo;
   ClientConstantInfoFirestoreMethods get clientConstantInfoFirestoreMethods =>
@@ -19,7 +16,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
 
   Future<void> createClientConstantInfo(
       ClientConstantInfo clientConstantInfo) async {
-    clientConstantInfo.clientConstantInfoId =
+    clientConstantInfo.mClientConstantInfoId =
         await clientConstantInfoFirestoreMethods
             .createClientConstantInfo(clientConstantInfo);
     //! no need to update the firebase instance with the new ID as this already happens in the firebase method
@@ -27,10 +24,12 @@ class ClientConstantInfoProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<ClientConstantInfo?> getClientConstantInfoByClientId(String clientId) async {
+  Future<ClientConstantInfo?> getClientConstantInfoByClientId(
+      String clientId) async {
     try {
-      ClientConstantInfo? clientConstantInfo = cachedClientConstantInfo.firstWhere(
-            (clientConstantInfo) => clientConstantInfo?.mClientId == clientId,
+      ClientConstantInfo? clientConstantInfo =
+          cachedClientConstantInfo.firstWhere(
+        (clientConstantInfo) => clientConstantInfo?.mClientId == clientId,
         orElse: () => null,
       );
 
@@ -71,11 +70,6 @@ class ClientConstantInfoProvider with ChangeNotifier {
       ClientConstantInfo clientConstantInfo) async {
     await clientConstantInfoFirestoreMethods
         .updateClientConstantInfo(clientConstantInfo);
-    notifyListeners();
-  }
-
-  void setCurrentClientConstantInfo(ClientConstantInfo clientConstantInfo) {
-    _mCurrentClientConstantInfo = clientConstantInfo;
     notifyListeners();
   }
 }

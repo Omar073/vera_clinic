@@ -31,16 +31,6 @@ class Clinic {
         mMonthlyProfit = monthlyProfit,
         mCheckedInClientsIds = checkedInClientsIds;
 
-  set dailyIncome(double? value) => mDailyIncome = value;
-  set monthlyIncome(double? value) => mMonthlyIncome = value;
-  set dailyPatients(int? value) => mDailyPatients = value;
-  set monthlyPatients(int? value) => mMonthlyPatients = value;
-  set dailyExpenses(double? value) => mDailyExpenses = value;
-  set monthlyExpenses(double? value) => mMonthlyExpenses = value;
-  set dailyProfit(double? value) => mDailyProfit = value;
-  set monthlyProfit(double? value) => mMonthlyProfit = value;
-  set checkedInClientsIds(List<String> value) => mCheckedInClientsIds = value;
-
   void printClinic() {
     debugPrint('\n\t\t<<Clinic>>\n'
         'dailyIncome: $mDailyIncome, monthlyIncome: $mMonthlyIncome, '

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/CheckInPage/View/InfoCards/CheckInButton.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 
 import '../../Model/Classes/Clinic.dart';
@@ -16,12 +15,14 @@ class ClinicProvider with ChangeNotifier {
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
   List<Client?> get checkedInClients => _checkedInClients;
 
-  Future<void> getClinic() async {
+  Future<Clinic?> getClinic() async {
     try {
       clinic = await _clinicFirestoreMethods.fetchClinic();
       notifyListeners();
+      return clinic;
     } catch (e) {
       debugPrint('Error getting clinic: $e');
+      return null;
     }
   }
 
@@ -117,42 +118,6 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateDailyIncome(double income) async {
-    try {
-      if (clinic != null) {
-        debugPrint('Current daily income: ${clinic!.mDailyIncome}');
-        clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
-        debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
-        clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
-        await updateDailyProfit();
-      }
-    } catch (e) {
-      debugPrint('Error updating daily income: $e');
-    }
-  }
-
-  Future<void> clearDailyIncome() async {
-    try {
-      if (clinic != null) {
-        clinic!.mDailyIncome = 0;
-        await updateClinic(clinic!);
-      }
-    } catch (e) {
-      debugPrint('Error clearing daily income: $e');
-    }
-  }
-
-  Future<void> updateMonthlyIncome(double income) async {
-    try {
-      if (clinic != null) {
-        clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
-        await updateMonthlyProfit();
-      }
-    } catch (e) {
-      debugPrint('Error updating monthly income: $e');
-    }
-  }
-
   Future<void> incrementDailyPatients() async {
     try {
       if (clinic != null) {
@@ -165,21 +130,28 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> clearDailyPatients() async {
+  Future<void> incrementDailyIncome(double income) async {
     try {
       if (clinic != null) {
-        clinic!.mDailyPatients = 0;
+        debugPrint('Current daily income: ${clinic!.mDailyIncome}');
+        clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
+        debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
+
+        clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
+        await _updateDailyProfit();
         await updateClinic(clinic!);
       }
     } catch (e) {
-      debugPrint('Error clearing daily patients: $e');
+      debugPrint('Error updating daily income: $e');
     }
   }
 
-  Future<void> updateDailyExpenses(double expenses) async {
+  Future<void> incrementDailyExpenses(double expenses) async {
     try {
       if (clinic != null) {
         clinic!.mDailyExpenses = (clinic!.mDailyExpenses ?? 0) + expenses;
+        clinic!.mMonthlyExpenses = (clinic!.mMonthlyExpenses ?? 0) + expenses;
+        await _updateDailyProfit();
         await updateClinic(clinic!);
       }
     } catch (e) {
@@ -187,52 +159,47 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> clearDailyExpenses() async {
+  Future<void> _updateDailyProfit() async {
     try {
       if (clinic != null) {
-        clinic!.mDailyExpenses = 0;
+        clinic!.mDailyProfit =
+            (clinic!.mDailyIncome ?? 0) - (clinic!.mDailyExpenses ?? 0);
+        clinic!.mMonthlyProfit =
+            (clinic!.mMonthlyIncome ?? 0) - (clinic!.mMonthlyExpenses ?? 0);
         await updateClinic(clinic!);
-      }
-    } catch (e) {
-      debugPrint('Error clearing daily expenses: $e');
-    }
-  }
-
-  Future<void> updateMonthlyExpenses(double expenses) async {
-    try {
-      if (clinic != null) {
-        clinic!.mMonthlyExpenses = (clinic!.mMonthlyExpenses ?? 0) + expenses;
-        await updateMonthlyProfit();
-      }
-    } catch (e) {
-      debugPrint('Error updating monthly expenses: $e');
-    }
-  }
-
-  Future<void> updateDailyProfit() async {
-    try {
-      if (clinic != null &&
-          clinic!.mDailyIncome != null &&
-          clinic!.mDailyExpenses != null) {
-        clinic!.mDailyProfit = clinic!.mDailyIncome! - clinic!.mDailyExpenses!;
-        await updateMonthlyProfit();
       }
     } catch (e) {
       debugPrint('Error updating daily profit: $e');
     }
   }
 
-  Future<void> updateMonthlyProfit() async {
+  Future<void> dailyClear() async {
     try {
-      if (clinic != null &&
-          clinic!.mMonthlyIncome != null &&
-          clinic!.mMonthlyExpenses != null) {
-        clinic!.mMonthlyProfit =
-            clinic!.mMonthlyIncome! - clinic!.mMonthlyExpenses!;
+      if (clinic != null) {
+        clinic!.mDailyIncome = 0;
+        clinic!.mDailyExpenses = 0;
+        clinic!.mDailyProfit = 0;
+        clinic!.mDailyPatients = 0;
+        clinic!.mCheckedInClientsIds.clear();
+        _checkedInClients.clear();
         await updateClinic(clinic!);
       }
     } catch (e) {
-      debugPrint('Error updating monthly profit: $e');
+      debugPrint('Error clearing daily data: $e');
+    }
+  }
+
+  Future<void> monthlyClear() async {
+    try {
+      if (clinic != null) {
+        clinic!.mMonthlyIncome = 0;
+        clinic!.mMonthlyExpenses = 0;
+        clinic!.mMonthlyProfit = 0;
+        clinic!.mMonthlyPatients = 0;
+        await updateClinic(clinic!);
+      }
+    } catch (e) {
+      debugPrint('Error clearing monthly data: $e');
     }
   }
 }

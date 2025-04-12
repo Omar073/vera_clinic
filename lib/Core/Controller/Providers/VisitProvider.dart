@@ -17,7 +17,7 @@ class VisitProvider with ChangeNotifier {
   VisitFirestoreMethods get visitFirestoreMethods => _visitFirestoreMethods;
 
   Future<void> createVisit(Visit visit) async {
-    visit.visitId = await visitFirestoreMethods.createVisit(visit);
+    visit.mVisitId = await visitFirestoreMethods.createVisit(visit);
     cachedVisits.add(visit);
     notifyListeners();
   }

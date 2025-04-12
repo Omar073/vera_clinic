@@ -25,30 +25,6 @@ class ClientConstantInfo {
         mYOYO = YOYO,
         mSports = sports;
 
-  set clientConstantInfoId(String clientConstantInfoId) {
-    mClientConstantInfoId = clientConstantInfoId;
-  }
-
-  set clientId(String? clientId) {
-    mClientId = clientId;
-  }
-
-  set area(String area) {
-    mArea = area;
-  }
-
-  set activityLevel(Activity? activityLevel) {
-    mActivityLevel = activityLevel;
-  }
-
-  set YOYO(bool YOYO) {
-    mYOYO = YOYO;
-  }
-
-  set sports(bool sports) {
-    mSports = sports;
-  }
-
   void printClientConstantInfo() {
     debugPrint('\n\t\t<<ClientConstantInfo>>\n'
         'ClientConstantInfoId: $mClientConstantInfoId'

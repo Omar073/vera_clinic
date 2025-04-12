@@ -29,39 +29,6 @@ class PreferredFoods {
         mFruits = fruits,
         mOthers = others;
 
-  // Setters
-  set preferredFoodsId(String preferredFoodsId) {
-    mPreferredFoodsId = preferredFoodsId;
-  }
-
-  set clientId(String? clientId) {
-    mClientId = clientId;
-  }
-
-  set carbohydrates(bool carbohydrates) {
-    mCarbohydrates = carbohydrates;
-  }
-
-  set protein(bool protein) {
-    mProtein = protein;
-  }
-
-  set dairy(bool dairy) {
-    mDairy = dairy;
-  }
-
-  set veg(bool veg) {
-    mVeg = veg;
-  }
-
-  set fruits(bool fruits) {
-    mFruits = fruits;
-  }
-
-  set others(String others) {
-    mOthers = others;
-  }
-
   void printPreferredFoods() {
     debugPrint('\n\t\t<<PreferredFoods>>\n'
         'Preferred Foods ID: $mPreferredFoodsId, Client ID: $mClientId, '
@@ -78,7 +45,7 @@ class PreferredFoods {
       dairy: data['dairy'] as bool,
       veg: data['veg'] as bool,
       fruits: data['fruits'] as bool,
-      others: data['others'] as String ?? '',
+      others: data['others'] as String,
     );
   }
 
