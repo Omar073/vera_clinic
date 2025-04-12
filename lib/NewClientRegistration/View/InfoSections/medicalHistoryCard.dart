@@ -136,7 +136,7 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.othersDiseaseController,
+                myController: ClientRegistrationTEC.otherDiseaseController,
                 hint: '',
                 label: "أخري",
               ),

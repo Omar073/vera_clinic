@@ -14,6 +14,7 @@ import '../Core/Controller/Providers/PreferredFoodsProvider.dart';
 import '../Core/Controller/Providers/WeightAreasProvider.dart';
 import '../Core/Model/Classes/Disease.dart';
 import '../Core/Model/Classes/PreferredFoods.dart';
+import '../UpdateClientDetailsPage/UpdateClientDetailsPage.dart';
 import 'InfoCards/weightDistributionCard.dart';
 import 'InfoCards/weightHistoryCard.dart';
 import 'InfoCards/dietPreferencesCard.dart';
@@ -32,7 +33,7 @@ class ClientDetailsPage extends StatefulWidget {
 class _ClientDetailsPageState extends State<ClientDetailsPage> {
   Client? client;
   Disease? myDisease;
-  ClientMonthlyFollowUp? myFollowUp;
+  ClientMonthlyFollowUp? myMonthlyFollowUp;
   ClientConstantInfo? myConstantInfo;
   WeightAreas? myWeightAreas;
   PreferredFoods? myPreferredFoods;
@@ -51,7 +52,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         .read<DiseaseProvider>()
         .getDiseaseById(client?.mDiseaseId ?? '');
 
-    myFollowUp = await context
+    myMonthlyFollowUp = await context
         .read<ClientMonthlyFollowUpProvider>()
         .getClientMonthlyFollowUpById(client?.mClientMonthlyFollowUpId ?? '');
 
@@ -69,7 +70,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
 
     debugPrint('Disease ID: ${myDisease?.mDiseaseId}');
     debugPrint(
-        'Client Monthly Follow Up ID: ${myFollowUp?.mClientMonthlyFollowUpId}');
+        'Client Monthly Follow Up ID: ${myMonthlyFollowUp?.mClientMonthlyFollowUpId}');
     debugPrint(
         'Client Constant Info ID: ${myConstantInfo?.mClientConstantInfoId}');
     debugPrint('Weight Areas ID: ${myWeightAreas?.mWeightAreasId}');
@@ -78,28 +79,63 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Client Details'),
-        centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 208, 241, 255),
-      ),
-      body: Background(
-        child: Center(
-          child: FutureBuilder<void>(
-            future: _loadClientDetails(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return const Center(
-                    child: Text(
-                  'Error loading client details',
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                  textAlign: TextAlign.center,
-                ));
-              } else {
-                return Padding(
+    return FutureBuilder<void>(
+      future: _loadClientDetails(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
+        } else if (snapshot.hasError) {
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'حدث خطأ أثناء تحميل البيانات',
+                style: TextStyle(fontSize: 18, color: Colors.black),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('معلومات العميل'),
+              centerTitle: true,
+              backgroundColor: const Color.fromARGB(255, 208, 241, 255),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // backgroundColor: const Color.fromARGB(255, 208, 241, 255),
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateClientDetailsPage(
+                            client: client!,
+                            disease: myDisease!,
+                            followUp: myMonthlyFollowUp!,
+                            constantInfo: myConstantInfo!,
+                            weightAreas: myWeightAreas!,
+                            preferredFoods: myPreferredFoods!,
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text('تعديل', style: TextStyle(fontSize: 16),),
+                  ),
+                ),
+              ],
+            ),
+            body: Background(
+              child: Center(
+                child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 200.0)
                       .copyWith(top: 12),
                   child: Column(
@@ -111,7 +147,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                             children: [
                               personalInfoCard(client, myConstantInfo!.mArea),
                               const SizedBox(height: 20),
-                              bodyMeasurementsCard(client, myFollowUp!),
+                              bodyMeasurementsCard(client, myMonthlyFollowUp!),
                               const SizedBox(height: 20),
                               dietPreferencesCard(client?.mDiet ?? '',
                                   myPreferredFoods!, myConstantInfo),
@@ -130,10 +166,12 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        VisitsDetailsPage(client: client!)));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    VisitsDetailsPage(client: client!),
+                              ),
+                            );
                           },
                           child: const Text(
                             'عرض زيارات العميل',
@@ -141,15 +179,14 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                           ),
                         ),
                       ),
-                      // const SizedBox(height: 20),
                     ],
                   ),
-                );
-              }
-            },
-          ),
-        ),
-      ),
+                ),
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }
