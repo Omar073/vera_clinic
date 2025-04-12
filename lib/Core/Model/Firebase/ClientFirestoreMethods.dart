@@ -83,7 +83,6 @@ class ClientFirestoreMethods {
       clients.addAll(querySnapshot.docs
           .map((doc) => Client.fromFirestore(doc.data()))
           .toList());
-
     } on FirebaseException catch (e) {
       debugPrint('Firebase error fetching client by first name: ${e.message}');
     } catch (e) {
@@ -127,11 +126,29 @@ class ClientFirestoreMethods {
       await clientRef.update(client.toMap());
     } on FirebaseException catch (e) {
       debugPrint('Firebase error updating client: ${e.message}');
-      throw Exception('Firebase error updating client: ${e.message}');
     } catch (e) {
       debugPrint('Unknown error updating client: $e');
-      throw Exception('Unknown error updating client: $e');
     }
   }
 
+  Future<void> deleteClient(String clientId) async {
+    try {
+      final clientRef = FirebaseSingleton.instance.firestore
+          .collection('Clients')
+          .doc(clientId);
+
+      // Check if the document exists before deleting
+      final docSnapshot = await clientRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception('No matching client found with clientId: $clientId');
+      }
+
+      await clientRef.delete();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error deleting client: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error deleting client: $e');
+    }
+  }
 }

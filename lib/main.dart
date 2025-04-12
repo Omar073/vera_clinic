@@ -4,6 +4,7 @@ import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
@@ -13,7 +14,6 @@ import 'Core/Controller/Providers/ClientProvider.dart';
 import 'Core/Model/Firebase/firebase_options.dart';
 import 'package:provider/provider.dart';
 
-
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +21,12 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    MultiProvider( //todo: only wrap each provider at the level it is needed
+    MultiProvider(
+      //todo: only wrap each provider at the level it is needed
       providers: [
         ChangeNotifierProvider(create: (_) => ClientProvider()),
         ChangeNotifierProvider(create: (_) => ClinicProvider()),
+        ChangeNotifierProvider(create: (_) => ExpenseProvider()),
         ChangeNotifierProvider(create: (_) => ClientConstantInfoProvider()),
         ChangeNotifierProvider(create: (_) => ClientMonthlyFollowUpProvider()),
         ChangeNotifierProvider(create: (_) => DiseaseProvider()),

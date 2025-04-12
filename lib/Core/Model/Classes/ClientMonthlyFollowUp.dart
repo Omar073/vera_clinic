@@ -35,46 +35,6 @@ class ClientMonthlyFollowUp {
         mMaxCalories = maxCalories,
         mDailyCalories = dailyCalories;
 
-  set clientMonthlyFollowUpId(String clientMonthlyFollowUpId) {
-    mClientMonthlyFollowUpId = clientMonthlyFollowUpId;
-  }
-
-  set clientId(String? clientId) {
-    mClientId = clientId;
-  }
-
-  set bmi(double? bmi) {
-    mBMI = bmi;
-  }
-
-  set pbf(double? pbf) {
-    mPBF = pbf;
-  }
-
-  set water(double? water) {
-    mWater = water;
-  }
-
-  set maxWeight(double? maxWeight) {
-    mMaxWeight = maxWeight;
-  }
-
-  set optimalWeight(double? optimalWeight) {
-    mOptimalWeight = optimalWeight;
-  }
-
-  set bmr(double? bmr) {
-    mBMR = bmr;
-  }
-
-  set maxCalories(double? maxCalories) {
-    mMaxCalories = maxCalories;
-  }
-
-  set dailyCalories(double? dailyCalories) {
-    mDailyCalories = dailyCalories;
-  }
-
   void printClientMonthlyFollowUp() {
     debugPrint('\n\t\t<<ClientMonthlyFollowUp>>\n'
         'ClientMonthlyFollowUpId: $mClientMonthlyFollowUpId, '

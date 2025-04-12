@@ -44,7 +44,7 @@ class _CheckInButtonState extends State<CheckInButton> {
                       widget.visitSubscriptionPriceController.text);
 
                   // Set the subscription type for the client
-                  widget.client?.subscriptionType = getSubscriptionType(
+                  widget.client?.mSubscriptionType = getSubscriptionType(
                       widget.visitSubscriptionTypeController.text);
 
                   // Check if the client is already checked in
@@ -63,7 +63,7 @@ class _CheckInButtonState extends State<CheckInButton> {
                     // Update the daily income
                     await context
                         .read<ClinicProvider>()
-                        .updateDailyIncome(subscriptionPrice);
+                        .incrementDailyIncome(subscriptionPrice);
 
                     showMySnackBar(context, 'تم تسجيل العميل بنجاح', Colors.green);
 

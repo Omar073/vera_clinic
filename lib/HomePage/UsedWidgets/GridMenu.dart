@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/CheckedInClientsPage/CheckedInClientsPage.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 
-import '../../Core/View/Pages/AnalysisPage.dart';
+import '../../AnalysisPage/AnalysisPage.dart';
 import '../../ClientSearchPage/ClientSearchPage.dart';
 import '../../Core/View/Pages/FollowUpNav.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
+import '../HomePageUF.dart';
 import 'menuCard.dart';
 
 class GridMenu extends StatefulWidget {
@@ -56,9 +60,19 @@ class _GridMenuState extends State<GridMenu> {
             MaterialPageRoute(builder: (context) => const NewClientPage()),
           ),
         ),
-        const SizedBox(
-          height: 10,
-        ), // this is used to push the grid menu to the right
+        menuCard(
+          'تسجيل خروج',
+          Icons.exit_to_app,
+          Colors.red,
+          () async {
+            await context.read<ClinicProvider>().dailyClear();
+            if (isLastWednesdayOfMonth(DateTime.now())) {
+              await context.read<ClinicProvider>().monthlyClear();
+              await context.read<ExpenseProvider>().monthlyClearExpenses();
+            }
+            exit(0);
+          },
+        ),
         menuCard(
           'بيانات',
           Icons.analytics,

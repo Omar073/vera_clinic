@@ -16,7 +16,7 @@ class DiseaseProvider with ChangeNotifier {
       _mDiseaseFirestoreMethods;
 
   Future<void> createDisease(Disease disease) async {
-    disease.diseaseId = await diseaseFirestoreMethods.createDisease(disease);
+    disease.mDiseaseId = await diseaseFirestoreMethods.createDisease(disease);
     cachedDiseases.add(disease);
     notifyListeners();
   }
