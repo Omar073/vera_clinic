@@ -142,7 +142,7 @@ Future<String?> createDisease(String clientId, BuildContext context) async {
       allergies: ClientRegistrationTEC.allergiesController.text,
       neuro: ClientRegistrationTEC.neuroController.text,
       psychiatric: ClientRegistrationTEC.psychiatricController.text,
-      others: ClientRegistrationTEC.othersDiseaseController.text,
+      otherDiseases: ClientRegistrationTEC.otherDiseaseController.text,
       hormonal: ClientRegistrationTEC.hormonalController.text,
     );
 
@@ -233,7 +233,7 @@ Future<String?> createPreferredFoods(
       veg: ClientRegistrationTEC.vegController.text.toLowerCase() == 'true',
       fruits:
           ClientRegistrationTEC.fruitsController.text.toLowerCase() == 'true',
-      others: ClientRegistrationTEC.othersPreferredFoodsController.text,
+      others: ClientRegistrationTEC.otherPreferredFoodsController.text,
     );
 
     await context.read<PreferredFoodsProvider>().createPreferredFoods(pf);
