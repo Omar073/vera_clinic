@@ -1,6 +1,15 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vera_clinic/CheckInPage/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 
-class ClientRegistrationTEC {
+import '../../Core/Model/Classes/Client.dart';
+import '../../Core/Model/Classes/ClientConstantInfo.dart';
+import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
+import '../../Core/Model/Classes/Disease.dart';
+import '../../Core/Model/Classes/PreferredFoods.dart';
+import '../../Core/Model/Classes/WeightAreas.dart';
+
+class UpdateClientDetailsPageTEC {
   // Client Controllers
   static late TextEditingController nameController;
   static late TextEditingController phoneController;
@@ -82,73 +91,112 @@ class ClientRegistrationTEC {
   static late TextEditingController maxCaloriesController;
   static late TextEditingController dailyCaloriesController;
 
-  static void init() {
-    // Client Controllers
-    nameController = TextEditingController();
-    phoneController = TextEditingController();
-    birthdateController = TextEditingController();
-    dietController = TextEditingController();
-    platControllers = List.generate(10, (index) => TextEditingController());
-    heightController = TextEditingController();
-    weightController = TextEditingController();
-    subscriptionTypeController = TextEditingController();
-    notesController = TextEditingController();
-    genderController = TextEditingController();
+  static void init(Client c, Disease d, ClientConstantInfo cci, WeightAreas wa,
+      PreferredFoods pf, ClientMonthlyFollowUp cmfu) {
+    _initClientControllers(c);
+    _initDiseaseControllers(d);
+    _initConstantInfoControllers(cci);
+    _initPreferredFoodsControllers(pf);
+    _initWeightAreasControllers(wa);
+    _initMonthlyFollowUpControllers(cmfu);
+  }
 
-    // Disease Controllers
-    hypertensionController = TextEditingController();
-    hypotensionController = TextEditingController();
-    vascularController = TextEditingController();
-    anemiaController = TextEditingController();
-    otherHeartController = TextEditingController();
-    renalController = TextEditingController();
-    liverController = TextEditingController();
-    gitController = TextEditingController();
-    colonController = TextEditingController();
-    constipationController = TextEditingController();
-    endocrineController = TextEditingController();
-    rheumaticController = TextEditingController();
-    allergiesController = TextEditingController();
-    neuroController = TextEditingController();
-    psychiatricController = TextEditingController();
-    otherDiseaseController = TextEditingController();
-    hormonalController = TextEditingController();
-    familyHistoryDMController = TextEditingController();
-    previousOBMedController = TextEditingController();
-    previousOBOperationsController = TextEditingController();
+  static void _initClientControllers(Client c) {
+    nameController = TextEditingController(text: c.mName ?? '');
+    phoneController = TextEditingController(text: c.mClientPhoneNum ?? '');
+    birthdateController = TextEditingController(text: c.mBirthdate.toString());
+    dietController = TextEditingController(text: c.mDiet ?? '');
+    platControllers = List.generate(10,
+        (index) => TextEditingController(text: c.Plat[index] as String? ?? ''));
+    heightController = TextEditingController(text: c.mHeight?.toString() ?? '');
+    weightController = TextEditingController(text: c.mWeight?.toString() ?? '');
+    subscriptionTypeController = TextEditingController(
+        text: getSubscriptionTypeLabel(
+            c.mSubscriptionType ?? SubscriptionType.none));
+    notesController = TextEditingController(text: c.mNotes ?? '');
+    genderController = TextEditingController(text: getGenderLabel(c.mGender));
+  }
 
-    // Client Constant Info Controllers
-    areaController = TextEditingController();
-    activityLevelController = TextEditingController();
-    yoyoController = TextEditingController();
-    sportsController = TextEditingController();
+  static void _initDiseaseControllers(Disease d) {
+    hypertensionController =
+        TextEditingController(text: d.mHypertension ? 'true' : 'false');
+    hypotensionController =
+        TextEditingController(text: d.mHypotension ? 'true' : 'false');
+    vascularController =
+        TextEditingController(text: d.mVascular ? 'true' : 'false');
+    anemiaController =
+        TextEditingController(text: d.mAnemia ? 'true' : 'false');
+    otherHeartController = TextEditingController(text: d.mOtherHeart ?? '');
+    renalController = TextEditingController(text: d.mRenal);
+    liverController = TextEditingController(text: d.mLiver);
+    gitController = TextEditingController(text: d.mGit);
+    colonController = TextEditingController(text: d.mColon ? 'true' : 'false');
+    constipationController =
+        TextEditingController(text: d.mConstipation ? 'true' : 'false');
+    endocrineController = TextEditingController(text: d.mEndocrine);
+    rheumaticController = TextEditingController(text: d.mRheumatic);
+    allergiesController = TextEditingController(text: d.mAllergies);
+    neuroController = TextEditingController(text: d.mNeuro);
+    psychiatricController = TextEditingController(text: d.mPsychiatric);
+    otherDiseaseController = TextEditingController(text: d.mOtherDiseases);
+    hormonalController = TextEditingController(text: d.mHormonal);
+    familyHistoryDMController =
+        TextEditingController(text: d.mFamilyHistoryDM ? 'true' : 'false');
+    previousOBMedController =
+        TextEditingController(text: d.mPreviousOBMed ? 'true' : 'false');
+    previousOBOperationsController =
+        TextEditingController(text: d.mPreviousOBOperations ? 'true' : 'false');
+  }
 
-    // Preferred Foods Controllers
-    carbohydratesController = TextEditingController();
-    proteinController = TextEditingController();
-    dairyController = TextEditingController();
-    vegController = TextEditingController();
-    fruitsController = TextEditingController();
-    otherPreferredFoodsController = TextEditingController();
+  static void _initConstantInfoControllers(ClientConstantInfo cci) {
+    areaController = TextEditingController(text: cci.mArea ?? '');
+    activityLevelController = TextEditingController(
+        text: getActivityLevelLabel(cci.mActivityLevel ?? Activity.none));
+    yoyoController = TextEditingController(text: cci.mYOYO ? 'true' : 'false');
+    sportsController =
+        TextEditingController(text: cci.mSports ? 'true' : 'false');
+  }
 
-    // Weight Areas Controllers
-    abdomenController = TextEditingController();
-    buttocksController = TextEditingController();
-    waistController = TextEditingController();
-    thighsController = TextEditingController();
-    armsController = TextEditingController();
-    breastController = TextEditingController();
-    backController = TextEditingController();
+  static void _initPreferredFoodsControllers(PreferredFoods pf) {
+    carbohydratesController =
+        TextEditingController(text: pf.mCarbohydrates ? 'true' : 'false');
+    proteinController =
+        TextEditingController(text: pf.mProtein ? 'true' : 'false');
+    dairyController = TextEditingController(text: pf.mDairy ? 'true' : 'false');
+    vegController = TextEditingController(text: pf.mVeg ? 'true' : 'false');
+    fruitsController =
+        TextEditingController(text: pf.mFruits ? 'true' : 'false');
+    otherPreferredFoodsController = TextEditingController(text: pf.mOthers);
+  }
 
-    // Client Monthly Follow-Up Controllers
-    bmiController = TextEditingController();
-    pbfController = TextEditingController();
-    waterController = TextEditingController();
-    maxWeightController = TextEditingController();
-    optimalWeightController = TextEditingController();
-    bmrController = TextEditingController();
-    maxCaloriesController = TextEditingController();
-    dailyCaloriesController = TextEditingController();
+  static void _initWeightAreasControllers(WeightAreas wa) {
+    abdomenController =
+        TextEditingController(text: wa.mAbdomen ? 'true' : 'false');
+    buttocksController =
+        TextEditingController(text: wa.mButtocks ? 'true' : 'false');
+    waistController = TextEditingController(text: wa.mWaist ? 'true' : 'false');
+    thighsController =
+        TextEditingController(text: wa.mThighs ? 'true' : 'false');
+    armsController = TextEditingController(text: wa.mArms ? 'true' : 'false');
+    breastController =
+        TextEditingController(text: wa.mBreast ? 'true' : 'false');
+    backController = TextEditingController(text: wa.mBack ? 'true' : 'false');
+  }
+
+  static void _initMonthlyFollowUpControllers(ClientMonthlyFollowUp cmfu) {
+    bmiController = TextEditingController(text: cmfu.mBMI?.toString() ?? '');
+    pbfController = TextEditingController(text: cmfu.mPBF?.toString() ?? '');
+    waterController =
+        TextEditingController(text: cmfu.mWater?.toString() ?? '');
+    maxWeightController =
+        TextEditingController(text: cmfu.mMaxWeight?.toString() ?? '');
+    optimalWeightController =
+        TextEditingController(text: cmfu.mOptimalWeight?.toString() ?? '');
+    bmrController = TextEditingController(text: cmfu.mBMR?.toString() ?? '');
+    maxCaloriesController =
+        TextEditingController(text: cmfu.mMaxCalories?.toString() ?? '');
+    dailyCaloriesController =
+        TextEditingController(text: cmfu.mDailyCalories?.toString() ?? '');
   }
 
   static void clear() {
@@ -157,9 +205,9 @@ class ClientRegistrationTEC {
     phoneController.clear();
     birthdateController.clear();
     dietController.clear();
-    platControllers.forEach((element) {
-      element.clear();
-    });
+    for (var controller in platControllers) {
+      controller.clear();
+    }
     heightController.clear();
     weightController.clear();
     subscriptionTypeController.clear();
@@ -293,77 +341,3 @@ class ClientRegistrationTEC {
     dailyCaloriesController.dispose();
   }
 }
-
-/*
-All client inserted attributes
-Client:
-Name
-ClientPhoneNum
-Birthdate dateTime
-Diet
-Plat (Last 10 stable weights) list of doubles
-Height double
-Weight double
-Subscription type enum
-Notes
-
-ClientConstantInfo:
-Area
-ActivityLevel enum
-YOYO bool
-sports bool
-
-Disease:
-Hypertension: bool
-Hypotension: bool
-Vascular: bool
-Anemia: bool
-Renal: String
-Liver: String
-Git: String
-Colon: bool
-Constipation: bool
-Endocrine: String
-Rheumatic: String
-Allergies: String
-Neuro: String
-Psychiatric: String
-Others: String
-Hormonal: String
-FamilyHistoryDM: bool
-PreviousOBMed: bool
-PreviousOBOperations: bool
-
-ClientMonthlyFollowUp:
-BMI: double?
-PBF: double?
-Water: double?
-MaxWeight: double?
-OptimalWeight: double?
-BMR: double?
-MaxCalories: int?
-OptimalCalories: int?
-
-Preferred foods:
-carbohydrates - bool
-protein - bool
-dairy - bool
-veg - bool
-fruits - bool
-others - String
-
-WeightAreas:
-Abdomen: bool
-Buttocks: bool
-Waist: bool
-Thighs: bool
-Arms: bool
-Breast: bool
-Back: bool
-
-Visit:
-Date: DateTime
-Diet: String
-Weight: double
-BMI: double
-*/

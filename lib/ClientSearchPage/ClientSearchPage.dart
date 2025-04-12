@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/ClientSearchPage/ClientSearchResultCard.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/CheckInPage/View/CheckInPage.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
@@ -43,7 +44,8 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
     searchResults = context.watch<ClientProvider>().searchResults;
 
     return Scaffold(
-      appBar: AppBar( //todo: change UI to match background
+      appBar: AppBar(
+        //todo: change UI to match background
         title: const Text('بحث عن عميل'),
         centerTitle: true,
         backgroundColor: Colors.white70, // or your brand’s light color
@@ -78,60 +80,11 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                                     TextStyle(fontSize: 18, color: Colors.grey),
                               ),
                             )
-                          : ListView.builder(
-                              itemCount: searchResults.length,
-                              itemBuilder: (context, index) {
-                                final client = searchResults[index];
-                                return Container(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white, // or a very light grey
-                                    borderRadius: BorderRadius.circular(8),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.1),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundColor: Colors.grey.shade200,
-                                      child: const Icon(Icons.person),
-                                    ),
-                                    title: Text(
-                                      client?.mName ?? 'Unknown',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    subtitle: Text(
-                                        client?.mClientPhoneNum ?? 'Unknown'),
-                                    trailing: const Icon(
-                                        Icons.arrow_forward_ios,
-                                        size: 16),
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            if (widget.state == "checkIn") {
-                                              return CheckInPage(
-                                                  client: client);
-                                            } else if (widget.state ==
-                                                "search") {
-                                              return ClientDetailsPage(
-                                                  client: client);
-                                            } else {
-                                              return Container(); // or any other default widget
-                                            }
-                                          },
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
+                          : ClientSearchResultCard(
+                              searchResults: searchResults,
+                              state: widget.state,
+                              onClientDeleted: () {
+                                setState(() {});
                               },
                             ),
                 ),

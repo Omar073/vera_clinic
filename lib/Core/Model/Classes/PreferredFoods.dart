@@ -45,7 +45,7 @@ class PreferredFoods {
       dairy: data['dairy'] as bool,
       veg: data['veg'] as bool,
       fruits: data['fruits'] as bool,
-      others: data['others'] as String ?? '',
+      others: data['others'] as String,
     );
   }
 
