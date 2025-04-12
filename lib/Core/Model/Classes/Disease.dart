@@ -23,7 +23,7 @@ class Disease {
   String mAllergies = '';
   String mNeuro = '';
   String mPsychiatric = '';
-  String mOthers = '';
+  String mOtherDiseases = '';
   String mHormonal = '';
 
   bool mFamilyHistoryDM = false;
@@ -51,7 +51,7 @@ class Disease {
     required String allergies,
     required String neuro,
     required String psychiatric,
-    required String others,
+    required String otherDiseases,
     required String hormonal,
   })  : mDiseaseId = diseaseId,
         mClientId = clientId,
@@ -73,7 +73,7 @@ class Disease {
         mAllergies = allergies,
         mNeuro = neuro,
         mPsychiatric = psychiatric,
-        mOthers = others,
+        mOtherDiseases = otherDiseases,
         mHormonal = hormonal;
 
 
@@ -86,8 +86,8 @@ class Disease {
         ' Previous OB Med: $mPreviousOBMed, Previous OB Operations: '
         '$mPreviousOBOperations, Renal: $mRenal, Liver: $mLiver, GIT: $mGit,'
         ' Endocrine: $mEndocrine, Rheumatic: $mRheumatic, Allergies: '
-        '$mAllergies, Neuro: $mNeuro, Psychiatric: $mPsychiatric, Others: '
-        '$mOthers, Hormonal: $mHormonal');
+        '$mAllergies, Neuro: $mNeuro, Psychiatric: $mPsychiatric, otherDiseases: '
+        '$mOtherDiseases, Hormonal: $mHormonal');
   }
 
   factory Disease.fromFirestore(Map<String, dynamic> data) {
@@ -112,7 +112,7 @@ class Disease {
       allergies: data['allergies'] as String? ?? '',
       neuro: data['neuro'] as String? ?? '',
       psychiatric: data['psychiatric'] as String? ?? '',
-      others: data['others'] as String? ?? '',
+      otherDiseases: data['otherDiseases'] as String? ?? '',
       hormonal: data['hormonal'] as String? ?? '',
     );
   }
@@ -139,7 +139,7 @@ class Disease {
       'allergies': mAllergies,
       'neuro': mNeuro,
       'psychiatric': mPsychiatric,
-      'others': mOthers,
+      'otherDiseases': mOtherDiseases,
       'hormonal': mHormonal,
     };
   }
