@@ -121,6 +121,15 @@ class ClientProvider with ChangeNotifier {
   Future<bool> updateClient(Client client) async {
     try {
       await clientFirestoreMethods.updateClient(client);
+
+      int index = cachedClients.indexWhere(
+        (c) => c?.mClientId == client.mClientId,
+      );
+      if (index != -1) {
+        cachedClients[index] = client;
+      } else {
+        cachedClients.add(client);
+      }
       notifyListeners();
       return true;
     } on Exception catch (e) {

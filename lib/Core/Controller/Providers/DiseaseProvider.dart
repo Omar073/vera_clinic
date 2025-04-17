@@ -47,9 +47,34 @@ class DiseaseProvider with ChangeNotifier {
     return disease;
   }
 
-  Future<void> updateDisease(Disease disease) async {
-    await diseaseFirestoreMethods.updateDisease(disease);
-    notifyListeners();
+  Future<bool> updateDisease(Disease disease) async {
+    try {
+      await diseaseFirestoreMethods.updateDisease(disease);
+      int index =
+          cachedDiseases.indexWhere((d) => d?.mDiseaseId == disease.mDiseaseId);
+      if (index != -1) {
+        cachedDiseases[index] = disease;
+      } else {
+        cachedDiseases.add(disease);
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Failed to update disease: $e");
+      return false;
+    }
+  }
+
+  Future<bool> deleteDisease(String diseaseId) async {
+    try {
+      await diseaseFirestoreMethods.deleteDisease(diseaseId);
+      cachedDiseases.removeWhere((disease) => disease?.mDiseaseId == diseaseId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Failed to delete disease: $e");
+      return false;
+    }
   }
 
   void setCurrentDisease(Disease disease) {

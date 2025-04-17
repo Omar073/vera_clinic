@@ -57,7 +57,7 @@ class _CheckInPageState extends State<CheckInPage> {
           'Client Constant Info: ${clientConstantInfoResult?.mClientConstantInfoId}');
       debugPrint('Last Client Visit: ${lastVisitResult?.mVisitId}');
 
-      if (clientConstantInfoResult == null || lastVisitResult == null) {
+      if (clientConstantInfoResult?.mClientConstantInfoId == null) {
         throw Exception('Failed to load client data');
       }
 
@@ -85,12 +85,14 @@ class _CheckInPageState extends State<CheckInPage> {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: isLoading
-              ? const Center(child: CircularProgressIndicator())
+              ? const Center(
+                  child: CircularProgressIndicator(color: Colors.blueAccent))
               : errorMessage != null
                   ? Center(
                       child: Text(
                         errorMessage!,
-                        style: const TextStyle(fontSize: 18, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 18, color: Colors.black),
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -102,7 +104,7 @@ class _CheckInPageState extends State<CheckInPage> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 clientInfoCard(client, clientConstantInfo!,
-                                    lastClientVisit!),
+                                    lastClientVisit),
                                 const SizedBox(height: 24),
                                 measurementsCard(client),
                                 const SizedBox(height: 24),

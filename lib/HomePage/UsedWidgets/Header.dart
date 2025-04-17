@@ -17,10 +17,11 @@ Widget customAppBar() {
             color: Colors.blue[800],
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {},
-        ),
+        //todo: do we need this?
+        // IconButton(
+        //   icon: const Icon(Icons.settings),
+        //   onPressed: () {},
+        // ),
       ],
     ),
   );

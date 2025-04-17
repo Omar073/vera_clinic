@@ -14,6 +14,7 @@ Widget myCard(String title, Widget content) {
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              color: Colors.blueGrey,
             ),
           ),
           const Divider(),

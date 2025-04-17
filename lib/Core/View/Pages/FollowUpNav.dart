@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/ClientDetailsPage/ClientDetailsPage.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/MonthlyFollowUp/View/MonthlyFollowUp.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/WeeklyFollowUp.dart';
+
 import '../Reusable widgets/BackGround.dart';
 import '../Reusable widgets/MyNavigationButton.dart';
 
@@ -23,7 +25,35 @@ class _FollowUpNavState extends State<FollowUpNav> {
       appBar: AppBar(
         title: const Text('Vera-Life Clinic'),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                // backgroundColor: const Color.fromARGB(255, 208, 241, 255),
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                ),
+              ),
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ClientDetailsPage(client: widget.client),
+                  ),
+                );
+              },
+              child: const Text(
+                'عرض بيانات العميل',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Background(
         child: Center(

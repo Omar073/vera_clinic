@@ -66,16 +66,39 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     return clientMonthlyFollowUp;
   }
 
-  Future<void> updateCurrentClientMonthlyFollowUp(
+  Future<bool> updateClientMonthlyFollowUp(
       ClientMonthlyFollowUp clientMonthlyFollowUp) async {
-    await clientMonthlyFollowUpFirestoreMethods
-        .updateClientMonthlyFollowUp(clientMonthlyFollowUp);
-    notifyListeners();
+    try {
+      await clientMonthlyFollowUpFirestoreMethods
+          .updateClientMonthlyFollowUp(clientMonthlyFollowUp);
+      int index = cachedClientsMonthlyFollowUps.indexWhere((c) =>
+          c?.mClientMonthlyFollowUpId ==
+          clientMonthlyFollowUp.mClientMonthlyFollowUpId);
+      if (index != -1) {
+        cachedClientsMonthlyFollowUps[index] = clientMonthlyFollowUp;
+      } else {
+        cachedClientsMonthlyFollowUps.add(clientMonthlyFollowUp);
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error updating client monthly follow up: $e');
+      return false;
+    }
   }
 
-  void setCurrentClientMonthlyFollowUp(
-      ClientMonthlyFollowUp clientMonthlyFollowUp) {
-    _mCurrentClientMonthlyFollowUp = clientMonthlyFollowUp;
-    notifyListeners();
+  Future<bool> deleteClientMonthlyFollowUp(
+      String clientMonthlyFollowUpId) async {
+    try {
+      await clientMonthlyFollowUpFirestoreMethods
+          .deleteClientMonthlyFollowUp(clientMonthlyFollowUpId);
+      cachedClientsMonthlyFollowUps.removeWhere(
+          (cmfu) => cmfu?.mClientMonthlyFollowUpId == clientMonthlyFollowUpId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error deleting client monthly follow up: $e');
+      return false;
+    }
   }
 }
