@@ -71,7 +71,9 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                 const SizedBox(height: 16),
                 Expanded(
                   child: _isLoading
-                      ? const Center(child: CircularProgressIndicator())
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                              color: Colors.blueAccent))
                       : _hasSearched && searchResults.isEmpty
                           ? const Center(
                               child: Text(

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/CheckInPage/Controller/UtilityFunctions.dart';
-import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 
+import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
@@ -48,7 +48,7 @@ class UpdateClientDetailsPageTEC {
   static late TextEditingController neuroController;
   static late TextEditingController psychiatricController;
 
-  static late TextEditingController otherDiseaseController;
+  static late TextEditingController otherDiseasesController;
 
   static late TextEditingController hormonalController;
 
@@ -107,7 +107,7 @@ class UpdateClientDetailsPageTEC {
     birthdateController = TextEditingController(text: c.mBirthdate.toString());
     dietController = TextEditingController(text: c.mDiet ?? '');
     platControllers = List.generate(10,
-        (index) => TextEditingController(text: c.Plat[index] as String? ?? ''));
+        (index) => TextEditingController(text: c.Plat[index].toString()));
     heightController = TextEditingController(text: c.mHeight?.toString() ?? '');
     weightController = TextEditingController(text: c.mWeight?.toString() ?? '');
     subscriptionTypeController = TextEditingController(
@@ -138,7 +138,7 @@ class UpdateClientDetailsPageTEC {
     allergiesController = TextEditingController(text: d.mAllergies);
     neuroController = TextEditingController(text: d.mNeuro);
     psychiatricController = TextEditingController(text: d.mPsychiatric);
-    otherDiseaseController = TextEditingController(text: d.mOtherDiseases);
+    otherDiseasesController = TextEditingController(text: d.mOtherDiseases);
     hormonalController = TextEditingController(text: d.mHormonal);
     familyHistoryDMController =
         TextEditingController(text: d.mFamilyHistoryDM ? 'true' : 'false');
@@ -233,7 +233,7 @@ class UpdateClientDetailsPageTEC {
     allergiesController.clear();
     neuroController.clear();
     psychiatricController.clear();
-    otherDiseaseController.clear();
+    otherDiseasesController.clear();
     hormonalController.clear();
 
     // Client Constant Info Controllers
@@ -301,7 +301,7 @@ class UpdateClientDetailsPageTEC {
     allergiesController.dispose();
     neuroController.dispose();
     psychiatricController.dispose();
-    otherDiseaseController.dispose();
+    otherDiseasesController.dispose();
     hormonalController.dispose();
     familyHistoryDMController.dispose();
     previousOBMedController.dispose();

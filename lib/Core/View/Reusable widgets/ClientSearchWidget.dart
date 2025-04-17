@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/Providers/ClientProvider.dart';
 import '../../Model/Classes/Client.dart';
 
@@ -94,7 +95,7 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _isLoadingName
-                  ? const CircularProgressIndicator()
+                  ? const CircularProgressIndicator(color: Colors.white)
                   : ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -106,6 +107,11 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
                         ),
                       ),
                       onPressed: () async {
+                        if (_controller.text.isEmpty) {
+                          showMySnackBar(
+                              context, "الرجاء إدخال اسم للبحث", Colors.red);
+                          return;
+                        }
                         await searchByName(_controller.text.toLowerCase());
                       },
                       child: const Text(
@@ -114,7 +120,7 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
                       ),
                     ),
               _isLoadingPhone
-                  ? const CircularProgressIndicator()
+                  ? const CircularProgressIndicator(color: Colors.white)
                   : ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
@@ -126,6 +132,11 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
                         ),
                       ),
                       onPressed: () async {
+                        if (_controller.text.isEmpty) {
+                          showMySnackBar(context,
+                              "الرجاء إدخال رقم الهاتف للبحث", Colors.red);
+                          return;
+                        }
                         await searchByPhone(_controller.text);
                       },
                       child: const Text(

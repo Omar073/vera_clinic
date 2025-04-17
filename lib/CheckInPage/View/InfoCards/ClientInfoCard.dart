@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../UsedWidgets/TableRow.dart';
 
 Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
-    Visit lastClientVisit) {
+    Visit? lastClientVisit) {
   return Card(
     color: Colors.white,
     elevation: 2,
@@ -31,7 +31,7 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
               tableRow([
                 {'label': 'اسم العميل', 'value': client?.mName ?? 'unknown'},
                 {
-                  'label': 'رقم العميل',
+                  'label': 'رقم هاتف العميل',
                   'value': client?.mClientPhoneNum ?? 'unknown'
                 },
               ]),
@@ -39,8 +39,9 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
                 {'label': 'المنطقة', 'value': clientConstantInfo.mArea},
                 {
                   'label': 'تاريخ اخر زيارة',
-                  'value':
-                      "${lastClientVisit.mDate.day}/${lastClientVisit.mDate.month}/${lastClientVisit.mDate.year}"
+                  'value': lastClientVisit?.mVisitId != null
+                      ? "${lastClientVisit?.mDate.day}/${lastClientVisit?.mDate.month}/${lastClientVisit?.mDate.year}"
+                      : 'لا يوجد زيارات سابقة',
                 },
               ]),
             ],

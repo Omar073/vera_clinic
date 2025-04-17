@@ -27,21 +27,30 @@ class _ClientCardState extends State<ClientCard> {
             spacing: 30,
             children: [
               Text('عميل: ' '${widget.index + 1}'),
-              Text('الاسم: ${widget.client?.mName ?? 'No name'}'),
+              Text('الاسم: ${widget.client?.mName ?? 'غير معروف'}'),
             ],
           ),
           subtitle: Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Text(
               'نوع الاشتراك: '
-              '${getSubscriptionTypeLabel(widget.client?.mSubscriptionType ?? SubscriptionType.none)}',
+              '${getSubscriptionTypeLabel(widget.client?.mSubscriptionType
+                  ?? SubscriptionType.none)}',
             ),
           ),
-          trailing: IconButton(
+          trailing: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 230, 83, 83),
+              foregroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+            ),
             icon: const Icon(Icons.delete),
             onPressed: () {
               context.read<ClinicProvider>().checkOutClient(widget.client!);
             },
+            label: const Text('تسجيل خروج'),
           ),
           onTap: () {
             Navigator.of(context).push(

@@ -23,7 +23,7 @@ class _ActionButtonState extends State<ActionButton> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _isLoading
-            ? const CircularProgressIndicator()
+            ? const CircularProgressIndicator(color: Colors.blueAccent)
             : ElevatedButton(
                 onPressed: () async {
                   setState(() {
@@ -31,13 +31,18 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    await createMonthlyFollowUp(widget.client, widget.cmfu, context);
+                    await createMonthlyFollowUp(
+                        widget.client, widget.cmfu, context);
                   } finally {
                     setState(() {
                       _isLoading = false;
                     });
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.white,
+                ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,6 +61,10 @@ class _ActionButtonState extends State<ActionButton> {
           onPressed: () {
             MonthlyFollowUpTEC.clearMonthlyFollowUpTEC();
           },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.white,
+          ),
           child: const Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

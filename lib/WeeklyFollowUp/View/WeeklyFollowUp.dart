@@ -49,8 +49,18 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.client.mName!} :متابعة اسبوعية, عميل '),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              widget.client.mName!,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const Text(' :متابعة اسبوعية'),
+          ],
+        ),
       ),
       body: Background(
         child: Center(

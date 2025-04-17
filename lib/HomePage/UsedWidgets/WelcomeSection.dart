@@ -9,7 +9,7 @@ Widget welcomeSection() {
       borderRadius: BorderRadius.circular(15),
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.grey.withValues(alpha: 0.1),
           spreadRadius: 2,
           blurRadius: 10,
         ),
@@ -19,7 +19,7 @@ Widget welcomeSection() {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(
-          'مرحباً بكم',
+          'مرحباً بكم في عيادة الدكتور خالد صلاح',
           style: GoogleFonts.cairo(
             fontSize: 28,
             fontWeight: FontWeight.bold,
