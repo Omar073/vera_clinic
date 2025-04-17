@@ -1,66 +1,65 @@
-import 'package:flutter/material.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Core/View/SnackBars/RequiredFieldSnackBar.dart';
-import '../../Core/Controller/UtilityFunctions.dart';
-import '../../Core/Model/Classes/Client.dart';
-import '../../Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
-import 'ClientRegistrationTEC.dart';
+import 'package:flutter/cupertino.dart';
 
-bool verifyRequiredFields(BuildContext context) {
+import '../../Core/Controller/UtilityFunctions.dart';
+import '../../Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
+import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
+import 'UpdateClientDetailsPageTEC.dart';
+
+bool verifyRequiredFieldsU(BuildContext context) {
   bool isValid = true;
-  if (ClientRegistrationTEC.phoneController.text.isEmpty) {
+  if (UpdateClientDetailsPageTEC.phoneController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'رقم الهاتف');
     isValid = false;
   }
-  if (ClientRegistrationTEC.nameController.text.isEmpty) {
+  if (UpdateClientDetailsPageTEC.nameController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'الاسم');
     isValid = false;
   }
   return isValid;
 }
 
-bool verifyFieldsDataType(BuildContext context) {
+bool verifyFieldsDataTypeU(BuildContext context) {
   bool isValid = true;
 
   final controllersWithMessages = [
     {
-      'controller': ClientRegistrationTEC.heightController,
+      'controller': UpdateClientDetailsPageTEC.heightController,
       'message': 'الطول',
     },
     {
-      'controller': ClientRegistrationTEC.weightController,
+      'controller': UpdateClientDetailsPageTEC.weightController,
       'message': 'الوزن',
     },
     {
-      'controller': ClientRegistrationTEC.bmiController,
+      'controller': UpdateClientDetailsPageTEC.bmiController,
       'message': 'مؤشر كتلة الجسم',
     },
     {
-      'controller': ClientRegistrationTEC.pbfController,
+      'controller': UpdateClientDetailsPageTEC.pbfController,
       'message': 'نسبة الدهون في الجسم',
     },
     {
-      'controller': ClientRegistrationTEC.waterController,
+      'controller': UpdateClientDetailsPageTEC.waterController,
       'message': 'نسبة الماء في الجسم',
     },
     {
-      'controller': ClientRegistrationTEC.maxWeightController,
+      'controller': UpdateClientDetailsPageTEC.maxWeightController,
       'message': 'الوزن الأقصى',
     },
     {
-      'controller': ClientRegistrationTEC.optimalWeightController,
+      'controller': UpdateClientDetailsPageTEC.optimalWeightController,
       'message': 'الوزن المثالي',
     },
     {
-      'controller': ClientRegistrationTEC.bmrController,
+      'controller': UpdateClientDetailsPageTEC.bmrController,
       'message': 'حد الحرق الأدنى',
     },
     {
-      'controller': ClientRegistrationTEC.maxCaloriesController,
+      'controller': UpdateClientDetailsPageTEC.maxCaloriesController,
       'message': 'السعرات الحرارية القصوى',
     },
     {
-      'controller': ClientRegistrationTEC.dailyCaloriesController,
+      'controller': UpdateClientDetailsPageTEC.dailyCaloriesController,
       'message': 'السعرات الحرارية اليومية',
     },
   ];
@@ -72,7 +71,7 @@ bool verifyFieldsDataType(BuildContext context) {
     }
   }
 
-  for (var controller in ClientRegistrationTEC.platControllers) {
+  for (var controller in UpdateClientDetailsPageTEC.platControllers) {
     if (!isNumOnly(controller.text)) {
       showInvalidDataTypeSnackBar(context, 'الوزن الثابت');
       isValid = false;
@@ -81,4 +80,3 @@ bool verifyFieldsDataType(BuildContext context) {
 
   return isValid;
 }
-

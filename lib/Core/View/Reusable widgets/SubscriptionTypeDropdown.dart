@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../CheckInPage/Controller/UtilityFunctions.dart';
-import '../../../Core/Model/Classes/Client.dart';
+import '../../Model/Classes/Client.dart';
 
 class SubscriptionTypeDropdown extends StatefulWidget {
   final TextEditingController subscriptionTypeController;
+  SubscriptionType? selectedType;
 
-  const SubscriptionTypeDropdown({
+  SubscriptionTypeDropdown({
     super.key,
     required this.subscriptionTypeController,
+    this.selectedType,
   });
 
   @override
@@ -16,7 +18,6 @@ class SubscriptionTypeDropdown extends StatefulWidget {
 }
 
 class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
-  SubscriptionType? _selectedType;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
                   "نوع الكشف",
                   style: TextStyle(
                     fontSize: 16,
-                    color: _selectedType != null
+                    color: widget.selectedType != null
                         ? Colors.black // Label color when "floating"
                         : Colors.transparent, // Label color when inside
                   ),
@@ -48,7 +49,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<SubscriptionType>(
-              value: _selectedType,
+              value: widget.selectedType,
               isExpanded: true,
               alignment: AlignmentDirectional.centerEnd,
               icon: const Icon(Icons.arrow_drop_down),
@@ -57,7 +58,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
               ),
               onChanged: (SubscriptionType? newValue) {
                 setState(() {
-                  _selectedType = newValue;
+                  widget.selectedType = newValue;
                   widget.subscriptionTypeController.text = newValue?.name ?? '';
                 });
               },

@@ -44,8 +44,9 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Checked In Clients'),
+        title: const Text('قائمة العملاء في العيادة'),
         centerTitle: true,
+        backgroundColor: Colors.white,
         actions: [
           _isLoading
               ? const Padding(
@@ -69,16 +70,59 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
           future: _fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Scaffold(
+                  body: Background(
+                      child: Center(
+                          child: CircularProgressIndicator(
+                color: Colors.blueAccent,
+              ))));
             } else if (snapshot.hasError) {
-              return const Center(child: Text('Error loading client details'));
+              return const Scaffold(
+                body: Background(
+                  child: Center(
+                    child: Text(
+                      'حدث خطأ أثناء تحميل البيانات',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              );
             } else {
-              // todo: understand why we used a consumer inside a future builder and why the future builder alone wasn't enough and why we needed to create a private variable for the future and assign it to fetchData() and call it in the future builder
+              // todo: understand why we used a consumer inside a future builder
+              //*  and why the future builder alone wasn't enough and why we
+              //*  needed to create a private variable for the future and assign
+              //*  it to fetchData() and call it in the future builder
               return Consumer<ClinicProvider>(
                 builder: (context, clinicProvider, child) {
                   if (context.read<ClinicProvider>().checkedInClients.isEmpty) {
                     return const Center(
-                      child: Text('No clients checked in'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            ' أعلى اليمين للبحث عن عملاء جدد ',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Icon(
+                            Icons.refresh,
+                            size: 24,
+                            color: Colors
+                                .black, // Adjust color if needed to match your theme
+                          ),
+                          Text(
+                            ' لا يوجد عملاء ... يمكنك الضغط على زر التحديث ',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   } else {
                     return Padding(

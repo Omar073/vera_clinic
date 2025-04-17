@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 
 import '../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/PreferredFoods.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
 import '../UsedWidgets/detailsCard.dart';
 import '../UsedWidgets/infoRow.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/ClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
+import '../../Controller/UpdateClientDetailsPageTEC.dart';
 
-Widget bodyMeasurementsCard() {
+Widget bodyMeasurementsCardU() {
   return myCard(
     'القياسات الجسمية',
     Column(
@@ -13,7 +13,7 @@ Widget bodyMeasurementsCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.heightController,
+                myController: UpdateClientDetailsPageTEC.heightController,
                 hint: "أدخل الطول (سم)",
                 label: "الطول",
               ),
@@ -21,7 +21,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.weightController,
+                myController: UpdateClientDetailsPageTEC.weightController,
                 hint: "أدخل الوزن (كجم)",
                 label: "الوزن",
               ),
@@ -29,7 +29,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.bmiController,
+                myController: UpdateClientDetailsPageTEC.bmiController,
                 hint: "BMI ",
                 label: "مؤشر كتلة الجسم",
               ),
@@ -41,7 +41,7 @@ Widget bodyMeasurementsCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.waterController,
+                myController: UpdateClientDetailsPageTEC.waterController,
                 hint: '',
                 label: "الماء",
               ),
@@ -49,7 +49,7 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.pbfController,
+                myController: UpdateClientDetailsPageTEC.pbfController,
                 hint: "PBF ",
                 label: "نسبة الدهن",
               ),

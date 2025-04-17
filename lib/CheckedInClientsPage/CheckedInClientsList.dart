@@ -14,9 +14,16 @@ class CheckedInClientsList extends StatefulWidget {
 class _CheckedInClientsListState extends State<CheckedInClientsList> {
   @override
   Widget build(BuildContext context) {
+    //* we propbably never go into that condition because we already check if the list is empty in the previous page
     if (widget.checkInClients.isEmpty) {
       return const Center(
-        child: Text('No clients checked in'),
+        child: Text(
+          'لا يوجد عملاء',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       );
     }
 

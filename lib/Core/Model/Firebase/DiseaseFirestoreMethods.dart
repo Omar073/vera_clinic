@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../Classes/Disease.dart';
@@ -15,25 +16,6 @@ class DiseaseFirestoreMethods {
     } catch (e) {
       debugPrint('Error creating disease: $e');
       return '';
-    }
-  }
-
-  Future<void> updateDisease(Disease disease) async {
-    try {
-      final diseaseRef = FirebaseSingleton.instance.firestore
-          .collection('Diseases')
-          .doc(disease.mDiseaseId);
-
-      final docSnapshot = await diseaseRef.get();
-
-      if (!docSnapshot.exists) {
-        throw Exception(
-            'No matching disease found with diseaseId: ${disease.mDiseaseId}');
-      }
-
-      await diseaseRef.update(disease.toMap());
-    } catch (e) {
-      throw Exception('Error updating disease: $e');
     }
   }
 
@@ -57,5 +39,47 @@ class DiseaseFirestoreMethods {
     return querySnapshot.docs.isEmpty
         ? null
         : Disease.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<void> updateDisease(Disease disease) async {
+    try {
+      final diseaseRef = FirebaseSingleton.instance.firestore
+          .collection('Diseases')
+          .doc(disease.mDiseaseId);
+
+      final docSnapshot = await diseaseRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching disease found with diseaseId: ${disease.mDiseaseId}');
+      }
+
+      await diseaseRef.update(disease.toMap());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error updating disease: ${e.message}');
+    } catch (e) {
+      throw Exception('Error updating disease: $e');
+    }
+  }
+
+  Future<void> deleteDisease(String diseaseId) async {
+    try {
+      final diseaseRef = FirebaseSingleton.instance.firestore
+          .collection('Diseases')
+          .doc(diseaseId);
+
+      // Check if the document exists before deleting
+      final docSnapshot = await diseaseRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception('No matching disease found with diseaseId: $diseaseId');
+      }
+
+      await diseaseRef.delete();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error deleting disease: ${e.message}');
+    } catch (e) {
+      throw Exception('Error deleting disease: $e');
+    }
   }
 }

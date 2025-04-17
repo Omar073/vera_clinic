@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import '../../../Core/View/Reusable widgets/MyCheckBox.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/ClientRegistrationTEC.dart';
+import '../../Controller/UpdateClientDetailsPageTEC.dart';
 
-Widget medicalHistoryCard() {
+Widget medicalHistoryCardU() {
   return myCard(
     'التاريخ الطبي',
     Column(
@@ -24,22 +24,22 @@ Widget medicalHistoryCard() {
             SizedBox(
               width: 200,
               child: MyInputField(
-                myController: ClientRegistrationTEC.otherHeartController,
+                myController: UpdateClientDetailsPageTEC.otherHeartController,
                 hint: '',
                 label: "أخري",
               ),
             ),
             MyCheckBox(
-                controller: ClientRegistrationTEC.hypertensionController,
+                controller: UpdateClientDetailsPageTEC.hypertensionController,
                 text: "HyperTension"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.hypotensionController,
+                controller: UpdateClientDetailsPageTEC.hypotensionController,
                 text: "HypoTension"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.vascularController,
+                controller: UpdateClientDetailsPageTEC.vascularController,
                 text: "Vascular"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.anemiaController,
+                controller: UpdateClientDetailsPageTEC.anemiaController,
                 text: "Anemia"),
           ],
         ),
@@ -52,18 +52,18 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.gitController,
+                myController: UpdateClientDetailsPageTEC.gitController,
                 hint: 'GIT ',
                 label: "جهاز هضمي",
               ),
             ),
             const SizedBox(width: 30),
             MyCheckBox(
-                controller: ClientRegistrationTEC.constipationController,
+                controller: UpdateClientDetailsPageTEC.constipationController,
                 text: 'إمساك'),
             const SizedBox(width: 30),
             MyCheckBox(
-                controller: ClientRegistrationTEC.colonController,
+                controller: UpdateClientDetailsPageTEC.colonController,
                 text: 'قولون'),
           ],
         ),
@@ -72,7 +72,7 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.liverController,
+                myController: UpdateClientDetailsPageTEC.liverController,
                 hint: 'Liver ',
                 label: "كبد",
               ),
@@ -80,7 +80,7 @@ Widget medicalHistoryCard() {
             const SizedBox(width: 20),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.renalController,
+                myController: UpdateClientDetailsPageTEC.renalController,
                 hint: 'Renal ',
                 label: "كلي",
               ),
@@ -92,7 +92,7 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.endocrineController,
+                myController: UpdateClientDetailsPageTEC.endocrineController,
                 hint: 'Endocrine ',
                 label: "الغدد الصماء",
               ),
@@ -100,7 +100,7 @@ Widget medicalHistoryCard() {
             const SizedBox(width: 20),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.rheumaticController,
+                myController: UpdateClientDetailsPageTEC.rheumaticController,
                 hint: 'Rheumatic ',
                 label: "روماتيزم",
               ),
@@ -116,7 +116,7 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.neuroController,
+                myController: UpdateClientDetailsPageTEC.neuroController,
                 hint: '',
                 label: "عصبية",
               ),
@@ -124,7 +124,7 @@ Widget medicalHistoryCard() {
             const SizedBox(width: 20),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.allergiesController,
+                myController: UpdateClientDetailsPageTEC.allergiesController,
                 hint: '',
                 label: "حساسية",
               ),
@@ -136,7 +136,8 @@ Widget medicalHistoryCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.otherDiseaseController,
+                myController:
+                    UpdateClientDetailsPageTEC.otherDiseasesController,
                 hint: '',
                 label: "أخري",
               ),
@@ -144,7 +145,7 @@ Widget medicalHistoryCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.psychiatricController,
+                myController: UpdateClientDetailsPageTEC.psychiatricController,
                 hint: '',
                 label: "نفسية",
               ),
@@ -152,7 +153,7 @@ Widget medicalHistoryCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.hormonalController,
+                myController: UpdateClientDetailsPageTEC.hormonalController,
                 hint: '',
                 label: "هرمون",
               ),
@@ -167,15 +168,15 @@ Widget medicalHistoryCard() {
           children: [
             MyCheckBox(
               controller:
-                  ClientRegistrationTEC.previousOBOperationsController,
+                  UpdateClientDetailsPageTEC.previousOBOperationsController,
               text: "عمليات سمنة سابقة",
             ),
             MyCheckBox(
-              controller: ClientRegistrationTEC.previousOBMedController,
+              controller: UpdateClientDetailsPageTEC.previousOBMedController,
               text: "أدوية سمنة سابقة",
             ),
             MyCheckBox(
-              controller: ClientRegistrationTEC.familyHistoryDMController,
+              controller: UpdateClientDetailsPageTEC.familyHistoryDMController,
               text: "تاريخ مرضي سكر",
             ),
           ],
@@ -184,7 +185,7 @@ Widget medicalHistoryCard() {
         Row(children: [
           Expanded(
             child: MyInputField(
-              myController: ClientRegistrationTEC.notesController,
+              myController: UpdateClientDetailsPageTEC.notesController,
               hint: "",
               label: "ملاحظات",
             ),
