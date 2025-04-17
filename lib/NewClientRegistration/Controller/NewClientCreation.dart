@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
@@ -11,6 +10,7 @@ import '../../Core/Controller/Providers/DiseaseProvider.dart';
 import '../../Core/Controller/Providers/PreferredFoodsProvider.dart';
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Controller/Providers/WeightAreasProvider.dart';
+import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
@@ -21,7 +21,6 @@ import '../../Core/Model/Classes/WeightAreas.dart';
 import '../../NewVisit/Controller/NewVisitTEC.dart';
 import '../../NewVisit/Controller/NewVisitUF.dart';
 import 'ClientRegistrationTEC.dart';
-import 'ClientRegistrationUF.dart';
 
 late Client _c;
 
@@ -58,7 +57,7 @@ Future<bool> createClient(BuildContext context) async {
             double.tryParse(ClientRegistrationTEC.heightController.text) ?? 0.0,
         weight:
             double.tryParse(ClientRegistrationTEC.weightController.text) ?? 0.0,
-        subscriptionType: getSubscriptionType(
+        subscriptionType: getSubscriptionTypeFromString(
             ClientRegistrationTEC.subscriptionTypeController.text),
         notes: ClientRegistrationTEC.notesController.text,
         gender:

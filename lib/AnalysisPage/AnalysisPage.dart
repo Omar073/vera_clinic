@@ -36,14 +36,15 @@ class _AnalysisPageState extends State<AnalysisPage> {
     final List<Expense?> expenses = expenseProvider.cachedExpenses;
 
     final currentDate = DateTime.now();
-    final String currentMonth = DateFormat('MMMM').format(currentDate);
+    final String currentMonth = DateFormat('MMMM', 'ar').format(currentDate);
     final int weekOfMonth = getWeekOfMonth(currentDate);
-    String dayName = DateFormat('EEEE').format(currentDate);
+    String dayName = DateFormat('EEEE', 'ar').format(currentDate);
 
     // Show a loading indicator if the clinic data is not yet available.
     if (clinic == null) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body:
+            Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
       );
     }
 
@@ -54,6 +55,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
           textAlign: TextAlign.center,
         ),
         backgroundColor: Colors.blue[50]!,
+        toolbarHeight: 70, // Increase height to accommodate padding
         centerTitle: true,
         actions: [
           ElevatedButton(
@@ -76,40 +78,36 @@ class _AnalysisPageState extends State<AnalysisPage> {
       ),
       body: Column(
         children: [
-          const Divider(),
           Expanded(
             child: Row(
               children: [
                 // Monthly Analysis Section
                 Expanded(
-                  child: Container(
-                    color: Colors.green[50],
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          currentMonth,
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'البيانات الشهرية',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'الدخل الشهري: \$${clinic.mMonthlyIncome}\n'
-                          'عدد العملاء هذا الشهر: ${clinic.mMonthlyPatients}\n'
-                          'مصاريف هذا الشهر: \$${clinic.mMonthlyExpenses}\n'
-                          'الربح هذا الشهر: \$${clinic.mMonthlyProfit}',
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        currentMonth,
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'البيانات الشهرية',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'الدخل الشهري: \$${clinic.mMonthlyIncome}\n'
+                        'عدد العملاء هذا الشهر: ${clinic.mMonthlyPatients}\n'
+                        'مصاريف هذا الشهر: \$${clinic.mMonthlyExpenses}\n'
+                        'الربح هذا الشهر: \$${clinic.mMonthlyProfit}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -121,34 +119,31 @@ class _AnalysisPageState extends State<AnalysisPage> {
                 ),
                 // Weekly Analysis Section
                 Expanded(
-                  child: Container(
-                    color: Colors.blue[50],
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 16),
-                        Text(
-                          'الاسبوع رقم $weekOfMonth',
-                          style: const TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text(
-                          'البيانات اليومية',
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'الدخل اليوم: \$${clinic.mDailyIncome}\n'
-                          'عدد العملاء اليوم: ${clinic.mDailyPatients}\n'
-                          'مصاريف اليوم: \$${clinic.mDailyExpenses}\n'
-                          'الربح اليوم: \$${clinic.mDailyProfit}',
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
-                    ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        'الاسبوع رقم $weekOfMonth',
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'البيانات اليومية',
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'الدخل اليوم: \$${clinic.mDailyIncome}\n'
+                        'عدد العملاء اليوم: ${clinic.mDailyPatients}\n'
+                        'مصاريف اليوم: \$${clinic.mDailyExpenses}\n'
+                        'الربح اليوم: \$${clinic.mDailyProfit}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
                 ),
               ],

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
-import '../../Controller/ClientRegistrationUF.dart';
+
+import '../../Controller/UtilityFunctions.dart';
 
 class ActivityLevelDropdownMenu extends StatefulWidget {
   final TextEditingController activityLevelController;
+  Activity? selectedActivity;
 
-  const ActivityLevelDropdownMenu({
+  ActivityLevelDropdownMenu({
     super.key,
     required this.activityLevelController,
+    this.selectedActivity,
   });
 
   @override
@@ -17,6 +20,12 @@ class ActivityLevelDropdownMenu extends StatefulWidget {
 
 class _ActivityLevelDropdownMenuState extends State<ActivityLevelDropdownMenu> {
   Activity? _selectedActivity;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedActivity = widget.selectedActivity;
+  }
 
   @override
   Widget build(BuildContext context) {

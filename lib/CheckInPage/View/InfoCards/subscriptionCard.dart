@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
-import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/SubscriptionTypeDropdown.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
-import '../../Controller/CheckInPageTEC.dart';
-import '../../Controller/CheckInPageTEC.dart';
-import '../../Controller/UtilityFunctions.dart';
+import '../../../Core/View/Reusable widgets/SubscriptionTypeDropdown.dart';
 
 class SubscriptionCard extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;

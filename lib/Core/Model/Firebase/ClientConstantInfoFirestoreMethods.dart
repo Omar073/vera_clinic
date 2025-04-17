@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../Classes/ClientConstantInfo.dart';
@@ -15,27 +16,6 @@ class ClientConstantInfoFirestoreMethods {
     } catch (e) {
       debugPrint('Error creating client constant info: $e');
       return '';
-    }
-  }
-
-  Future<void> updateClientConstantInfo(
-      ClientConstantInfo clientConstantInfo) async {
-    try {
-      final clientConstantInfoRef = FirebaseSingleton.instance.firestore
-          .collection('ClientConstantInfo')
-          .doc(clientConstantInfo.mClientConstantInfoId);
-
-      final docSnapshot = await clientConstantInfoRef.get();
-
-      if (!docSnapshot.exists) {
-        throw Exception(
-            'No matching client constant info found with clientConstantInfoId: '
-                '${clientConstantInfo.mClientConstantInfoId}');
-      }
-
-      await clientConstantInfoRef.update(clientConstantInfo.toMap());
-    } catch (e) {
-      throw Exception('Error updating client constant info: $e');
     }
   }
 
@@ -61,5 +41,50 @@ class ClientConstantInfoFirestoreMethods {
     return querySnapshot.docs.isEmpty
         ? null
         : ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<void> updateClientConstantInfo(
+      ClientConstantInfo clientConstantInfo) async {
+    try {
+      final clientConstantInfoRef = FirebaseSingleton.instance.firestore
+          .collection('ClientConstantInfo')
+          .doc(clientConstantInfo.mClientConstantInfoId);
+
+      final docSnapshot = await clientConstantInfoRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching client constant info found with clientConstantInfoId: '
+            '${clientConstantInfo.mClientConstantInfoId}');
+      }
+
+      await clientConstantInfoRef.update(clientConstantInfo.toMap());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error updating client constant info: ${e.message}');
+    } catch (e) {
+      throw Exception('Error updating client constant info: $e');
+    }
+  }
+
+  Future<void> deleteClientConstantInfo(String clientConstantInfoId) async {
+    try {
+      final clientConstantInfoRef = FirebaseSingleton.instance.firestore
+          .collection('ClientConstantInfo')
+          .doc(clientConstantInfoId);
+
+      final docSnapshot = await clientConstantInfoRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching client constant info found with clientConstantInfoId: '
+            '$clientConstantInfoId');
+      }
+
+      await clientConstantInfoRef.delete();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error deleting client: ${e.message}');
+    } catch (e) {
+      throw Exception('Error deleting client constant info: $e');
+    }
   }
 }

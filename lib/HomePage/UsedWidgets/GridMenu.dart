@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/CheckedInClientsPage/CheckedInClientsPage.dart';
-import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 
 import '../../AnalysisPage/AnalysisPage.dart';
 import '../../ClientSearchPage/ClientSearchPage.dart';
-import '../../Core/View/Pages/FollowUpNav.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
 import '../HomePageUF.dart';
 import 'menuCard.dart';
@@ -61,16 +58,42 @@ class _GridMenuState extends State<GridMenu> {
           ),
         ),
         menuCard(
-          'تسجيل خروج',
+          'خروج',
           Icons.exit_to_app,
           Colors.red,
           () async {
-            await context.read<ClinicProvider>().dailyClear();
-            if (isLastWednesdayOfMonth(DateTime.now())) {
-              await context.read<ClinicProvider>().monthlyClear();
-              await context.read<ExpenseProvider>().monthlyClearExpenses();
-            }
-            exit(0);
+            //show pop up to confirm exit
+            showDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                backgroundColor: Colors.blue[50]!,
+                title: const Text('تأكيد الخروج'),
+                content: const Text('هل تريد الخروج من التطبيق؟'),
+                actions: [
+                  TextButton(
+                    onPressed: () async {
+                      await context.read<ClinicProvider>().dailyClear();
+                      if (isLastWednesdayOfMonth(DateTime.now())) {
+                        await context.read<ClinicProvider>().monthlyClear();
+                        await context
+                            .read<ExpenseProvider>()
+                            .monthlyClearExpenses();
+                      }
+                      exit(0);
+                    },
+                    child: const Text('نعم',
+                        style:
+                        TextStyle(color: Colors.blueAccent)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('لا',
+                        style:
+                        TextStyle(color: Colors.blueAccent)),
+                  ),
+                ],
+              ),
+            );
           },
         ),
         menuCard(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
-import 'package:vera_clinic/NewClientRegistration/Controller/ClientRegistrationUF.dart';
 
+import '../../../Core/Controller/UtilityFunctions.dart';
 import '../../../Core/View/SnackBars/MySnackBar.dart';
-import '../../Controller/CheckInPageTEC.dart';
 
 class CheckInButton extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;
@@ -31,7 +31,11 @@ class _CheckInButtonState extends State<CheckInButton> {
   Widget build(BuildContext context) {
     return Center(
       child: _isLoading
-          ? const CircularProgressIndicator()
+          ? const Background(
+              child: Center(
+                  child: CircularProgressIndicator(
+              color: Colors.blueAccent,
+            )))
           : ElevatedButton(
               onPressed: () async {
                 setState(() {
@@ -44,8 +48,9 @@ class _CheckInButtonState extends State<CheckInButton> {
                       widget.visitSubscriptionPriceController.text);
 
                   // Set the subscription type for the client
-                  widget.client?.mSubscriptionType = getSubscriptionType(
-                      widget.visitSubscriptionTypeController.text);
+                  widget.client?.mSubscriptionType =
+                      getSubscriptionTypeFromString(
+                          widget.visitSubscriptionTypeController.text);
 
                   // Check if the client is already checked in
                   bool isCheckedIn = await context
@@ -65,7 +70,8 @@ class _CheckInButtonState extends State<CheckInButton> {
                         .read<ClinicProvider>()
                         .incrementDailyIncome(subscriptionPrice);
 
-                    showMySnackBar(context, 'تم تسجيل العميل بنجاح', Colors.green);
+                    showMySnackBar(
+                        context, 'تم تسجيل العميل بنجاح', Colors.green);
 
                     // Navigate to the HomePage
                     Navigator.of(context).pushReplacement(MaterialPageRoute(

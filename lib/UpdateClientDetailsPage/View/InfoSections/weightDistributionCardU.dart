@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyCheckBox.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
-import '../../Controller/ClientRegistrationTEC.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
+import '../../Controller/UpdateClientDetailsPageTEC.dart';
 
-Widget weightDistributionCard() {
+Widget weightDistributionCardU() {
   return myCard(
     'مناطق توزيع الوزن',
     Column(
@@ -17,25 +17,25 @@ Widget weightDistributionCard() {
           alignment: WrapAlignment.end,
           children: [
             MyCheckBox(
-                controller: ClientRegistrationTEC.backController,
+                controller: UpdateClientDetailsPageTEC.backController,
                 text: "ظهر"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.breastController,
+                controller: UpdateClientDetailsPageTEC.breastController,
                 text: "صدر"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.armsController,
+                controller: UpdateClientDetailsPageTEC.armsController,
                 text: "ذراعات"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.thighsController,
+                controller: UpdateClientDetailsPageTEC.thighsController,
                 text: "أفخاذ"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.waistController,
+                controller: UpdateClientDetailsPageTEC.waistController,
                 text: "وسط"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.buttocksController,
+                controller: UpdateClientDetailsPageTEC.buttocksController,
                 text: "مقعدة"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.abdomenController,
+                controller: UpdateClientDetailsPageTEC.abdomenController,
                 text: "بطن"),
           ],
         ),
@@ -44,7 +44,8 @@ Widget weightDistributionCard() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.dailyCaloriesController,
+                myController:
+                    UpdateClientDetailsPageTEC.dailyCaloriesController,
                 hint: '',
                 label: "السعرات اليومية",
               ),
@@ -52,7 +53,7 @@ Widget weightDistributionCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.maxCaloriesController,
+                myController: UpdateClientDetailsPageTEC.maxCaloriesController,
                 hint: '',
                 label: "أقصي سعرات",
               ),
@@ -60,7 +61,7 @@ Widget weightDistributionCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.bmrController,
+                myController: UpdateClientDetailsPageTEC.bmrController,
                 hint: '',
                 label: "حد الحرق الأدنى",
               ),

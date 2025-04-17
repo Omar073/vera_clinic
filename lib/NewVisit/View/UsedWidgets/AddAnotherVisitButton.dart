@@ -19,7 +19,7 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
   @override
   Widget build(BuildContext context) {
     return _isLoading
-        ? const CircularProgressIndicator()
+        ? const CircularProgressIndicator(color: Colors.blueAccent)
         : _buildAddVisitButton(context);
   }
 

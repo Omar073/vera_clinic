@@ -41,13 +41,38 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
           future: _visitsFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Scaffold(
+                  body: Background(
+                      child: Center(
+                          child: CircularProgressIndicator(
+                color: Colors.blueAccent,
+              ))));
             }
             if (snapshot.hasError) {
-              return const Center(child: Text('حدث خطأ ما'));
+              return const Scaffold(
+                body: Background(
+                  child: Center(
+                    child: Text(
+                      'حدث خطأ أثناء تحميل البيانات',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              );
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return const Center(child: Text('لا توجد زيارات'));
+              const Scaffold(
+                body: Background(
+                  child: Center(
+                    child: Text(
+                      'لا توجد زيارات',
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              );
             }
 
             final visits = snapshot.data!;

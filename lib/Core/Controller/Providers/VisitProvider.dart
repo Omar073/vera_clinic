@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/Model/Firebase/VisitFirestoreMethods.dart';
 
 import '../../Model/Classes/Visit.dart';
-import '../../Model/Firebase/FirebaseSingelton.dart';
 
 class VisitProvider with ChangeNotifier {
   final VisitFirestoreMethods _visitFirestoreMethods = VisitFirestoreMethods();
@@ -59,9 +58,46 @@ class VisitProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateVisit(Visit visit) async {
-    await visitFirestoreMethods.updateVisit(visit);
-    notifyListeners();
+  Future<bool> updateVisit(Visit visit) async {
+    try {
+      await visitFirestoreMethods.updateVisit(visit);
+      int index = cachedVisits.indexWhere(
+          (v) => v?.mVisitId == visit.mVisitId);
+      if (index != -1) {
+        cachedVisits[index] = visit;
+      } else {
+        cachedVisits.add(visit);
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Failed to update visit: $e");
+      return false;
+    }
+  }
+
+  Future<bool> deleteVisit(String visitId) async {
+    try {
+      await visitFirestoreMethods.deleteVisit(visitId);
+      cachedVisits.removeWhere((v) => v?.mVisitId == visitId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Failed to delete visit: $e");
+      return false;
+    }
+  }
+
+  Future<bool> deleteAllClientVisits(String clientId) async {
+    try {
+      await visitFirestoreMethods.deleteAllClientVisits(clientId);
+      cachedVisits.removeWhere((v) => v?.mClientId == clientId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint("Failed to delete all client visits: $e");
+      return false;
+    }
   }
 
   void setCurrentVisit(Visit visit) {

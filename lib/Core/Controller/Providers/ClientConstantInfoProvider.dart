@@ -66,10 +66,37 @@ class ClientConstantInfoProvider with ChangeNotifier {
     return clientConstantInfo;
   }
 
-  Future<void> updateCurrentClientConstantInfo(
+  Future<bool> updateClientConstantInfo(
       ClientConstantInfo clientConstantInfo) async {
-    await clientConstantInfoFirestoreMethods
-        .updateClientConstantInfo(clientConstantInfo);
-    notifyListeners();
+    try {
+      await clientConstantInfoFirestoreMethods
+          .updateClientConstantInfo(clientConstantInfo);
+      int index = cachedClientConstantInfo.indexWhere((c) =>
+          c?.mClientConstantInfoId == clientConstantInfo.mClientConstantInfoId);
+      if (index != -1) {
+        cachedClientConstantInfo[index] = clientConstantInfo;
+      } else {
+        cachedClientConstantInfo.add(clientConstantInfo);
+      }
+      notifyListeners();
+      return true;
+    } on Exception catch (e) {
+      debugPrint("Failed to update client constant info: $e");
+      return false;
+    }
+  }
+
+  Future<bool> deleteClientConstantInfo(String clientConstantInfoId) async {
+    try {
+      await clientConstantInfoFirestoreMethods
+          .deleteClientConstantInfo(clientConstantInfoId);
+      cachedClientConstantInfo.removeWhere(
+          (cci) => cci?.mClientConstantInfoId == clientConstantInfoId);
+      notifyListeners();
+      return true;
+    } on Exception catch (e) {
+      debugPrint("Failed to delete client constant info: $e");
+      return false;
+    }
   }
 }

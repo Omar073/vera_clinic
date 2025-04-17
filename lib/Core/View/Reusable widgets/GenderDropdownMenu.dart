@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+
 import '../../../Core/Model/Classes/Client.dart';
-import '../../Controller/ClientRegistrationUF.dart';
+import '../../Controller/UtilityFunctions.dart';
 
 class GenderDropdownMenu extends StatefulWidget {
   final TextEditingController genderController;
+  Gender? selectedGender;
 
-  const GenderDropdownMenu({
+  GenderDropdownMenu({
     super.key,
     required this.genderController,
+    this.selectedGender,
   });
 
   @override
@@ -15,13 +18,19 @@ class GenderDropdownMenu extends StatefulWidget {
 }
 
 class _GenderDropdownMenuState extends State<GenderDropdownMenu> {
-  Gender? _selectedGender;
+  Gender? selectedGender;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedGender = widget.selectedGender;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 17.0),
-      child: Container(
+      child: SizedBox(
         width: 150,
         child: InputDecorator(
           decoration: InputDecoration(
@@ -32,7 +41,7 @@ class _GenderDropdownMenuState extends State<GenderDropdownMenu> {
                   'النوع',
                   style: TextStyle(
                     fontSize: 16,
-                    color: _selectedGender != null
+                    color: selectedGender != null
                         ? Colors.black
                         : Colors.transparent,
                   ),
@@ -45,7 +54,7 @@ class _GenderDropdownMenuState extends State<GenderDropdownMenu> {
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<Gender>(
-              value: _selectedGender,
+              value: selectedGender,
               isExpanded: true,
               alignment: AlignmentDirectional.centerEnd,
               icon: const Icon(Icons.arrow_drop_down),
@@ -54,7 +63,7 @@ class _GenderDropdownMenuState extends State<GenderDropdownMenu> {
               ),
               onChanged: (Gender? newValue) {
                 setState(() {
-                  _selectedGender = newValue;
+                  selectedGender = newValue;
                   widget.genderController.text = newValue?.name ?? '';
                 });
               },

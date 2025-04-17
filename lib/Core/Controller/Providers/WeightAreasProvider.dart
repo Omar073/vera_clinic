@@ -48,9 +48,34 @@ class WeightAreasProvider with ChangeNotifier {
     return weightAreas;
   }
 
-  Future<void> updateWeightAreas(WeightAreas weightAreas) async {
-    await weightAreasFirestoreMethods.updateWeightAreas(weightAreas);
-    notifyListeners();
+  Future<bool> updateWeightAreas(WeightAreas weightAreas) async {
+    try {
+      await weightAreasFirestoreMethods.updateWeightAreas(weightAreas);
+      int index = _cachedWeightAreas.indexWhere(
+          (w) => w?.mWeightAreasId == weightAreas.mWeightAreasId);
+      if (index != -1) {
+        _cachedWeightAreas[index] = weightAreas;
+      } else {
+        _cachedWeightAreas.add(weightAreas);
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error updating weight areas: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deleteWeightAreas(String weightAreasId) async {
+    try {
+      await weightAreasFirestoreMethods.deleteWeightAreas(weightAreasId);
+      _cachedWeightAreas.removeWhere((w) => w?.mWeightAreasId == weightAreasId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error deleting weight areas: $e');
+      return false;
+    }
   }
 
   void setCurrentWeightAreas(WeightAreas weightAreas) {

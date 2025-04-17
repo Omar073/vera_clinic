@@ -132,6 +132,7 @@ class ClientFirestoreMethods {
   }
 
   Future<void> deleteClient(String clientId) async {
+    //todo: delete all client data
     try {
       final clientRef = FirebaseSingleton.instance.firestore
           .collection('Clients')

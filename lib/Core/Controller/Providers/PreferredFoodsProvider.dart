@@ -50,9 +50,37 @@ class PreferredFoodsProvider with ChangeNotifier {
     return preferredFoods;
   }
 
-  Future<void> updatePreferredFoods(PreferredFoods preferredFoods) async {
-    await preferredFoodsFirestoreMethods.updatePreferredFoods(preferredFoods);
-    notifyListeners();
+  Future<bool> updatePreferredFoods(PreferredFoods preferredFoods) async {
+    try {
+      await preferredFoodsFirestoreMethods.updatePreferredFoods(preferredFoods);
+      int index = cachedPreferredFoods.indexWhere(
+          (p) => p?.mPreferredFoodsId == preferredFoods.mPreferredFoodsId);
+      if (index != -1) {
+        cachedPreferredFoods[index] = preferredFoods;
+      } else {
+        cachedPreferredFoods.add(preferredFoods);
+      }
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error updating preferred foods: $e');
+      return false;
+    }
+  }
+
+  Future<bool> deletePreferredFoods(String preferredFoodsId) async {
+    try {
+      await preferredFoodsFirestoreMethods
+          .deletePreferredFoods(preferredFoodsId);
+
+      cachedPreferredFoods.removeWhere(
+          (p) => p?.mPreferredFoodsId == preferredFoodsId);
+      notifyListeners();
+      return true;
+    } catch (e) {
+      debugPrint('Error deleting preferred foods: $e');
+      return false;
+    }
   }
 
   void setCurrentPreferredFoods(PreferredFoods preferredFoods) {

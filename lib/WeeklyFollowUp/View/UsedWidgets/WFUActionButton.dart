@@ -22,7 +22,7 @@ class _VisitActionButtonState extends State<VisitActionButton> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _isLoading
-            ? const CircularProgressIndicator()
+            ? const CircularProgressIndicator(color: Colors.blueAccent)
             : ElevatedButton(
                 onPressed: () async {
                   setState(() {
@@ -49,6 +49,10 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                     });
                   }
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.white,
+                ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -67,6 +71,10 @@ class _VisitActionButtonState extends State<VisitActionButton> {
           onPressed: () {
             WeeklyFollowUpTEC.clear();
           },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.white,
+          ),
           child: const Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

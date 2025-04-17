@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
+import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 
 import '../CheckInPage/View/CheckInPage.dart';
 import '../ClientDetailsPage/ClientDetailsPage.dart';
 import '../Core/Model/Classes/Client.dart';
 
-class ClientSearchResultCard extends StatelessWidget {
+class ClientSearchResultCard extends StatefulWidget {
   List<Client?> searchResults = [];
   String state = "";
   final VoidCallback onClientDeleted; // Add this callback
@@ -17,18 +24,40 @@ class ClientSearchResultCard extends StatelessWidget {
     required this.state,
     required this.onClientDeleted, // Initialize the callback
   });
+  @override
+  State<ClientSearchResultCard> createState() => _ClientSearchResultCardState();
+}
+
+class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
+  _deleteClient(Client c) async {
+    await context.read<ClientProvider>().deleteClient(c.mClientId);
+    await context
+        .read<ClientConstantInfoProvider>()
+        .deleteClientConstantInfo(c.mClientConstantInfoId ?? '');
+    await context
+        .read<ClientMonthlyFollowUpProvider>()
+        .deleteClientMonthlyFollowUp(c.mClientMonthlyFollowUpId ?? '');
+    await context.read<DiseaseProvider>().deleteDisease(c.mDiseaseId ?? '');
+    await context
+        .read<PreferredFoodsProvider>()
+        .deletePreferredFoods(c.mPreferredFoodsId ?? '');
+    await context.read<VisitProvider>().deleteAllClientVisits(c.mClientId);
+    await context
+        .read<WeightAreasProvider>()
+        .deleteWeightAreas(c.mWeightAreasId ?? '');
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: searchResults.length,
+        itemCount: widget.searchResults.length,
         itemBuilder: (context, index) {
-          final client = searchResults[index];
+          final client = widget.searchResults[index];
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
             decoration: BoxDecoration(
               color: Colors.white, // or a very light grey
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.1),
@@ -58,14 +87,13 @@ class ClientSearchResultCard extends StatelessWidget {
                               actions: [
                                 TextButton(
                                   onPressed: () async {
-                                    await context
-                                        .read<ClientProvider>()
-                                        .deleteClient(client?.mClientId ?? "");
+                                    await _deleteClient(client!);
                                     Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                    searchResults.removeAt(
-                                        index); // Remove the client from the list
-                                    onClientDeleted(); // Trigger the callback
+                                        .pop();
+                                    widget.searchResults.removeAt(
+                                        index);
+                                    widget
+                                        .onClientDeleted();
                                   },
                                   child: const Text("مسح",
                                       style:
@@ -126,9 +154,9 @@ class ClientSearchResultCard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) {
-                      if (state == "checkIn") {
+                      if (widget.state == "checkIn") {
                         return CheckInPage(client: client);
-                      } else if (state == "search") {
+                      } else if (widget.state == "search") {
                         return ClientDetailsPage(client: client);
                       } else {
                         return Container(); // or any other default widget

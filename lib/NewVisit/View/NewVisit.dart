@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
-import 'package:vera_clinic/NewClientRegistration/View/UsedWidgets/datePicker.dart';
-import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
+import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 import 'package:vera_clinic/NewVisit/View/UsedWidgets/AddAnotherVisitButton.dart';
 import 'package:vera_clinic/NewVisit/View/UsedWidgets/SaveVisitButton.dart';
 
+import '../../Core/View/Reusable widgets/datePicker.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
-import '../Controller/NewVisitUF.dart';
 
 class NewVisit extends StatefulWidget {
   const NewVisit({super.key});

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../Classes/PreferredFoods.dart';
@@ -15,25 +16,6 @@ class PreferredFoodsFirestoreMethods {
     } catch (e) {
       debugPrint('Error creating preferred foods: $e');
       return '';
-    }
-  }
-
-  Future<void> updatePreferredFoods(PreferredFoods preferredFoods) async {
-    try {
-      final preferredFoodsRef = FirebaseSingleton.instance.firestore
-          .collection('PreferredFoods')
-          .doc(preferredFoods.mPreferredFoodsId);
-
-      final docSnapshot = await preferredFoodsRef.get();
-
-      if (!docSnapshot.exists) {
-        throw Exception(
-            'No matching preferred foods found with preferredFoodsId: ${preferredFoods.mPreferredFoodsId}');
-      }
-
-      await preferredFoodsRef.update(preferredFoods.toMap());
-    } catch (e) {
-      throw Exception('Error updating preferred foods: $e');
     }
   }
 
@@ -59,5 +41,49 @@ class PreferredFoodsFirestoreMethods {
     return querySnapshot.docs.isEmpty
         ? null
         : PreferredFoods.fromFirestore(querySnapshot.docs.first.data());
+  }
+
+  Future<void> updatePreferredFoods(PreferredFoods preferredFoods) async {
+    try {
+      final preferredFoodsRef = FirebaseSingleton.instance.firestore
+          .collection('PreferredFoods')
+          .doc(preferredFoods.mPreferredFoodsId);
+
+      final docSnapshot = await preferredFoodsRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching preferred foods found with '
+                'preferredFoodsId: ${preferredFoods.mPreferredFoodsId}');
+      }
+
+      await preferredFoodsRef.update(preferredFoods.toMap());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error updating preferred foods: ${e.message}');
+    } catch (e) {
+      throw Exception('Error updating preferred foods: $e');
+    }
+  }
+
+  Future<void> deletePreferredFoods(String preferredFoodsId) async {
+    try {
+      final preferredFoodsRef = FirebaseSingleton.instance.firestore
+          .collection('PreferredFoods')
+          .doc(preferredFoodsId);
+
+      final docSnapshot = await preferredFoodsRef.get();
+
+      if (!docSnapshot.exists) {
+        throw Exception(
+            'No matching preferred foods found with '
+                'preferredFoodsId: $preferredFoodsId');
+      }
+
+      await preferredFoodsRef.delete();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error deleting preferred foods: ${e.message}');
+    } catch (e) {
+      throw Exception('Error deleting preferred foods: $e');
+    }
   }
 }
