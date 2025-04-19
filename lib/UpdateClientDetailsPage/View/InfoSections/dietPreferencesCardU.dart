@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsPageTEC.dart';
 
 import '../../../Core/View/Reusable widgets/ActivityLevelDropdownMenu.dart';
@@ -52,7 +51,7 @@ Widget dietPreferencesCardU() {
               child: MyInputField(
                 myController:
                     UpdateClientDetailsPageTEC.otherPreferredFoodsController,
-                hint: 'أخري',
+                hint: '',
                 label: 'أخري',
               ),
             ),

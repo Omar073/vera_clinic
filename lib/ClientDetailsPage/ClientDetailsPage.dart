@@ -128,7 +128,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
       appBar: AppBar(
         title: const Text('معلومات العميل'),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 208, 241, 255),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
@@ -171,7 +172,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         child: Center(
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 200.0).copyWith(top: 12),
+                const EdgeInsets.symmetric(horizontal: 170.0).copyWith(top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -179,7 +180,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        personalInfoCard(client, myConstantInfo?.mArea ?? 'مجهول'),
+                        personalInfoCard(
+                            client, myConstantInfo?.mArea ?? 'مجهول'),
                         const SizedBox(height: 20),
                         bodyMeasurementsCard(client, myMonthlyFollowUp!),
                         const SizedBox(height: 20),

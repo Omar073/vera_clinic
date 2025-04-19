@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 
@@ -48,28 +47,6 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
           _updateButton(),
           const SizedBox(width: 16),
           //todo: should we add the option to modify/add previous visits?
-          // ElevatedButton.icon(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => NewVisit()),
-          //     );
-          //   },
-          //   icon: const Icon(Icons.add, color: Colors.white),
-          //   label: const Text(
-          //     "تسجيل زيارة سابقة",
-          //     style: TextStyle(
-          //       color: Colors.white,
-          //       fontWeight: FontWeight.bold,
-          //     ),
-          //   ),
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Colors.green,
-          //     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-          //     textStyle: const TextStyle(fontSize: 20),
-          //   ),
-          // ),
-          // const SizedBox(width: 16),
           ElevatedButton.icon(
             onPressed: () {
               UpdateClientDetailsPageTEC.clear();

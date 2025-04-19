@@ -9,7 +9,7 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
     Visit? lastClientVisit) {
   return Card(
     color: Colors.white,
-    elevation: 2,
+    elevation: 1,
     child: Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -29,10 +29,10 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
             textDirection: TextDirection.rtl,
             children: [
               tableRow([
-                {'label': 'اسم العميل', 'value': client?.mName ?? 'unknown'},
+                {'label': 'اسم العميل', 'value': client?.mName ?? 'مجهول'},
                 {
                   'label': 'رقم هاتف العميل',
-                  'value': client?.mClientPhoneNum ?? 'unknown'
+                  'value': client?.mClientPhoneNum ?? 'مجهول'
                 },
               ]),
               tableRow([
@@ -40,7 +40,9 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
                 {
                   'label': 'تاريخ اخر زيارة',
                   'value': lastClientVisit?.mVisitId != null
-                      ? "${lastClientVisit?.mDate.day}/${lastClientVisit?.mDate.month}/${lastClientVisit?.mDate.year}"
+                      ? "${lastClientVisit?.mDate.day}/"
+                          "${lastClientVisit?.mDate.month}/"
+                          "${lastClientVisit?.mDate.year}"
                       : 'لا يوجد زيارات سابقة',
                 },
               ]),

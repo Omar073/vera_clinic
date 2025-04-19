@@ -37,6 +37,7 @@ class _NewVisitState extends State<NewVisit> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         centerTitle: true,
         title: Text("${NewVisitTEC.clientVisits.length + 1}# " "زيارة"),
       ),
@@ -117,7 +118,8 @@ class _NewVisitState extends State<NewVisit> {
                           spacing: 20,
                           children: [
                             const SaveVisitButton(),
-                            AddAnotherVisitButton(onVisitAdded: _updateVisitCount),
+                            AddAnotherVisitButton(
+                                onVisitAdded: _updateVisitCount),
                           ],
                         ),
                       ),
