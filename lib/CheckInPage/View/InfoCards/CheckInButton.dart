@@ -104,7 +104,7 @@ class _CheckInButtonState extends State<CheckInButton> {
                 children: [
                   Icon(Icons.check, color: Colors.blueAccent),
                   SizedBox(width: 12),
-                  Text('تسجيل الدخول',
+                  Text('تسجيل دخول',
                       style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
                 ],
               ),

@@ -26,6 +26,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
         title: const Text('Vera-Life Clinic'),
         centerTitle: true,
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

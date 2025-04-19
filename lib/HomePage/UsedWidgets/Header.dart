@@ -8,7 +8,7 @@ Widget customAppBar() {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Image.asset('assets/logo.png', height: 40), // Add your logo
+        // Image.asset('assets/logo.png', height: 40), //todo: Add your logo
         Text(
           'Vera-Life Clinic',
           style: GoogleFonts.cairo(

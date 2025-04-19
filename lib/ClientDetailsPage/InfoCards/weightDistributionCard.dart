@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/StaticCheckBox.dart';
 
 import '../../Core/Model/Classes/WeightAreas.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
 import '../UsedWidgets/detailsCard.dart';
-import '../UsedWidgets/infoRow.dart';
-
 Widget weightDistributionCard(WeightAreas? weightAreas) {
   return detailsCard(
     'توزيع الوزن',
@@ -21,16 +19,19 @@ Widget weightDistributionCard(WeightAreas? weightAreas) {
 
 List<Widget> _buildWeightDistributionRows(WeightAreas weightAreas) {
   return [
-    _buildInfoRow('البطن', weightAreas.mAbdomen),
-    _buildInfoRow('مقعدة', weightAreas.mButtocks),
-    _buildInfoRow('الوسط', weightAreas.mWaist),
-    _buildInfoRow('الفخذين', weightAreas.mThighs),
-    _buildInfoRow('الذراعين', weightAreas.mArms),
-    _buildInfoRow('الصدر', weightAreas.mBreast),
-    _buildInfoRow('الظهر', weightAreas.mBack),
+    Wrap(
+      textDirection: TextDirection.rtl,
+      spacing: 50,
+      runSpacing: 20,
+      children: [
+        staticCheckBox('البطن', weightAreas.mAbdomen),
+        staticCheckBox('مقعدة', weightAreas.mButtocks),
+        staticCheckBox('الوسط', weightAreas.mWaist),
+        staticCheckBox('الفخذين', weightAreas.mThighs),
+        staticCheckBox('الذراعين', weightAreas.mArms),
+        staticCheckBox('الصدر', weightAreas.mBreast),
+        staticCheckBox('الظهر', weightAreas.mBack),
+      ],
+    ),
   ];
-}
-
-Widget _buildInfoRow(String label, bool value) {
-  return infoRow(label, value ? 'نعم' : 'لا');
 }

@@ -51,6 +51,7 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 Widget infoCard(String title, Widget content) {
   return Card(
-    elevation: 2,
+    elevation: 1,
     child: Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
