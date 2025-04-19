@@ -26,7 +26,7 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      elevation: 2,
+      elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

@@ -68,7 +68,7 @@ class _CheckInPageState extends State<CheckInPage> {
       });
     } catch (e) {
       setState(() {
-        errorMessage = 'Error loading client data: ${e.toString()}';
+        errorMessage = 'خطأ في تحميل بيانات العميل: ${e.toString()}';
         isLoading = false;
       });
     }
@@ -78,8 +78,10 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Check In: ${client?.mName ?? ''}'),
+        title: Text('تسجيل لدخول: ${client?.mName ?? ''}'),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
       ),
       body: Background(
         child: Padding(

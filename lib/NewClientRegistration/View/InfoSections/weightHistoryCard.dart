@@ -44,9 +44,7 @@ Widget weightHistoryCard() {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
                 myController: ClientRegistrationTEC.platControllers[
-                    ClientRegistrationTEC.platControllers.length -
-                        6 -
-                        index],
+                    ClientRegistrationTEC.platControllers.length - 6 - index],
                 hint: "",
                 label:
                     "الوزن الثابت ${ClientRegistrationTEC.platControllers.length - 5 - index}",
@@ -63,9 +61,7 @@ Widget weightHistoryCard() {
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
                 myController: ClientRegistrationTEC.platControllers[
-                    ClientRegistrationTEC.platControllers.length -
-                        1 -
-                        index],
+                    ClientRegistrationTEC.platControllers.length - 1 - index],
                 hint: "",
                 label:
                     "الوزن الثابت ${ClientRegistrationTEC.platControllers.length - index}",

@@ -82,14 +82,12 @@ class _GridMenuState extends State<GridMenu> {
                       exit(0);
                     },
                     child: const Text('نعم',
-                        style:
-                        TextStyle(color: Colors.blueAccent)),
+                        style: TextStyle(color: Colors.blueAccent)),
                   ),
                   TextButton(
                     onPressed: () => Navigator.pop(context),
                     child: const Text('لا',
-                        style:
-                        TextStyle(color: Colors.blueAccent)),
+                        style: TextStyle(color: Colors.blueAccent)),
                   ),
                 ],
               ),
