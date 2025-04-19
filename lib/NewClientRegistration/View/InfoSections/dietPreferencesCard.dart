@@ -51,7 +51,7 @@ Widget dietPreferencesCard() {
               child: MyInputField(
                 myController:
                     ClientRegistrationTEC.otherPreferredFoodsController,
-                hint: 'أخري',
+                hint: '',
                 label: 'أخري',
               ),
             ),

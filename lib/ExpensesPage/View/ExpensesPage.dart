@@ -25,12 +25,12 @@ class _ExpensesPageState extends State<ExpensesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: const Text('Expenses Page'),
+        title: const Text('صفحة المصروفات'),
         centerTitle: true,
-        backgroundColor: Colors.blue[50]!,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
       ),
       body: Background(
           child: Center(
@@ -60,7 +60,6 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           setState(() {
                             NewExpenseTEC.expenseNameTEC.clear();
                             NewExpenseTEC.expenseAmountTEC.clear();
-
                           });
                         }
                       },
@@ -95,11 +94,11 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     ),
                   )
                 : const Expanded(
-                  child: Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: ExpensesList(),
                     ),
-                ),
+                  ),
           ],
         ),
       )),

@@ -35,6 +35,8 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
       appBar: AppBar(
         title: Text('${widget.client.mName} :تفاصيل زيارات '),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
       ),
       body: Background(
         child: FutureBuilder<List<Visit?>?>(

@@ -120,9 +120,7 @@ String getGenderLabel(Gender g) {
       return 'أنثي';
     case Gender.none:
       return '';
-    default:
-      return '';
-  }
+    }
 }
 
 String getActivityLevelLabel(Activity a) {
@@ -135,7 +133,5 @@ String getActivityLevelLabel(Activity a) {
       return 'عالي';
     case Activity.none:
       return '';
-    default:
-      return '';
-  }
+    }
 }

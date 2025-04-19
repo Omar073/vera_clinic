@@ -66,6 +66,7 @@ class _UpdateClientDetailsPageState extends State<UpdateClientDetailsPage> {
         title: const Text('تحديث بيانات العميل'),
         centerTitle: true,
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
       ),
       body: Background(
         child: Column(

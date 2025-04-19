@@ -47,6 +47,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
         title: const Text('قائمة العملاء في العيادة'),
         centerTitle: true,
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         actions: [
           _isLoading
               ? const Padding(

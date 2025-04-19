@@ -46,6 +46,7 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

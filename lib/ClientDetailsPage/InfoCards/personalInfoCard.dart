@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 
@@ -16,19 +17,19 @@ Widget personalInfoCard(Client? client, String area) {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 70,
+              runSpacing: 20,
               children: [
                 MyTextBox(
                   title: 'النوع',
-                  value: client?.mGender.name ?? 'مجهول',
+                  value: getGenderLabel(client?.mGender ?? Gender.none),
                 ),
-                const SizedBox(width: 60),
                 MyTextBox(
                   title: 'رقم الهاتف',
                   value: client?.mClientPhoneNum ?? 'مجهول',
                 ),
-                const SizedBox(width: 60),
                 MyTextBox(
                   title: 'الاسم',
                   value: client?.mName ?? 'مجهول',
@@ -36,29 +37,25 @@ Widget personalInfoCard(Client? client, String area) {
               ],
             ),
             const SizedBox(height: 20), // Add spacing between rows
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 60,
+              runSpacing: 20,
               children: [
                 MyTextBox(
-                  title: 'نوع الاشتراك',
-                  value: getSubscriptionTypeLabel(
-                    client?.mSubscriptionType ?? SubscriptionType.none,
-                  ),
-                ),
-                const SizedBox(width: 60),
+                    title: 'نوع الاشتراك',
+                    value: getSubscriptionTypeLabel(
+                        client?.mSubscriptionType ?? SubscriptionType.none)),
+                MyTextBox(title: 'المنطقة', value: area),
                 MyTextBox(
-                  title: 'المنطقة',
-                  value: area,
-                ),
-                const SizedBox(width: 60),
-                MyTextBox(
-                  title: 'تاريخ الميلاد',
-                  value:
-                      client?.mBirthdate?.toLocal().toString().split(' ')[0] ??
-                          'مجهول',
-                ),],
+                    title: 'تاريخ الميلاد',
+                    value: client?.mBirthdate
+                            ?.toLocal()
+                            .toString()
+                            .split(' ')[0] ??
+                        'مجهول'),
+              ],
             ),
-
           ],
         ),
       ),

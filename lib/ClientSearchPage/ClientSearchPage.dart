@@ -10,8 +10,6 @@ import '../ClientDetailsPage/ClientDetailsPage.dart';
 
 class ClientSearchPage extends StatefulWidget {
   final String state;
-  // final VoidCallback onTap;
-  // late Client? client;
   ClientSearchPage({super.key, required this.state});
 
   @override
@@ -48,7 +46,8 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
         //todo: change UI to match background
         title: const Text('بحث عن عميل'),
         centerTitle: true,
-        backgroundColor: Colors.white70, // or your brand’s light color
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.white,
         elevation: 0, // removes the default AppBar shadow
       ),
       body: Background(
@@ -77,7 +76,7 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
                       : _hasSearched && searchResults.isEmpty
                           ? const Center(
                               child: Text(
-                                'No results found.',
+                                'لم يتم العثور على نتائج.',
                                 style:
                                     TextStyle(fontSize: 18, color: Colors.grey),
                               ),

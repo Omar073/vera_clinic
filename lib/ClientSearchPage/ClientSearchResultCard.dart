@@ -7,7 +7,6 @@ import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 
 import '../CheckInPage/View/CheckInPage.dart';
 import '../ClientDetailsPage/ClientDetailsPage.dart';
@@ -56,11 +55,11 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
           return Container(
             margin: const EdgeInsets.symmetric(vertical: 4),
             decoration: BoxDecoration(
-              color: Colors.white, // or a very light grey
+              color: Colors.white,
               borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.1),
+                  color: Colors.grey.withValues(alpha: 0.1),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -88,12 +87,9 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                                 TextButton(
                                   onPressed: () async {
                                     await _deleteClient(client!);
-                                    Navigator.of(context)
-                                        .pop();
-                                    widget.searchResults.removeAt(
-                                        index);
-                                    widget
-                                        .onClientDeleted();
+                                    Navigator.of(context).pop();
+                                    widget.searchResults.removeAt(index);
+                                    widget.onClientDeleted();
                                   },
                                   child: const Text("مسح",
                                       style:

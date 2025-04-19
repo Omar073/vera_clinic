@@ -1,45 +1,90 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/StaticCheckBox.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 
 import '../../Core/Model/Classes/ClientConstantInfo.dart';
 import '../../Core/Model/Classes/PreferredFoods.dart';
-import '../UsedWidgets/detailsCard.dart';
-import '../UsedWidgets/infoRow.dart';
 
-Widget dietPreferencesCard(String diet, PreferredFoods? preferredFoods,
-    ClientConstantInfo? clientConstantInfo) {
-  return detailsCard(
-    'تفضيلات النظام الغذائي',
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        infoRow('النظام الغذائي', diet),
-        if (preferredFoods != null)
-          ..._buildPreferredFoodsRows(preferredFoods)
-        else
-          const Center(child: Text('لا توجد بيانات الأطعمة المفضلة')),
-        if (clientConstantInfo != null)
-          ..._buildClientConstantInfoRows(clientConstantInfo)
-        else
-          const Center(child: Text('لا توجد بيانات ثابتة للعميل')),
-      ],
+Widget dietPreferencesCard(
+  String diet,
+  PreferredFoods? preferredFoods,
+  ClientConstantInfo? clientConstantInfo,
+) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+    child: myCard(
+      'تفضيلات النظام الغذائي',
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Wrap(
+              alignment: WrapAlignment.end,
+              spacing: 60,
+              runSpacing: 20,
+              children: [
+                MyTextBox(title: 'النظام الغذائي', value: diet),
+              ],
+            ),
+            if (preferredFoods != null) ...[
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 60,
+                runSpacing: 20,
+                children: [
+                  staticCheckBox(
+                    'الكربوهيدرات',
+                    preferredFoods.mCarbohydrates,
+                  ),
+                  staticCheckBox(
+                    'البروتينات',
+                    preferredFoods.mProtein,
+                  ),
+                  staticCheckBox(
+                    'منتجات الألبان',
+                    preferredFoods.mDairy,
+                  ),
+                  staticCheckBox(
+                    'الخضروات',
+                    preferredFoods.mVeg,
+                  ),
+                  staticCheckBox(
+                    'الفواكه',
+                    preferredFoods.mFruits,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Wrap(children: [
+                MyTextBox(title: 'أخرى', value: preferredFoods.mOthers)
+              ]),
+            ] else
+              const Center(child: Text('لا توجد بيانات الأطعمة المفضلة')),
+            const SizedBox(height: 5),
+            if (clientConstantInfo != null)
+              Wrap(
+                alignment: WrapAlignment.end,
+                spacing: 60,
+                runSpacing: 20,
+                textDirection: TextDirection.rtl,
+                children: [
+                  staticCheckBox(
+                    'الرياضة',
+                    clientConstantInfo.mSports,
+                  ),
+                  staticCheckBox(
+                    'رجيم سابق (YOYO)',
+                    clientConstantInfo.mYOYO,
+                  ),
+                ],
+              )
+            else
+              const Center(child: Text('لا توجد بيانات للعميل')),
+          ],
+        ),
+      ),
     ),
   );
-}
-
-List<Widget> _buildPreferredFoodsRows(PreferredFoods preferredFoods) {
-  return [
-    infoRow('الكربوهيدرات', preferredFoods.mCarbohydrates ? 'نعم' : 'لا'),
-    infoRow('البروتينات', preferredFoods.mProtein ? 'نعم' : 'لا'),
-    infoRow('منتجات الألبان', preferredFoods.mDairy ? 'نعم' : 'لا'),
-    infoRow('الخضروات', preferredFoods.mVeg ? 'نعم' : 'لا'),
-    infoRow('الفواكه', preferredFoods.mFruits ? 'نعم' : 'لا'),
-    infoRow('أخرى', preferredFoods.mOthers),
-  ];
-}
-
-List<Widget> _buildClientConstantInfoRows(ClientConstantInfo clientConstantInfo) {
-  return [
-    infoRow('الرياضة', clientConstantInfo.mSports ? 'نعم' : 'لا'),
-    infoRow('رجيم سابق (YOYO)', clientConstantInfo.mYOYO ? 'نعم' : 'لا'),
-  ];
 }
