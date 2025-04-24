@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
   Widget visitTextBox({required String title, required String value}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Wrap(
+      alignment: WrapAlignment.end,
       children: [
         Text(
           value,

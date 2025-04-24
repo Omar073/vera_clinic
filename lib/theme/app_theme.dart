@@ -13,5 +13,11 @@ class AppTheme {
     cardColor: Colors.white,
     cardTheme: const CardTheme(
       color: Colors.white,),
+    textSelectionTheme: TextSelectionThemeData(
+      selectionColor: Colors.blue[100], // Highlight color for selected text
+      cursorColor: Colors.black, // Cursor color
+      // selectionHandleColor: Colors.red, // Handle color
+    ),
   );
+
 }

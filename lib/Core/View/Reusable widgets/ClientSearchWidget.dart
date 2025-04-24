@@ -80,6 +80,11 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
             hintText: widget.hintText,
             hintStyle: const TextStyle(fontWeight: FontWeight.w400),
             hintTextDirection: TextDirection.rtl,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24.0),
+              borderSide:
+                  const BorderSide(color: Colors.blueAccent, width: 2.0),
+            ),
             suffixIcon: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 12.0),
               child: Icon(Icons.search),

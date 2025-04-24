@@ -37,8 +37,13 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
         color: Colors.white,
       ),
       onPressed: () async {
-        if (!verifyVisitInput(context)) return;
-
+        if (!verifyVisitInput(
+            context,
+            NewVisitTEC.visitBMIController,
+            NewVisitTEC.visitWeightController,
+            NewVisitTEC.visitDateController)) {
+          return;
+        }
         setState(() {
           _isLoading = true;
         });

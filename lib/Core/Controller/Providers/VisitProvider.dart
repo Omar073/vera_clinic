@@ -8,11 +8,11 @@ class VisitProvider with ChangeNotifier {
 
   Visit? _currentVisit;
   List<Visit?> _mCachedVisits = [];
-  List<Visit?> _mCurrentClientVisits = [];
+  // List<Visit?> _mCurrentClientVisits = [];
 
   Visit? get currentVisit => _currentVisit;
   List<Visit?> get cachedVisits => _mCachedVisits;
-  List<Visit?> get currentClientVisits => _mCurrentClientVisits;
+  // List<Visit?> get currentClientVisits => _mCurrentClientVisits;
   VisitFirestoreMethods get visitFirestoreMethods => _visitFirestoreMethods;
 
   Future<void> createVisit(Visit visit) async {
@@ -27,17 +27,17 @@ class VisitProvider with ChangeNotifier {
           cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
 
       final fetchedVisits =
-          await visitFirestoreMethods.fetchVisitsByClientId(clientId);
-      for (Visit? visit in fetchedVisits ?? []) {
+          await visitFirestoreMethods.fetchVisitsByClientId(clientId) ?? [];
+
+      for (Visit? visit in fetchedVisits) {
         if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
           clientVisits.add(visit);
         }
-      }
-      for (Visit? visit in clientVisits) {
-        if (visit != null && !cachedVisits.contains(visit)) {
+        if(visit != null && !cachedVisits.any((v) => v?.mVisitId == visit.mVisitId)) {
           cachedVisits.add(visit);
         }
       }
+
       notifyListeners();
       return clientVisits;
     } catch (e) {
@@ -61,8 +61,7 @@ class VisitProvider with ChangeNotifier {
   Future<bool> updateVisit(Visit visit) async {
     try {
       await visitFirestoreMethods.updateVisit(visit);
-      int index = cachedVisits.indexWhere(
-          (v) => v?.mVisitId == visit.mVisitId);
+      int index = cachedVisits.indexWhere((v) => v?.mVisitId == visit.mVisitId);
       if (index != -1) {
         cachedVisits[index] = visit;
       } else {

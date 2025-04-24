@@ -8,7 +8,7 @@ import '../../../Core/Model/Classes/PreferredFoods.dart';
 import '../../../Core/Model/Classes/WeightAreas.dart';
 import '../../../Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/UpdateClient.dart';
-import '../../Controller/UpdateClientDetailsPageTEC.dart';
+import '../../Controller/UpdateClientDetailsTEC.dart';
 import '../../Controller/UpdateClientDetailsUF.dart';
 
 class ActionButtonsU extends StatefulWidget {
@@ -49,7 +49,7 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
           //todo: should we add the option to modify/add previous visits?
           ElevatedButton.icon(
             onPressed: () {
-              UpdateClientDetailsPageTEC.clear();
+              UpdateClientDetailsTEC.clear();
               showMySnackBar(context, 'تم مسح البيانات', Colors.blueAccent);
             },
             icon: const Icon(Icons.clear, color: Colors.white),

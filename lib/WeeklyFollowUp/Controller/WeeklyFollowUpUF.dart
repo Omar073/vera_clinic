@@ -38,12 +38,3 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
     return false;
   }
 }
-
-bool verifyWFUInput(BuildContext context) {
-  bool isValid = true;
-  if (WeeklyFollowUpTEC.visitWeightController.text.isEmpty) {
-    showRequiredFieldSnackBar(context, 'الوزن');
-    isValid = false;
-  }
-  return isValid;
-}

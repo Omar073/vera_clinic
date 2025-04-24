@@ -31,7 +31,13 @@ class _SaveVisitButtonState extends State<SaveVisitButton> {
         ),
       ),
       onPressed: () async {
-        if (!verifyVisitInput(context)) return;
+        if (!verifyVisitInput(
+            context,
+            NewVisitTEC.visitBMIController,
+            NewVisitTEC.visitWeightController,
+            NewVisitTEC.visitDateController)) {
+          return;
+        }
 
         setState(() {
           _isLoading = true;

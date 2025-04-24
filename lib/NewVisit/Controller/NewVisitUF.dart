@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
+import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
-import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
+import 'package:vera_clinic/Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
@@ -31,13 +32,27 @@ Future<bool> createVisit(BuildContext context) async {
   }
 }
 
-bool verifyVisitInput(BuildContext context) {
+bool verifyVisitInput(
+    BuildContext context,
+    TextEditingController bmiController,
+    TextEditingController weightController,
+    TextEditingController dateController) {
   bool isValid = true;
-  if (NewVisitTEC.visitWeightController.text.isEmpty) {
+
+  if (!isNumOnly(bmiController.text)) {
+    showInvalidDataTypeSnackBar(context, 'مؤشر كتلة الجسم');
+    isValid = false;
+  }
+  if (!isNumOnly(weightController.text)) {
+    showInvalidDataTypeSnackBar(context, 'الوزن');
+    isValid = false;
+  }
+
+  if (weightController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'الوزن');
     isValid = false;
   }
-  if (NewVisitTEC.visitDateController.text.isEmpty) {
+  if (dateController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'تاريخ الزيارة');
     isValid = false;
   }
@@ -54,5 +69,5 @@ String? getLatestVisitId() {
       }
     }
   }
-  return latestVisit.mVisitId ?? '';
+  return latestVisit.mVisitId;
 }
