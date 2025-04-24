@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientConstantInfo.dart';
-import '../UsedWidgets/TableRow.dart';
 
 Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
     Visit? lastClientVisit) {
@@ -24,28 +24,24 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
           ),
           const Divider(),
           const SizedBox(height: 16),
-          Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            textDirection: TextDirection.rtl,
+          Wrap(
+            alignment: WrapAlignment.end,
+            spacing: 34,
+            runSpacing: 8,
             children: [
-              tableRow([
-                {'label': 'اسم العميل', 'value': client?.mName ?? 'مجهول'},
-                {
-                  'label': 'رقم هاتف العميل',
-                  'value': client?.mClientPhoneNum ?? 'مجهول'
-                },
-              ]),
-              tableRow([
-                {'label': 'المنطقة', 'value': clientConstantInfo.mArea},
-                {
-                  'label': 'تاريخ اخر زيارة',
-                  'value': lastClientVisit?.mVisitId != null
-                      ? "${lastClientVisit?.mDate.day}/"
-                          "${lastClientVisit?.mDate.month}/"
-                          "${lastClientVisit?.mDate.year}"
-                      : 'لا يوجد زيارات سابقة',
-                },
-              ]),
+              MyTextBox(title: 'اسم العميل', value: client?.mName ?? 'مجهول'),
+              MyTextBox(
+                  title: 'رقم هاتف العميل',
+                  value: client?.mClientPhoneNum ?? 'مجهول'),
+              MyTextBox(title: 'المنطقة', value: clientConstantInfo.mArea),
+              MyTextBox(
+                title: 'تاريخ اخر زيارة',
+                value: lastClientVisit?.mVisitId != null
+                    ? "${lastClientVisit?.mDate.day}/"
+                        "${lastClientVisit?.mDate.month}/"
+                        "${lastClientVisit?.mDate.year}"
+                    : 'لا يوجد زيارات سابقة',
+              ),
             ],
           ),
         ],

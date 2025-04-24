@@ -15,7 +15,7 @@ import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Disease.dart';
 import '../../Core/View/SnackBars/MySnackBar.dart';
-import 'UpdateClientDetailsPageTEC.dart';
+import 'UpdateClientDetailsTEC.dart';
 
 Future<bool> updateClient(
     BuildContext context,
@@ -26,34 +26,34 @@ Future<bool> updateClient(
     WeightAreas wa,
     PreferredFoods pf) async {
   try {
-    if (UpdateClientDetailsPageTEC.phoneController.text !=
+    if (UpdateClientDetailsTEC.phoneController.text !=
         c.mClientPhoneNum.toString()) {
       if (await context
           .read<ClientProvider>()
-          .isPhoneNumUsed(UpdateClientDetailsPageTEC.phoneController.text)) {
+          .isPhoneNumUsed(UpdateClientDetailsTEC.phoneController.text)) {
         showMySnackBar(context, 'هذا الرقم مستخدم بالفعل', Colors.red);
         return false;
       }
     }
 
     //update c parameters with parameters from text fields
-    c.mName = UpdateClientDetailsPageTEC.nameController.text;
-    c.mClientPhoneNum = UpdateClientDetailsPageTEC.phoneController.text;
+    c.mName = UpdateClientDetailsTEC.nameController.text;
+    c.mClientPhoneNum = UpdateClientDetailsTEC.phoneController.text;
     c.mBirthdate =
-        DateTime.tryParse(UpdateClientDetailsPageTEC.birthdateController.text);
-    c.mDiet = UpdateClientDetailsPageTEC.dietController.text;
-    c.Plat = UpdateClientDetailsPageTEC.platControllers
+        DateTime.tryParse(UpdateClientDetailsTEC.birthdateController.text);
+    c.mDiet = UpdateClientDetailsTEC.dietController.text;
+    c.Plat = UpdateClientDetailsTEC.platControllers
         .map((e) => double.tryParse(e.text) ?? 0.0)
         .toList();
     c.mHeight =
-        double.tryParse(UpdateClientDetailsPageTEC.heightController.text);
+        double.tryParse(UpdateClientDetailsTEC.heightController.text);
     c.mWeight =
-        double.tryParse(UpdateClientDetailsPageTEC.weightController.text);
+        double.tryParse(UpdateClientDetailsTEC.weightController.text);
     c.mSubscriptionType = getSubscriptionTypeFromString(
-        UpdateClientDetailsPageTEC.subscriptionTypeController.text);
-    c.mNotes = UpdateClientDetailsPageTEC.notesController.text;
+        UpdateClientDetailsTEC.subscriptionTypeController.text);
+    c.mNotes = UpdateClientDetailsTEC.notesController.text;
     c.mGender =
-        getGenderFromString(UpdateClientDetailsPageTEC.genderController.text);
+        getGenderFromString(UpdateClientDetailsTEC.genderController.text);
 
     if (!await _updateDisease(context, d)) return false;
     if (!await _updateClientMonthlyFollowUp(context, cmfu)) return false;
@@ -73,44 +73,44 @@ Future<bool> updateClient(
 Future<bool> _updateDisease(BuildContext context, Disease d) async {
   try {
     d.mHypertension =
-        UpdateClientDetailsPageTEC.hypertensionController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.hypertensionController.text.toLowerCase() ==
             'true';
     d.mHypotension =
-        UpdateClientDetailsPageTEC.hypotensionController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.hypotensionController.text.toLowerCase() ==
             'true';
     d.mVascular =
-        UpdateClientDetailsPageTEC.vascularController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.vascularController.text.toLowerCase() ==
             'true';
     d.mAnemia =
-        UpdateClientDetailsPageTEC.anemiaController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.anemiaController.text.toLowerCase() ==
             'true';
-    d.mOtherHeart = UpdateClientDetailsPageTEC.otherHeartController.text;
+    d.mOtherHeart = UpdateClientDetailsTEC.otherHeartController.text;
     d.mColon =
-        UpdateClientDetailsPageTEC.colonController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.colonController.text.toLowerCase() == 'true';
     d.mConstipation =
-        UpdateClientDetailsPageTEC.constipationController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.constipationController.text.toLowerCase() ==
             'true';
-    d.mFamilyHistoryDM = UpdateClientDetailsPageTEC
+    d.mFamilyHistoryDM = UpdateClientDetailsTEC
             .familyHistoryDMController.text
             .toLowerCase() ==
         'true';
     d.mPreviousOBMed =
-        UpdateClientDetailsPageTEC.previousOBMedController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.previousOBMedController.text.toLowerCase() ==
             'true';
-    d.mPreviousOBOperations = UpdateClientDetailsPageTEC
+    d.mPreviousOBOperations = UpdateClientDetailsTEC
             .previousOBOperationsController.text
             .toLowerCase() ==
         'true';
-    d.mRenal = UpdateClientDetailsPageTEC.renalController.text;
-    d.mLiver = UpdateClientDetailsPageTEC.liverController.text;
-    d.mGit = UpdateClientDetailsPageTEC.gitController.text;
-    d.mEndocrine = UpdateClientDetailsPageTEC.endocrineController.text;
-    d.mRheumatic = UpdateClientDetailsPageTEC.rheumaticController.text;
-    d.mAllergies = UpdateClientDetailsPageTEC.allergiesController.text;
-    d.mNeuro = UpdateClientDetailsPageTEC.neuroController.text;
-    d.mPsychiatric = UpdateClientDetailsPageTEC.psychiatricController.text;
-    d.mOtherDiseases = UpdateClientDetailsPageTEC.otherDiseasesController.text;
-    d.mHormonal = UpdateClientDetailsPageTEC.hormonalController.text;
+    d.mRenal = UpdateClientDetailsTEC.renalController.text;
+    d.mLiver = UpdateClientDetailsTEC.liverController.text;
+    d.mGit = UpdateClientDetailsTEC.gitController.text;
+    d.mEndocrine = UpdateClientDetailsTEC.endocrineController.text;
+    d.mRheumatic = UpdateClientDetailsTEC.rheumaticController.text;
+    d.mAllergies = UpdateClientDetailsTEC.allergiesController.text;
+    d.mNeuro = UpdateClientDetailsTEC.neuroController.text;
+    d.mPsychiatric = UpdateClientDetailsTEC.psychiatricController.text;
+    d.mOtherDiseases = UpdateClientDetailsTEC.otherDiseasesController.text;
+    d.mHormonal = UpdateClientDetailsTEC.hormonalController.text;
 
     await context.read<DiseaseProvider>().updateDisease(d);
     return true;
@@ -124,24 +124,24 @@ Future<bool> _updateClientMonthlyFollowUp(
     BuildContext context, ClientMonthlyFollowUp cmfu) async {
   try {
     cmfu.mBMI =
-        double.tryParse(UpdateClientDetailsPageTEC.bmiController.text) ?? 0.0;
+        double.tryParse(UpdateClientDetailsTEC.bmiController.text) ?? 0.0;
     cmfu.mPBF =
-        double.tryParse(UpdateClientDetailsPageTEC.pbfController.text) ?? 0.0;
+        double.tryParse(UpdateClientDetailsTEC.pbfController.text) ?? 0.0;
     cmfu.mWater =
-        double.tryParse(UpdateClientDetailsPageTEC.waterController.text) ?? 0.0;
+        double.tryParse(UpdateClientDetailsTEC.waterController.text) ?? 0.0;
     cmfu.mMaxWeight =
-        double.tryParse(UpdateClientDetailsPageTEC.maxWeightController.text) ??
+        double.tryParse(UpdateClientDetailsTEC.maxWeightController.text) ??
             0.0;
     cmfu.mOptimalWeight = double.tryParse(
-            UpdateClientDetailsPageTEC.optimalWeightController.text) ??
+            UpdateClientDetailsTEC.optimalWeightController.text) ??
         0.0;
     cmfu.mBMR =
-        double.tryParse(UpdateClientDetailsPageTEC.bmrController.text) ?? 0.0;
+        double.tryParse(UpdateClientDetailsTEC.bmrController.text) ?? 0.0;
     cmfu.mMaxCalories = double.tryParse(
-            UpdateClientDetailsPageTEC.maxCaloriesController.text) ??
+            UpdateClientDetailsTEC.maxCaloriesController.text) ??
         0.0;
     cmfu.mDailyCalories = double.tryParse(
-            UpdateClientDetailsPageTEC.dailyCaloriesController.text) ??
+            UpdateClientDetailsTEC.dailyCaloriesController.text) ??
         0.0;
 
     await context
@@ -157,13 +157,13 @@ Future<bool> _updateClientMonthlyFollowUp(
 Future<bool> _updateClientConstantInfo(
     BuildContext context, ClientConstantInfo cci) async {
   try {
-    cci.mArea = UpdateClientDetailsPageTEC.areaController.text;
+    cci.mArea = UpdateClientDetailsTEC.areaController.text;
     cci.mActivityLevel = getActivityLevelFromString(
-        UpdateClientDetailsPageTEC.activityLevelController.text);
+        UpdateClientDetailsTEC.activityLevelController.text);
     cci.mYOYO =
-        UpdateClientDetailsPageTEC.yoyoController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.yoyoController.text.toLowerCase() == 'true';
     cci.mSports =
-        UpdateClientDetailsPageTEC.sportsController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.sportsController.text.toLowerCase() ==
             'true';
 
     await context
@@ -180,19 +180,19 @@ Future<bool> _updatePreferredFoods(
     BuildContext context, PreferredFoods pf) async {
   try {
     pf.mCarbohydrates =
-        UpdateClientDetailsPageTEC.carbohydratesController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.carbohydratesController.text.toLowerCase() ==
             'true';
     pf.mProtein =
-        UpdateClientDetailsPageTEC.proteinController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.proteinController.text.toLowerCase() ==
             'true';
     pf.mDairy =
-        UpdateClientDetailsPageTEC.dairyController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.dairyController.text.toLowerCase() == 'true';
     pf.mVeg =
-        UpdateClientDetailsPageTEC.vegController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.vegController.text.toLowerCase() == 'true';
     pf.mFruits =
-        UpdateClientDetailsPageTEC.fruitsController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.fruitsController.text.toLowerCase() ==
             'true';
-    pf.mOthers = UpdateClientDetailsPageTEC.otherPreferredFoodsController.text;
+    pf.mOthers = UpdateClientDetailsTEC.otherPreferredFoodsController.text;
 
     await context.read<PreferredFoodsProvider>().updatePreferredFoods(pf);
     return true;
@@ -205,23 +205,23 @@ Future<bool> _updatePreferredFoods(
 Future<bool> _updateWeightAreas(BuildContext context, WeightAreas wa) async {
   try {
     wa.mAbdomen =
-        UpdateClientDetailsPageTEC.abdomenController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.abdomenController.text.toLowerCase() ==
             'true';
     wa.mButtocks =
-        UpdateClientDetailsPageTEC.buttocksController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.buttocksController.text.toLowerCase() ==
             'true';
     wa.mWaist =
-        UpdateClientDetailsPageTEC.waistController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.waistController.text.toLowerCase() == 'true';
     wa.mThighs =
-        UpdateClientDetailsPageTEC.thighsController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.thighsController.text.toLowerCase() ==
             'true';
     wa.mArms =
-        UpdateClientDetailsPageTEC.armsController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.armsController.text.toLowerCase() == 'true';
     wa.mBreast =
-        UpdateClientDetailsPageTEC.breastController.text.toLowerCase() ==
+        UpdateClientDetailsTEC.breastController.text.toLowerCase() ==
             'true';
     wa.mBack =
-        UpdateClientDetailsPageTEC.backController.text.toLowerCase() == 'true';
+        UpdateClientDetailsTEC.backController.text.toLowerCase() == 'true';
 
     await context.read<WeightAreasProvider>().updateWeightAreas(wa);
     return true;

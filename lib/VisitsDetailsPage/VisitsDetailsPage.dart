@@ -29,11 +29,28 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
         .getVisitsByClientId(widget.client.mClientId);
   }
 
+  
+  void _refreshVisits() {
+    setState(() {
+      _visitsFuture = _fetchClientVisits(); // Refresh the Future
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.client.mName} :تفاصيل زيارات '),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          textDirection: TextDirection.rtl,
+          children: [
+            const Text(
+              ' :تفاصيل زيارات',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(widget.client.mName ?? ''),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
@@ -64,12 +81,15 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
               );
             }
             if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              const Scaffold(
+              return const Scaffold(
                 body: Background(
                   child: Center(
                     child: Text(
-                      'لا توجد زيارات',
-                      style: TextStyle(fontSize: 18, color: Colors.black),
+                      'لا توجد زيارات للعميل',
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -85,7 +105,15 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
               itemCount: visits.length,
               itemBuilder: (context, index) {
                 final visit = visits[index]!;
-                return visitCard(visit, index + 1);
+                return VisitCard(
+                  visit: visit,
+                  index: index + 1,
+                  onVisitDeleted: () {
+                    setState(() {
+                      _refreshVisits();
+                    });
+                  },
+                );
               },
             );
           },

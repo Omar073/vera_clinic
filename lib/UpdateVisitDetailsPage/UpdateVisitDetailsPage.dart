@@ -1,45 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
-import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
-import 'package:vera_clinic/NewVisit/View/UsedWidgets/AddAnotherVisitButton.dart';
-import 'package:vera_clinic/NewVisit/View/UsedWidgets/SaveVisitButton.dart';
+import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
+import 'package:vera_clinic/UpdateVisitDetailsPage/Controller/UpdateVisitDetailsTEC.dart';
 
-import '../../Core/View/Reusable widgets/datePicker.dart';
-import '../../Core/View/Reusable widgets/myCard.dart';
+import '../Core/View/Reusable widgets/BackGround.dart';
+import '../Core/View/Reusable widgets/MyInputField.dart';
+import '../Core/View/Reusable widgets/datePicker.dart';
+import '../Core/View/Reusable widgets/myCard.dart';
+import 'View/UpdateVisitButton.dart';
 
-class NewVisit extends StatefulWidget {
-  const NewVisit({super.key});
+class UpdateVisitDetailsPage extends StatefulWidget {
+  final Visit visit;
+  final VoidCallback onVisitUpdated;
+  const UpdateVisitDetailsPage(
+      {super.key, required this.visit, required this.onVisitUpdated});
 
   @override
-  State<NewVisit> createState() => _NewVisitState();
+  State<UpdateVisitDetailsPage> createState() => _UpdateVisitDetailsPageState();
 }
 
-class _NewVisitState extends State<NewVisit> {
+class _UpdateVisitDetailsPageState extends State<UpdateVisitDetailsPage> {
   @override
   void initState() {
     super.initState();
-    NewVisitTEC.init();
-  }
-
-  @override
-  void dispose() {
-    NewVisitTEC.dispose();
-    super.dispose();
-  }
-
-  void _updateVisitCount() {
-    setState(() {});
+    UpdateVisitDetailsTEC.init(widget.visit);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('تحديث تفاصيل الزيارة'),
+        centerTitle: true,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
-        centerTitle: true,
-        title: Text("${NewVisitTEC.clientVisits.length + 1}# " "زيارة"),
       ),
       body: Background(
         child: Padding(
@@ -64,8 +57,8 @@ class _NewVisitState extends State<NewVisit> {
                               children: [
                                 Expanded(
                                   child: MyInputField(
-                                      myController:
-                                          NewVisitTEC.visitDietController,
+                                      myController: UpdateVisitDetailsTEC
+                                          .visitDietController,
                                       hint: '',
                                       label: 'اسم النظام'),
                                 ),
@@ -73,7 +66,8 @@ class _NewVisitState extends State<NewVisit> {
                                 Expanded(
                                   child: DatePicker(
                                       textEditingController:
-                                          NewVisitTEC.visitDateController,
+                                          UpdateVisitDetailsTEC
+                                              .visitDateController,
                                       label: 'تاريخ الزيارة'),
                                 ),
                               ],
@@ -83,24 +77,24 @@ class _NewVisitState extends State<NewVisit> {
                               children: [
                                 Expanded(
                                   child: MyInputField(
-                                      myController:
-                                          NewVisitTEC.visitNotesController,
+                                      myController: UpdateVisitDetailsTEC
+                                          .visitNotesController,
                                       hint: '',
                                       label: 'ملاحظات'),
                                 ),
                                 const SizedBox(width: 40),
                                 Expanded(
                                   child: MyInputField(
-                                      myController:
-                                          NewVisitTEC.visitWeightController,
+                                      myController: UpdateVisitDetailsTEC
+                                          .visitWeightController,
                                       hint: 'أدخل الوزن (كجم)',
                                       label: 'الوزن'),
                                 ),
                                 const SizedBox(width: 40),
                                 Expanded(
                                   child: MyInputField(
-                                      myController:
-                                          NewVisitTEC.visitBMIController,
+                                      myController: UpdateVisitDetailsTEC
+                                          .visitBMIController,
                                       hint: 'BMI ',
                                       label: 'مؤشر كتلة الجسم'),
                                 ),
@@ -117,9 +111,10 @@ class _NewVisitState extends State<NewVisit> {
                         child: Wrap(
                           spacing: 20,
                           children: [
-                            const SaveVisitButton(),
-                            AddAnotherVisitButton(
-                                onVisitAdded: _updateVisitCount),
+                            UpdateVisitButton(
+                              v: widget.visit,
+                              onVisitUpdated: widget.onVisitUpdated,
+                            ),
                           ],
                         ),
                       ),

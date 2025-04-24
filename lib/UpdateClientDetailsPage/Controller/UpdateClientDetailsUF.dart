@@ -3,15 +3,15 @@ import 'package:flutter/cupertino.dart';
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
 import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
-import 'UpdateClientDetailsPageTEC.dart';
+import 'UpdateClientDetailsTEC.dart';
 
 bool verifyRequiredFieldsU(BuildContext context) {
   bool isValid = true;
-  if (UpdateClientDetailsPageTEC.phoneController.text.isEmpty) {
+  if (UpdateClientDetailsTEC.phoneController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'رقم الهاتف');
     isValid = false;
   }
-  if (UpdateClientDetailsPageTEC.nameController.text.isEmpty) {
+  if (UpdateClientDetailsTEC.nameController.text.isEmpty) {
     showRequiredFieldSnackBar(context, 'الاسم');
     isValid = false;
   }
@@ -23,43 +23,43 @@ bool verifyFieldsDataTypeU(BuildContext context) {
 
   final controllersWithMessages = [
     {
-      'controller': UpdateClientDetailsPageTEC.heightController,
+      'controller': UpdateClientDetailsTEC.heightController,
       'message': 'الطول',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.weightController,
+      'controller': UpdateClientDetailsTEC.weightController,
       'message': 'الوزن',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.bmiController,
+      'controller': UpdateClientDetailsTEC.bmiController,
       'message': 'مؤشر كتلة الجسم',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.pbfController,
+      'controller': UpdateClientDetailsTEC.pbfController,
       'message': 'نسبة الدهون في الجسم',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.waterController,
+      'controller': UpdateClientDetailsTEC.waterController,
       'message': 'نسبة الماء في الجسم',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.maxWeightController,
+      'controller': UpdateClientDetailsTEC.maxWeightController,
       'message': 'الوزن الأقصى',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.optimalWeightController,
+      'controller': UpdateClientDetailsTEC.optimalWeightController,
       'message': 'الوزن المثالي',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.bmrController,
+      'controller': UpdateClientDetailsTEC.bmrController,
       'message': 'حد الحرق الأدنى',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.maxCaloriesController,
+      'controller': UpdateClientDetailsTEC.maxCaloriesController,
       'message': 'السعرات الحرارية القصوى',
     },
     {
-      'controller': UpdateClientDetailsPageTEC.dailyCaloriesController,
+      'controller': UpdateClientDetailsTEC.dailyCaloriesController,
       'message': 'السعرات الحرارية اليومية',
     },
   ];
@@ -71,7 +71,7 @@ bool verifyFieldsDataTypeU(BuildContext context) {
     }
   }
 
-  for (var controller in UpdateClientDetailsPageTEC.platControllers) {
+  for (var controller in UpdateClientDetailsTEC.platControllers) {
     if (!isNumOnly(controller.text)) {
       showInvalidDataTypeSnackBar(context, 'الوزن الثابت');
       isValid = false;
