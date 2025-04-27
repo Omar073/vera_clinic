@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vera_clinic/UpdateVisitDetailsPage/Controller/UpdateVisitDetailsTEC.dart';
 
 import '../../Core/Model/Classes/Visit.dart';
-import '../../Core/View/SnackBars/MySnackBar.dart';
+import '../../Core/View/PopUps/MySnackBar.dart';
 import '../../NewVisit/Controller/NewVisitUF.dart';
 import '../Controller/UpdateVisitDetailsUF.dart';
 

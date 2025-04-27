@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitUF.dart';
 
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 
 class SaveVisitButton extends StatefulWidget {

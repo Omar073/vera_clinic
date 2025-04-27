@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 import '../../Controller/NewVisitUF.dart';
 

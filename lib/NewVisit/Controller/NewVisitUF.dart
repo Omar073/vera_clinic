@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
-import 'package:vera_clinic/Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
+import 'package:vera_clinic/Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
-import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
+import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
 
 Future<bool> createVisit(BuildContext context) async {
   try {

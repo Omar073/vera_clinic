@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/Core/View/SnackBars/MySnackBar.dart';
 import '../../Controller/Providers/ClientProvider.dart';
 import '../../Model/Classes/Client.dart';
+import '../PopUps/MySnackBar.dart';
 
 class ClientSearchWidget extends StatefulWidget {
   final String hintText;

@@ -11,6 +11,7 @@ import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/theme/app_theme.dart';
+import 'package:window_manager/window_manager.dart';
 import 'Core/Controller/Providers/ClientProvider.dart';
 import 'Core/Model/Firebase/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -18,10 +19,27 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
   WidgetsFlutterBinding.ensureInitialized();
+
   await initializeDateFormatting('ar', null);
+  await windowManager.ensureInitialized();
+  await windowManager.setMinimumSize(const Size(800, 600));
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  WindowOptions windowOptions = const WindowOptions(
+    center: true,
+    backgroundColor: Colors.transparent,
+    skipTaskbar: false,
+    titleBarStyle: TitleBarStyle.normal,
+  );
+  windowManager.waitUntilReadyToShow(windowOptions, () async {
+    await windowManager.maximize();
+    await windowManager.show();
+    await windowManager.focus();
+  });
+
   runApp(
     MultiProvider(
       //todo: only wrap each provider at the level it is needed

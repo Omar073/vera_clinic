@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../Core/Controller/UtilityFunctions.dart';
-import '../../Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
-import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
+import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
+import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
 import 'UpdateClientDetailsTEC.dart';
 
 bool verifyRequiredFieldsU(BuildContext context) {
