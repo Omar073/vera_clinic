@@ -62,7 +62,6 @@ Widget dietPreferencesCard(
               ]),
             ] else
               const Center(child: Text('لا توجد بيانات الأطعمة المفضلة')),
-            const SizedBox(height: 5),
             if (clientConstantInfo != null)
               Wrap(
                 alignment: WrapAlignment.end,

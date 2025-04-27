@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../UsedWidgets/TableRow.dart';
@@ -21,20 +22,17 @@ Widget measurementsCard(Client? client) {
           ),
           const Divider(),
           const SizedBox(height: 16),
-          Table(
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            textDirection: TextDirection.rtl,
+          Wrap(
+            alignment: WrapAlignment.end,
+            spacing: 34,
+            runSpacing: 8,
             children: [
-              tableRow([
-                {
-                  'label': 'الطول',
-                  'value': '${client?.mHeight ?? 'غير متوفر'} سم'
-                },
-                {
-                  'label': 'الوزن',
-                  'value': '${client?.mWeight ?? 'غير متوفر'} كجم'
-                },
-              ]),
+              MyTextBox(
+                  title: 'الطول',
+                  value: '${client?.mHeight ?? 'غير متوفر'} سم'),
+              MyTextBox(
+                  title: 'الوزن',
+                  value: '${client?.mWeight ?? 'غير متوفر'} كجم'),
             ],
           ),
         ],

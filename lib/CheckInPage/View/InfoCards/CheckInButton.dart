@@ -6,7 +6,7 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 
 import '../../../Core/Controller/UtilityFunctions.dart';
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 
 class CheckInButton extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;
@@ -73,14 +73,12 @@ class _CheckInButtonState extends State<CheckInButton> {
                     showMySnackBar(
                         context, 'تم تسجيل العميل بنجاح', Colors.green);
 
-                    // Navigate to the HomePage
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const HomePage()));
                   } else {
                     showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
                   }
                 } catch (e) {
-                  // Show an error message if the subscription price is invalid
                   showMySnackBar(context, 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
                       Colors.red);
                 } finally {

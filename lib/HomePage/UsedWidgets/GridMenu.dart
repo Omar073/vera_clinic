@@ -8,6 +8,7 @@ import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 
 import '../../AnalysisPage/AnalysisPage.dart';
 import '../../ClientSearchPage/ClientSearchPage.dart';
+import '../../Core/View/PopUps/MyAlertDialogue.dart';
 import '../../NewClientRegistration/View/NewClientPage.dart';
 import '../HomePageUF.dart';
 import 'menuCard.dart';
@@ -61,36 +62,21 @@ class _GridMenuState extends State<GridMenu> {
           'خروج',
           Icons.exit_to_app,
           Colors.red,
-          () async {
-            //show pop up to confirm exit
-            showDialog(
+          () {
+            showAlertDialogue(
               context: context,
-              builder: (context) => AlertDialog(
-                backgroundColor: Colors.blue[50]!,
-                title: const Text('تأكيد الخروج'),
-                content: const Text('هل تريد الخروج من التطبيق؟'),
-                actions: [
-                  TextButton(
-                    onPressed: () async {
-                      await context.read<ClinicProvider>().dailyClear();
-                      if (isLastWednesdayOfMonth(DateTime.now())) {
-                        await context.read<ClinicProvider>().monthlyClear();
-                        await context
-                            .read<ExpenseProvider>()
-                            .monthlyClearExpenses();
-                      }
-                      exit(0);
-                    },
-                    child: const Text('نعم',
-                        style: TextStyle(color: Colors.blueAccent)),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('لا',
-                        style: TextStyle(color: Colors.blueAccent)),
-                  ),
-                ],
-              ),
+              title: "تأكيد الخروج",
+              content: "هل تريد الخروج من التطبيق؟",
+              buttonText: "خروج",
+              returnText: "عودة",
+              onPressed: () async {
+                await context.read<ClinicProvider>().dailyClear();
+                if (isLastWednesdayOfMonth(DateTime.now())) {
+                  await context.read<ClinicProvider>().monthlyClear();
+                  await context.read<ExpenseProvider>().monthlyClearExpenses();
+                }
+                exit(0);
+              },
             );
           },
         ),

@@ -9,7 +9,7 @@ import '../../Core/Model/Classes/Disease.dart';
 import '../../Core/Model/Classes/PreferredFoods.dart';
 import '../../Core/Model/Classes/WeightAreas.dart';
 
-class UpdateClientDetailsPageTEC {
+class UpdateClientDetailsTEC {
   // Client Controllers
   static late TextEditingController nameController;
   static late TextEditingController phoneController;

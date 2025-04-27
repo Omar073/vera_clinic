@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
-import 'package:vera_clinic/Core/View/SnackBars/RequiredFieldSnackBar.dart';
+import 'package:vera_clinic/Core/View/PopUps/RequiredFieldSnackBar.dart';
+
 import '../../Core/Controller/UtilityFunctions.dart';
-import '../../Core/Model/Classes/Client.dart';
-import '../../Core/View/SnackBars/InvalidDataTypeSnackBar.dart';
+import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import 'ClientRegistrationTEC.dart';
 
 bool verifyRequiredFields(BuildContext context) {
