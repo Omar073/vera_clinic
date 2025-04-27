@@ -7,6 +7,7 @@ import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 
 import '../CheckInPage/View/CheckInPage.dart';
 import '../ClientDetailsPage/ClientDetailsPage.dart';
@@ -75,37 +76,17 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        showDialog(
+                        showAlertDialogue(
                           context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.blue[50]!,
-                              title: const Text("تأكيد الحذف"),
-                              content: const Text(
-                                  "هل أنت متأكد أنك تريد حذف هذا العميل؟"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () async {
-                                    await _deleteClient(client!);
-                                    Navigator.of(context).pop();
-                                    widget.searchResults.removeAt(index);
-                                    widget.onClientDeleted();
-                                  },
-                                  child: const Text("مسح",
-                                      style:
-                                          TextStyle(color: Colors.blueAccent)),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                  },
-                                  child: const Text("رجوع",
-                                      style:
-                                          TextStyle(color: Colors.blueAccent)),
-                                ),
-                              ],
-                            );
+                          title: "تأكيد الحذف",
+                          content: "هل أنت متأكد أنك تريد حذف هذا العميل؟",
+                          buttonText: "حذف",
+                          returnText: "رجوع",
+                          onPressed: () async {
+                            await _deleteClient(client!);
+                            Navigator.of(context).pop();
+                            widget.searchResults.removeAt(index);
+                            widget.onClientDeleted();
                           },
                         );
                       },

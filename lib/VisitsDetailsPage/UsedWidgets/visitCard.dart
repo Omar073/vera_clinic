@@ -5,6 +5,7 @@ import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitTextBox.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Visit.dart';
+import '../../Core/View/PopUps/MyAlertDialogue.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 import '../../UpdateVisitDetailsPage/UpdateVisitDetailsPage.dart';
 
@@ -37,37 +38,18 @@ class _VisitCardState extends State<VisitCard> {
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
-                    showDialog(
+                    showAlertDialogue(
                       context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.blue[50]!,
-                          title: const Text('تأكيد الحذف'),
-                          content:
-                              const Text('هل أنت متأكد أنك تريد حذف هذه الزيارة؟'),
-                          actions: [
-                            TextButton(
-                              onPressed: () async {
-                                await context
-                                    .read<VisitProvider>()
-                                    .deleteVisit(widget.visit.mVisitId);
-                                Navigator.of(context).pop();
-                                widget.onVisitDeleted!();
-                              },
-                              child: const Text('حذف',
-                                  style:
-                                  TextStyle(color: Colors.blueAccent)),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: const Text('رجوع',
-                                  style:
-                                  TextStyle(color: Colors.blueAccent)),
-                            ),
-                          ],
-                        );
+                      title: "تأكيد الحذف",
+                      content: "هل أنت متأكد أنك تريد حذف هذه الزيارة؟",
+                      buttonText: "حذف",
+                      returnText: "رجوع",
+                      onPressed: () async {
+                        await context
+                            .read<VisitProvider>()
+                            .deleteVisit(widget.visit.mVisitId);
+                        Navigator.of(context).pop();
+                        widget.onVisitDeleted!();
                       },
                     );
                   },
@@ -96,7 +78,9 @@ class _VisitCardState extends State<VisitCard> {
                     icon: const Icon(Icons.edit)),
               ],
             ),
-            const SizedBox(width: 10,),
+            const SizedBox(
+              width: 10,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -111,8 +95,8 @@ class _VisitCardState extends State<VisitCard> {
                       children: [
                         visitTextBox(
                           title: "التاريخ",
-                          value:
-                              DateFormat('dd-MM-yyyy').format(widget.visit.mDate),
+                          value: DateFormat('dd-MM-yyyy')
+                              .format(widget.visit.mDate),
                         ),
                         visitTextBox(
                           title: "النظام الغذائي",

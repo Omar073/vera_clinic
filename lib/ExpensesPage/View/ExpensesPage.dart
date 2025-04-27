@@ -5,7 +5,7 @@ import 'package:vera_clinic/ExpensesPage/Controller/NewExpenseTEC.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/NewExpenseUF.dart';
 
 import '../../Core/Model/Classes/Expense.dart';
-import '../../Core/View/SnackBars/MySnackBar.dart';
+import '../../Core/View/PopUps/MySnackBar.dart';
 import 'UsedWidgets/ExpensesList.dart';
 
 class ExpensesPage extends StatefulWidget {
@@ -80,7 +80,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     label: 'اسم المصروف',
                   ),
 
-                  //todo: should we add today as default date?
+                  //todo: should we keep adding today as default date?
                 ],
               ),
             ),

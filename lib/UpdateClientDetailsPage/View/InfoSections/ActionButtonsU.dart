@@ -6,7 +6,7 @@ import '../../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../../Core/Model/Classes/Disease.dart';
 import '../../../Core/Model/Classes/PreferredFoods.dart';
 import '../../../Core/Model/Classes/WeightAreas.dart';
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/UpdateClient.dart';
 import '../../Controller/UpdateClientDetailsTEC.dart';
 import '../../Controller/UpdateClientDetailsUF.dart';
@@ -20,15 +20,16 @@ class ActionButtonsU extends StatefulWidget {
   final PreferredFoods? preferredFoods;
   final VoidCallback onUpdateSuccess;
 
-  const ActionButtonsU(
-      {super.key,
-      required this.client,
-      required this.disease,
-      required this.monthlyFollowUp,
-      required this.constantInfo,
-      required this.weightAreas,
-      required this.preferredFoods,
-    required this.onUpdateSuccess,});
+  const ActionButtonsU({
+    super.key,
+    required this.client,
+    required this.disease,
+    required this.monthlyFollowUp,
+    required this.constantInfo,
+    required this.weightAreas,
+    required this.preferredFoods,
+    required this.onUpdateSuccess,
+  });
 
   @override
   State<ActionButtonsU> createState() => _ActionButtonsUState();
