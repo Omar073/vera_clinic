@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsPageTEC.dart';
+import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsTEC.dart';
 
 import '../../../Core/Controller/UtilityFunctions.dart';
 import '../../../Core/View/Reusable widgets/GenderDropdownMenu.dart';
@@ -19,15 +19,15 @@ Widget personalInfoCardU() {
             Expanded(
               child: SubscriptionTypeDropdown(
                 subscriptionTypeController:
-                    UpdateClientDetailsPageTEC.subscriptionTypeController,
+                    UpdateClientDetailsTEC.subscriptionTypeController,
                 selectedType: getSubscriptionTypeFromString(
-                    UpdateClientDetailsPageTEC.subscriptionTypeController.text),
+                    UpdateClientDetailsTEC.subscriptionTypeController.text),
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.phoneController,
+                myController: UpdateClientDetailsTEC.phoneController,
                 hint: '',
                 label: "رقم الهاتف",
               ),
@@ -35,7 +35,7 @@ Widget personalInfoCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.nameController,
+                myController: UpdateClientDetailsTEC.nameController,
                 hint: '',
                 label: "اسم العميل",
               ),
@@ -47,22 +47,22 @@ Widget personalInfoCardU() {
           children: [
             Expanded(
               child: GenderDropdownMenu(
-                  genderController: UpdateClientDetailsPageTEC.genderController,
+                  genderController: UpdateClientDetailsTEC.genderController,
                   selectedGender: getGenderFromString(
-                      UpdateClientDetailsPageTEC.genderController.text)
+                      UpdateClientDetailsTEC.genderController.text)
               ),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: DatePicker(
                   textEditingController:
-                      UpdateClientDetailsPageTEC.birthdateController,
+                      UpdateClientDetailsTEC.birthdateController,
                   label: "تاريخ الميلاد"),
             ),
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.areaController,
+                myController: UpdateClientDetailsTEC.areaController,
                 hint: '',
                 label: "المنطقة",
               ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:vera_clinic/WeeklyFollowUp/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/NewVisit/Controller/NewVisitUF.dart';
+import 'package:vera_clinic/WeeklyFollowUp/Controller/WeeklyFollowUpUF.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/WeeklyFollowUpTEC.dart';
 
 class VisitActionButton extends StatefulWidget {
@@ -30,7 +31,13 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                   });
 
                   try {
-                    if (!verifyWFUInput(context)) return;
+                    if (!verifyVisitInput(
+                        context,
+                        WeeklyFollowUpTEC.visitBMIController,
+                        WeeklyFollowUpTEC.visitWeightController,
+                        TextEditingController(text: ' '))) {
+                      return;
+                    }
 
                     bool success =
                         await createWeeklyFollowUp(widget.client, context);

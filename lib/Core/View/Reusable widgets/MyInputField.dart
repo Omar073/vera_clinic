@@ -34,6 +34,15 @@ class _MyInputFieldState extends State<MyInputField> {
             color: Colors.grey,
             fontWeight: FontWeight.w300,
           ),
+          floatingLabelStyle: const TextStyle(
+            color: Colors.black, // Change this to your desired color
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: const BorderSide(color: Colors.blue, width: 2.0),
+          ),
           label: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

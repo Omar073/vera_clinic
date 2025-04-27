@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/UpdateClientDetailsPageTEC.dart';
+import '../../Controller/UpdateClientDetailsTEC.dart';
 
 Widget bodyMeasurementsCardU() {
   return myCard(
@@ -13,7 +13,7 @@ Widget bodyMeasurementsCardU() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.heightController,
+                myController: UpdateClientDetailsTEC.heightController,
                 hint: "أدخل الطول (سم)",
                 label: "الطول",
               ),
@@ -21,7 +21,7 @@ Widget bodyMeasurementsCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.weightController,
+                myController: UpdateClientDetailsTEC.weightController,
                 hint: "أدخل الوزن (كجم)",
                 label: "الوزن",
               ),
@@ -29,7 +29,7 @@ Widget bodyMeasurementsCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.bmiController,
+                myController: UpdateClientDetailsTEC.bmiController,
                 hint: "BMI ",
                 label: "مؤشر كتلة الجسم",
               ),
@@ -41,7 +41,7 @@ Widget bodyMeasurementsCardU() {
           children: [
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.waterController,
+                myController: UpdateClientDetailsTEC.waterController,
                 hint: '',
                 label: "الماء",
               ),
@@ -49,7 +49,7 @@ Widget bodyMeasurementsCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.pbfController,
+                myController: UpdateClientDetailsTEC.pbfController,
                 hint: "PBF ",
                 label: "نسبة الدهن",
               ),

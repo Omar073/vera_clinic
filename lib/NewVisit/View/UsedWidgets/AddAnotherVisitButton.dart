@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../Core/View/SnackBars/MySnackBar.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 import '../../Controller/NewVisitUF.dart';
 
@@ -37,8 +37,13 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
         color: Colors.white,
       ),
       onPressed: () async {
-        if (!verifyVisitInput(context)) return;
-
+        if (!verifyVisitInput(
+            context,
+            NewVisitTEC.visitBMIController,
+            NewVisitTEC.visitWeightController,
+            NewVisitTEC.visitDateController)) {
+          return;
+        }
         setState(() {
           _isLoading = true;
         });

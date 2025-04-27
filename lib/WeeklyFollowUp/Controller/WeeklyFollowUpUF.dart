@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
-import '../../Core/View/SnackBars/RequiredFieldSnackBar.dart';
 import 'WeeklyFollowUpTEC.dart';
 
 String getAge(DateTime? birthDate) {
@@ -25,7 +23,8 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
       clientId: c.mClientId,
       date: DateTime.now(),
       diet: WeeklyFollowUpTEC.visitDietController.text,
-      weight: double.tryParse(WeeklyFollowUpTEC.visitWeightController.text) ?? 0,
+      weight:
+          double.tryParse(WeeklyFollowUpTEC.visitWeightController.text) ?? 0,
       bmi: double.tryParse(WeeklyFollowUpTEC.visitBMIController.text) ?? 0,
       visitNotes: WeeklyFollowUpTEC.visitNotesController.text,
     );
@@ -37,13 +36,4 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
     debugPrint('Error creating visit: $e');
     return false;
   }
-}
-
-bool verifyWFUInput(BuildContext context) {
-  bool isValid = true;
-  if (WeeklyFollowUpTEC.visitWeightController.text.isEmpty) {
-    showRequiredFieldSnackBar(context, 'الوزن');
-    isValid = false;
-  }
-  return isValid;
 }

@@ -5,7 +5,7 @@ import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/Disease.dart';
 import 'package:vera_clinic/Core/Model/Classes/PreferredFoods.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
-import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsPageTEC.dart';
+import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsTEC.dart';
 import 'package:vera_clinic/UpdateClientDetailsPage/View/InfoSections/ActionButtonsU.dart';
 import 'package:vera_clinic/UpdateClientDetailsPage/View/InfoSections/dietPreferencesCardU.dart';
 import 'package:vera_clinic/UpdateClientDetailsPage/View/InfoSections/medicalHistoryCardU.dart';
@@ -44,7 +44,7 @@ class _UpdateClientDetailsPageState extends State<UpdateClientDetailsPage> {
   @override
   void initState() {
     super.initState();
-    UpdateClientDetailsPageTEC.init(
+    UpdateClientDetailsTEC.init(
         widget.client!,
         widget.disease!,
         widget.constantInfo!,
@@ -55,7 +55,7 @@ class _UpdateClientDetailsPageState extends State<UpdateClientDetailsPage> {
 
   @override
   void dispose() {
-    UpdateClientDetailsPageTEC.dispose();
+    UpdateClientDetailsTEC.dispose();
     super.dispose();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/UpdateClientDetailsPageTEC.dart';
+import '../../Controller/UpdateClientDetailsTEC.dart';
 
 Widget weightHistoryCardU() {
   return myCard(
@@ -15,7 +15,7 @@ Widget weightHistoryCardU() {
             Expanded(
               child: MyInputField(
                 myController:
-                    UpdateClientDetailsPageTEC.optimalWeightController,
+                    UpdateClientDetailsTEC.optimalWeightController,
                 hint: '',
                 label: "وزن مثالي",
               ),
@@ -23,7 +23,7 @@ Widget weightHistoryCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.maxWeightController,
+                myController: UpdateClientDetailsTEC.maxWeightController,
                 hint: '',
                 label: "أقصي وزن",
               ),
@@ -44,13 +44,13 @@ Widget weightHistoryCardU() {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.platControllers[
-                    UpdateClientDetailsPageTEC.platControllers.length -
+                myController: UpdateClientDetailsTEC.platControllers[
+                    UpdateClientDetailsTEC.platControllers.length -
                         6 -
                         index],
                 hint: "",
                 label:
-                    "الوزن الثابت ${UpdateClientDetailsPageTEC.platControllers.length - 5 - index}",
+                    "الوزن الثابت ${UpdateClientDetailsTEC.platControllers.length - 5 - index}",
               ),
             );
           }),
@@ -63,13 +63,13 @@ Widget weightHistoryCardU() {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController: UpdateClientDetailsPageTEC.platControllers[
-                    UpdateClientDetailsPageTEC.platControllers.length -
+                myController: UpdateClientDetailsTEC.platControllers[
+                    UpdateClientDetailsTEC.platControllers.length -
                         1 -
                         index],
                 hint: "",
                 label:
-                    "الوزن الثابت ${UpdateClientDetailsPageTEC.platControllers.length - index}",
+                    "الوزن الثابت ${UpdateClientDetailsTEC.platControllers.length - index}",
               ),
             );
           }),

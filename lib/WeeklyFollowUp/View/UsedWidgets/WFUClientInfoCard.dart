@@ -3,7 +3,7 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/UtilityFunctions.dart';
+import '../../Controller/WeeklyFollowUpUF.dart';
 
 Widget WFUClientInfoCard(Client client, double width) {
   return Padding(

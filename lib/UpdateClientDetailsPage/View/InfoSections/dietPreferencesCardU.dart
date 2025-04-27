@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsPageTEC.dart';
+import 'package:vera_clinic/UpdateClientDetailsPage/Controller/UpdateClientDetailsTEC.dart';
 
 import '../../../Core/View/Reusable widgets/ActivityLevelDropdownMenu.dart';
 import '../../../Core/View/Reusable widgets/MyCheckBox.dart';
@@ -12,27 +12,27 @@ Widget dietPreferencesCardU() {
     Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        Wrap(
+          alignment: WrapAlignment.end,
+          crossAxisAlignment: WrapCrossAlignment.end,
+          textDirection: TextDirection.rtl,
+          spacing: 40,
           children: [
-            const SizedBox(width: 16),
             Padding(
               padding: const EdgeInsets.only(top: 18.0),
               child: SizedBox(
                 width: 300,
                 child: MyInputField(
                   myController:
-                  UpdateClientDetailsPageTEC.dietController,
+                  UpdateClientDetailsTEC.dietController,
                   hint: '',
                   label: 'النظام الغذائي',
                 ),
               ),
             ),
-            const SizedBox(width: 30),
             ActivityLevelDropdownMenu(
               activityLevelController:
-              UpdateClientDetailsPageTEC.activityLevelController,
+              UpdateClientDetailsTEC.activityLevelController,
             ),
           ],
         ),
@@ -50,25 +50,25 @@ Widget dietPreferencesCardU() {
               width: 200,
               child: MyInputField(
                 myController:
-                    UpdateClientDetailsPageTEC.otherPreferredFoodsController,
+                    UpdateClientDetailsTEC.otherPreferredFoodsController,
                 hint: '',
                 label: 'أخري',
               ),
             ),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.fruitsController,
+                controller: UpdateClientDetailsTEC.fruitsController,
                 text: "فاكهة"),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.vegController,
+                controller: UpdateClientDetailsTEC.vegController,
                 text: "خضار"),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.dairyController,
+                controller: UpdateClientDetailsTEC.dairyController,
                 text: "ألبان"),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.proteinController,
+                controller: UpdateClientDetailsTEC.proteinController,
                 text: "بروتينات"),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.carbohydratesController,
+                controller: UpdateClientDetailsTEC.carbohydratesController,
                 text: "كربوهايدرات"),
           ],
         ),
@@ -79,10 +79,10 @@ Widget dietPreferencesCardU() {
           alignment: WrapAlignment.end,
           children: [
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.sportsController,
+                controller: UpdateClientDetailsTEC.sportsController,
                 text: 'ممارسة الرياضة'),
             MyCheckBox(
-                controller: UpdateClientDetailsPageTEC.yoyoController,
+                controller: UpdateClientDetailsTEC.yoyoController,
                 text: '(رجيم سابق) YOYO'),
           ],
         ),
