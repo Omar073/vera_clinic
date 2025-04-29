@@ -4,12 +4,11 @@ import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvi
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 import 'package:vera_clinic/MonthlyFollowUp/View/UsedWidgets/ActionButton.dart';
 
 import '../../Core/Model/Classes/Client.dart';
 import '../Controller/MonthlyFollowUpTEC.dart';
-import 'UsedWidgets/infoField.dart';
-import 'UsedWidgets/infoCard.dart';
 import 'UsedWidgets/newMonthlyFollowUpForm.dart';
 
 class MonthlyFollowUp extends StatefulWidget {
@@ -21,10 +20,13 @@ class MonthlyFollowUp extends StatefulWidget {
 }
 
 class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
+  late Future<ClientMonthlyFollowUp?> _lastMonthlyFollowUpFuture;
+
   @override
   void initState() {
     super.initState();
     MonthlyFollowUpTEC.initMonthlyFollowUpTEC();
+    _lastMonthlyFollowUpFuture = _fetchLastMonthlyFollowUp();
   }
 
   @override
@@ -66,7 +68,7 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
               children: [
                 const SizedBox(height: 20),
                 FutureBuilder<ClientMonthlyFollowUp?>(
-                  future: _fetchLastMonthlyFollowUp(),
+                  future: _lastMonthlyFollowUpFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -91,34 +93,29 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 14.0),
-                            child: infoCard(
+                            child: myCard(
                               "تفاصيل المتابعة الشهرية السابقة",
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Wrap(
+                                alignment: WrapAlignment.start,
+                                textDirection: TextDirection.rtl,
+                                spacing: 40,
+                                runSpacing: 20,
                                 children: [
-                                  Expanded(
-                                    child: infoField(
-                                      title: "مؤشر كتلة الجسم",
-                                      value: "${cmfu.mBMI}",
-                                    ),
+                                  MyTextBox(
+                                    title: "مؤشر كتلة الجسم",
+                                    value: "${cmfu.mBMI}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "نسبة الدهون",
-                                      value: "${cmfu.mPBF}",
-                                    ),
+                                  MyTextBox(
+                                    title: "نسبة الدهون",
+                                    value: "${cmfu.mPBF}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "حد الحرق الأدني",
-                                      value: "${cmfu.mBMR}",
-                                    ),
+                                  MyTextBox(
+                                    title: "حد الحرق الأدني",
+                                    value: "${cmfu.mBMR}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "الماء",
-                                      value: "${cmfu.mWater}",
-                                    ),
+                                  MyTextBox(
+                                    title: "الماء",
+                                    value: "${cmfu.mWater}",
                                   ),
                                 ],
                               ),
@@ -128,34 +125,29 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                           Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 14.0),
-                            child: infoCard(
+                            child: myCard(
                               "تفاصيل المتابعة الشهرية السابقة",
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
+                              Wrap(
+                                alignment: WrapAlignment.start,
+                                textDirection: TextDirection.rtl,
+                                spacing: 40,
+                                runSpacing: 20,
                                 children: [
-                                  Expanded(
-                                    child: infoField(
-                                      title: "أقصي وزن",
-                                      value: "${cmfu.mMaxWeight}",
-                                    ),
+                                  MyTextBox(
+                                    title: "أقصي وزن",
+                                    value: "${cmfu.mMaxWeight}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "الوزن المثالي",
-                                      value: "${cmfu.mOptimalWeight}",
-                                    ),
+                                  MyTextBox(
+                                    title: "الوزن المثالي",
+                                    value: "${cmfu.mOptimalWeight}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "أقصي سعرات",
-                                      value: "${cmfu.mMaxCalories}",
-                                    ),
+                                  MyTextBox(
+                                    title: "أقصي سعرات",
+                                    value: "${cmfu.mMaxCalories}",
                                   ),
-                                  Expanded(
-                                    child: infoField(
-                                      title: "السعرات اليومية",
-                                      value: "${cmfu.mDailyCalories}",
-                                    ),
+                                  MyTextBox(
+                                    title: "السعرات اليومية",
+                                    value: "${cmfu.mDailyCalories}",
                                   ),
                                 ],
                               ),
@@ -163,8 +155,9 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                           ),
                           const SizedBox(height: 20),
                           newMonthlyFollowUpForm(),
-                          const SizedBox(height: 70),
+                          const SizedBox(height: 50),
                           ActionButton(client: widget.client, cmfu: cmfu),
+                          const SizedBox(height: 20),
                         ],
                       );
                     } else {

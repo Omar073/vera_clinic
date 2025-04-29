@@ -36,6 +36,21 @@ class _DatePickerState extends State<DatePicker> {
           initialDate: DateTime.now(),
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
+          builder: (context, child) {
+            return Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: Colors.blueAccent, // Selected date color
+                  onPrimary: Colors.white, // Text color for selected date
+                  onSurface: Colors.black, // Text color for unselected dates
+                ),
+                dialogTheme: const DialogTheme(
+                  backgroundColor: Colors.white,
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
         if (pickedDate != null) {
           setState(() {

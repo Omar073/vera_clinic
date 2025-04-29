@@ -7,6 +7,7 @@ import '../../Core/Model/Classes/Visit.dart';
 import 'WeeklyFollowUpTEC.dart';
 
 String getAge(DateTime? birthDate) {
+  if (birthDate == null) return '';
   final now = DateTime.now();
   final age = now.year - birthDate!.year;
   if (now.month < birthDate.month ||

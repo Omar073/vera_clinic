@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
-import 'package:vera_clinic/ExpensesPage/Controller/NewExpenseUF.dart';
+import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 import '../../../Core/Model/Classes/Expense.dart';
 
 class ExpenseCard extends StatelessWidget {

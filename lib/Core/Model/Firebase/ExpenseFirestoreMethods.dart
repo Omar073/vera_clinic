@@ -48,17 +48,17 @@ class ExpenseFirestoreMethods {
     }
   }
 
-  Future<void> deleteExpense(Expense expense) async {
+  Future<void> deleteExpense(String expenseId) async {
     try {
       final expenseRef = FirebaseSingleton.instance.firestore
           .collection('Expenses')
-          .doc(expense.mExpenseId);
+          .doc(expenseId);
 
       final docSnapshot = await expenseRef.get();
 
       if (!docSnapshot.exists) {
         throw Exception(
-            'No matching expense found with expenseId: ${expense.mExpenseId}');
+            'No matching expense found with expenseId: $expenseId');
       }
 
       await expenseRef.delete();

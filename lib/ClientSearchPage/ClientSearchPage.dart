@@ -43,7 +43,6 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        //todo: change UI to match background
         title: const Text('بحث عن عميل'),
         centerTitle: true,
         backgroundColor: Colors.white,

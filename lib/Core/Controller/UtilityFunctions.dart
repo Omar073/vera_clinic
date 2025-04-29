@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 import '../Model/Classes/Client.dart';
@@ -43,6 +44,8 @@ SubscriptionType? getSubscriptionTypeFromString(String value) {
     case 'بعد انقطاع':
       return SubscriptionType.afterBreak;
     case 'cavSess':
+      return SubscriptionType.cavSess;
+    case 'Cav جلسة':
       return SubscriptionType.cavSess;
     case 'جلسة cav':
       return SubscriptionType.cavSess;
