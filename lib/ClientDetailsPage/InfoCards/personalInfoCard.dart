@@ -4,7 +4,7 @@ import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 
-import '../../CheckInPage/Controller/UtilityFunctions.dart';
+import '../../CheckInPage/Controller/CheckInPageUF.dart';
 import '../../Core/Model/Classes/Client.dart';
 
 Widget personalInfoCard(Client? client, String area) {

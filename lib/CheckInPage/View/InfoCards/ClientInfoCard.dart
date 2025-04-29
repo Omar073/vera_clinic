@@ -26,6 +26,7 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
           const SizedBox(height: 16),
           Wrap(
             alignment: WrapAlignment.end,
+            textDirection: TextDirection.rtl,
             spacing: 34,
             runSpacing: 8,
             children: [

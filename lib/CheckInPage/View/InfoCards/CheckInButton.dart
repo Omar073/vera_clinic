@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
@@ -68,7 +69,11 @@ class _CheckInButtonState extends State<CheckInButton> {
                     // Update the daily income
                     await context
                         .read<ClinicProvider>()
-                        .incrementDailyIncome(subscriptionPrice);
+                        .updateDailyIncome(subscriptionPrice);
+                    // Update client info (mainly because the subscription type is changed)
+                    await context
+                        .read<ClientProvider>()
+                        .updateClient(widget.client!);
 
                     showMySnackBar(
                         context, 'تم تسجيل العميل بنجاح', Colors.green);

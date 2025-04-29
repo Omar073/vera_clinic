@@ -62,7 +62,7 @@ Widget weightDistributionCardU() {
             Expanded(
               child: MyInputField(
                 myController: UpdateClientDetailsTEC.bmrController,
-                hint: '',
+                hint: 'BMR',
                 label: "حد الحرق الأدنى",
               ),
             ),

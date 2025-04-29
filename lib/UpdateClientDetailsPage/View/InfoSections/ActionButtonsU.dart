@@ -47,7 +47,6 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
         children: [
           _updateButton(),
           const SizedBox(width: 16),
-          //todo: should we add the option to modify/add previous visits?
           ElevatedButton.icon(
             onPressed: () {
               UpdateClientDetailsTEC.clear();
@@ -73,7 +72,6 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
   }
 
   Widget _updateButton() {
-    //todo: separate into different files
     return _buildButton(
       isLoading: isUpdating,
       onPressed: () async {

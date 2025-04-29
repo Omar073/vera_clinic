@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
+  //todo: add shoreBird
   WidgetsFlutterBinding.ensureInitialized();
 
   await initializeDateFormatting('ar', null);

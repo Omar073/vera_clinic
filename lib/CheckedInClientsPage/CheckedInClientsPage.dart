@@ -97,32 +97,31 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
               return Consumer<ClinicProvider>(
                 builder: (context, clinicProvider, child) {
                   if (context.read<ClinicProvider>().checkedInClients.isEmpty) {
-                    return const Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            ' أعلى اليمين للبحث عن عملاء جدد ',
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: const TextSpan(
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
+                            children: [
+                              TextSpan(text: ' لا يوجد عملاء ... يمكنك الضغط على زر التحديث '),
+                              WidgetSpan(
+                                alignment: PlaceholderAlignment.middle,
+                                child: Icon(
+                                  Icons.refresh,
+                                  size: 24,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(text: ' أعلى اليمين للبحث عن عملاء جدد '),
+                            ],
                           ),
-                          Icon(
-                            Icons.refresh,
-                            size: 24,
-                            color: Colors
-                                .black, // Adjust color if needed to match your theme
-                          ),
-                          Text(
-                            ' لا يوجد عملاء ... يمكنك الضغط على زر التحديث ',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     );
                   } else {

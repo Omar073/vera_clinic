@@ -83,8 +83,14 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
       future: _clientDetailsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Background(
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('تفاصيل العميل'),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+            ),
+            body: const Background(
               child: Center(
                 child: CircularProgressIndicator(
                   color: Colors.blueAccent,
@@ -93,8 +99,14 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
             ),
           );
         } else if (snapshot.hasError) {
-          return const Scaffold(
-            body: Background(
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('تفاصيل العميل'),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+            ),
+            body: const Background(
               child: Center(
                 child: Text(
                   'حدث خطأ أثناء تحميل البيانات',
@@ -106,6 +118,12 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           );
         } else if (errorMessage != null) {
           return Scaffold(
+            appBar: AppBar(
+              title: const Text('تفاصيل العميل'),
+              centerTitle: true,
+              backgroundColor: Colors.white,
+              surfaceTintColor: Colors.white,
+            ),
             body: Background(
               child: Center(
                 child: Text(
@@ -172,7 +190,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         child: Center(
           child: Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 170.0).copyWith(top: 12),
+                const EdgeInsets.symmetric(horizontal: 140.0).copyWith(top: 12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
