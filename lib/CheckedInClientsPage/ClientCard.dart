@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/CheckInPage/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/CheckInPage/Controller/CheckInPageUF.dart';
 import 'package:vera_clinic/Core/View/Pages/FollowUpNav.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';

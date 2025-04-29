@@ -22,28 +22,32 @@ import '../../NewVisit/Controller/NewVisitTEC.dart';
 import '../../NewVisit/Controller/NewVisitUF.dart';
 import 'ClientRegistrationTEC.dart';
 
-late Client _c;
-
-Future<void> checkInNewClient(BuildContext context) async {
-  bool valid = false;
+Future<bool> checkInNewClient(BuildContext context, Client c) async {
   try {
-    valid = await createClient(context);
+    // Check if the client is already checked in
+    if (context.read<ClinicProvider>().checkedInClients
+        .any((client) => client?.mClientId == c.mClientId)) {
+      showMySnackBar(context, 'هذا العميل مسجل مسبقًا', Colors.red);
+      return false;
+    }
+    await context.read<ClinicProvider>().checkInClient(c);
+    return true;
   } on Exception catch (e) {
     debugPrint('Error checking in new client: $e');
+    return false;
   }
-  (valid == false) ? null : context.read<ClinicProvider>().checkInClient(_c);
 }
 
-Future<bool> createClient(BuildContext context) async {
+Future<Map<bool, Client?>>createClient(BuildContext context) async {
   try {
     if (await context
         .read<ClientProvider>()
         .isPhoneNumUsed(ClientRegistrationTEC.phoneController.text)) {
       showMySnackBar(context, 'هذا الرقم مستخدم بالفعل', Colors.red);
-      return false;
+      return {false: null};
     }
 
-    _c = Client(
+    Client c = Client(
         clientId: '',
         name: ClientRegistrationTEC.nameController.text.toLowerCase(),
         clientPhoneNum: ClientRegistrationTEC.phoneController.text,
@@ -71,35 +75,35 @@ Future<bool> createClient(BuildContext context) async {
 
     await context
         .read<ClientProvider>()
-        .createClient(_c); // client ID is generated here
+        .createClient(c); // client ID is generated here
 
-    _c.mClientConstantInfoId =
-        await createClientConstantInfo(_c.mClientId, context) ?? '';
-    _c.mDiseaseId = await createDisease(_c.mClientId, context) ?? '';
-    _c.mClientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(_c.mClientId, context) ?? '';
-    _c.mPreferredFoodsId =
-        await createPreferredFoods(_c.mClientId, context) ?? '';
-    _c.mWeightAreasId = await createWeightAreas(_c.mClientId, context) ?? '';
+    c.mClientConstantInfoId =
+        await createClientConstantInfo(c.mClientId, context) ?? '';
+    c.mDiseaseId = await createDisease(c.mClientId, context) ?? '';
+    c.mClientMonthlyFollowUpId =
+        await createClientMonthlyFollowUp(c.mClientId, context) ?? '';
+    c.mPreferredFoodsId =
+        await createPreferredFoods(c.mClientId, context) ?? '';
+    c.mWeightAreasId = await createWeightAreas(c.mClientId, context) ?? '';
 
     if (NewVisitTEC.clientVisits.isNotEmpty) {
-      _c.mLastVisitId = getLatestVisitId();
+      c.mLastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
-        v.mClientId = _c.mClientId;
+        v.mClientId = c.mClientId;
         await context.read<VisitProvider>().updateVisit(v);
       }
     }
-    // _c.lastVisitId = getLatestVisitId() ?? '';
+    // c.lastVisitId = getLatestVisitId() ?? '';
 
     // only after you add all extra IDs to the client object
     await context
         .read<ClientProvider>()
-        .updateClient(_c); // Update the client with new IDs
-    _c.printClientInfo();
-    return true;
+        .updateClient(c); // Update the client with new IDs
+    c.printClientInfo();
+    return {true: c};
   } catch (e) {
     debugPrint('Error creating client: $e');
-    return false;
+    return {false: null};
   }
 }
 

@@ -16,7 +16,7 @@ Future<bool> createExpense(BuildContext context) async {
     );
 
     await context.read<ExpenseProvider>().createExpense(e);
-    await context.read<ClinicProvider>().incrementDailyExpenses(e.mAmount ?? 0);
+    await context.read<ClinicProvider>().updateDailyExpenses(e.mAmount ?? 0);
 
     return true;
   } on Exception catch (e) {
@@ -28,7 +28,14 @@ Future<bool> createExpense(BuildContext context) async {
 void deleteExpense(Expense e, BuildContext context) {
   try {
     context.read<ExpenseProvider>().deleteExpense(e);
-    context.read<ClinicProvider>().incrementDailyExpenses(-(e.mAmount ?? 0));
+
+    if (e.mDate.year == DateTime.now().year &&
+        e.mDate.month == DateTime.now().month &&
+        e.mDate.day == DateTime.now().day) {
+      context.read<ClinicProvider>().updateDailyExpenses(-(e.mAmount ?? 0));
+    } else {
+      context.read<ClinicProvider>().updateMonthlyExpenses(-(e.mAmount ?? 0));
+    }
   } on Exception catch (e) {
     debugPrint("Error deleting expense: $e");
   }

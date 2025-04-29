@@ -26,7 +26,5 @@ String getSubscriptionTypeLabel(SubscriptionType type) {
       return 'جلسات إبر 6';
     case SubscriptionType.other:
       return 'أخرى';
-    default:
-      return '';
-  }
+    }
 }

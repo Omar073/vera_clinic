@@ -78,6 +78,7 @@ class _NewVisitState extends State<NewVisit> {
                                 ),
                               ],
                             ),
+                            const SizedBox(height: 20),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [

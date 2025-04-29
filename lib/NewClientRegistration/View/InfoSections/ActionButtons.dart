@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../../NewVisit/View/NewVisit.dart';
 import '../../Controller/ClientRegistrationTEC.dart';
@@ -143,12 +144,16 @@ class _ActionButtonsState extends State<ActionButtons> {
 
     setState(() => isSaving = true);
     try {
-      bool success = await createClient(context);
+      Map<bool, Client?> result = await createClient(context);
+      bool success = result.keys.first;
+      Client? c = result.values.last;
+
       if (!mounted) return; // Check if the widget is still mounted
+
       showMySnackBar(
           context,
-          success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
-          success ? Colors.green : Colors.red);
+          (success && c != null) ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
+          (success && c != null) ? Colors.green : Colors.red);
 
       if (success) {
         Navigator.pop(context);
@@ -165,13 +170,24 @@ class _ActionButtonsState extends State<ActionButtons> {
 
     setState(() => isLoggingIn = true);
     try {
-      bool success = await createClient(context);
+      final Map<bool, Client?> result = await createClient(context);
+      final bool success = result.keys.first;
+      final Client? c = result.values.last;
+
       if (!mounted) return;
-      showMySnackBar(context, success ? 'تم التسجيل بنجاح' : 'فشل التسجيل',
-          success ? Colors.green : Colors.red);
-      if (success) {
-        checkInNewClient(context);
-        Navigator.pop(context);
+
+      if (success && c != null) {
+        final checkedIn = await checkInNewClient(context, c);
+        if (checkedIn) {
+          showMySnackBar(context, "تم تسجيل الدخول بنجاح", Colors.green);
+          Navigator.pop(context);
+        } else {
+          showMySnackBar(context, "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى.",
+              Colors.red);
+        }
+      } else {
+        showMySnackBar(
+            context, "فشل في تسجيل العميل. حاول مرة أخرى.", Colors.red);
       }
     } finally {
       setState(() => isLoggingIn = false);

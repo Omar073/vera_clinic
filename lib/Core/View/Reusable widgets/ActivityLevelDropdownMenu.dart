@@ -61,6 +61,7 @@ class _ActivityLevelDropdownMenuState extends State<ActivityLevelDropdownMenu> {
             style: const TextStyle(
               color: Colors.black,
             ),
+            dropdownColor: Colors.white,
             onChanged: (Activity? newValue) {
               setState(() {
                 _selectedActivity = newValue;
