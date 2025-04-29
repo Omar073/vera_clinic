@@ -78,7 +78,10 @@ class _CheckInPageState extends State<CheckInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('تسجيل لدخول: ${client?.mName ?? ''}'),
+        title: Text(
+          'تسجيل لدخول: ${client?.mName ?? ''}',
+          textDirection: TextDirection.rtl,
+        ),
         centerTitle: true,
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

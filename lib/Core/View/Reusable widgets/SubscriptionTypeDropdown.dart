@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../CheckInPage/Controller/UtilityFunctions.dart';
+import '../../../CheckInPage/Controller/CheckInPageUF.dart';
 import '../../Model/Classes/Client.dart';
 
 class SubscriptionTypeDropdown extends StatefulWidget {
@@ -56,6 +56,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
               style: const TextStyle(
                 color: Colors.black,
               ),
+              dropdownColor: Colors.white,
               onChanged: (SubscriptionType? newValue) {
                 setState(() {
                   widget.selectedType = newValue;

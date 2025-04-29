@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vera_clinic/CheckInPage/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/CheckInPage/Controller/CheckInPageUF.dart';
 
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Client.dart';

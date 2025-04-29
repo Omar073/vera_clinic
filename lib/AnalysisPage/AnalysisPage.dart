@@ -20,7 +20,6 @@ class _AnalysisPageState extends State<AnalysisPage> {
   @override
   void initState() {
     super.initState();
-    // Load data once when the page initializes.
     Future.microtask(() {
       context.read<ClinicProvider>().getClinic();
       context.read<ExpenseProvider>().getAllExpenses();
@@ -29,11 +28,9 @@ class _AnalysisPageState extends State<AnalysisPage> {
 
   @override
   Widget build(BuildContext context) {
-    final clinicProvider = context.watch<ClinicProvider>();
-    final expenseProvider = context.watch<ExpenseProvider>();
-
-    final Clinic? clinic = clinicProvider.clinic;
-    final List<Expense?> expenses = expenseProvider.cachedExpenses;
+    Clinic? clinic = context.watch<ClinicProvider>().clinic;
+    List<Expense?> expenses =
+        context.watch<ExpenseProvider>().cachedExpenses;
 
     final currentDate = DateTime.now();
     final String currentMonth = DateFormat('MMMM', 'ar').format(currentDate);
@@ -56,9 +53,17 @@ class _AnalysisPageState extends State<AnalysisPage> {
         ),
         backgroundColor: const Color.fromARGB(255, 208, 241, 255),
         surfaceTintColor: const Color.fromARGB(255, 208, 241, 255),
-        toolbarHeight: 70, // Increase height to accommodate padding
+        toolbarHeight: 70,
         centerTitle: true,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () async {
+              await context.read<ClinicProvider>().getClinic();
+              await context.read<ExpenseProvider>().getAllExpenses();
+            },
+          ),
+          const SizedBox(width: 10),
           ElevatedButton(
             style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
             onPressed: () {
@@ -104,16 +109,22 @@ class _AnalysisPageState extends State<AnalysisPage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'الدخل الشهري: \$${clinic.mMonthlyIncome}\n'
-                          'عدد العملاء هذا الشهر: ${clinic.mMonthlyPatients}\n'
-                          'مصاريف هذا الشهر: \$${clinic.mMonthlyExpenses}\n'
-                          'الربح هذا الشهر: \$${clinic.mMonthlyProfit}',
-                          style: const TextStyle(fontSize: 20),
+                          '${clinic.mMonthlyIncome! < 0 ? '-' : ''}'
+                          '${clinic.mMonthlyIncome!.abs().toStringAsFixed(2)}\$ :الدخل الشهري\n'
+                          '${clinic.mMonthlyPatients!.abs()} :عدد العملاء هذا الشهر\n'
+                          '${clinic.mMonthlyExpenses! < 0 ? '-' : ''}'
+                          '${clinic.mMonthlyExpenses!.abs().toStringAsFixed(2)}\$ :مصاريف هذا الشهر\n'
+                          '${clinic.mMonthlyProfit! < 0 ? '-' : ''}'
+                          '${clinic.mMonthlyProfit!.abs().toStringAsFixed(2)}\$ :الربح هذا الشهر\n',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            height: 2.0,
+                          ),
+                          textAlign: TextAlign.right,
                         ),
                       ],
                     ),
                   ),
-
                   // Vertical Divider
                   const VerticalDivider(
                     width: 1,
@@ -140,11 +151,15 @@ class _AnalysisPageState extends State<AnalysisPage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'الدخل اليوم: \$${clinic.mDailyIncome}\n'
-                          'عدد العملاء اليوم: ${clinic.mDailyPatients}\n'
-                          'مصاريف اليوم: \$${clinic.mDailyExpenses}\n'
-                          'الربح اليوم: \$${clinic.mDailyProfit}',
-                          style: const TextStyle(fontSize: 20),
+                          '${clinic.mDailyIncome! < 0 ? '-' : ''}'
+                          '${clinic.mDailyIncome!.abs().toStringAsFixed(2)}\$ :الدخل اليوم\n'
+                          '${clinic.mDailyPatients!.abs()} :عدد العملاء اليوم\n'
+                          '${clinic.mDailyExpenses! < 0 ? '-' : ''}'
+                          '${clinic.mDailyExpenses!.abs().toStringAsFixed(2)}\$ :مصاريف اليوم\n'
+                          '${clinic.mDailyProfit! < 0 ? '-' : ''}'
+                          '${clinic.mDailyProfit!.abs().toStringAsFixed(2)}\$ :الربح اليوم',
+                          style: const TextStyle(fontSize: 20, height: 2.0),
+                          textAlign: TextAlign.right,
                         ),
                       ],
                     ),
