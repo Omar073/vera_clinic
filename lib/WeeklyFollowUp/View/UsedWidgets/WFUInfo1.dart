@@ -11,31 +11,26 @@ Widget visitInfo1() {
         "بيانات الزيارة",
         Padding(
           padding: const EdgeInsets.only(top: 5.0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
+          child: Wrap(
+            spacing: 60,
+            alignment: WrapAlignment.start,
             children: [
-              Wrap(
-                spacing: 60,
-                children: [
-                  MyInputField(
-                    myController: WeeklyFollowUpTEC.visitDietController,
-                    hint: "",
-                    label: "اسم النظام",
-                    // maxLines: 2,
-                  ),
-                  MyInputField(
-                    myController: WeeklyFollowUpTEC.visitWeightController,
-                    hint: "",
-                    label: "الوزن",
-                  ),
-                  MyInputField(
-                    myController: WeeklyFollowUpTEC.visitBMIController,
-                    hint: "",
-                    label: "مؤشر كتلة الجسم",
-                  ),
-                ],
-              )
+              MyInputField(
+                myController: WeeklyFollowUpTEC.visitDietController,
+                hint: "",
+                label: "اسم النظام",
+                // maxLines: 2,
+              ),
+              MyInputField(
+                myController: WeeklyFollowUpTEC.visitWeightController,
+                hint: "",
+                label: "الوزن",
+              ),
+              MyInputField(
+                myController: WeeklyFollowUpTEC.visitBMIController,
+                hint: "",
+                label: "مؤشر كتلة الجسم",
+              ),
             ],
           ),
         )),
