@@ -11,86 +11,89 @@ Widget newMonthlyFollowUpForm() {
       "تفاصيل المتابعة الشهرية الحالية",
       Column(
         children: [
-          Row(
+          Wrap(
+            alignment: WrapAlignment.start,
+            textDirection: TextDirection.rtl,
+            spacing: 40,
+            runSpacing: 20,
             children: [
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mBMIController,
                   label: 'مؤشر كتلة الجسم',
                   hint: 'BMI',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mPBFController,
                   label: 'نسبة الدهون',
                   hint: 'PBF',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mBMRController,
                   label: 'حد الحرق الأدني',
                   hint: 'BMR',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
                   myController: MonthlyFollowUpTEC.mWaterController,
                   hint: 'Water',
                   label: 'الماء',
                 ),
               ),
-              const SizedBox(width: 20),
             ],
           ),
           const SizedBox(height: 20),
-          Row(
+          Wrap(
+            alignment: WrapAlignment.start,
+            textDirection: TextDirection.rtl,
+            spacing: 40,
+            runSpacing: 20,
             children: [
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
-                  myController:
-                  MonthlyFollowUpTEC.mMaxWeightController,
+                  myController: MonthlyFollowUpTEC.mMaxWeightController,
                   hint: '',
                   label: 'أقصي وزن',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
-                  myController:
-                  MonthlyFollowUpTEC.mOptimalWeightController,
+                  myController: MonthlyFollowUpTEC.mOptimalWeightController,
                   hint: '',
                   label: 'الوزن المثالي',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
-                  myController:
-                  MonthlyFollowUpTEC.mMaxCaloriesController,
+                  myController: MonthlyFollowUpTEC.mMaxCaloriesController,
                   hint: '',
                   label: 'أقصي سعرات',
                 ),
               ),
-              const SizedBox(width: 20),
-              Expanded(
+              SizedBox(
+                width: 200,
                 child: MyInputField(
-                  myController:
-                  MonthlyFollowUpTEC.mDailyCaloriesController,
+                  myController: MonthlyFollowUpTEC.mDailyCaloriesController,
                   hint: '',
                   label: 'السعرات اليومية',
                 ),
               ),
-              const SizedBox(width: 20),
             ],
           )
         ],
       ),
     ),
   );
-
 }
