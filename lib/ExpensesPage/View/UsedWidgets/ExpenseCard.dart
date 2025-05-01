@@ -22,7 +22,7 @@ class ExpenseCard extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () => deleteExpense(expense!, context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red[700],
+                backgroundColor: Colors.red,
               ),
               icon: const Icon(Icons.delete, color: Colors.white),
               label: const Text(
