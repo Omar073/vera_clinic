@@ -68,8 +68,7 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
             child: SingleChildScrollView(
           child: Column(
             children: [
-              WFUClientInfoCard(
-                  widget.client, MediaQuery.of(context).size.width),
+              WFUClientInfoCard(widget.client),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -80,40 +79,46 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return const Text(
-                          "نظام اخر متابعة: جاري التحميل...",
+                          "تفاصيل اخر متابعة: جاري التحميل...",
                           style: TextStyle(fontSize: 20),
                         );
                       } else if (snapshot.hasError) {
                         return const Text(
-                          "نظام اخر متابعة: خطأ",
+                          "تفاصيل اخر متابعة: خطأ",
                           style: TextStyle(fontSize: 20),
                         );
                       } else {
-                        return Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.end,
+                        Visit? visit = snapshot.data;
+                        return Wrap(
+                          spacing: 40,
+                          runSpacing: 15,
+                          alignment: WrapAlignment.start,
+                          textDirection: TextDirection.rtl,
                           children: [
-                            Wrap(
-                              spacing: 60,
-                              children: [
-                                MyTextBox(
-                                    title: "نظام اخر متابعة",
-                                    value: snapshot.data?.mDiet ??
-                                        'لا يوجد نظام متابعة'),
-                                MyTextBox(
-                                  title: "وزن اخر متابعة",
-                                  value: snapshot.data?.mWeight.toString() ??
-                                      'لا يوجد وزن متابعة',
-                                ),
-                                MyTextBox(
-                                  title: "تاريخ اخر متابعة",
-                                  value: snapshot.data?.mDate
-                                          .toLocal()
-                                          .toString()
-                                          .split(' ')[0] ??
-                                      'لا يوجد تاريخ متابعة',
-                                )
-                              ],
+                            MyTextBox(
+                              title: "مؤشر كتلة الجسم",
+                              value: visit?.mBMI.toString() ??
+                                  'لا يوجد مؤشر كتلة الجسم',
+                            ),
+                            MyTextBox(
+                              title: "الوزن (كجم)",
+                              value: visit?.mWeight.toString() ??
+                                  'لا يوجد وزن متابعة',
+                            ),
+                            MyTextBox(
+                                title: "إسم النظام",
+                                value: visit?.mDiet ?? 'لا يوجد نظام متابعة'),
+                            MyTextBox(
+                              title: "تاريخ",
+                              value: visit?.mDate
+                                      .toLocal()
+                                      .toString()
+                                      .split(' ')[0] ??
+                                  'لا يوجد تاريخ متابعة',
+                            ),
+                            MyTextBox(
+                              title: "ملاحظات",
+                              value: visit?.mVisitNotes ?? 'لا توجد ملاحظات',
                             ),
                           ],
                         );

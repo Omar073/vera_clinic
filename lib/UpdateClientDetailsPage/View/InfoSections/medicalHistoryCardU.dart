@@ -16,11 +16,24 @@ Widget medicalHistoryCardU() {
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Wrap(
-          spacing: 24,
-          runSpacing: 12,
-          alignment: WrapAlignment.end,
+          spacing: 30,
+          runSpacing: 15,
+          alignment: WrapAlignment.start,
           crossAxisAlignment: WrapCrossAlignment.center,
+          textDirection: TextDirection.rtl,
           children: [
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.anemiaController,
+                text: "Anemia"),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.vascularController,
+                text: "Vascular"),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.hypotensionController,
+                text: "HypoTension"),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.hypertensionController,
+                text: "HyperTension"),
             SizedBox(
               width: 200,
               child: MyInputField(
@@ -29,18 +42,6 @@ Widget medicalHistoryCardU() {
                 label: "أخري",
               ),
             ),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.hypertensionController,
-                text: "HyperTension"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.hypotensionController,
-                text: "HypoTension"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.vascularController,
-                text: "Vascular"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.anemiaController,
-                text: "Anemia"),
           ],
         ),
         const SizedBox(height: 24),

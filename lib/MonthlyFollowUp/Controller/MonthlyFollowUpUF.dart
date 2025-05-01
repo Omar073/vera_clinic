@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
+import 'package:vera_clinic/Core/View/PopUps/RequiredFieldSnackBar.dart';
 
 import '../../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import 'MonthlyFollowUpTEC.dart';
 
-Future<void> createMonthlyFollowUp(
+Future<bool> createMonthlyFollowUp(
     Client c, ClientMonthlyFollowUp cmfu, BuildContext context) async {
   try {
     // Helper function to parse text or fallback to the existing value
@@ -39,8 +40,25 @@ Future<void> createMonthlyFollowUp(
         .createClientMonthlyFollowUp(clientMonthlyFollowUp);
 
     // Print the created object for debugging
-    clientMonthlyFollowUp.printClientMonthlyFollowUp();
+    // clientMonthlyFollowUp.printClientMonthlyFollowUp();
+    return true;
   } on Exception catch (e) {
     debugPrint('Error creating monthly follow up: $e');
+    return false;
   }
+}
+
+bool verifyMonthlyFolowUpInput(
+    BuildContext context,
+    TextEditingController mBMIController,
+    TextEditingController mWeightController) {
+  if (mBMIController.text.isEmpty) {
+    showRequiredFieldSnackBar(context, 'مؤشر كتلة الجسم');
+    return false;
+  }
+  if (mWeightController.text.isEmpty) {
+    showRequiredFieldSnackBar(context, 'نسبة الدهون');
+    return false;
+  }
+  return true;
 }

@@ -14,8 +14,7 @@ Widget weightHistoryCardU() {
           children: [
             Expanded(
               child: MyInputField(
-                myController:
-                    UpdateClientDetailsTEC.optimalWeightController,
+                myController: UpdateClientDetailsTEC.optimalWeightController,
                 hint: '',
                 label: "وزن مثالي",
               ),
@@ -38,38 +37,32 @@ Widget weightHistoryCardU() {
         const SizedBox(height: 16),
         Wrap(
           spacing: 15,
-          runSpacing: 10,
-          alignment: WrapAlignment.end,
+          runSpacing: 15,
+          alignment: WrapAlignment.start,
+          textDirection: TextDirection.rtl,
           children: List.generate(5, (index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController: UpdateClientDetailsTEC.platControllers[
-                    UpdateClientDetailsTEC.platControllers.length -
-                        6 -
-                        index],
+                myController: UpdateClientDetailsTEC.platControllers[index],
                 hint: "",
-                label:
-                    "الوزن الثابت ${UpdateClientDetailsTEC.platControllers.length - 5 - index}",
+                label: "الوزن الثابت ${index + 1}",
               ),
             );
           }),
         ),
         Wrap(
           spacing: 15,
-          runSpacing: 10,
-          alignment: WrapAlignment.end,
+          runSpacing: 15,
+          alignment: WrapAlignment.start,
+          textDirection: TextDirection.rtl,
           children: List.generate(5, (index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: MyInputField(
-                myController: UpdateClientDetailsTEC.platControllers[
-                    UpdateClientDetailsTEC.platControllers.length -
-                        1 -
-                        index],
+                myController: UpdateClientDetailsTEC.platControllers[index + 5],
                 hint: "",
-                label:
-                    "الوزن الثابت ${UpdateClientDetailsTEC.platControllers.length - index}",
+                label: "الوزن الثابت ${index + 6}",
               ),
             );
           }),

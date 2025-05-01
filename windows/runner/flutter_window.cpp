@@ -1,6 +1,7 @@
 #include "flutter_window.h"
 
 #include <optional>
+#include <windows.h>
 
 #include "flutter/generated_plugin_registrant.h"
 
@@ -13,6 +14,8 @@ bool FlutterWindow::OnCreate() {
   if (!Win32Window::OnCreate()) {
     return false;
   }
+
+::SetWindowText(this->GetHandle(), L"Vera-Life Clinic");
 
   RECT frame = GetClientArea();
 
