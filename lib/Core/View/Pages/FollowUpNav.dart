@@ -33,8 +33,8 @@ class _FollowUpNavState extends State<FollowUpNav> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 // backgroundColor: const Color.fromARGB(255, 208, 241, 255),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blueAccent,
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.0),
                 ),
@@ -69,7 +69,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     children: [
                       MyNavigationButton(
                         mButtonText: "متابعة شهرية",
-                        mButtonIcon: Icons.calendar_month,
+                        mButtonIcon: Icons.calendar_month_rounded,
                         onTap: () {
                           Navigator.push(
                               context,
@@ -80,7 +80,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                       ),
                       MyNavigationButton(
                         mButtonText: "متابعة اسبوعية",
-                        mButtonIcon: Icons.calendar_today,
+                        mButtonIcon: Icons.calendar_today_rounded,
                         onTap: () {
                           Navigator.push(
                               context,

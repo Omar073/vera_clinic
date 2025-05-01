@@ -39,7 +39,7 @@ class _ClientCardState extends State<ClientCard> {
           ),
           trailing: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 230, 83, 83),
+              backgroundColor: Colors.red,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
