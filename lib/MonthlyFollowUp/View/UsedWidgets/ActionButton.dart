@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
+import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/MonthlyFollowUpTEC.dart';
-import '../../Controller/UtilityFunctions.dart';
+import '../../Controller/MonthlyFollowUpUF.dart';
 
 class ActionButton extends StatefulWidget {
   final Client client;
@@ -22,6 +23,7 @@ class _ActionButtonState extends State<ActionButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        //todo: non-empty field check
         _isLoading
             ? const CircularProgressIndicator(color: Colors.blueAccent)
             : ElevatedButton(
@@ -31,8 +33,27 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    await createMonthlyFollowUp(
+                    if (!verifyMonthlyFolowUpInput(
+                      context,
+                      MonthlyFollowUpTEC.mBMIController,
+                      MonthlyFollowUpTEC.mPBFController,
+                    )) {
+                      return;
+                    }
+
+                    bool success = await createMonthlyFollowUp(
                         widget.client, widget.cmfu, context);
+
+                    showMySnackBar(
+                      context,
+                      success
+                          ? 'تم تسجيل المتابعة الشهرية بنجاح'
+                          : 'فشل تسجيل المتابعة الشهرية',
+                      success ? Colors.green : Colors.red,
+                    );
+                    if (success) {
+                      Navigator.pop(context);
+                    }
                   } finally {
                     setState(() {
                       _isLoading = false;

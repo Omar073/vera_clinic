@@ -46,7 +46,7 @@ class _VisitActionButtonState extends State<VisitActionButton> {
 
                       showMySnackBar(
                         context,
-                        success ? 'تم تسجيل العميل بنجاح' : 'فشل تسجيل العميل',
+                        success ? 'تم تسجيل الزيارة بنجاح' : 'فشل تسجيل الزيارة',
                         success ? Colors.green : Colors.red,
                       );
                       if (success) {
@@ -70,8 +70,8 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                       Icon(Icons.check, color: Colors.blueAccent),
                       SizedBox(width: 12),
                       Text('حفظ',
-                          style:
-                              TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.blueAccent)),
                     ],
                   ),
                 ),

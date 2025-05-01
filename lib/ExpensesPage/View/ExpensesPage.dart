@@ -8,6 +8,7 @@ import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 import '../../Core/Controller/Providers/ExpenseProvider.dart';
 import '../../Core/Model/Classes/Expense.dart';
 import '../../Core/View/PopUps/MySnackBar.dart';
+import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
 import 'UsedWidgets/ExpensesList.dart';
 
 class ExpensesPage extends StatefulWidget {
@@ -55,9 +56,14 @@ class _ExpensesPageState extends State<ExpensesPage> {
                 children: [
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () async {
+                        if (NewExpenseTEC.expenseAmountTEC.text.isEmpty) {
+                          showRequiredFieldSnackBar(context, 'المبلغ');
+                          return;
+                        }
+
                         bool success = await createExpense(context);
 
                         showMySnackBar(

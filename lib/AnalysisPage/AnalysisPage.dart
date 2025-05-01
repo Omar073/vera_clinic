@@ -65,7 +65,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
           ),
           const SizedBox(width: 10),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.blueAccent),
             onPressed: () {
               Navigator.push(
                 context,

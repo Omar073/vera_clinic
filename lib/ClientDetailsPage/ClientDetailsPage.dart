@@ -153,8 +153,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
             padding: const EdgeInsets.only(right: 8.0),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.blueAccent,
+                backgroundColor: Colors.blueAccent,
+                foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.0),
                 ),
@@ -219,8 +219,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      foregroundColor: Colors.blueAccent,
+                      backgroundColor: Colors.blueAccent,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0),
                       ),

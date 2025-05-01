@@ -31,7 +31,6 @@ Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
     );
 
     await context.read<VisitProvider>().createVisit(v);
-    v.printVisit();
     return true;
   } catch (e) {
     debugPrint('Error creating visit: $e');

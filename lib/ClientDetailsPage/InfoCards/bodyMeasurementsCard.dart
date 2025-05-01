@@ -19,8 +19,9 @@ Widget bodyMeasurementsCard(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Wrap(
-                    alignment: WrapAlignment.end,
-                    spacing: 60,
+                    alignment: WrapAlignment.start,
+                    textDirection: TextDirection.rtl,
+                    spacing: 40,
                     runSpacing: 20,
                     children: [
                       MyTextBox(
@@ -32,10 +33,11 @@ Widget bodyMeasurementsCard(
                           value: '${monthlyFollowUp.mBMI ?? 0}'),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Wrap(
-                    alignment: WrapAlignment.end,
-                    spacing: 70,
+                    alignment: WrapAlignment.start,
+                    textDirection: TextDirection.rtl,
+                    spacing: 40,
                     runSpacing: 20,
                     children: [
                       MyTextBox(
@@ -49,10 +51,11 @@ Widget bodyMeasurementsCard(
                           value: '${monthlyFollowUp.mWater ?? 0}'),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Wrap(
-                    alignment: WrapAlignment.end,
-                    spacing: 60,
+                    alignment: WrapAlignment.start,
+                    textDirection: TextDirection.rtl,
+                    spacing: 40,
                     runSpacing: 20,
                     children: [
                       MyTextBox(
@@ -63,18 +66,19 @@ Widget bodyMeasurementsCard(
                           value: '${monthlyFollowUp.mOptimalWeight ?? 0} كجم'),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 30),
                   Wrap(
-                    alignment: WrapAlignment.end,
-                    spacing: 60,
+                    alignment: WrapAlignment.start,
+                    textDirection: TextDirection.rtl,
+                    spacing: 40,
                     runSpacing: 20,
                     children: [
                       MyTextBox(
-                          title: 'السعرات الحرارية القصوى',
-                          value: '${monthlyFollowUp.mMaxCalories ?? 0}'),
-                      MyTextBox(
                           title: 'السعرات الحرارية اليومية',
                           value: '${monthlyFollowUp.mDailyCalories ?? 0}'),
+                      MyTextBox(
+                          title: 'السعرات الحرارية القصوى',
+                          value: '${monthlyFollowUp.mMaxCalories ?? 0}'),
                     ],
                   ),
                 ],

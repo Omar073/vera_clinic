@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 
 import '../../Core/Controller/Providers/ClinicProvider.dart';
 import '../../Core/Model/Classes/Expense.dart';
+import '../../Core/View/PopUps/MySnackBar.dart';
 import 'NewExpenseTEC.dart';
 
 Future<bool> createExpense(BuildContext context) async {
@@ -18,9 +20,11 @@ Future<bool> createExpense(BuildContext context) async {
     await context.read<ExpenseProvider>().createExpense(e);
     await context.read<ClinicProvider>().updateDailyExpenses(e.mAmount ?? 0);
 
+    showMySnackBar(context, 'تم إضافة المصروف بنجاح', Colors.green);
     return true;
   } on Exception catch (e) {
     debugPrint("Error creating expense: $e");
+    showMySnackBar(context, 'فشل إضافة المصروف', Colors.red);
     return false;
   }
 }
@@ -36,7 +40,9 @@ void deleteExpense(Expense e, BuildContext context) {
     } else {
       context.read<ClinicProvider>().updateMonthlyExpenses(-(e.mAmount ?? 0));
     }
+    showMySnackBar(context, 'تم حذف المصروف بنجاح', Colors.green);
   } on Exception catch (e) {
     debugPrint("Error deleting expense: $e");
+    showMySnackBar(context, 'فشل حذف المصروف', Colors.red);
   }
 }

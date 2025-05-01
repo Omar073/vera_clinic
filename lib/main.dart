@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
   //todo: add shoreBird
+  //todo: add Firebase Crashlytics
   WidgetsFlutterBinding.ensureInitialized();
 
   await initializeDateFormatting('ar', null);
@@ -34,10 +35,14 @@ Future<void> main() async {
     backgroundColor: Colors.transparent,
     skipTaskbar: false,
     titleBarStyle: TitleBarStyle.normal,
+    // fullScreen: true,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.maximize();
     await windowManager.show();
+
+    // Adding a small delay to ensure the window is fully initialized before maximizing and focusing
+    await Future.delayed(const Duration(milliseconds: 50));
+    await windowManager.maximize();
     await windowManager.focus();
   });
 
