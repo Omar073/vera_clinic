@@ -1,44 +1,75 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:retry/retry.dart';
 
 import '../Classes/Disease.dart';
 import 'FirebaseSingelton.dart';
 
 class DiseaseFirestoreMethods {
+  final r = RetryOptions(maxAttempts: 3);
+
   Future<String> createDisease(Disease disease) async {
     try {
-      final docRef = await FirebaseSingleton.instance.firestore
-          .collection('Diseases')
-          .add(disease.toMap());
+      final docRef = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Diseases')
+            .add(disease.toMap()),
+        retryIf: (e) => true,
+      );
       await docRef.update({'diseaseId': docRef.id});
 
       return docRef.id;
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error creating disease: ${e.message}');
+      return '';
     } catch (e) {
-      debugPrint('Error creating disease: $e');
+      debugPrint('Unknown error creating disease: $e');
       return '';
     }
   }
 
   Future<Disease?> fetchDiseaseByClientId(String clientId) async {
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Diseases')
-        .where('clientId', isEqualTo: clientId)
-        .get();
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Diseases')
+            .where('clientId', isEqualTo: clientId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
-    return querySnapshot.docs.isEmpty
-        ? null
-        : Disease.fromFirestore(querySnapshot.docs.first.data());
+      return querySnapshot.docs.isEmpty
+          ? null
+          : Disease.fromFirestore(querySnapshot.docs.first.data());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching disease by client ID: ${e.message}');
+      return null;
+    } catch (e) {
+      debugPrint('Unknown error fetching disease by client ID: $e');
+      return null;
+    }
   }
 
   Future<Disease?> fetchDiseaseById(String diseaseId) async {
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Diseases')
-        .where('diseaseId', isEqualTo: diseaseId)
-        .get();
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Diseases')
+            .where('diseaseId', isEqualTo: diseaseId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
-    return querySnapshot.docs.isEmpty
-        ? null
-        : Disease.fromFirestore(querySnapshot.docs.first.data());
+      return querySnapshot.docs.isEmpty
+          ? null
+          : Disease.fromFirestore(querySnapshot.docs.first.data());
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching disease by ID: ${e.message}');
+      return null;
+    } catch (e) {
+      debugPrint('Unknown error fetching disease by ID: $e');
+      return null;
+    }
   }
 
   Future<void> updateDisease(Disease disease) async {
@@ -47,18 +78,24 @@ class DiseaseFirestoreMethods {
           .collection('Diseases')
           .doc(disease.mDiseaseId);
 
-      final docSnapshot = await diseaseRef.get();
+      final docSnapshot = await r.retry(
+        () => diseaseRef.get(),
+        retryIf: (e) => true,
+      );
 
       if (!docSnapshot.exists) {
         throw Exception(
             'No matching disease found with diseaseId: ${disease.mDiseaseId}');
       }
 
-      await diseaseRef.update(disease.toMap());
+      await r.retry(
+        () => diseaseRef.update(disease.toMap()),
+        retryIf: (e) => true,
+      );
     } on FirebaseException catch (e) {
       debugPrint('Firebase error updating disease: ${e.message}');
     } catch (e) {
-      throw Exception('Error updating disease: $e');
+      debugPrint('Unknown error updating disease: $e');
     }
   }
 
@@ -68,18 +105,23 @@ class DiseaseFirestoreMethods {
           .collection('Diseases')
           .doc(diseaseId);
 
-      // Check if the document exists before deleting
-      final docSnapshot = await diseaseRef.get();
+      final docSnapshot = await r.retry(
+        () => diseaseRef.get(),
+        retryIf: (e) => true,
+      );
 
       if (!docSnapshot.exists) {
         throw Exception('No matching disease found with diseaseId: $diseaseId');
       }
 
-      await diseaseRef.delete();
+      await r.retry(
+        () => diseaseRef.delete(),
+        retryIf: (e) => true,
+      );
     } on FirebaseException catch (e) {
       debugPrint('Firebase error deleting disease: ${e.message}');
     } catch (e) {
-      throw Exception('Error deleting disease: $e');
+      debugPrint('Unknown error deleting disease: $e');
     }
   }
 }
