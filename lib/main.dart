@@ -13,8 +13,9 @@ import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/theme/app_theme.dart';
 import 'package:window_manager/window_manager.dart';
 import 'Core/Controller/Providers/ClientProvider.dart';
-import 'Core/Model/Firebase/firebase_options.dart';
 import 'package:provider/provider.dart';
+
+import 'firebase_setup/firebase_options.dart';
 
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit

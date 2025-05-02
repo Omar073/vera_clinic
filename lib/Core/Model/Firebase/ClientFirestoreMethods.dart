@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:retry/retry.dart';
 import 'package:vera_clinic/Core/Model/Firebase/FirebaseSingelton.dart';
 
 import '../Classes/Client.dart';
 
 class ClientFirestoreMethods {
+  final r = RetryOptions(maxAttempts: 3); //todo: add retry logic
+
   Future<String> createClient(Client client) async {
     try {
-      final docRef = await FirebaseSingleton.instance.firestore
-          .collection('Clients')
-          .add(client.toMap());
+      final docRef = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .add(client.toMap()),
+        retryIf: (e) => true,
+      );
 
-      // Update the client document with its generated ID
       await docRef.update({'clientId': docRef.id});
-
       return docRef.id;
     } on FirebaseException catch (e) {
       debugPrint('Firebase error creating client: ${e.message}');
@@ -26,10 +30,13 @@ class ClientFirestoreMethods {
 
   Future<Client?> fetchClientById(String clientId) async {
     try {
-      final querySnapshot = await FirebaseSingleton.instance.firestore
-          .collection('Clients')
-          .where('clientId', isEqualTo: clientId)
-          .get();
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .where('clientId', isEqualTo: clientId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
       return querySnapshot.docs.isEmpty
           ? null
@@ -47,27 +54,23 @@ class ClientFirestoreMethods {
     debugPrint("firebase fetching client by phone: $phoneNum");
     List<Client> clients = [];
 
-    // final r = RetryOptions(maxAttempts: 3); //todo: add retry logic
-
     try {
-      final querySnapshot = await FirebaseSingleton.instance.firestore
-          .collection('Clients')
-          .where('clientPhoneNum', isEqualTo: phoneNum)
-          .get();
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .where('clientPhoneNum', isEqualTo: phoneNum)
+            .get(),
+        retryIf: (e) => true,
+      );
 
-      debugPrint("Query snapshot docs length: ${querySnapshot.docs.length}");
-      clients.addAll(querySnapshot.docs
+      clients = querySnapshot.docs
           .map((doc) => Client.fromFirestore(doc.data()))
-          .toList());
-      for (Client c in clients) {
-        debugPrint("fetched client with phone: ${c.mClientPhoneNum}");
-      }
+          .toList();
     } on FirebaseException catch (e) {
-      debugPrint("Firebase error fetching client by phone: ${e.message}");
+      debugPrint('Firebase error fetching client by phone: ${e.message}');
     } catch (e) {
-      debugPrint("Unknown error fetching client by phone: $e");
+      debugPrint('Unknown error fetching client by phone: $e');
     }
-
     return clients;
   }
 
@@ -94,13 +97,17 @@ class ClientFirestoreMethods {
   Future<List<Client?>> fetchClientByName(String name) async {
     List<Client> clients = [];
     try {
-      final querySnapshot = await FirebaseSingleton.instance.firestore
-          .collection('Clients')
-          .where('name', isEqualTo: name)
-          .get();
-      clients.addAll(querySnapshot.docs
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .where('name', isEqualTo: name)
+            .get(),
+        retryIf: (e) => true,
+      );
+
+      clients = querySnapshot.docs
           .map((doc) => Client.fromFirestore(doc.data()))
-          .toList());
+          .toList();
     } on FirebaseException catch (e) {
       debugPrint('Firebase error fetching client by name: ${e.message}');
     } catch (e) {
@@ -115,15 +122,20 @@ class ClientFirestoreMethods {
           .collection('Clients')
           .doc(client.mClientId);
 
-      // Check if the document exists before updating
-      final docSnapshot = await clientRef.get();
+      final docSnapshot = await r.retry(
+        () => clientRef.get(),
+        retryIf: (e) => true,
+      );
 
       if (!docSnapshot.exists) {
         throw Exception(
             'No matching client found with clientId: ${client.mClientId}');
       }
 
-      await clientRef.update(client.toMap());
+      await r.retry(
+        () => clientRef.update(client.toMap()),
+        retryIf: (e) => true,
+      );
     } on FirebaseException catch (e) {
       debugPrint('Firebase error updating client: ${e.message}');
     } catch (e) {
@@ -132,20 +144,24 @@ class ClientFirestoreMethods {
   }
 
   Future<void> deleteClient(String clientId) async {
-    //todo: delete all client data
     try {
       final clientRef = FirebaseSingleton.instance.firestore
           .collection('Clients')
           .doc(clientId);
 
-      // Check if the document exists before deleting
-      final docSnapshot = await clientRef.get();
+      final docSnapshot = await r.retry(
+        () => clientRef.get(),
+        retryIf: (e) => true,
+      );
 
       if (!docSnapshot.exists) {
         throw Exception('No matching client found with clientId: $clientId');
       }
 
-      await clientRef.delete();
+      await r.retry(
+        () => clientRef.delete(),
+        retryIf: (e) => true,
+      );
     } on FirebaseException catch (e) {
       debugPrint('Firebase error deleting client: ${e.message}');
     } catch (e) {

@@ -29,6 +29,7 @@ class ClientSearchResultCard extends StatefulWidget {
 }
 
 class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
+
   _deleteClient(Client c) async {
     await context.read<ClientProvider>().deleteClient(c.mClientId);
     await context
