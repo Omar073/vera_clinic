@@ -20,7 +20,7 @@ Future showAlertDialogue({
         TextButton(
           onPressed: () async {
             await onPressed();
-            Navigator.of(context).pop();
+            Navigator.pop(context);
           },
           child: Text(buttonText, style: const TextStyle(color: Colors.blueAccent)),
         ),

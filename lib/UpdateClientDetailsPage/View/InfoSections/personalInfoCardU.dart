@@ -29,7 +29,7 @@ Widget personalInfoCardU() {
               child: MyInputField(
                 myController: UpdateClientDetailsTEC.phoneController,
                 hint: '',
-                label: "رقم الهاتف",
+                label: "رقم التليفون",
               ),
             ),
             const SizedBox(width: 16),
