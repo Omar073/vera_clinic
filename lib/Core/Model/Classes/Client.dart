@@ -8,6 +8,7 @@ enum SubscriptionType {
   weeklyVisit,
   monthlyVisit,
   afterBreak,
+  inBody,
   cavSess,
   cavSess6,
   miso,

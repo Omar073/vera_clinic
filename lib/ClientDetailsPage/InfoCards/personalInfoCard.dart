@@ -4,7 +4,6 @@ import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 
-import '../../CheckInPage/Controller/CheckInPageUF.dart';
 import '../../Core/Model/Classes/Client.dart';
 
 Widget personalInfoCard(Client? client, String area) {
@@ -27,7 +26,7 @@ Widget personalInfoCard(Client? client, String area) {
                   value: getGenderLabel(client?.mGender ?? Gender.none),
                 ),
                 MyTextBox(
-                  title: 'رقم الهاتف',
+                  title: 'رقم التليفون',
                   value: client?.mClientPhoneNum ?? 'مجهول',
                 ),
                 MyTextBox(
