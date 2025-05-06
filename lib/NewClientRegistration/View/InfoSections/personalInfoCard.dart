@@ -28,7 +28,7 @@ import '../../Controller/ClientRegistrationTEC.dart';
                 child: MyInputField(
                   myController: ClientRegistrationTEC.phoneController,
                   hint: '',
-                  label: "رقم الهاتف",
+                  label: "رقم التليفون",
                 ),
               ),
               const SizedBox(width: 16),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../CheckInPage/Controller/CheckInPageUF.dart';
+
+import '../../Controller/UtilityFunctions.dart';
 import '../../Model/Classes/Client.dart';
 
 class SubscriptionTypeDropdown extends StatefulWidget {

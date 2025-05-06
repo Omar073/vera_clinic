@@ -32,7 +32,7 @@ Widget clientInfoCard(Client? client, ClientConstantInfo clientConstantInfo,
             children: [
               MyTextBox(title: 'اسم العميل', value: client?.mName ?? 'مجهول'),
               MyTextBox(
-                  title: 'رقم هاتف العميل',
+                  title: 'رقم تليفون العميل',
                   value: client?.mClientPhoneNum ?? 'مجهول'),
               MyTextBox(title: 'المنطقة', value: clientConstantInfo.mArea),
               MyTextBox(

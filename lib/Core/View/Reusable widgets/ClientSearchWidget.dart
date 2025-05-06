@@ -139,13 +139,13 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
                       onPressed: () async {
                         if (_controller.text.isEmpty) {
                           showMySnackBar(context,
-                              "الرجاء إدخال رقم الهاتف للبحث", Colors.red);
+                              "الرجاء إدخال رقم التليفون للبحث", Colors.red);
                           return;
                         }
                         await searchByPhone(_controller.text);
                       },
                       child: const Text(
-                        'إبحث بالهاتف',
+                        'إبحث بالرقم',
                         style: TextStyle(fontSize: 16.0),
                       ),
                     ),

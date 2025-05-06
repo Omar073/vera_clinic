@@ -1,15 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:retry/retry.dart';
 
 import '../Classes/Visit.dart';
 import 'FirebaseSingelton.dart';
 
 class VisitFirestoreMethods {
+  final r = RetryOptions(maxAttempts: 3);
+
   Future<String> createVisit(Visit visit) async {
     try {
-      final docRef = await FirebaseSingleton.instance.firestore
-          .collection('Visits')
-          .add(visit.toMap());
+      final docRef = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Visits')
+            .add(visit.toMap()),
+        retryIf: (e) => true,
+      );
       await docRef.update({'visitId': docRef.id});
       return docRef.id;
     } on FirebaseException catch (e) {
@@ -22,27 +28,43 @@ class VisitFirestoreMethods {
   }
 
   Future<List<Visit>?> fetchVisitsByClientId(String clientId) async {
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Visits')
-        .where('clientId', isEqualTo: clientId)
-        .get();
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Visits')
+            .where('clientId', isEqualTo: clientId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
-    return querySnapshot.docs.isEmpty
-        ? null
-        : querySnapshot.docs
-            .map((doc) => Visit.fromFirestore(doc.data()))
-            .toList();
+      return querySnapshot.docs.isEmpty
+          ? null
+          : querySnapshot.docs
+              .map((doc) => Visit.fromFirestore(doc.data()))
+              .toList();
+    } catch (e) {
+      debugPrint('Error fetching visits by client ID: $e');
+      return null;
+    }
   }
 
   Future<Visit?> fetchVisitById(String visitId) async {
-    final querySnapshot = await FirebaseSingleton.instance.firestore
-        .collection('Visits')
-        .where('visitId', isEqualTo: visitId)
-        .get();
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Visits')
+            .where('visitId', isEqualTo: visitId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
-    return querySnapshot.docs.isEmpty
-        ? null
-        : Visit.fromFirestore(querySnapshot.docs.first.data());
+      return querySnapshot.docs.isEmpty
+          ? null
+          : Visit.fromFirestore(querySnapshot.docs.first.data());
+    } catch (e) {
+      debugPrint('Error fetching visit by ID: $e');
+      return null;
+    }
   }
 
   Future<void> updateVisit(Visit visit) async {
@@ -51,13 +73,14 @@ class VisitFirestoreMethods {
           .collection('Visits')
           .doc(visit.mVisitId);
 
-      final docSnapshot = await visitRef.get();
-
+      final docSnapshot = await r.retry(
+        () => visitRef.get(),
+        retryIf: (e) => true,
+      );
       if (!docSnapshot.exists) {
         throw Exception(
             'No matching visit found with visitId: ${visit.mVisitId}');
       }
-
       await visitRef.update(visit.toMap());
     } on FirebaseException catch (e) {
       debugPrint('Firebase error updating visit: ${e.message}');
@@ -72,7 +95,10 @@ class VisitFirestoreMethods {
           .collection('Visits')
           .doc(visitId);
 
-      final docSnapshot = await visitRef.get();
+      final docSnapshot = await r.retry(
+        () => visitRef.get(),
+        retryIf: (e) => true,
+      );
 
       if (!docSnapshot.exists) {
         throw Exception('No matching visit found with visitId: $visitId');
@@ -88,13 +114,19 @@ class VisitFirestoreMethods {
 
   Future<void> deleteAllClientVisits(String clientId) async {
     try {
-      final querySnapshot = await FirebaseSingleton.instance.firestore
-          .collection('Visits')
-          .where('clientId', isEqualTo: clientId)
-          .get();
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Visits')
+            .where('clientId', isEqualTo: clientId)
+            .get(),
+        retryIf: (e) => true,
+      );
 
       for (var doc in querySnapshot.docs) {
-        await doc.reference.delete();
+        await r.retry(
+          () => doc.reference.delete(),
+          retryIf: (e) => true,
+        );
       }
     } on FirebaseException catch (e) {
       debugPrint('Firebase error deleting all visits: ${e.message}');

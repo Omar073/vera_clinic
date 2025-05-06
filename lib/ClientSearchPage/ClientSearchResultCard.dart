@@ -11,18 +11,19 @@ import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 
 import '../CheckInPage/View/CheckInPage.dart';
 import '../ClientDetailsPage/ClientDetailsPage.dart';
+import '../Core/Controller/UtilityFunctions.dart';
 import '../Core/Model/Classes/Client.dart';
 
 class ClientSearchResultCard extends StatefulWidget {
   List<Client?> searchResults = [];
   String state = "";
-  final VoidCallback onClientDeleted; // Add this callback
+  final VoidCallback onClientDeleted;
 
   ClientSearchResultCard({
     super.key,
     required this.searchResults,
     required this.state,
-    required this.onClientDeleted, // Initialize the callback
+    required this.onClientDeleted,
   });
   @override
   State<ClientSearchResultCard> createState() => _ClientSearchResultCardState();
@@ -67,8 +68,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
               ],
             ),
             child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 8.0), // Adjust padding if needed
+              contentPadding: const EdgeInsets.symmetric(horizontal: 8.0),
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -84,7 +84,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                           returnText: "رجوع",
                           onPressed: () async {
                             await _deleteClient(client!);
-                            Navigator.of(context).pop();
+                            Navigator.pop(context);
                             widget.searchResults.removeAt(index);
                             widget.onClientDeleted();
                           },
@@ -110,10 +110,37 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                           children: [
                             Text(
                               client?.mName ?? 'مجهول',
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
-                            Text(client?.mClientPhoneNum ?? 'لا يوجد رقم'),
+                            const SizedBox(height: 4),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  client?.mClientPhoneNum ?? 'لا يوجد رقم',
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                Text(
+                                  'تليفون: ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                const SizedBox(width: 16),
+                                Text(
+                                  getSubscriptionTypeLabel(
+                                      client?.mSubscriptionType ??
+                                          SubscriptionType.none),
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -136,7 +163,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                       } else if (widget.state == "search") {
                         return ClientDetailsPage(client: client);
                       } else {
-                        return Container(); // or any other default widget
+                        return Container();
                       }
                     },
                   ),

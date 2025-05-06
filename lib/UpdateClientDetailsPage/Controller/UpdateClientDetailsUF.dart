@@ -8,7 +8,7 @@ import 'UpdateClientDetailsTEC.dart';
 bool verifyRequiredFieldsU(BuildContext context) {
   bool isValid = true;
   if (UpdateClientDetailsTEC.phoneController.text.isEmpty) {
-    showRequiredFieldSnackBar(context, 'رقم الهاتف');
+    showRequiredFieldSnackBar(context, 'رقم التليفون');
     isValid = false;
   }
   if (UpdateClientDetailsTEC.nameController.text.isEmpty) {

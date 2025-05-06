@@ -109,7 +109,9 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                               color: Colors.black,
                             ),
                             children: [
-                              TextSpan(text: ' لا يوجد عملاء ... يمكنك الضغط على زر التحديث '),
+                              TextSpan(
+                                  text:
+                                      ' لا يوجد عملاء ... يمكنك الضغط على زر التحديث '),
                               WidgetSpan(
                                 alignment: PlaceholderAlignment.middle,
                                 child: Icon(
@@ -118,7 +120,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                                   color: Colors.black,
                                 ),
                               ),
-                              TextSpan(text: ' أعلى اليمين للبحث عن عملاء جدد '),
+                              TextSpan(
+                                  text: ' أعلى اليمين للبحث عن عملاء جدد '),
                             ],
                           ),
                         ),
@@ -126,7 +129,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                     );
                   } else {
                     return Padding(
-                      padding: const EdgeInsets.all(24.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 24, horizontal: 100),
                       child: Column(
                         children: [
                           const SizedBox(height: 24),
