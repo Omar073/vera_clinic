@@ -14,20 +14,30 @@ Future showAlertDialogue({
     context: context,
     builder: (context) => AlertDialog(
       backgroundColor: Colors.blue[50]!,
-      title: Text(title),
-      content: Text(content),
+      title: Text(
+        title,
+        textAlign: TextAlign.end,
+      ),
+      content: Text(
+        content,
+        textAlign: TextAlign.end,
+      ),
       actions: [
-        TextButton(
-          onPressed: () async {
-            await onPressed();
-            Navigator.pop(context);
-          },
-          child: Text(buttonText, style: const TextStyle(color: Colors.blueAccent)),
-        ),
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(returnText, style: const TextStyle(color: Colors.blueAccent)),
-        ),
+        if (buttonText.isNotEmpty)
+          TextButton(
+            onPressed: () async {
+              await onPressed();
+              Navigator.of(context).pop();
+            },
+            child: Text(buttonText,
+                style: const TextStyle(color: Colors.blueAccent)),
+          ),
+        if (returnText.isNotEmpty)
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(returnText,
+                style: const TextStyle(color: Colors.blueAccent)),
+          ),
       ],
     ),
   );

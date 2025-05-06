@@ -10,6 +10,7 @@ import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/theme/app_theme.dart';
 import 'package:vera_clinic/Shorebird/update_service.dart';
@@ -44,7 +45,7 @@ Future<void> main() async {
     await windowManager.show();
 
     // Adding a small delay to ensure the window is fully initialized before maximizing and focusing
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 200));
     await windowManager.maximize();
     await windowManager.focus();
   });
@@ -75,16 +76,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final _updateService = UpdateService();
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateService.checkForUpdates(context);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

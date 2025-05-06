@@ -117,6 +117,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                             ),
                             const SizedBox(height: 4),
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   client?.mClientPhoneNum ?? 'لا يوجد رقم',
@@ -125,7 +126,6 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                                 Text(
                                   'تليفون: ',
                                   style: TextStyle(
-                                    color: Colors.grey[600],
                                     fontSize: 16,
                                   ),
                                   textDirection: TextDirection.rtl,
@@ -136,7 +136,6 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                                       client?.mSubscriptionType ??
                                           SubscriptionType.none),
                                   style: TextStyle(
-                                    color: Colors.grey[600],
                                     fontSize: 16,
                                   ),
                                 ),

@@ -34,7 +34,7 @@ class _GridMenuState extends State<GridMenu> {
         menuCard(
             'بحث',
             Icons.search,
-            Colors.red,
+            Colors.teal,
             () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -66,7 +66,7 @@ class _GridMenuState extends State<GridMenu> {
             showAlertDialogue(
               context: context,
               title: "تأكيد الخروج",
-              content: "هل تريد الخروج من التطبيق؟",
+              content: "هل تريد الخروج من البرنامج؟",
               buttonText: "خروج",
               returnText: "عودة",
               onPressed: () async {
