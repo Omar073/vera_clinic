@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
@@ -9,16 +10,17 @@ import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/theme/app_theme.dart';
+import 'package:vera_clinic/Shorebird/update_service.dart';
 import 'package:window_manager/window_manager.dart';
+
 import 'Core/Controller/Providers/ClientProvider.dart';
-import 'Core/Model/Firebase/firebase_options.dart';
-import 'package:provider/provider.dart';
+import 'firebase_setup/firebase_options.dart';
 
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
-  //todo: add shoreBird
   //todo: add Firebase Crashlytics
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,6 +31,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await UpdateService().initPatch();
 
   WindowOptions windowOptions = const WindowOptions(
     center: true,
@@ -41,7 +45,7 @@ Future<void> main() async {
     await windowManager.show();
 
     // Adding a small delay to ensure the window is fully initialized before maximizing and focusing
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future.delayed(const Duration(milliseconds: 200));
     await windowManager.maximize();
     await windowManager.focus();
   });
@@ -65,9 +69,13 @@ Future<void> main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
