@@ -177,7 +177,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                   ),
                 );
               },
-              icon: const Icon(Icons.edit, color: Colors.blueAccent),
+              icon: const Icon(Icons.edit, color: Colors.white),
               label: const Text(
                 'تحديث',
                 style: TextStyle(fontSize: 16),

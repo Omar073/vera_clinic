@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-
-import '../../../Core/Model/Classes/Client.dart';
-import '../../../Core/View/PopUps/MySnackBar.dart';
-import '../../../NewVisit/View/NewVisit.dart';
+import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
+import 'package:vera_clinic/Core/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
+import 'package:vera_clinic/HomePage/HomePage.dart';
+import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 import '../../Controller/ClientRegistrationTEC.dart';
 import '../../Controller/ClientRegistrationUF.dart';
 import '../../Controller/NewClientCreation.dart';
@@ -17,6 +21,114 @@ class ActionButtons extends StatefulWidget {
 class _ActionButtonsState extends State<ActionButtons> {
   bool isSaving = false;
   bool isLoggingIn = false;
+  final TextEditingController _subscriptionPriceController =
+      TextEditingController();
+  final TextEditingController _subscriptionTypeController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    _subscriptionPriceController.dispose();
+    _subscriptionTypeController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _showSubscriptionDialog(Client client) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.blue[50]!,
+          title: const Text(
+            'إدخال بيانات الاشتراك',
+            textAlign: TextAlign.end,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _subscriptionPriceController,
+                textAlign: TextAlign.end,
+                decoration: const InputDecoration(
+                  labelText: 'سعر الاشتراك',
+                  hintText: 'أدخل سعر الاشتراك',
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _subscriptionTypeController,
+                textAlign: TextAlign.end,
+                decoration: const InputDecoration(
+                  labelText: 'نوع الاشتراك',
+                  hintText: 'أدخل نوع الاشتراك',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('إلغاء',
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(color: Colors.blueAccent)),
+            ),
+            TextButton(
+              onPressed: () async {
+                try {
+                  final double subscriptionPrice =
+                      double.parse(_subscriptionPriceController.text);
+
+                  // Set the subscription type for the client
+                  client.mSubscriptionType = getSubscriptionTypeFromString(
+                      _subscriptionTypeController.text);
+
+                  // Check if the client is already checked in
+                  bool isCheckedIn = await context
+                      .read<ClinicProvider>()
+                      .isClientCheckedIn(client.mClientId);
+                  if (!isCheckedIn) {
+                    // Add the client to the checked-in clients list
+                    await context.read<ClinicProvider>().checkInClient(client);
+                    // Increment the daily patients count
+                    await context
+                        .read<ClinicProvider>()
+                        .incrementDailyPatients();
+                    // Update the daily income
+                    await context
+                        .read<ClinicProvider>()
+                        .updateDailyIncome(subscriptionPrice);
+                    // Update client info (mainly because the subscription type is changed)
+                    await context.read<ClientProvider>().updateClient(client);
+
+                    if (!mounted) return;
+                    showMySnackBar(
+                        context, 'تم تسجيل العميل بنجاح', Colors.green);
+
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const HomePage()));
+                  } else {
+                    if (!mounted) return;
+                    showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
+                  }
+                } catch (e) {
+                  if (!mounted) return;
+                  showMySnackBar(context, 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
+                      Colors.red);
+                }
+              },
+              child: const Text('تأكيد',
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(color: Colors.blueAccent)),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,25 +284,20 @@ class _ActionButtonsState extends State<ActionButtons> {
     try {
       final Map<bool, Client?> result = await createClient(context);
       final bool success = result.keys.first;
-      final Client? c = result.values.last;
+      final Client? client = result.values.last;
 
       if (!mounted) return;
 
-      if (success && c != null) {
-        final checkedIn = await checkInNewClient(context, c);
-        if (checkedIn) {
-          showMySnackBar(context, "تم تسجيل الدخول بنجاح", Colors.green);
-          Navigator.pop(context);
-        } else {
-          showMySnackBar(context, "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى.",
-              Colors.red);
-        }
+      if (success && client != null) {
+        await _showSubscriptionDialog(client);
       } else {
         showMySnackBar(
             context, "فشل في تسجيل العميل. حاول مرة أخرى.", Colors.red);
       }
     } finally {
-      setState(() => isLoggingIn = false);
+      if (mounted) {
+        setState(() => isLoggingIn = false);
+      }
     }
   }
 }

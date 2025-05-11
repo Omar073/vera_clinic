@@ -70,7 +70,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MyNavigationButton(
-                        mButtonText: "متابعة شهرية",
+                        mButtonText: "متابعة أسبوعين",
                         mButtonIcon: Icons.calendar_month_rounded,
                         onTap: () {
                           Navigator.push(
@@ -81,7 +81,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                         },
                       ),
                       MyNavigationButton(
-                        mButtonText: "متابعة اسبوعية",
+                        mButtonText: "متابعة منفردة",
                         mButtonIcon: Icons.calendar_today_rounded,
                         onTap: () {
                           Navigator.push(
