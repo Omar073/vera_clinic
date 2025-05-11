@@ -94,6 +94,42 @@ class ClientFirestoreMethods {
     return clients;
   }
 
+  Future<List<Client?>> fetchClientByFirstAndSecondName(String searchQuery) async {
+    List<Client> clients = [];
+    try {
+      // Split the search query into parts
+      final parts = searchQuery.trim().split(' ');
+      if (parts.length < 2) {
+        debugPrint('Search query must contain at least two words');
+        return clients;
+      }
+
+      // Get all clients and filter them in memory since Firestore doesn't support
+      // complex text search operations
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .get(),
+        retryIf: (e) => true,
+      );
+
+      // Filter clients where both parts of the search query appear in the name
+      clients = querySnapshot.docs
+          .map((doc) => Client.fromFirestore(doc.data()))
+          .where((client) {
+            if (client.mName == null) return false;
+            final name = client.mName!.toLowerCase();
+            return parts.every((part) => name.contains(part.toLowerCase()));
+          })
+          .toList();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching client by first and second name: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error fetching client by first and second name: $e');
+    }
+    return clients;
+  }
+
   Future<List<Client?>> fetchClientByName(String name) async {
     List<Client> clients = [];
     try {

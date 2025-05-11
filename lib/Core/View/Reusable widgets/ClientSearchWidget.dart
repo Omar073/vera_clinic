@@ -42,7 +42,12 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
     if (name.trim().split(" ").length == 1) {
       results = await context.read<ClientProvider>().getClientByFirstName(name);
     } else {
-      results = await context.read<ClientProvider>().getClientByName(name);
+      final resultsByName =
+          await context.read<ClientProvider>().getClientByName(name);
+      final resultsByFirstAndSecondName = await context
+          .read<ClientProvider>()
+          .getClientByFirstAndSecondName(name);
+      results = [...resultsByName, ...resultsByFirstAndSecondName];
     }
     context.read<ClientProvider>().setSearchResults(results);
     widget.setHasSearched();
