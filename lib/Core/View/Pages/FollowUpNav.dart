@@ -19,6 +19,8 @@ class FollowUpNav extends StatefulWidget {
 }
 
 class _FollowUpNavState extends State<FollowUpNav> {
+  bool _isCheckingOut = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +70,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       MyNavigationButton(
-                        mButtonText: "متابعة شهرية",
+                        mButtonText: "متابعة أسبوعين",
                         mButtonIcon: Icons.calendar_month_rounded,
                         onTap: () {
                           Navigator.push(
@@ -79,7 +81,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                         },
                       ),
                       MyNavigationButton(
-                        mButtonText: "متابعة اسبوعية",
+                        mButtonText: "متابعة منفردة",
                         mButtonIcon: Icons.calendar_today_rounded,
                         onTap: () {
                           Navigator.push(
@@ -93,33 +95,56 @@ class _FollowUpNavState extends State<FollowUpNav> {
                   ),
                   const SizedBox(height: 80),
                   ElevatedButton(
-                    onPressed: () async {
-                      await context
-                          .read<ClinicProvider>()
-                          .checkOutClient(widget.client);
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomePage()));
+                    onPressed: _isCheckingOut ? null : () async {
+                      setState(() {
+                        _isCheckingOut = true;
+                      });
+                      try {
+                        await context
+                            .read<ClinicProvider>()
+                            .checkOutClient(widget.client);
+                        if (mounted) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HomePage()));
+                        }
+                      } finally {
+                        if (mounted) {
+                          setState(() {
+                            _isCheckingOut = false;
+                          });
+                        }
+                      }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
+                      backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24.0, vertical: 12.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(24.0),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Icon(Icons.trash, color: Colors.white),
-                        // const SizedBox(width: 12),
-                        Text('تسجيل خروج',
-                            style:
-                                TextStyle(fontSize: 18, color: Colors.white)),
+                        if (_isCheckingOut) ...[
+                          const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          const Text('جاري تسجيل الخروج...',
+                              style: TextStyle(fontSize: 18, color: Colors.white)),
+                        ] else
+                          const Text('تسجيل خروج',
+                              style: TextStyle(fontSize: 18, color: Colors.white)),
                       ],
                     ),
                   ),

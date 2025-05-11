@@ -9,13 +9,21 @@ import '../Core/Model/Classes/Client.dart';
 class ClientCard extends StatefulWidget {
   final Client? client;
   final int index;
-  const ClientCard({super.key, required this.client, required this.index});
+  final VoidCallback onClientCheckedOut;
+  const ClientCard({
+    super.key, 
+    required this.client, 
+    required this.index,
+    required this.onClientCheckedOut,
+  });
 
   @override
   State<ClientCard> createState() => _ClientCardState();
 }
 
 class _ClientCardState extends State<ClientCard> {
+  bool _isCheckingOut = false;
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -39,17 +47,41 @@ class _ClientCardState extends State<ClientCard> {
           ),
           trailing: ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
+              backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
               foregroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24.0),
               ),
             ),
-            icon: const Icon(Icons.delete),
-            onPressed: () {
-              context.read<ClinicProvider>().checkOutClient(widget.client!);
+            icon: _isCheckingOut 
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+              : const Icon(Icons.delete),
+            onPressed: _isCheckingOut ? null : () async {
+              setState(() {
+                _isCheckingOut = true;
+              });
+              try {
+                await context.read<ClinicProvider>().checkOutClient(widget.client!);
+                widget.onClientCheckedOut();
+              } finally {
+                if (mounted) {
+                  setState(() {
+                    _isCheckingOut = false;
+                  });
+                }
+              }
             },
-            label: const Text('تسجيل خروج'),
+            label: Text(
+              _isCheckingOut ? 'جاري تسجيل الخروج...' : 'تسجيل خروج',
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
           onTap: () {
             Navigator.of(context).push(

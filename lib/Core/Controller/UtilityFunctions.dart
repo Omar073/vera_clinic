@@ -31,14 +31,14 @@ SubscriptionType? getSubscriptionTypeFromString(String value) {
       return SubscriptionType.singleVisit;
     case 'متابعة منفردة':
       return SubscriptionType.singleVisit;
-    case 'weeklyVisit':
-      return SubscriptionType.weeklyVisit;
-    case 'متابعة أسبوعية':
-      return SubscriptionType.weeklyVisit;
-    case 'monthlyVisit':
-      return SubscriptionType.monthlyVisit;
-    case 'متابعة شهرية':
-      return SubscriptionType.monthlyVisit;
+    case 'biWeeklyVisit':
+      return SubscriptionType.biWeeklyVisit;
+    case 'متابعة أسبوعين':
+      return SubscriptionType.biWeeklyVisit;
+    case 'monthlySubscription':
+      return SubscriptionType.monthlySubscription;
+    case 'اشتراك شهري':
+      return SubscriptionType.monthlySubscription;
     case 'afterBreak':
       return SubscriptionType.afterBreak;
     case 'بعد انقطاع':
@@ -69,12 +69,16 @@ SubscriptionType? getSubscriptionTypeFromString(String value) {
       return SubscriptionType.punctureSess6;
     case 'جلسة إبر 6':
       return SubscriptionType.punctureSess6;
+    case 'injection':
+      return SubscriptionType.injection;
+    case 'حقن':
+      return SubscriptionType.injection;
     case 'other':
       return SubscriptionType.other;
     case 'أخرى':
       return SubscriptionType.other;
     default:
-      return null;
+      return SubscriptionType.none;
   }
 }
 
@@ -86,10 +90,10 @@ String getSubscriptionTypeLabel(SubscriptionType type) {
       return 'حالة جديدة';
     case SubscriptionType.singleVisit:
       return 'متابعة منفردة';
-    case SubscriptionType.weeklyVisit:
-      return 'متابعة أسبوعية';
-    case SubscriptionType.monthlyVisit:
-      return 'متابعة شهرية';
+    case SubscriptionType.biWeeklyVisit:
+      return 'متابعة أسبوعين';
+    case SubscriptionType.monthlySubscription:
+      return 'اشتراك شهري';
     case SubscriptionType.afterBreak:
       return 'بعد انقطاع';
     case SubscriptionType.inBody:
@@ -104,11 +108,12 @@ String getSubscriptionTypeLabel(SubscriptionType type) {
       return 'جلسة إبر';
     case SubscriptionType.punctureSess6:
       return 'جلسات إبر 6';
+    case SubscriptionType.injection:
+      return 'حقن';
     case SubscriptionType.other:
       return 'أخرى';
   }
 }
-
 
 Gender getGenderFromString(String value) {
   switch (value) {
@@ -146,7 +151,7 @@ Activity getActivityLevelFromString(String value) {
   //         orElse: () => Gender.none,
   return Activity.values.firstWhere(
     //todo: verify functionality
-        (e) => e.name == value,
+    (e) => e.name == value,
     orElse: () => Activity.none,
   );
 }
@@ -159,7 +164,7 @@ String getGenderLabel(Gender g) {
       return 'أنثي';
     case Gender.none:
       return '';
-    }
+  }
 }
 
 String getActivityLevelLabel(Activity a) {
@@ -172,5 +177,5 @@ String getActivityLevelLabel(Activity a) {
       return 'عالي';
     case Activity.none:
       return '';
-    }
+  }
 }
