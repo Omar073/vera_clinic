@@ -40,6 +40,12 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
     }
   }
 
+  void _handleClientCheckedOut() {
+    setState(() {
+      _fetchDataFuture = fetchData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,6 +143,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                           CheckedInClientsList(
                             checkInClients:
                                 context.read<ClinicProvider>().checkedInClients,
+                            onClientCheckedOut: _handleClientCheckedOut,
                           ),
                         ],
                       ),

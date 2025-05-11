@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Clinic.dart';
 import 'package:intl/intl.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/ExpensesPage/View/ExpensesPage.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
@@ -17,31 +18,44 @@ class AnalysisPage extends StatefulWidget {
 }
 
 class _AnalysisPageState extends State<AnalysisPage> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      context.read<ClinicProvider>().getClinic();
-      context.read<ExpenseProvider>().getAllExpenses();
-    });
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    try {
+      await context.read<ClinicProvider>().getClinic();
+      await context.read<ExpenseProvider>().getAllExpenses();
+    } catch (e) {
+      debugPrint('Error loading data: $e');
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    Clinic? clinic = context.watch<ClinicProvider>().clinic;
-    List<Expense?> expenses =
-        context.watch<ExpenseProvider>().cachedExpenses;
+    final clinic = context.watch<ClinicProvider>().clinic;
+    final expenses = context.watch<ExpenseProvider>().cachedExpenses;
 
     final currentDate = DateTime.now();
     final String currentMonth = DateFormat('MMMM', 'ar').format(currentDate);
     final int weekOfMonth = getWeekOfMonth(currentDate);
     String dayName = DateFormat('EEEE', 'ar').format(currentDate);
 
-    // Show a loading indicator if the clinic data is not yet available.
-    if (clinic == null) {
+    if (_isLoading || clinic == null) {
       return const Scaffold(
-        body:
-            Center(child: CircularProgressIndicator(color: Colors.blueAccent)),
+        body: Background(
+            child: Center(
+                child: CircularProgressIndicator(color: Colors.blueAccent))),
       );
     }
 
@@ -59,8 +73,10 @@ class _AnalysisPageState extends State<AnalysisPage> {
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () async {
-              await context.read<ClinicProvider>().getClinic();
-              await context.read<ExpenseProvider>().getAllExpenses();
+              setState(() {
+                _isLoading = true;
+              });
+              await _loadData();
             },
           ),
           const SizedBox(width: 10),

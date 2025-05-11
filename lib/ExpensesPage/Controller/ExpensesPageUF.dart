@@ -29,9 +29,9 @@ Future<bool> createExpense(BuildContext context) async {
   }
 }
 
-void deleteExpense(Expense e, BuildContext context) {
+Future<void> deleteExpense(Expense e, BuildContext context) async {
   try {
-    context.read<ExpenseProvider>().deleteExpense(e);
+    await context.read<ExpenseProvider>().deleteExpense(e);
 
     if (e.mDate.year == DateTime.now().year &&
         e.mDate.month == DateTime.now().month &&

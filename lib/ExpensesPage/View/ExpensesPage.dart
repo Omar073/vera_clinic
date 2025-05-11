@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/NewExpenseTEC.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 
 import '../../Core/Controller/Providers/ExpenseProvider.dart';
+import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/Model/Classes/Expense.dart';
 import '../../Core/View/PopUps/MySnackBar.dart';
 import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
@@ -63,6 +65,10 @@ class _ExpensesPageState extends State<ExpensesPage> {
                           showRequiredFieldSnackBar(context, 'المبلغ');
                           return;
                         }
+                        if (!isNumOnly(NewExpenseTEC.expenseAmountTEC.text)) {
+                          showInvalidDataTypeSnackBar(context, 'المبلغ');
+                          return;
+                        }
 
                         bool success = await createExpense(context);
 
@@ -103,13 +109,16 @@ class _ExpensesPageState extends State<ExpensesPage> {
             ),
             const SizedBox(height: 16),
             widget.expenses.isEmpty
-                ? const Center(
-                    child: Text(
-                      'لا توجد مصروفات',
-                      style: TextStyle(fontSize: 18),
-                      textDirection: TextDirection.rtl,
+                ? Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: const Center(
+                      child: Text(
+                        'لا توجد مصروفات',
+                        style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
+                        textDirection: TextDirection.rtl,
+                      ),
                     ),
-                  )
+                )
                 : const Expanded(
                     child: Padding(
                       padding: EdgeInsets.all(8.0),

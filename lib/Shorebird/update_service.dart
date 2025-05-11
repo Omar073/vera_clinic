@@ -36,16 +36,16 @@ class UpdateService {
         );
       }
     } on UpdateException catch (e) {
-      await showAlertDialogue(
-        context: context,
-        title: '',
-        content: 'برجاء إعادة تشغيل البرنامج',
-        buttonText: 'إغلاق البرنامج',
-        returnText: 'لاحقًا',
-        onPressed: () async {
-          await windowManager.close();
-        },
-      );
+      // await showAlertDialogue(
+      //   context: context,
+      //   title: '',
+      //   content: 'برجاء إعادة تشغيل البرنامج',
+      //   buttonText: 'إغلاق البرنامج',
+      //   returnText: 'لاحقًا',
+      //   onPressed: () async {
+      //     await windowManager.close();
+      //   },
+      // );
       debugPrint('Update may have failed: $e');
     }
   }

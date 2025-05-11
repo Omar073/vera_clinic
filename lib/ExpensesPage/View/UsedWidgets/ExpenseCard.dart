@@ -3,10 +3,17 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 import '../../../Core/Model/Classes/Expense.dart';
 
-class ExpenseCard extends StatelessWidget {
+class ExpenseCard extends StatefulWidget {
   final Expense? expense;
 
   const ExpenseCard({super.key, required this.expense});
+
+  @override
+  State<ExpenseCard> createState() => _ExpenseCardState();
+}
+
+class _ExpenseCardState extends State<ExpenseCard> {
+  bool _isDeleting = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +27,34 @@ class ExpenseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ElevatedButton.icon(
-              onPressed: () => deleteExpense(expense!, context),
+              onPressed: _isDeleting 
+                ? null 
+                : () async {
+                    setState(() {
+                      _isDeleting = true;
+                    });
+                    await deleteExpense(widget.expense!, context);
+                    setState(() {
+                      _isDeleting = false;
+                    });
+                  },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: _isDeleting ? Colors.grey : Colors.red,
+                disabledBackgroundColor: Colors.grey,
               ),
-              icon: const Icon(Icons.delete, color: Colors.white),
-              label: const Text(
-                'حذف',
-                style: TextStyle(color: Colors.white),
+              icon: _isDeleting 
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : const Icon(Icons.delete, color: Colors.white),
+              label: Text(
+                _isDeleting ? 'جاري الحذف...' : 'حذف',
+                style: const TextStyle(color: Colors.white),
               ),
             ),
             const SizedBox(width: 16),
@@ -38,13 +65,13 @@ class ExpenseCard extends StatelessWidget {
                   Wrap(
                     children: [MyTextBox(
                         title: 'اسم المصروف',
-                        value: expense?.mName ?? 'اسم غير متوفر'),]
+                        value: widget.expense?.mName ?? 'اسم غير متوفر'),]
                   ),
                   const SizedBox(height: 8),
                   Wrap(
                     children: [MyTextBox(
                         title: 'المبلغ',
-                        value: expense?.mAmount?.toStringAsFixed(2) ??
+                        value: widget.expense?.mAmount?.toStringAsFixed(2) ??
                             'غير متوفر'),]
                   ),
                   const SizedBox(height: 8),
@@ -52,7 +79,7 @@ class ExpenseCard extends StatelessWidget {
                     children: [MyTextBox(
                         title: 'التاريخ',
                         value:
-                            '${expense?.mDate.day}/${expense?.mDate.month}/${expense?.mDate.year}'),]
+                            '${widget.expense?.mDate.day}/${widget.expense?.mDate.month}/${widget.expense?.mDate.year}'),]
                   ),
                 ],
               ),

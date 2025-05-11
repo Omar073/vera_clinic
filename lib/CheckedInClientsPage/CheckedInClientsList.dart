@@ -5,13 +5,26 @@ import 'ClientCard.dart';
 
 class CheckedInClientsList extends StatefulWidget {
   List<Client?> checkInClients;
-  CheckedInClientsList({super.key, required this.checkInClients});
+  final VoidCallback onClientCheckedOut;
+  CheckedInClientsList({
+    super.key, 
+    required this.checkInClients,
+    required this.onClientCheckedOut,
+  });
 
   @override
   State<CheckedInClientsList> createState() => _CheckedInClientsListState();
 }
 
 class _CheckedInClientsListState extends State<CheckedInClientsList> {
+  void _handleClientCheckedOut() {
+    setState(() {
+      // Trigger local state update
+    });
+    // Call parent callback
+    widget.onClientCheckedOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     //* we propbably never go into that condition because we already check if the list is empty in the previous page
@@ -33,10 +46,15 @@ class _CheckedInClientsListState extends State<CheckedInClientsList> {
         prototypeItem: ClientCard(
           client: widget.checkInClients.first,
           index: 0,
+          onClientCheckedOut: _handleClientCheckedOut,
         ),
         itemCount: widget.checkInClients.length,
         itemBuilder: (context, index) {
-          return ClientCard(client: widget.checkInClients[index], index: index);
+          return ClientCard(
+            client: widget.checkInClients[index], 
+            index: index,
+            onClientCheckedOut: _handleClientCheckedOut,
+          );
         },
       ),
     );

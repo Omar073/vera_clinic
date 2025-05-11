@@ -78,10 +78,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: AppTheme.themeData,
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+    return SafeArea(
+      child: MaterialApp(
+        theme: AppTheme.themeData,
+        debugShowCheckedModeBanner: false,
+        home: const HomePage(),
+      ),
     );
   }
 }
