@@ -112,6 +112,26 @@ class ClientProvider with ChangeNotifier {
     return clients;
   }
 
+  Future<List<Client?>> getClientByFirstAndSecondName(String searchQuery) async {
+    List<Client?> clients = [];
+
+    final fetchedClients = await clientFirestoreMethods.fetchClientByFirstAndSecondName(searchQuery);
+    for (var client in fetchedClients) {
+      if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
+        clients.add(client!);
+      }
+    }
+
+    for (var client in clients) {
+      if (client != null &&
+          !cachedClients.any((c) => c?.mClientId == client.mClientId)) {
+        cachedClients.add(client);
+      }
+    }
+    notifyListeners();
+    return clients;
+  }
+
   Future<bool> isPhoneNumUsed(String phoneNum) async {
     final clients = await clientFirestoreMethods.fetchClientByPhone(phoneNum);
     return clients.isNotEmpty;

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
@@ -31,6 +32,7 @@ class ClientSearchResultCard extends StatefulWidget {
 
 class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
   _deleteClient(Client c) async {
+    await context.read<ClinicProvider>().checkOutClient(c);
     await context.read<ClientProvider>().deleteClient(c.mClientId);
     await context
         .read<ClientConstantInfoProvider>()
