@@ -5,8 +5,8 @@ enum SubscriptionType {
   none,
   newClient,
   singleVisit,
-  weeklyVisit,
-  monthlyVisit,
+  biWeeklyVisit,
+  monthlySubscription,
   afterBreak,
   inBody,
   cavSess,
@@ -14,6 +14,7 @@ enum SubscriptionType {
   miso,
   punctureSess,
   punctureSess6,
+  injection,
   other
 }
 
