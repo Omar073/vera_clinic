@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 
 import '../../Core/Model/Classes/Visit.dart';
 
@@ -11,7 +12,7 @@ class UpdateVisitDetailsTEC{
   static late TextEditingController visitNotesController;
 
   static void init(Visit v) {
-    visitDateController = TextEditingController(text: v.mDate.toString());
+    visitDateController = TextEditingController(text: DateFormat('dd/MM/yyyy').format(v.mDate));
     visitDietController = TextEditingController(text: v.mDiet);
     visitWeightController = TextEditingController(text: "${v.mWeight}");
     visitBMIController = TextEditingController(text: "${v.mBMI}");

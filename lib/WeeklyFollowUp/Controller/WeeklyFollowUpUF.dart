@@ -7,9 +7,9 @@ import '../../Core/Model/Classes/Visit.dart';
 import 'WeeklyFollowUpTEC.dart';
 
 String getAge(DateTime? birthDate) {
-  if (birthDate == null) return '';
+  if (birthDate == null) return 'مجهول';
   final now = DateTime.now();
-  final age = now.year - birthDate!.year;
+  final age = now.year - birthDate.year;
   if (now.month < birthDate.month ||
       (now.month == birthDate.month && now.day < birthDate.day)) {
     return (age - 1).toString();

@@ -61,7 +61,10 @@ void _updateClientFields(Client client) {
   client.mName = UpdateClientDetailsTEC.nameController.text;
   client.mClientPhoneNum = UpdateClientDetailsTEC.phoneController.text;
   client.mBirthdate =
-      DateTime.tryParse(UpdateClientDetailsTEC.birthdateController.text);
+      int.tryParse(UpdateClientDetailsTEC.birthYearController.text) != null
+          ? DateTime(int.parse(UpdateClientDetailsTEC.birthYearController.text),
+              12, 31)
+          : null;
   client.mDiet = UpdateClientDetailsTEC.dietController.text;
   client.Plat = UpdateClientDetailsTEC.platControllers
       .map((e) => double.tryParse(e.text) ?? 0.0)

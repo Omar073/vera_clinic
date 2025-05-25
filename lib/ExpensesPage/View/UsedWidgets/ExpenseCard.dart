@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 import '../../../Core/Model/Classes/Expense.dart';
@@ -78,8 +79,9 @@ class _ExpenseCardState extends State<ExpenseCard> {
                   Wrap(
                     children: [MyTextBox(
                         title: 'التاريخ',
-                        value:
-                            '${widget.expense?.mDate.day}/${widget.expense?.mDate.month}/${widget.expense?.mDate.year}'),]
+                        value: widget.expense?.mDate != null
+                            ? DateFormat('dd/MM/yyyy').format(widget.expense!.mDate)
+                            : 'غير متوفر'),]
                   ),
                 ],
               ),

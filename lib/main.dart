@@ -10,7 +10,6 @@ import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
-import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/theme/app_theme.dart';
 import 'package:vera_clinic/Shorebird/update_service.dart';
@@ -21,7 +20,7 @@ import 'firebase_setup/firebase_options.dart';
 
 Future<void> main() async {
   //todo: check tips to Stay Within firebase daily quota limit
-  //todo: add Firebase Crashlytics
+  //todo: add Crash analytics
   WidgetsFlutterBinding.ensureInitialized();
 
   await initializeDateFormatting('ar', null);

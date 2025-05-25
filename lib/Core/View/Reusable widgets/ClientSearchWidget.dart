@@ -39,16 +39,23 @@ class _ClientSearchWidgetState extends State<ClientSearchWidget> {
     });
     widget.onSearchButtonClicked();
     List<Client?> results = [];
-    if (name.trim().split(" ").length == 1) {
-      results = await context.read<ClientProvider>().getClientByFirstName(name);
-    } else {
-      final resultsByName =
-          await context.read<ClientProvider>().getClientByName(name);
-      final resultsByFirstAndSecondName = await context
-          .read<ClientProvider>()
-          .getClientByFirstAndSecondName(name);
-      results = [...resultsByName, ...resultsByFirstAndSecondName];
+    final resultsByFirstName =
+        await context.read<ClientProvider>().getClientByFirstName(name);
+    final resultsByName =
+        await context.read<ClientProvider>().getClientByName(name);
+    final resultsByFirstAndSecondName = await context
+        .read<ClientProvider>()
+        .getClientByFirstAndSecondName(name);
+    
+    // Use a Map to deduplicate based on clientId
+    final Map<String, Client?> uniqueClients = {};
+    for (var client in [...resultsByFirstName, ...resultsByName, ...resultsByFirstAndSecondName]) {
+      if (client != null && client.mClientId.isNotEmpty) {
+        uniqueClients[client.mClientId] = client;
+      }
     }
+    results = uniqueClients.values.toList();
+    
     context.read<ClientProvider>().setSearchResults(results);
     widget.setHasSearched();
     setState(() {

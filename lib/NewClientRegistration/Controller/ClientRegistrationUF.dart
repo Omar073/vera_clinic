@@ -3,6 +3,7 @@ import 'package:vera_clinic/Core/View/PopUps/RequiredFieldSnackBar.dart';
 
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
+import '../../Core/View/Reusable widgets/datePicker.dart';
 import 'ClientRegistrationTEC.dart';
 
 bool verifyRequiredFields(BuildContext context) {
@@ -22,6 +23,10 @@ bool verifyFieldsDataType(BuildContext context) {
   bool isValid = true;
 
   final controllersWithMessages = [
+    {
+      'controller': ClientRegistrationTEC.birthYearController,
+      'message': 'سنة الميلاد',
+    },
     {
       'controller': ClientRegistrationTEC.heightController,
       'message': 'الطول',
@@ -78,6 +83,11 @@ bool verifyFieldsDataType(BuildContext context) {
     }
   }
 
+  if (validateYear(
+          context, 'سنة الميلاد', ClientRegistrationTEC.birthYearController.text) ==
+      false) {
+    isValid = false;
+  }
+
   return isValid;
 }
-
