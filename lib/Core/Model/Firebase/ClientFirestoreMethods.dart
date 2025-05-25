@@ -104,24 +104,41 @@ class ClientFirestoreMethods {
         return clients;
       }
 
-      // Get all clients and filter them in memory since Firestore doesn't support
-      // complex text search operations
-      final querySnapshot = await r.retry(
+      // Get clients where name contains the first part
+      final firstPartQuery = await r.retry(
         () => FirebaseSingleton.instance.firestore
             .collection('Clients')
+            .where('name', isGreaterThanOrEqualTo: parts[0])
+            .where('name', isLessThanOrEqualTo: parts[0] + '\uf8ff')
             .get(),
         retryIf: (e) => true,
       );
 
-      // Filter clients where both parts of the search query appear in the name
-      clients = querySnapshot.docs
+      // Get clients where name contains any of the search parts
+      final allPartsQueries = await Future.wait(
+        parts.map((part) => r.retry(
+          () => FirebaseSingleton.instance.firestore
+              .collection('Clients')
+              .where('name', isGreaterThanOrEqualTo: part)
+              .where('name', isLessThanOrEqualTo: part + '\uf8ff')
+              .get(),
+          retryIf: (e) => true,
+        )),
+      );
+
+      // Combine and deduplicate results from all queries
+      final allDocs = {
+        ...firstPartQuery.docs,
+        ...allPartsQueries.expand((query) => query.docs),
+      };
+
+      // Filter the results to include only clients that have all parts
+      clients = allDocs
           .map((doc) => Client.fromFirestore(doc.data()))
           .where((client) {
-            if (client.mName == null) return false;
-            final name = client.mName!.toLowerCase();
-            return parts.every((part) => name.contains(part.toLowerCase()));
-          })
-          .toList();
+        if (client.mName == null) return false;
+        return parts.every((part) => client.mName!.contains(part));
+      }).toList();
     } on FirebaseException catch (e) {
       debugPrint('Firebase error fetching client by first and second name: ${e.message}');
     } catch (e) {
