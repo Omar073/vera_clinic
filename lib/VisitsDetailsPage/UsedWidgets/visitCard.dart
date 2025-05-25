@@ -95,7 +95,7 @@ class _VisitCardState extends State<VisitCard> {
                       children: [
                         visitTextBox(
                           title: "التاريخ",
-                          value: DateFormat('dd-MM-yyyy')
+                          value: DateFormat('dd/MM/yyyy')
                               .format(widget.visit.mDate),
                         ),
                         visitTextBox(

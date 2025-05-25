@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../Model/Classes/Client.dart';
 import '../Model/Classes/ClientConstantInfo.dart';
+import '../View/PopUps/InvalidDataTypeSnackBar.dart';
+import '../View/PopUps/MySnackBar.dart';
 
 int getWeekOfMonth(DateTime date) {
   final firstDayOfMonth = DateTime(date.year, date.month, 1);
@@ -178,4 +181,33 @@ String getActivityLevelLabel(Activity a) {
     case Activity.none:
       return '';
   }
+}
+
+bool validateYear(BuildContext context, String yearType, String yearValue) {
+  yearValue = yearValue.trim();
+
+  // Check if input is numeric and does not contain a decimal point
+  if (!isNumOnly(yearValue) ||
+      yearValue.contains('.') ||
+      !RegExp(r'^\d+$').hasMatch(yearValue)) {
+    showInvalidDataTypeSnackBar(context, yearType);
+    return false;
+  }
+
+  final int? year = int.tryParse(yearValue);
+
+  if (year == null) {
+    // Should ideally not be reached if _isNumOnly is robust
+    showMySnackBar(context, '$yearType غير صالحة', Colors.red);
+    return false;
+  }
+
+  final int currentYear = DateTime.now().year;
+  if (year < 1900 || year > currentYear) {
+    showMySnackBar(
+        context, '$yearType يجب أن تكون بين 1900 و $currentYear', Colors.red);
+    return false;
+  }
+
+  return true;
 }

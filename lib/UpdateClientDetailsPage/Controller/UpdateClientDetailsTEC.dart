@@ -12,7 +12,7 @@ class UpdateClientDetailsTEC {
   // Client Controllers
   static late TextEditingController nameController;
   static late TextEditingController phoneController;
-  static late TextEditingController birthdateController;
+  static late TextEditingController birthYearController;
   static late TextEditingController dietController;
   static late List<TextEditingController> platControllers;
   static late TextEditingController heightController;
@@ -103,7 +103,7 @@ class UpdateClientDetailsTEC {
   static void _initClientControllers(Client c) {
     nameController = TextEditingController(text: c.mName ?? '');
     phoneController = TextEditingController(text: c.mClientPhoneNum ?? '');
-    birthdateController = TextEditingController(text: c.mBirthdate.toString());
+    birthYearController = TextEditingController(text: c.mBirthdate?.toLocal().year.toString());
     dietController = TextEditingController(text: c.mDiet ?? '');
     platControllers = List.generate(10,
         (index) => TextEditingController(text: c.Plat[index].toString()));
@@ -202,7 +202,7 @@ class UpdateClientDetailsTEC {
     // Client Controllers
     nameController.clear();
     phoneController.clear();
-    birthdateController.clear();
+    birthYearController.clear();
     dietController.clear();
     for (var controller in platControllers) {
       controller.clear();
@@ -273,7 +273,7 @@ class UpdateClientDetailsTEC {
     // Client Controllers
     nameController.dispose();
     phoneController.dispose();
-    birthdateController.dispose();
+    birthYearController.dispose();
     dietController.dispose();
     for (var controller in platControllers) {
       controller.dispose();

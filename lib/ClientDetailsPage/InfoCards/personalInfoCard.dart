@@ -47,11 +47,8 @@ Widget personalInfoCard(Client? client, String area) {
                         client?.mSubscriptionType ?? SubscriptionType.none)),
                 MyTextBox(title: 'المنطقة', value: area),
                 MyTextBox(
-                    title: 'تاريخ الميلاد',
-                    value: client?.mBirthdate
-                            ?.toLocal()
-                            .toString()
-                            .split(' ')[0] ??
+                    title: 'سنة الميلاد',
+                    value: client?.mBirthdate?.toLocal().year.toString() ??
                         'مجهول'),
               ],
             ),

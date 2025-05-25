@@ -49,16 +49,14 @@ Widget personalInfoCardU() {
               child: GenderDropdownMenu(
                   genderController: UpdateClientDetailsTEC.genderController,
                   selectedGender: getGenderFromString(
-                      UpdateClientDetailsTEC.genderController.text)
-              ),
+                      UpdateClientDetailsTEC.genderController.text)),
             ),
             const SizedBox(width: 16),
             Expanded(
-              child: DatePicker(
-                  textEditingController:
-                      UpdateClientDetailsTEC.birthdateController,
-                  label: "تاريخ الميلاد"),
-            ),
+                child: MyInputField(
+                    myController: UpdateClientDetailsTEC.birthYearController,
+                    hint: 'مثال: 1990',
+                    label: 'سنة الميلاد')),
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(

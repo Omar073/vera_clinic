@@ -94,6 +94,59 @@ class ClientFirestoreMethods {
     return clients;
   }
 
+  Future<List<Client?>> fetchClientByFirstAndSecondName(String searchQuery) async {
+    List<Client> clients = [];
+    try {
+      // Split the search query into parts
+      final parts = searchQuery.trim().split(' ');
+      if (parts.length < 2) {
+        debugPrint('Search query must contain at least two words');
+        return clients;
+      }
+
+      // Get clients where name contains the first part
+      final firstPartQuery = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('Clients')
+            .where('name', isGreaterThanOrEqualTo: parts[0])
+            .where('name', isLessThanOrEqualTo: parts[0] + '\uf8ff')
+            .get(),
+        retryIf: (e) => true,
+      );
+
+      // Get clients where name contains any of the search parts
+      final allPartsQueries = await Future.wait(
+        parts.map((part) => r.retry(
+          () => FirebaseSingleton.instance.firestore
+              .collection('Clients')
+              .where('name', isGreaterThanOrEqualTo: part)
+              .where('name', isLessThanOrEqualTo: part + '\uf8ff')
+              .get(),
+          retryIf: (e) => true,
+        )),
+      );
+
+      // Combine and deduplicate results from all queries
+      final allDocs = {
+        ...firstPartQuery.docs,
+        ...allPartsQueries.expand((query) => query.docs),
+      };
+
+      // Filter the results to include only clients that have all parts
+      clients = allDocs
+          .map((doc) => Client.fromFirestore(doc.data()))
+          .where((client) {
+        if (client.mName == null) return false;
+        return parts.every((part) => client.mName!.contains(part));
+      }).toList();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error fetching client by first and second name: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error fetching client by first and second name: $e');
+    }
+    return clients;
+  }
+
   Future<List<Client?>> fetchClientByName(String name) async {
     List<Client> clients = [];
     try {

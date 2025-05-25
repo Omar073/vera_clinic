@@ -96,30 +96,6 @@ class _ActionButtonsState extends State<ActionButtons> {
     );
   }
 
-  Widget _buildDialogActions(Client client) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text(
-            'إلغاء',
-            textAlign: TextAlign.end,
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-        ),
-        TextButton(
-          onPressed: () => _handleSubscriptionConfirmation(client),
-          child: const Text(
-            'تأكيد',
-            textAlign: TextAlign.end,
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
