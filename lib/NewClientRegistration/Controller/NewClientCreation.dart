@@ -25,7 +25,9 @@ import 'ClientRegistrationTEC.dart';
 Future<bool> checkInNewClient(BuildContext context, Client c) async {
   try {
     // Check if the client is already checked in
-    if (context.read<ClinicProvider>().checkedInClients
+    if (context
+        .read<ClinicProvider>()
+        .checkedInClients
         .any((client) => client?.mClientId == c.mClientId)) {
       showMySnackBar(context, 'هذا العميل مسجل مسبقًا', Colors.red);
       return false;
@@ -38,7 +40,7 @@ Future<bool> checkInNewClient(BuildContext context, Client c) async {
   }
 }
 
-Future<Map<bool, Client?>>createClient(BuildContext context) async {
+Future<Map<bool, Client?>> createClient(BuildContext context) async {
   try {
     if (await context
         .read<ClientProvider>()
@@ -52,7 +54,12 @@ Future<Map<bool, Client?>>createClient(BuildContext context) async {
         name: ClientRegistrationTEC.nameController.text.toLowerCase(),
         clientPhoneNum: ClientRegistrationTEC.phoneController.text,
         birthdate:
-            DateTime.tryParse(ClientRegistrationTEC.birthdateController.text),
+            int.tryParse(ClientRegistrationTEC.birthYearController.text) != null
+                ? DateTime(
+                    int.parse(ClientRegistrationTEC.birthYearController.text),
+                    12,
+                    31)
+                : null,
         diet: ClientRegistrationTEC.dietController.text,
         plat: ClientRegistrationTEC.platControllers
             .map((e) => double.tryParse(e.text) ?? 0.0)

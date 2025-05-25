@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
+import '../../Core/View/Reusable widgets/datePicker.dart';
 import 'UpdateClientDetailsTEC.dart';
 
 bool verifyRequiredFieldsU(BuildContext context) {
@@ -22,6 +23,10 @@ bool verifyFieldsDataTypeU(BuildContext context) {
   bool isValid = true;
 
   final controllersWithMessages = [
+    {
+      'controller': UpdateClientDetailsTEC.birthYearController,
+      'message': 'سنة الميلاد',
+    },
     {
       'controller': UpdateClientDetailsTEC.heightController,
       'message': 'الطول',
@@ -76,6 +81,12 @@ bool verifyFieldsDataTypeU(BuildContext context) {
       showInvalidDataTypeSnackBar(context, 'الوزن الثابت');
       isValid = false;
     }
+  }
+
+  if (validateYear(context, 'سنة الميلاد',
+          UpdateClientDetailsTEC.birthYearController.text) ==
+      false) {
+    isValid = false;
   }
 
   return isValid;

@@ -4,7 +4,7 @@ class ClientRegistrationTEC {
   // Client Controllers
   static late TextEditingController nameController;
   static late TextEditingController phoneController;
-  static late TextEditingController birthdateController;
+  static late TextEditingController birthYearController;
   static late TextEditingController dietController;
   static late List<TextEditingController> platControllers;
   static late TextEditingController heightController;
@@ -86,7 +86,7 @@ class ClientRegistrationTEC {
     // Client Controllers
     nameController = TextEditingController();
     phoneController = TextEditingController();
-    birthdateController = TextEditingController();
+    birthYearController = TextEditingController();
     dietController = TextEditingController();
     platControllers = List.generate(10, (index) => TextEditingController());
     heightController = TextEditingController();
@@ -155,7 +155,7 @@ class ClientRegistrationTEC {
     // Client Controllers
     nameController.clear();
     phoneController.clear();
-    birthdateController.clear();
+    birthYearController.clear();
     dietController.clear();
     platControllers.forEach((element) {
       element.clear();
@@ -226,7 +226,7 @@ class ClientRegistrationTEC {
     // Client Controllers
     nameController.dispose();
     phoneController.dispose();
-    birthdateController.dispose();
+    birthYearController.dispose();
     dietController.dispose();
     for (var controller in platControllers) {
       controller.dispose();
