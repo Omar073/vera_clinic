@@ -61,7 +61,7 @@ class _GenderDropdownMenuState extends State<GenderDropdownMenu> {
               style: const TextStyle(
                 color: Colors.black,
               ),
-              dropdownColor: Colors.white,
+              dropdownColor: Colors.blue[50]!,
               onChanged: (Gender? newValue) {
                 setState(() {
                   selectedGender = newValue;

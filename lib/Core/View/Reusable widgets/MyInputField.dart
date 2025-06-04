@@ -5,12 +5,14 @@ class MyInputField extends StatefulWidget {
   final String hint;
   final String label;
   final int? maxLines;
+  final TextStyle? textStyle;
   const MyInputField({
     super.key,
     required this.myController,
     required this.hint,
     required this.label,
     this.maxLines,
+    this.textStyle,
   });
 
   @override
@@ -23,7 +25,7 @@ class _MyInputFieldState extends State<MyInputField> {
     return SizedBox(
       width: 200,
       child: TextField(
-        style: const TextStyle(fontSize: 20),
+        style: widget.textStyle ?? const TextStyle(fontSize: 20),
         textAlign: TextAlign.end,
         controller: widget.myController,
         maxLines: widget.maxLines ?? 1,
