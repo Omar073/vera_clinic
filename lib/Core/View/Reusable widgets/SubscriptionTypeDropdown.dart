@@ -57,7 +57,7 @@ class _SubscriptionTypeDropdownState extends State<SubscriptionTypeDropdown> {
               style: const TextStyle(
                 color: Colors.black,
               ),
-              dropdownColor: Colors.white,
+              dropdownColor: Colors.blue[50]!,
               onChanged: (SubscriptionType? newValue) {
                 setState(() {
                   widget.selectedType = newValue;
