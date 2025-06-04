@@ -3,7 +3,7 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 
 import '../Controller/ClientRegistrationTEC.dart';
-import 'InfoSections/ActionButtons.dart';
+import 'InfoSections/action_buttons/action_buttons_widget.dart';
 import 'InfoSections/bodyMeasurementsCard.dart';
 import 'InfoSections/dietPreferencesCard.dart';
 import 'InfoSections/medicalHistoryCard.dart';
@@ -64,7 +64,7 @@ class _NewClientPageState extends State<NewClientPage> {
                 ),
               ),
             ),
-            const ActionButtons(),
+            const ActionButtonsWidget(),
           ],
         ),
       ),
