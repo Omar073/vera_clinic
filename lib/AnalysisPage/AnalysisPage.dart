@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
-import 'package:vera_clinic/Core/Model/Classes/Clinic.dart';
-import 'package:intl/intl.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 import 'package:vera_clinic/ExpensesPage/View/ExpensesPage.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
 import '../Core/Controller/UtilityFunctions.dart';
-import '../Core/Model/Classes/Expense.dart';
 
 class AnalysisPage extends StatefulWidget {
   const AnalysisPage({super.key});
@@ -19,11 +18,18 @@ class AnalysisPage extends StatefulWidget {
 
 class _AnalysisPageState extends State<AnalysisPage> {
   bool _isLoading = true;
+  final TextEditingController _deductionController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _loadData();
+  }
+
+  @override
+  void dispose() {
+    _deductionController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadData() async {
@@ -41,15 +47,64 @@ class _AnalysisPageState extends State<AnalysisPage> {
     }
   }
 
+  Widget _buildDeductionSection() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0).copyWith(right: 30),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          const Text(
+            'إدارة الدخل اليومي',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.right,
+          ),
+          Row(
+            textDirection: TextDirection.rtl,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 14.0),
+                child: MyInputField(
+                  myController: _deductionController,
+                  label: 'خصم من الدخل اليومي',
+                  hint: 'أدخل المبلغ',
+                ),
+              ),
+              const SizedBox(width: 20),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final double amountStr = double.parse(_deductionController.text);
+                  await context
+                      .read<ClinicProvider>()
+                      .updateDailyIncome(-amountStr);
+                  debugPrint('Deducting: $amountStr');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                  textStyle: const TextStyle(fontSize: 14),
+                ),
+                label: const Text('خصم'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final clinic = context.watch<ClinicProvider>().clinic;
     final expenses = context.watch<ExpenseProvider>().cachedExpenses;
 
     final currentDate = DateTime.now();
-    final String currentMonth = DateFormat('MMMM', 'ar').format(currentDate);
+    final String currentMonth =
+        intl.DateFormat('MMMM', 'ar').format(currentDate);
     final int weekOfMonth = getWeekOfMonth(currentDate);
-    String dayName = DateFormat('EEEE', 'ar').format(currentDate);
+    String dayName = intl.DateFormat('EEEE', 'ar').format(currentDate);
 
     if (_isLoading || clinic == null) {
       return const Scaffold(
@@ -183,6 +238,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
                 ],
               ),
             ),
+            _buildDeductionSection(),
           ],
         ),
       ),

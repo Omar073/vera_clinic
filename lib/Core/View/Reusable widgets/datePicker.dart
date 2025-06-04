@@ -11,7 +11,8 @@ class _ValidationResult {
   final int month;
   final int year;
 
-  _ValidationResult({required this.day, required this.month, required this.year});
+  _ValidationResult(
+      {required this.day, required this.month, required this.year});
 }
 
 class DatePicker extends StatefulWidget {
@@ -78,8 +79,7 @@ class _DatePickerState extends State<DatePicker> {
     String yearStr,
   ) {
     if (dayStr.isEmpty || monthStr.isEmpty || yearStr.isEmpty) {
-      showMySnackBar(dialogContext, 'يرجى ملء جميع الحقول',
-          Colors.red);
+      showMySnackBar(dialogContext, 'يرجى ملء جميع الحقول', Colors.red);
       return null;
     }
 
@@ -87,30 +87,26 @@ class _DatePickerState extends State<DatePicker> {
     final int? month = int.tryParse(monthStr);
 
     if (day == null || day < 1 || day > 31) {
-      showMySnackBar(
-          dialogContext,
-          'اليوم المدخل غير صالح (يجب أن يكون بين 1 و 31)',
-          Colors.red);
+      showMySnackBar(dialogContext,
+          'اليوم المدخل غير صالح (يجب أن يكون بين 1 و 31)', Colors.red);
       return null;
     }
     if (month == null || month < 1 || month > 12) {
-      showMySnackBar(
-          dialogContext,
-          'الشهر المدخل غير صالح (يجب أن يكون بين 1 و 12)',
-          Colors.red);
+      showMySnackBar(dialogContext,
+          'الشهر المدخل غير صالح (يجب أن يكون بين 1 و 12)', Colors.red);
       return null;
     }
 
     // Directly call the imported top-level function from UtilityFunctions.dart
-    if (!validateYear(dialogContext, 'السنة', yearStr)) { 
+    if (!validateYear(dialogContext, 'السنة', yearStr)) {
       // validateBirthYear shows its own snackbar
       return null;
     }
 
-    final int? year = int.tryParse(yearStr); 
-    if (year == null) { 
-        showMySnackBar(dialogContext, 'السنة المدخلة غير صالحة', Colors.red);
-        return null;
+    final int? year = int.tryParse(yearStr);
+    if (year == null) {
+      showMySnackBar(dialogContext, 'السنة المدخلة غير صالحة', Colors.red);
+      return null;
     }
     return _ValidationResult(day: day, month: month, year: year);
   }
@@ -127,10 +123,8 @@ class _DatePickerState extends State<DatePicker> {
       if (newDate.day != day ||
           newDate.month != month ||
           newDate.year != year) {
-        showMySnackBar(
-            dialogContext,
-            'التاريخ المدخل غير صالح (مثال: يوم 31 في شهر فبراير)',
-            Colors.red);
+        showMySnackBar(dialogContext,
+            'التاريخ المدخل غير صالح (مثال: يوم 31 في شهر فبراير)', Colors.red);
         return null;
       }
 
@@ -138,17 +132,13 @@ class _DatePickerState extends State<DatePicker> {
       final today = DateTime(now.year, now.month, now.day);
       if (newDate.isAfter(today)) {
         showMySnackBar(
-            dialogContext,
-            'لا يمكن اختيار تاريخ في المستقبل',
-            Colors.red);
+            dialogContext, 'لا يمكن اختيار تاريخ في المستقبل', Colors.red);
         return null;
       }
       return newDate;
     } catch (e) {
       showMySnackBar(
-          dialogContext,
-          'التاريخ المدخل بشكل عام غير صالح',
-          Colors.red);
+          dialogContext, 'التاريخ المدخل بشكل عام غير صالح', Colors.red);
       return null;
     }
   }
@@ -237,8 +227,7 @@ class _DatePickerState extends State<DatePicker> {
               },
             ),
             TextButton(
-              child: const Text('خروج',
-                  style: TextStyle(color: Colors.red)),
+              child: const Text('خروج', style: TextStyle(color: Colors.red)),
               onPressed: () {
                 Navigator.of(dialogContext).pop();
               },
@@ -252,6 +241,16 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     String currentDisplay = _displayText.isEmpty ? widget.hint : _displayText;
+    bool isHintDisplayed = _displayText.isEmpty;
+
+    TextStyle? displayTextStyle;
+    if (isHintDisplayed) {
+      // Style for the hint text when it's acting as the display
+      displayTextStyle = const TextStyle(
+          fontSize: 16, color: Colors.grey, fontWeight: FontWeight.w400);
+    } else {
+      displayTextStyle = null;
+    }
 
     return GestureDetector(
       onTap: () {
@@ -262,7 +261,9 @@ class _DatePickerState extends State<DatePicker> {
           myController:
               TextEditingController(text: currentDisplay), // Display purposes
           label: widget.label,
-          hint: '', // Hint is handled by currentDisplay logic
+          hint:
+              '',
+          textStyle: displayTextStyle,
         ),
       ),
     );

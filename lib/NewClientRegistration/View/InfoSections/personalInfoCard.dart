@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../Core/View/Reusable widgets/GenderDropdownMenu.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/SubscriptionTypeDropdown.dart';
-import '../../../Core/View/Reusable widgets/datePicker.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../../Controller/ClientRegistrationTEC.dart';
 
