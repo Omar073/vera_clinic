@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
-import '../../Core/View/Reusable widgets/datePicker.dart';
 import 'UpdateClientDetailsTEC.dart';
 
 bool verifyRequiredFieldsU(BuildContext context) {

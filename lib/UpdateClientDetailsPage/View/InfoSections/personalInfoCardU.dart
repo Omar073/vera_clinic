@@ -5,7 +5,6 @@ import '../../../Core/Controller/UtilityFunctions.dart';
 import '../../../Core/View/Reusable widgets/GenderDropdownMenu.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/SubscriptionTypeDropdown.dart';
-import '../../../Core/View/Reusable widgets/datePicker.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 
 Widget personalInfoCardU() {
