@@ -58,6 +58,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             textAlign: TextAlign.right,
           ),
+          const SizedBox(height: 10),
           Row(
             textDirection: TextDirection.rtl,
             crossAxisAlignment: CrossAxisAlignment.center,

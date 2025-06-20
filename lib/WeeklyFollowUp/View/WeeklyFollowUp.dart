@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
-import 'package:vera_clinic/WeeklyFollowUp/Controller/WeeklyFollowUpUF.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUActionButton.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo1.dart';
 import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo2.dart';
