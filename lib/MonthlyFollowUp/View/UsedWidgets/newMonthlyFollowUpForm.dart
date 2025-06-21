@@ -36,8 +36,8 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
+                  label: "معدل الحرق الأساسي",
                   myController: MonthlyFollowUpTEC.mBMRController,
-                  label: 'حد الحرق الأدني',
                   hint: 'BMR',
                 ),
               ),

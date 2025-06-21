@@ -52,6 +52,15 @@ Widget personalInfoCard(Client? client, String area) {
                         'مجهول'),
               ],
             ),
+            const SizedBox(height: 15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Flexible(
+                  child: MyTextBox(title: 'ملاحظات', value: client?.mNotes ?? ''),
+                ),
+              ],
+            ),
           ],
         ),
       ),
