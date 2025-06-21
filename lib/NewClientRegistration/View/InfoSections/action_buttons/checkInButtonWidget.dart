@@ -13,15 +13,15 @@ import '../../../Controller/ClientRegistrationTEC.dart';
 import '../../../Controller/ClientRegistrationUF.dart';
 import '../../../Controller/NewClientCreation.dart';
 
-class LoginButtonWidget extends StatefulWidget {
-  const LoginButtonWidget({super.key});
+class CheckInButtonWidget extends StatefulWidget {
+  const CheckInButtonWidget({super.key});
 
   @override
-  State<LoginButtonWidget> createState() => _LoginButtonWidgetState();
+  State<CheckInButtonWidget> createState() => _CheckInButtonWidgetState();
 }
 
-class _LoginButtonWidgetState extends State<LoginButtonWidget> {
-  bool _isLoggingIn = false;
+class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
+  bool _isCheckedIn = false;
   final TextEditingController _subscriptionPriceController =
       TextEditingController();
   final TextEditingController _subscriptionTypeController =
@@ -119,7 +119,7 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
     );
   }
 
-  Future<void> _handleLogin() async {
+  Future<void> _handleCheckIn() async {
     if (!verifyRequiredFields(context) || !verifyFieldsDataType(context)) {
       return;
     }
@@ -138,7 +138,7 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
       return;
     }
 
-    setState(() => _isLoggingIn = true);
+    setState(() => _isCheckedIn = true);
     try {
       final Map<bool, Client?> result = await createClient(context);
       final bool success = result.keys.first;
@@ -154,7 +154,7 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
       }
     } finally {
       if (mounted) {
-        setState(() => _isLoggingIn = false);
+        setState(() => _isCheckedIn = false);
       }
     }
   }
@@ -162,8 +162,8 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: _isLoggingIn ? null : _handleLogin,
-      icon: _isLoggingIn
+      onPressed: _isCheckedIn ? null : _handleCheckIn,
+      icon: _isCheckedIn
           ? const SizedBox(
               width: 24,
               height: 24,
@@ -174,7 +174,7 @@ class _LoginButtonWidgetState extends State<LoginButtonWidget> {
             )
           : const Icon(Icons.person_add, color: Colors.white),
       label: Text(
-        _isLoggingIn ? 'جاري التسجيل...' : 'تسجيل دخول',
+        _isCheckedIn ? 'جاري التسجيل...' : 'تسجيل دخول',
         style: const TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,

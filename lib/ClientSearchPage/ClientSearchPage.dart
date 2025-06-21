@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/ClientSearchPage/ClientSearchResultCard.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
-import 'package:vera_clinic/CheckInPage/View/CheckInPage.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart';
 import '../Core/Model/Classes/Client.dart';
-import '../ClientDetailsPage/ClientDetailsPage.dart';
 
 class ClientSearchPage extends StatefulWidget {
   final String state;
-  ClientSearchPage({super.key, required this.state});
+  const ClientSearchPage({super.key, required this.state});
 
   @override
   State<ClientSearchPage> createState() => _ClientSearchPageState();

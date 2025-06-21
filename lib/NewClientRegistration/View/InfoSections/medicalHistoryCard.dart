@@ -26,7 +26,7 @@ Widget medicalHistoryCard() {
               child: MyInputField(
                 myController: ClientRegistrationTEC.otherHeartController,
                 hint: '',
-                label: "أخري",
+                label: "أمراض قلب اخري",
               ),
             ),
             MyCheckBox(
@@ -54,7 +54,7 @@ Widget medicalHistoryCard() {
               child: MyInputField(
                 myController: ClientRegistrationTEC.gitController,
                 hint: 'GIT ',
-                label: "جهاز هضمي",
+                label: "أمراض الجهاز الهضمي الأخري",
               ),
             ),
             const SizedBox(width: 30),
@@ -180,16 +180,6 @@ Widget medicalHistoryCard() {
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Row(children: [
-          Expanded(
-            child: MyInputField(
-              myController: ClientRegistrationTEC.notesController,
-              hint: "",
-              label: "ملاحظات",
-            ),
-          ),
-        ]),
       ],
     ),
   );

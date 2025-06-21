@@ -33,6 +33,7 @@ class ClientDetailsPage extends StatefulWidget {
 class _ClientDetailsPageState extends State<ClientDetailsPage> {
   late Future<void> _clientDetailsFuture;
   String? errorMessage;
+  bool _initialized = false;
 
   // Declare the missing variables
   Client? client;
@@ -45,7 +46,15 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
   @override
   void initState() {
     super.initState();
-    _clientDetailsFuture = _loadClientDetails();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _clientDetailsFuture = _loadClientDetails();
+      _initialized = true;
+    }
   }
 
   Future<void> _loadClientDetails() async {

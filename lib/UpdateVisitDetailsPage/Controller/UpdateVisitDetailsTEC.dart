@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../../Core/Model/Classes/Visit.dart';
 
-class UpdateVisitDetailsTEC{
+class UpdateVisitDetailsTEC {
   // Visit
   static late TextEditingController visitDateController;
   static late TextEditingController visitDietController;
@@ -12,7 +12,8 @@ class UpdateVisitDetailsTEC{
   static late TextEditingController visitNotesController;
 
   static void init(Visit v) {
-    visitDateController = TextEditingController(text: DateFormat('dd/MM/yyyy').format(v.mDate));
+    visitDateController =
+        TextEditingController(text: DateFormat('dd/MM/yyyy').format(v.mDate));
     visitDietController = TextEditingController(text: v.mDiet);
     visitWeightController = TextEditingController(text: "${v.mWeight}");
     visitBMIController = TextEditingController(text: "${v.mBMI}");

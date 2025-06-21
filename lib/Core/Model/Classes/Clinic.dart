@@ -5,11 +5,12 @@ class Clinic {
   double? mMonthlyIncome;
   int? mDailyPatients;
   int? mMonthlyPatients;
-  double? mDailyExpenses; //todo: what changes the expenses?
+  double? mDailyExpenses;
   double? mMonthlyExpenses;
   double? mDailyProfit;
   double? mMonthlyProfit;
   List<String> mCheckedInClientsIds = [];
+  List<String> mDailyClientIds = [];
 
   Clinic({
     required double? dailyIncome,
@@ -21,6 +22,7 @@ class Clinic {
     required double? dailyProfit,
     required double? monthlyProfit,
     required List<String> checkedInClientsIds,
+    required List<String> dailyClientIds,
   })  : mDailyIncome = dailyIncome,
         mMonthlyIncome = monthlyIncome,
         mDailyPatients = dailyPatients,
@@ -29,7 +31,8 @@ class Clinic {
         mMonthlyExpenses = monthlyExpenses,
         mDailyProfit = dailyProfit,
         mMonthlyProfit = monthlyProfit,
-        mCheckedInClientsIds = checkedInClientsIds;
+        mCheckedInClientsIds = checkedInClientsIds,
+        mDailyClientIds = dailyClientIds;
 
   void printClinic() {
     debugPrint('\n\t\t<<Clinic>>\n'
@@ -50,6 +53,7 @@ class Clinic {
       dailyProfit: (data['dailyProfit'] as num?)?.toDouble() ?? 0.0,
       monthlyProfit: (data['monthlyProfit'] as num?)?.toDouble() ?? 0.0,
       checkedInClientsIds: List<String>.from(data['checkedInClientsIds'] ?? []),
+      dailyClientIds: List<String>.from(data['dailyClientIds'] ?? []),
     );
   }
 
@@ -64,18 +68,7 @@ class Clinic {
       'dailyProfit': mDailyProfit,
       'monthlyProfit': mMonthlyProfit,
       'checkedInClientsIds': mCheckedInClientsIds,
+      'dailyClientIds': mDailyClientIds,
     };
   }
 }
-
-// Clinic clinic = Clinic(
-//   dailyIncome: 1000.0,
-//   monthlyIncome: 30000.0,
-//   dailyPatients: 10,
-//   monthlyPatients: 300,
-//   dailyExpenses: 500.0,
-//   monthlyExpenses: 15000.0,
-//   dailyProfit: 500.0,
-//   monthlyProfit: 15000.0,
-//   checkedInClientsIds: [],
-// );
