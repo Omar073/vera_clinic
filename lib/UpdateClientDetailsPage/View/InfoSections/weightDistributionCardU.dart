@@ -61,9 +61,9 @@ Widget weightDistributionCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
+                label: "معدل الحرق الأساسي",
                 myController: UpdateClientDetailsTEC.bmrController,
                 hint: 'BMR',
-                label: "حد الحرق الأدنى",
               ),
             ),
           ],

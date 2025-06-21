@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/HomePage/UsedWidgets/WelcomeSection.dart';
 
-import '../Core/View/PopUps/MyAlertDialogue.dart';
 import '../Core/View/Reusable widgets/BackGround.dart';
 import '../Shorebird/update_service.dart';
 import 'UsedWidgets/GridMenu.dart';

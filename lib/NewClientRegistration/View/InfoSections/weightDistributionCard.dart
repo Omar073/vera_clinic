@@ -17,8 +17,7 @@ Widget weightDistributionCard() {
           alignment: WrapAlignment.end,
           children: [
             MyCheckBox(
-                controller: ClientRegistrationTEC.backController,
-                text: "ظهر"),
+                controller: ClientRegistrationTEC.backController, text: "ظهر"),
             MyCheckBox(
                 controller: ClientRegistrationTEC.breastController,
                 text: "صدر"),
@@ -29,8 +28,7 @@ Widget weightDistributionCard() {
                 controller: ClientRegistrationTEC.thighsController,
                 text: "أفخاذ"),
             MyCheckBox(
-                controller: ClientRegistrationTEC.waistController,
-                text: "وسط"),
+                controller: ClientRegistrationTEC.waistController, text: "وسط"),
             MyCheckBox(
                 controller: ClientRegistrationTEC.buttocksController,
                 text: "مقعدة"),
@@ -60,9 +58,9 @@ Widget weightDistributionCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
+                label: "معدل الحرق الأساسي",
                 myController: ClientRegistrationTEC.bmrController,
                 hint: 'BMR',
-                label: "حد الحرق الأدنى",
               ),
             ),
           ],

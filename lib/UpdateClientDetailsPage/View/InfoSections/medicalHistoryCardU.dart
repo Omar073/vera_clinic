@@ -15,33 +15,31 @@ Widget medicalHistoryCardU() {
           ":أمراض القلب والأوعية الدموية",
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
-        Wrap(
-          spacing: 30,
-          runSpacing: 15,
-          alignment: WrapAlignment.start,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          textDirection: TextDirection.rtl,
+        Row(
           children: [
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.anemiaController,
-                text: "Anemia"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.vascularController,
-                text: "Vascular"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.hypotensionController,
-                text: "HypoTension"),
-            MyCheckBox(
-                controller: UpdateClientDetailsTEC.hypertensionController,
-                text: "HyperTension"),
-            SizedBox(
-              width: 200,
+            Expanded(
               child: MyInputField(
                 myController: UpdateClientDetailsTEC.otherHeartController,
                 hint: '',
-                label: "أخري",
+                label: "أمراض قلب اخري",
               ),
             ),
+            const SizedBox(width: 15),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.hypertensionController,
+                text: "HyperTension"),
+            const SizedBox(width: 15),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.hypotensionController,
+                text: "HypoTension"),
+            const SizedBox(width: 15),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.vascularController,
+                text: "Vascular"),
+            const SizedBox(width: 15),
+            MyCheckBox(
+                controller: UpdateClientDetailsTEC.anemiaController,
+                text: "Anemia"),
           ],
         ),
         const SizedBox(height: 24),
@@ -55,7 +53,7 @@ Widget medicalHistoryCardU() {
               child: MyInputField(
                 myController: UpdateClientDetailsTEC.gitController,
                 hint: 'GIT ',
-                label: "جهاز هضمي",
+                label: "أمراض الجهاز الهضمي الأخري",
               ),
             ),
             const SizedBox(width: 30),
@@ -162,36 +160,26 @@ Widget medicalHistoryCardU() {
           ],
         ),
         const SizedBox(height: 24),
-        Wrap(
-          spacing: 24,
-          runSpacing: 12,
-          alignment: WrapAlignment.end,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             MyCheckBox(
               controller:
                   UpdateClientDetailsTEC.previousOBOperationsController,
               text: "عمليات سمنة سابقة",
             ),
+            const SizedBox(width: 24),
             MyCheckBox(
               controller: UpdateClientDetailsTEC.previousOBMedController,
               text: "أدوية سمنة سابقة",
             ),
+            const SizedBox(width: 24),
             MyCheckBox(
               controller: UpdateClientDetailsTEC.familyHistoryDMController,
               text: "تاريخ مرضي سكر",
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Row(children: [
-          Expanded(
-            child: MyInputField(
-              myController: UpdateClientDetailsTEC.notesController,
-              hint: "",
-              label: "ملاحظات",
-            ),
-          ),
-        ]),
       ],
     ),
   );

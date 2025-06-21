@@ -41,7 +41,7 @@ Widget bodyMeasurementsCard(
                     runSpacing: 20,
                     children: [
                       MyTextBox(
-                          title: '(BMR)حد الحرق الأدني',
+                          title: '(BMR)معدل الحرق الأساسي',
                           value: '${monthlyFollowUp.mBMR ?? 0}'),
                       MyTextBox(
                           title: '(PBF)نسبة الدهون في الجسم',

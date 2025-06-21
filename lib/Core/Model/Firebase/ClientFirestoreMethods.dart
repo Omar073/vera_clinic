@@ -109,7 +109,7 @@ class ClientFirestoreMethods {
         () => FirebaseSingleton.instance.firestore
             .collection('Clients')
             .where('name', isGreaterThanOrEqualTo: parts[0])
-            .where('name', isLessThanOrEqualTo: parts[0] + '\uf8ff')
+            .where('name', isLessThanOrEqualTo: '${parts[0]}\uf8ff')
             .get(),
         retryIf: (e) => true,
       );
@@ -120,7 +120,7 @@ class ClientFirestoreMethods {
           () => FirebaseSingleton.instance.firestore
               .collection('Clients')
               .where('name', isGreaterThanOrEqualTo: part)
-              .where('name', isLessThanOrEqualTo: part + '\uf8ff')
+              .where('name', isLessThanOrEqualTo: '$part\uf8ff')
               .get(),
           retryIf: (e) => true,
         )),

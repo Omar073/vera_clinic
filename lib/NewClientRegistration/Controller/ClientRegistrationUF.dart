@@ -3,7 +3,6 @@ import 'package:vera_clinic/Core/View/PopUps/RequiredFieldSnackBar.dart';
 
 import '../../Core/Controller/UtilityFunctions.dart';
 import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
-import '../../Core/View/Reusable widgets/datePicker.dart';
 import 'ClientRegistrationTEC.dart';
 
 bool verifyRequiredFields(BuildContext context) {

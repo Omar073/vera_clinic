@@ -157,9 +157,9 @@ class ClientRegistrationTEC {
     phoneController.clear();
     birthYearController.clear();
     dietController.clear();
-    platControllers.forEach((element) {
+    for (var element in platControllers) {
       element.clear();
-    });
+    }
     heightController.clear();
     weightController.clear();
     subscriptionTypeController.clear();

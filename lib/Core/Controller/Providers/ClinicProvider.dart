@@ -38,13 +38,13 @@ class ClinicProvider with ChangeNotifier {
   Future<void> checkInClient(Client client) async {
     try {
       if (clinic == null) return;
+      await getClinic();
       checkedInClients.add(client);
       clinic!.mCheckedInClientsIds.add(client.mClientId);
-      await updateClinic(clinic!);
-      //debug print
-      for (var c in checkedInClients) {
-        debugPrint('Checked in client: ${c?.mName}');
+      if (!clinic!.mDailyClientIds.contains(client.mClientId)) {
+        clinic!.mDailyClientIds.add(client.mClientId);
       }
+      await updateClinic(clinic!);
     } catch (e) {
       debugPrint('Error adding checked-in client: $e');
     }
@@ -60,6 +60,16 @@ class ClinicProvider with ChangeNotifier {
       debugPrint('Error removing checked-in client: $e');
     }
     notifyListeners();
+  }
+
+  Future<void> removeClientFromDailyList(String clientId) async {
+    try {
+      if (clinic == null) return;
+      clinic!.mDailyClientIds.remove(clientId);
+      await updateClinic(clinic!);
+    } catch (e) {
+      debugPrint('Error removing client from daily list: $e');
+    }
   }
 
   Future<void> clearCheckedInClients() async {
@@ -82,9 +92,9 @@ class ClinicProvider with ChangeNotifier {
       }
 
       // for debugging purposes only (not relevant)
-      for (var c in checkedInClients) {
-        debugPrint('Checked in client before: ${c?.mName}');
-      }
+      // for (var c in checkedInClients) {
+      //   debugPrint('Checked in client before: ${c?.mName}');
+      // }
 
       List<Client?> newCheckedInClients = [];
       for (var clientId in clinic!.mCheckedInClientsIds) {
@@ -97,9 +107,9 @@ class ClinicProvider with ChangeNotifier {
       if (checkedInClients.isEmpty) {
         debugPrint("No checked in clients");
       }
-      for (var c in checkedInClients) {
-        debugPrint('Checked in client: ${c?.mName}');
-      }
+      // for (var c in checkedInClients) {
+      //   debugPrint('Checked in client: ${c?.mName}');
+      // }
       notifyListeners();
       return checkedInClients;
     } catch (e) {
@@ -200,6 +210,7 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mDailyProfit = 0;
       clinic!.mDailyPatients = 0;
       clinic!.mCheckedInClientsIds.clear();
+      clinic!.mDailyClientIds.clear();
       _checkedInClients.clear();
       await updateClinic(clinic!);
     } catch (e) {

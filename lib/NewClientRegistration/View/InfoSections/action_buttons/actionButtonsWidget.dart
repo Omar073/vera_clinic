@@ -3,8 +3,8 @@ import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/NewVisit/View/NewVisit.dart';
 
 import '../../../Controller/ClientRegistrationTEC.dart';
-import './login_button_widget.dart';
-import './save_button_widget.dart';
+import './checkInButtonWidget.dart';
+import './saveButtonWidget.dart';
 
 class ActionButtonsWidget extends StatefulWidget {
   const ActionButtonsWidget({super.key});
@@ -28,7 +28,7 @@ class _ActionButtonsWidgetState extends State<ActionButtonsWidget> {
         children: [
           const SaveButtonWidget(),
           const SizedBox(width: 16),
-          const LoginButtonWidget(),
+          const CheckInButtonWidget(),
           const SizedBox(width: 16),
           ElevatedButton.icon(
             onPressed: () {

@@ -9,7 +9,7 @@ class ClientSearchWidget extends StatefulWidget {
   final void Function() onSearchButtonClicked;
   final void Function() setHasSearched;
 
-  ClientSearchWidget({
+  const ClientSearchWidget({
     super.key,
     required this.hintText,
     required this.onSearchButtonClicked,

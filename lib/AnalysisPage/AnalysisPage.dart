@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
 import 'package:vera_clinic/ExpensesPage/View/ExpensesPage.dart';
@@ -58,6 +59,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             textAlign: TextAlign.right,
           ),
+          const SizedBox(height: 10),
           Row(
             textDirection: TextDirection.rtl,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,12 +75,27 @@ class _AnalysisPageState extends State<AnalysisPage> {
               const SizedBox(width: 20),
               ElevatedButton.icon(
                 onPressed: () async {
-                  final double amountStr = double.parse(_deductionController.text);
-                  await context
-                      .read<ClinicProvider>()
-                      .updateDailyIncome(-amountStr);
-                  debugPrint('Deducting: $amountStr');
+                  final amount =
+                      double.tryParse(_deductionController.text);
+                  if (amount == null || amount <= 0) {
+                    return;
+                  }
+
+                  final clinicProvider = context.read<ClinicProvider>();
+                  final dailyIncome = clinicProvider.clinic!.mDailyIncome!;
+
+                  if (dailyIncome < amount) {
+                    showMySnackBar(
+                        context,
+                        'لا يمكن أن يكون الدخل اليومي قيمة سالبة',
+                        Colors.red);
+                  } else {
+                    await clinicProvider.updateDailyIncome(-amount);
+                    debugPrint('Deducting: $amount');
+                    _deductionController.clear();
+                  }
                 },
+                icon: const Icon(Icons.remove),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,

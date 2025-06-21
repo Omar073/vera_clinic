@@ -28,9 +28,15 @@ class DiseaseProvider with ChangeNotifier {
       orElse: () => null,
     );
 
-    disease ??= await diseaseFirestoreMethods.fetchDiseaseByClientId(clientId);
-    disease == null ? cachedDiseases.add(disease) : null;
-    notifyListeners();
+    if (disease != null) {
+      return disease;
+    }
+
+    disease = await diseaseFirestoreMethods.fetchDiseaseByClientId(clientId);
+    if (disease != null) {
+      cachedDiseases.add(disease);
+      notifyListeners();
+    }
     return disease;
   }
 
@@ -41,9 +47,15 @@ class DiseaseProvider with ChangeNotifier {
       orElse: () => null,
     );
 
-    disease ??= await diseaseFirestoreMethods.fetchDiseaseById(diseaseId);
-    disease == null ? cachedDiseases.add(disease) : null;
-    notifyListeners();
+    if (disease != null) {
+      return disease;
+    }
+
+    disease = await diseaseFirestoreMethods.fetchDiseaseById(diseaseId);
+    if (disease != null) {
+      cachedDiseases.add(disease);
+      notifyListeners();
+    }
     return disease;
   }
 
