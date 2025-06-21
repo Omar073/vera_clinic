@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:vera_clinic/ClientDetailsPage/ClientDetailsPage.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
+import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 
 class DailyClientCard extends StatelessWidget {
   final Client client;
@@ -16,6 +20,23 @@ class DailyClientCard extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ClientDetailsPage(client: client),
       ),
+    );
+  }
+
+  Future<void> _showDeleteConfirmationDialog(BuildContext context) async {
+    return showAlertDialogue(
+      context: context,
+      title: 'تأكيد الحذف',
+      content: 'هل أنت متأكد أنك تريد حذف هذا العميل من القائمة اليومية؟',
+      buttonText: 'حذف',
+      returnText: 'إلغاء',
+      onPressed: () async {
+        await Provider.of<ClinicProvider>(context, listen: false)
+            .removeClientFromDailyList(client.mClientId);
+        if (context.mounted) {
+          showMySnackBar(context, 'تم حذف العميل بنجاح', Colors.green);
+        }
+      },
     );
   }
 
@@ -76,21 +97,42 @@ class DailyClientCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                ElevatedButton(
-                  onPressed: () => _navigateToDetails(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blueAccent,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _navigateToDetails(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'تفاصيل العميل',
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Text(
-                    'تفاصيل العميل',
-                    style: GoogleFonts.cairo(
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(width: 8),
+                    ElevatedButton(
+                      onPressed: () => _showDeleteConfirmationDialog(context),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.redAccent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        'حذف',
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

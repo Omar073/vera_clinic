@@ -62,6 +62,18 @@ Widget personalInfoCard() {
             ),
           ],
         ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.notesController,
+                hint: "",
+                label: "ملاحظات",
+              ),
+            ),
+          ],
+        ),
       ],
     ),
   );
