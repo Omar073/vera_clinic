@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
       _updateService.checkForUpdates(context);
     });
     _loadClinicData();
+    context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
   }
 
   Future<void> _loadClinicData() async {

@@ -3,9 +3,9 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/WeeklyFollowUpUF.dart';
+import '../../Controller/SingleFollowUpUF.dart';
 
-Widget WFUClientInfoCard(Client client) {
+Widget singleFollowUpClientInfoCard(Client client) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(

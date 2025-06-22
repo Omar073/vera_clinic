@@ -11,8 +11,9 @@ import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 class DailyClientCard extends StatelessWidget {
   final Client client;
   final int index;
+  final VoidCallback onClientRemoved;
 
-  const DailyClientCard({super.key, required this.client, required this.index});
+  const DailyClientCard({super.key, required this.client, required this.index, required this.onClientRemoved});
 
   void _navigateToDetails(BuildContext context) {
     Navigator.push(
@@ -35,6 +36,7 @@ class DailyClientCard extends StatelessWidget {
             .removeClientFromDailyList(client.mClientId);
         if (context.mounted) {
           showMySnackBar(context, 'تم حذف العميل بنجاح', Colors.green);
+          onClientRemoved();
         }
       },
     );

@@ -9,29 +9,22 @@ Widget bodyMeasurementsCard() {
     'القياسات الجسمية',
     Column(
       children: [
+        const SizedBox(height: 20),
         Row(
           children: [
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.heightController,
-                hint: "أدخل الطول (سم)",
-                label: "الطول",
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: MyInputField(
                 myController: ClientRegistrationTEC.weightController,
-                hint: "أدخل الوزن (كجم)",
+                hint: "الوزن (كغ)",
                 label: "الوزن",
               ),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 20),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.bmiController,
-                hint: "BMI ",
-                label: "مؤشر كتلة الجسم",
+                myController: ClientRegistrationTEC.heightController,
+                hint: 'الطول (سم)',
+                label: 'الطول',
               ),
             ),
           ],

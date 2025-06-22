@@ -29,7 +29,7 @@ Widget bodyMeasurementsCard(
                       MyTextBox(
                           title: 'الوزن', value: '${client?.mWeight ?? 0} كجم'),
                       MyTextBox(
-                          title: '(BMI)مؤشر كتلة الجسم',
+                          title: '(BMI) مؤشر كتلة الجسم',
                           value: '${monthlyFollowUp.mBMI ?? 0}'),
                     ],
                   ),
@@ -41,10 +41,10 @@ Widget bodyMeasurementsCard(
                     runSpacing: 20,
                     children: [
                       MyTextBox(
-                          title: '(BMR)معدل الحرق الأساسي',
+                          title: '(BMR) معدل الحرق الأساسي',
                           value: '${monthlyFollowUp.mBMR ?? 0}'),
                       MyTextBox(
-                          title: '(PBF)نسبة الدهون في الجسم',
+                          title: '(PBF) نسبة الدهون في الجسم',
                           value: '${monthlyFollowUp.mPBF ?? 0} %'),
                       MyTextBox(
                           title: 'الماء',

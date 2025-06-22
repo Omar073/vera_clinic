@@ -35,10 +35,6 @@ bool verifyFieldsDataType(BuildContext context) {
       'message': 'الوزن',
     },
     {
-      'controller': ClientRegistrationTEC.bmiController,
-      'message': 'مؤشر كتلة الجسم',
-    },
-    {
       'controller': ClientRegistrationTEC.pbfController,
       'message': 'نسبة الدهون في الجسم',
     },
