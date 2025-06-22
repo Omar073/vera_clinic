@@ -33,11 +33,8 @@ class _SingleFollowUpActionButtonState extends State<SingleFollowUpActionButton>
                     });
 
                     try {
-                      if (!verifyVisitInput(
-                          context,
-                          SingleFollowUpTEC.singleFollowUpBMIController,
-                          SingleFollowUpTEC.singleFollowUpWeightController,
-                          TextEditingController(text: ' '))) {
+                      if (!verifySingleFollowUpRequiredFields(context) ||
+                          !verifySingleFollowUpFieldsDataType(context)) {
                         return;
                       }
 

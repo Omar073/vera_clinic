@@ -23,7 +23,6 @@ class _ActionButtonState extends State<ActionButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //todo: non-empty field check
         _isLoading
             ? const CircularProgressIndicator(color: Colors.blueAccent)
             : ElevatedButton(
@@ -33,11 +32,8 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    if (!verifyBiweeklyFollowUpInput(
-                      context,
-                      BiweeklyFollowUpTEC.mBMIController,
-                      BiweeklyFollowUpTEC.mPBFController,
-                    )) {
+                    if (!verifyBiweeklyRequiredFields(context) ||
+                        !verifyBiweeklyFieldsDataType(context)) {
                       return;
                     }
 

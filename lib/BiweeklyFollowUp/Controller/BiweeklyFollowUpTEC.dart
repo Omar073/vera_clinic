@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class BiweeklyFollowUpTEC {
-  static late TextEditingController mBMIController;
+  static late TextEditingController mWeightController;
   static late TextEditingController mPBFController;
   static late TextEditingController mWaterController;
   static late TextEditingController mMaxWeightController;
@@ -11,7 +11,7 @@ class BiweeklyFollowUpTEC {
   static late TextEditingController mDailyCaloriesController;
 
   static void init() {
-    mBMIController = TextEditingController();
+    mWeightController = TextEditingController();
     mPBFController = TextEditingController();
     mWaterController = TextEditingController();
     mMaxWeightController = TextEditingController();
@@ -22,7 +22,7 @@ class BiweeklyFollowUpTEC {
   }
 
   static void clear() {
-    mBMIController.clear();
+    mWeightController.clear();
     mPBFController.clear();
     mWaterController.clear();
     mMaxWeightController.clear();
@@ -33,7 +33,7 @@ class BiweeklyFollowUpTEC {
   }
 
   static void dispose() {
-    mBMIController.dispose();
+    mWeightController.dispose();
     mPBFController.dispose();
     mWaterController.dispose();
     mMaxWeightController.dispose();

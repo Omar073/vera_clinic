@@ -26,11 +26,6 @@ Widget singleFollowUpInfo1() {
                 hint: "",
                 label: "الوزن",
               ),
-              MyInputField(
-                myController: SingleFollowUpTEC.singleFollowUpBMIController,
-                hint: "",
-                label: "مؤشر كتلة الجسم",
-              ),
             ],
           ),
         )),
