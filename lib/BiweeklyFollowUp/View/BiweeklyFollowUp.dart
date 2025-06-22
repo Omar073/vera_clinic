@@ -102,7 +102,7 @@ class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
                                 runSpacing: 20,
                                 children: [
                                   MyTextBox(
-                                    title: "مؤشر كتلة الجسم",
+                                    title: '(BMI) مؤشر كتلة الجسم',
                                     value: "${cmfu.mBMI}",
                                   ),
                                   MyTextBox(

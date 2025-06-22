@@ -20,9 +20,9 @@ Widget newBiweeklyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: BiweeklyFollowUpTEC.mBMIController,
-                  label: 'مؤشر كتلة الجسم',
-                  hint: 'BMI',
+                  myController: BiweeklyFollowUpTEC.mWeightController,
+                  label: 'الوزن (كجم)',
+                  hint: 'Weight (kg)',
                 ),
               ),
               SizedBox(
