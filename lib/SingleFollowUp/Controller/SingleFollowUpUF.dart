@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
-import 'WeeklyFollowUpTEC.dart';
+import 'SingleFollowUpTEC.dart';
 
 String getAge(DateTime? birthDate) {
   if (birthDate == null) return 'مجهول';
@@ -17,23 +17,23 @@ String getAge(DateTime? birthDate) {
   return age.toString();
 }
 
-Future<bool> createWeeklyFollowUp(Client c, BuildContext context) async {
+Future<bool> createSingleFollowUp(Client c, BuildContext context) async {
   try {
     Visit v = Visit(
       visitId: "",
       clientId: c.mClientId,
       date: DateTime.now(),
-      diet: WeeklyFollowUpTEC.visitDietController.text,
+      diet: SingleFollowUpTEC.singleFollowUpDietController.text,
       weight:
-          double.tryParse(WeeklyFollowUpTEC.visitWeightController.text) ?? 0,
-      bmi: double.tryParse(WeeklyFollowUpTEC.visitBMIController.text) ?? 0,
-      visitNotes: WeeklyFollowUpTEC.visitNotesController.text,
+          double.tryParse(SingleFollowUpTEC.singleFollowUpWeightController.text) ?? 0,
+      bmi: double.tryParse(SingleFollowUpTEC.singleFollowUpBMIController.text) ?? 0,
+      visitNotes: SingleFollowUpTEC.singleFollowUpNotesController.text,
     );
 
     await context.read<VisitProvider>().createVisit(v);
     return true;
   } catch (e) {
-    debugPrint('Error creating visit: $e');
+    debugPrint('Error creating SingleFollowUp: $e');
     return false;
   }
 }

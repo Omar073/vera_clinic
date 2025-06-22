@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/MonthlyFollowUpTEC.dart';
+import '../../Controller/BiweeklyFollowUpTEC.dart';
 
-Widget newMonthlyFollowUpForm() {
+Widget newBiweeklyFollowUpForm() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 14.0),
     child: myCard(
@@ -20,7 +20,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mBMIController,
+                  myController: BiweeklyFollowUpTEC.mBMIController,
                   label: 'مؤشر كتلة الجسم',
                   hint: 'BMI',
                 ),
@@ -28,7 +28,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mPBFController,
+                  myController: BiweeklyFollowUpTEC.mPBFController,
                   label: 'نسبة الدهون',
                   hint: 'PBF',
                 ),
@@ -37,14 +37,14 @@ Widget newMonthlyFollowUpForm() {
                 width: 200,
                 child: MyInputField(
                   label: "معدل الحرق الأساسي",
-                  myController: MonthlyFollowUpTEC.mBMRController,
+                  myController: BiweeklyFollowUpTEC.mBMRController,
                   hint: 'BMR',
                 ),
               ),
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mWaterController,
+                  myController: BiweeklyFollowUpTEC.mWaterController,
                   hint: 'Water',
                   label: 'الماء',
                 ),
@@ -61,7 +61,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mMaxWeightController,
+                  myController: BiweeklyFollowUpTEC.mMaxWeightController,
                   hint: '',
                   label: 'أقصي وزن',
                 ),
@@ -69,7 +69,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mOptimalWeightController,
+                  myController: BiweeklyFollowUpTEC.mOptimalWeightController,
                   hint: '',
                   label: 'الوزن المثالي',
                 ),
@@ -77,7 +77,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mMaxCaloriesController,
+                  myController: BiweeklyFollowUpTEC.mMaxCaloriesController,
                   hint: '',
                   label: 'أقصي سعرات',
                 ),
@@ -85,7 +85,7 @@ Widget newMonthlyFollowUpForm() {
               SizedBox(
                 width: 200,
                 child: MyInputField(
-                  myController: MonthlyFollowUpTEC.mDailyCaloriesController,
+                  myController: BiweeklyFollowUpTEC.mDailyCaloriesController,
                   hint: '',
                   label: 'السعرات اليومية',
                 ),

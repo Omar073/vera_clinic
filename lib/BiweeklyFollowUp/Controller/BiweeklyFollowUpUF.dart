@@ -5,9 +5,9 @@ import 'package:vera_clinic/Core/View/PopUps/RequiredFieldSnackBar.dart';
 
 import '../../Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
-import 'MonthlyFollowUpTEC.dart';
+import 'BiweeklyFollowUpTEC.dart';
 
-Future<bool> createMonthlyFollowUp(
+Future<bool> createBiweeklyFollowUp(
     Client c, ClientMonthlyFollowUp cmfu, BuildContext context) async {
   try {
     // Helper function to parse text or fallback to the existing value
@@ -19,19 +19,19 @@ Future<bool> createMonthlyFollowUp(
     ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
       clientMonthlyFollowUpId: '',
       clientId: c.mClientId,
-      bmi: parseOrFallback(MonthlyFollowUpTEC.mBMIController.text, cmfu.mBMI),
-      pbf: parseOrFallback(MonthlyFollowUpTEC.mPBFController.text, cmfu.mPBF),
+      bmi: parseOrFallback(BiweeklyFollowUpTEC.mBMIController.text, cmfu.mBMI),
+      pbf: parseOrFallback(BiweeklyFollowUpTEC.mPBFController.text, cmfu.mPBF),
       water:
-          parseOrFallback(MonthlyFollowUpTEC.mWaterController.text, cmfu.mWater),
+          parseOrFallback(BiweeklyFollowUpTEC.mWaterController.text, cmfu.mWater),
       maxWeight: parseOrFallback(
-          MonthlyFollowUpTEC.mMaxWeightController.text, cmfu.mMaxWeight),
+          BiweeklyFollowUpTEC.mMaxWeightController.text, cmfu.mMaxWeight),
       optimalWeight: parseOrFallback(
-          MonthlyFollowUpTEC.mOptimalWeightController.text, cmfu.mOptimalWeight),
-      bmr: parseOrFallback(MonthlyFollowUpTEC.mBMRController.text, cmfu.mBMR),
+          BiweeklyFollowUpTEC.mOptimalWeightController.text, cmfu.mOptimalWeight),
+      bmr: parseOrFallback(BiweeklyFollowUpTEC.mBMRController.text, cmfu.mBMR),
       maxCalories: parseOrFallback(
-          MonthlyFollowUpTEC.mMaxCaloriesController.text, cmfu.mMaxCalories),
+          BiweeklyFollowUpTEC.mMaxCaloriesController.text, cmfu.mMaxCalories),
       dailyCalories: parseOrFallback(
-          MonthlyFollowUpTEC.mDailyCaloriesController.text, cmfu.mDailyCalories),
+          BiweeklyFollowUpTEC.mDailyCaloriesController.text, cmfu.mDailyCalories),
     );
 
     // Save the ClientMonthlyFollowUp object
@@ -43,12 +43,12 @@ Future<bool> createMonthlyFollowUp(
     // clientMonthlyFollowUp.printClientMonthlyFollowUp();
     return true;
   } on Exception catch (e) {
-    debugPrint('Error creating monthly follow up: $e');
+    debugPrint('Error creating BiweeklyFollowUp: $e');
     return false;
   }
 }
 
-bool verifyMonthlyFolowUpInput(
+bool verifyBiweeklyFollowUpInput(
     BuildContext context,
     TextEditingController mBMIController,
     TextEditingController mWeightController) {

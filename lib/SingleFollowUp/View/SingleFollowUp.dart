@@ -2,38 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUActionButton.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo1.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/UsedWidgets/WFUInfo2.dart';
+import 'package:vera_clinic/SingleFollowUp/View/UsedWidgets/SFUInfo1.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
-import '../Controller/WeeklyFollowUpTEC.dart';
-import 'UsedWidgets/WFUClientInfoCard.dart';
+import '../Controller/SingleFollowUpTEC.dart';
+import 'UsedWidgets/SFUActionButton.dart';
+import 'UsedWidgets/SFUClientInfoCard.dart';
+import 'UsedWidgets/SFUInfo2.dart';
 
-class WeeklyFollowUp extends StatefulWidget {
+class SingleFollowUp extends StatefulWidget {
   final Client client;
-  const WeeklyFollowUp({super.key, required this.client});
+  const SingleFollowUp({super.key, required this.client});
 
   @override
-  State<WeeklyFollowUp> createState() => _WeeklyFollowUpState();
+  State<SingleFollowUp> createState() => _SingleFollowUpState();
 }
 
-class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
+class _SingleFollowUpState extends State<SingleFollowUp> {
   late Future<Visit?> _lastVisitDate;
 
   @override
   void initState() {
     super.initState();
     _lastVisitDate = _fetchLastVisitDate();
-    WeeklyFollowUpTEC.init();
+    SingleFollowUpTEC.init();
   }
 
   @override
   void dispose() {
-    WeeklyFollowUpTEC.dispose();
+    SingleFollowUpTEC.dispose();
     super.dispose();
   }
 
@@ -58,7 +58,7 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
               widget.client.mName!,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            const Text(' :متابعة اسبوعية'),
+            const Text(' :متابعة منفردة'),
           ],
         ),
       ),
@@ -67,7 +67,7 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
             child: SingleChildScrollView(
           child: Column(
             children: [
-              WFUClientInfoCard(widget.client),
+              singleFollowUpClientInfoCard(widget.client),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -127,11 +127,11 @@ class _WeeklyFollowUpState extends State<WeeklyFollowUp> {
                 ),
               ),
               const SizedBox(height: 20),
-              visitInfo1(),
+              singleFollowUpInfo1(),
               const SizedBox(height: 20),
-              visitInfo2(),
+              singleFollowUpInfo2(),
               const SizedBox(height: 30),
-              VisitActionButton(client: widget.client),
+              SingleFollowUpActionButton(client: widget.client),
             ],
           ),
         )),

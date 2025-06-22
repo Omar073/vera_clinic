@@ -5,33 +5,33 @@ import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
-import 'package:vera_clinic/MonthlyFollowUp/View/UsedWidgets/ActionButton.dart';
+import 'package:vera_clinic/BiweeklyFollowUp/View/UsedWidgets/ActionButton.dart';
 
 import '../../Core/Model/Classes/Client.dart';
-import '../Controller/MonthlyFollowUpTEC.dart';
-import 'UsedWidgets/newMonthlyFollowUpForm.dart';
+import '../Controller/BiweeklyFollowUpTEC.dart';
+import 'UsedWidgets/newBiweeklyFollowUp.dart';
 
-class MonthlyFollowUp extends StatefulWidget {
+class BiweeklyFollowUp extends StatefulWidget {
   final Client client;
-  const MonthlyFollowUp({super.key, required this.client});
+  const BiweeklyFollowUp({super.key, required this.client});
 
   @override
-  State<MonthlyFollowUp> createState() => _MonthlyFollowUpState();
+  State<BiweeklyFollowUp> createState() => _BiweeklyFollowUpState();
 }
 
-class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
+class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
   late Future<ClientMonthlyFollowUp?> _lastMonthlyFollowUpFuture;
 
   @override
   void initState() {
     super.initState();
-    MonthlyFollowUpTEC.initMonthlyFollowUpTEC();
+    BiweeklyFollowUpTEC.init();
     _lastMonthlyFollowUpFuture = _fetchLastMonthlyFollowUp();
   }
 
   @override
   void dispose() {
-    MonthlyFollowUpTEC.disposeMonthlyFollowUpTEC();
+    BiweeklyFollowUpTEC.dispose();
     super.dispose();
   }
 
@@ -56,7 +56,7 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
               widget.client.mName!,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            const Text(' :متابعة شهرية'),
+            const Text(' :متابعة أسبوعين'),
           ],
         ),
       ),
@@ -154,7 +154,7 @@ class _MonthlyFollowUpState extends State<MonthlyFollowUp> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          newMonthlyFollowUpForm(),
+                          newBiweeklyFollowUpForm(),
                           const SizedBox(height: 50),
                           ActionButton(client: widget.client, cmfu: cmfu),
                           const SizedBox(height: 20),

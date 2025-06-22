@@ -230,4 +230,25 @@ class ClinicProvider with ChangeNotifier {
       debugPrint('Error clearing monthly data: $e');
     }
   }
+
+  Future<void> syncDailyClientsWithCheckedIn() async {
+    try {
+      await getClinic();
+      if (clinic == null) return;
+
+      bool hasChanges = false;
+      for (String clientId in clinic!.mCheckedInClientsIds) {
+        if (!clinic!.mDailyClientIds.contains(clientId)) {
+          clinic!.mDailyClientIds.add(clientId);
+          hasChanges = true;
+        }
+      }
+
+      if (hasChanges) {
+        await updateClinic(clinic!);
+      }
+    } catch (e) {
+      debugPrint('Error syncing daily clients with checked-in clients: $e');
+    }
+  }
 }

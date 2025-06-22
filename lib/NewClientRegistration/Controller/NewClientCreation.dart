@@ -88,7 +88,7 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
         await createClientConstantInfo(c.mClientId, context) ?? '';
     c.mDiseaseId = await createDisease(c.mClientId, context) ?? '';
     c.mClientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(c.mClientId, context) ?? '';
+        await createClientMonthlyFollowUp(c, context) ?? '';
     c.mPreferredFoodsId =
         await createPreferredFoods(c.mClientId, context) ?? '';
     c.mWeightAreasId = await createWeightAreas(c.mClientId, context) ?? '';
@@ -97,6 +97,13 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
       c.mLastVisitId = getLatestVisitId();
       for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = c.mClientId;
+        if (double.tryParse(NewVisitTEC.visitBMIController.text) != null) {
+          v.mBMI = double.parse(NewVisitTEC.visitBMIController.text);
+        } else if (c.mHeight != null && c.mHeight! > 0) {
+          v.mBMI = v.mWeight / ((c.mHeight! / 100) * (c.mHeight! / 100));
+        } else {
+          v.mBMI = 0.0;
+        }
         await context.read<VisitProvider>().updateVisit(v);
       }
     }
@@ -167,12 +174,19 @@ Future<String?> createDisease(String clientId, BuildContext context) async {
 }
 
 Future<String?> createClientMonthlyFollowUp(
-    String clientId, BuildContext context) async {
+    Client client, BuildContext context) async {
   try {
+    double bmi = 0.0;
+    if (client.mHeight != null &&
+        client.mWeight != null &&
+        client.mHeight! > 0) {
+      bmi =
+          client.mWeight! / ((client.mHeight! / 100) * (client.mHeight! / 100));
+    }
     ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
-      clientId: clientId,
+      clientId: client.mClientId,
       clientMonthlyFollowUpId: '',
-      bmi: double.tryParse(ClientRegistrationTEC.bmiController.text) ?? 0.0,
+      bmi: bmi,
       pbf: double.tryParse(ClientRegistrationTEC.pbfController.text) ?? 0.0,
       water: double.tryParse(ClientRegistrationTEC.waterController.text) ?? 0.0,
       maxWeight:

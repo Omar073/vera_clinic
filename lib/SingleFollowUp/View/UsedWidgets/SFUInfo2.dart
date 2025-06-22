@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/WeeklyFollowUpTEC.dart';
+import '../../Controller/SingleFollowUpTEC.dart';
 
-Widget visitInfo2() {
+Widget singleFollowUpInfo2() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(
@@ -17,7 +17,7 @@ Widget visitInfo2() {
             children: [
               Expanded(
                   child: MyInputField(
-                      myController: WeeklyFollowUpTEC.visitNotesController,
+                      myController: SingleFollowUpTEC.singleFollowUpNotesController,
                       hint: '',
                       label: "ملاحظات"))
             ],
