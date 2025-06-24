@@ -7,7 +7,7 @@ import 'FirebaseSingelton.dart';
 
 class ClinicFirestoreMethods {
   static const String clinicDocumentId = '52g2WUMJjoTwbu6ioE96';
-  final r = RetryOptions(maxAttempts: 3);
+  final r = RetryOptions(maxAttempts: 5);
 
   Future<Clinic?> fetchClinic() async {
     try {
@@ -34,7 +34,7 @@ class ClinicFirestoreMethods {
     }
   }
 
-  Future<void> updateClinic(Clinic clinic) async {
+  Future<bool> updateClinic(Clinic clinic) async {
     try {
       final clinicRef = FirebaseSingleton.instance.firestore
           .collection('Clinic')
@@ -53,10 +53,13 @@ class ClinicFirestoreMethods {
         () => clinicRef.update(clinic.toMap()),
         retryIf: (e) => true,
       );
+      return true;
     } on FirebaseException catch (e) {
       debugPrint('Firebase error updating clinic: ${e.message}');
+      return false;
     } catch (e) {
       debugPrint('Unknown error updating clinic: $e');
+      return false;
     }
   }
 }

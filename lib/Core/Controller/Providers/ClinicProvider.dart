@@ -26,27 +26,41 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateClinic(Clinic clinic) async {
+  Future<bool> updateClinic(Clinic clinic) async {
     try {
-      await _clinicFirestoreMethods.updateClinic(clinic);
-      notifyListeners();
+      bool success = await _clinicFirestoreMethods.updateClinic(clinic);
+      if (success) {
+        notifyListeners();
+      }
+      return success;
     } catch (e) {
       debugPrint('Error updating clinic(provider): $e');
+      return false;
     }
   }
 
-  Future<void> checkInClient(Client client) async {
+  Future<bool> checkInClient(Client client) async {
     try {
-      if (clinic == null) return;
-      await getClinic();
-      checkedInClients.add(client);
-      clinic!.mCheckedInClientsIds.add(client.mClientId);
+      if (clinic == null) await getClinic();
+      if (clinic == null) return false;
+
+      if (!checkedInClients.any((c) => c?.mClientId == client.mClientId)) {
+        checkedInClients.add(client);
+      }
+      if (!clinic!.mCheckedInClientsIds.contains(client.mClientId)) {
+        clinic!.mCheckedInClientsIds.add(client.mClientId);
+      }
       if (!clinic!.mDailyClientIds.contains(client.mClientId)) {
         clinic!.mDailyClientIds.add(client.mClientId);
       }
-      await updateClinic(clinic!);
+      bool success = await updateClinic(clinic!);
+      if (success) {
+        notifyListeners();
+      }
+      return success;
     } catch (e) {
       debugPrint('Error adding checked-in client: $e');
+      return false;
     }
   }
 
@@ -132,28 +146,32 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> incrementDailyPatients() async {
+  Future<bool> incrementDailyPatients() async {
     try {
-      if (clinic == null) return;
+      if (clinic == null) await getClinic();
+      if (clinic == null) return false;
       clinic!.mDailyPatients = (clinic!.mDailyPatients ?? 0) + 1;
       clinic!.mMonthlyPatients = (clinic!.mMonthlyPatients ?? 0) + 1;
-      await updateClinic(clinic!);
+      return await updateClinic(clinic!);
     } catch (e) {
       debugPrint('Error incrementing daily patients: $e');
+      return false;
     }
   }
 
-  Future<void> updateDailyIncome(double income) async {
+  Future<bool> updateDailyIncome(double income) async {
     try {
-      if (clinic == null) return;
+      if (clinic == null) await getClinic();
+      if (clinic == null) return false;
       debugPrint('Current daily income: ${clinic!.mDailyIncome}');
       clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
       debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
 
       clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
-      await _updateDailyProfit();
+      return await _updateDailyProfit();
     } catch (e) {
       debugPrint('Error updating daily income: $e');
+      return false;
     }
   }
 
@@ -178,16 +196,18 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<void> _updateDailyProfit() async {
+  Future<bool> _updateDailyProfit() async {
     try {
-      if (clinic == null) return;
+      if (clinic == null) await getClinic();
+      if (clinic == null) return false;
       clinic!.mDailyProfit =
           (clinic!.mDailyIncome ?? 0) - (clinic!.mDailyExpenses ?? 0);
       clinic!.mMonthlyProfit =
           (clinic!.mMonthlyIncome ?? 0) - (clinic!.mMonthlyExpenses ?? 0);
-      await updateClinic(clinic!);
+      return await updateClinic(clinic!);
     } catch (e) {
       debugPrint('Error updating daily profit: $e');
+      return false;
     }
   }
 
