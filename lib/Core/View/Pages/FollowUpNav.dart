@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/ClientDetailsPage/ClientDetailsPage.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 import 'package:vera_clinic/BiweeklyFollowUp/View/BiweeklyFollowUp.dart';
 
@@ -98,27 +99,37 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     onPressed: _isCheckingOut
                         ? null
                         : () async {
-                            setState(() {
-                              _isCheckingOut = true;
-                            });
-                            try {
-                              await context
-                                  .read<ClinicProvider>()
-                                  .checkOutClient(widget.client);
-                              if (mounted) {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomePage()));
-                              }
-                            } finally {
-                              if (mounted) {
-                                setState(() {
-                                  _isCheckingOut = false;
-                                });
-                              }
-                            }
+                            await showAlertDialogue(
+                              context: context,
+                              title: 'تأكيد تسجيل الخروج',
+                              content:
+                                  'هل أنت متأكد من تسجيل خروج العميل ${widget.client.mName}؟',
+                              onPressed: () async {
+                                if (mounted) {
+                                  setState(() {
+                                    _isCheckingOut = true;
+                                  });
+                                }
+                                try {
+                                  await context
+                                      .read<ClinicProvider>()
+                                      .checkOutClient(widget.client);
+                                  if (mounted) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const HomePage()));
+                                  }
+                                } finally {
+                                  if (mounted) {
+                                    setState(() {
+                                      _isCheckingOut = false;
+                                    });
+                                  }
+                                }
+                              },
+                            );
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

@@ -44,52 +44,58 @@ class _CheckInButtonState extends State<CheckInButton> {
                 });
 
                 try {
-                  // Parse the subscription price
                   final double subscriptionPrice = double.parse(
                       widget.visitSubscriptionPriceController.text);
 
-                  // Set the subscription type for the client
                   widget.client?.mSubscriptionType =
                       getSubscriptionTypeFromString(
                           widget.visitSubscriptionTypeController.text);
 
-                  // Check if the client is already checked in
-                  bool isCheckedIn = await context
-                      .read<ClinicProvider>()
-                      .isClientCheckedIn(widget.client!.mClientId);
-                  if (!isCheckedIn) {
-                    // Add the client to the checked-in clients list
-                    await context
-                        .read<ClinicProvider>()
-                        .checkInClient(widget.client!);
-                    // Increment the daily patients count
-                    await context
-                        .read<ClinicProvider>()
-                        .incrementDailyPatients();
-                    // Update the daily income
-                    await context
-                        .read<ClinicProvider>()
-                        .updateDailyIncome(subscriptionPrice);
-                    // Update client info (mainly because the subscription type is changed)
-                    await context
-                        .read<ClientProvider>()
-                        .updateClient(widget.client!);
+                  final clinicProvider = context.read<ClinicProvider>();
+                  final clientProvider = context.read<ClientProvider>();
 
+                  bool isAlreadyCheckedIn = await clinicProvider
+                      .isClientCheckedIn(widget.client!.mClientId);
+                  if (isAlreadyCheckedIn) {
+                    showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
+                    setState(() {
+                      _isLoading = false;
+                    });
+                    return;
+                  }
+
+                  bool checkInSuccess =
+                      await clinicProvider.checkInClient(widget.client!);
+                  bool incrementSuccess =
+                      await clinicProvider.incrementDailyPatients();
+                  bool incomeSuccess = await clinicProvider
+                      .updateDailyIncome(subscriptionPrice);
+                  bool clientUpdateSuccess =
+                      await clientProvider.updateClient(widget.client!);
+
+                  if (checkInSuccess &&
+                      incrementSuccess &&
+                      incomeSuccess &&
+                      clientUpdateSuccess) {
                     showMySnackBar(
                         context, 'تم تسجيل العميل بنجاح', Colors.green);
-
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const HomePage()));
                   } else {
-                    showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
+                    showMySnackBar(
+                        context,
+                        'فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى',
+                        Colors.red);
                   }
                 } catch (e) {
                   showMySnackBar(context, 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
                       Colors.red);
                 } finally {
-                  setState(() {
-                    _isLoading = false;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(
