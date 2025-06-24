@@ -99,37 +99,43 @@ class _FollowUpNavState extends State<FollowUpNav> {
                     onPressed: _isCheckingOut
                         ? null
                         : () async {
+                            bool didConfirm = false;
                             await showAlertDialogue(
                               context: context,
                               title: 'تأكيد تسجيل الخروج',
                               content:
                                   'هل أنت متأكد من تسجيل خروج العميل ${widget.client.mName}؟',
-                              onPressed: () async {
-                                if (mounted) {
-                                  setState(() {
-                                    _isCheckingOut = true;
-                                  });
-                                }
-                                try {
-                                  await context
-                                      .read<ClinicProvider>()
-                                      .checkOutClient(widget.client);
-                                  if (mounted) {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const HomePage()));
-                                  }
-                                } finally {
-                                  if (mounted) {
-                                    setState(() {
-                                      _isCheckingOut = false;
-                                    });
-                                  }
-                                }
+                              onPressed: () {
+                                didConfirm = true;
                               },
                             );
+
+                            if (mounted && didConfirm) {
+                              setState(() {
+                                _isCheckingOut = true;
+                              });
+                              try {
+                                await context
+                                    .read<ClinicProvider>()
+                                    .checkOutClient(widget.client);
+                                if (mounted) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomePage()),
+                                    (Route<dynamic> route) => false,
+                                  );
+                                }
+                              } catch (e) {
+                                debugPrint('Checkout failed: $e');
+                                if (mounted) {
+                                  setState(() {
+                                    _isCheckingOut = false;
+                                  });
+                                }
+                              }
+                            }
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

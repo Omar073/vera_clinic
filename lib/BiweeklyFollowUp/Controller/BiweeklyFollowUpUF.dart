@@ -32,8 +32,9 @@ Future<bool> createBiweeklyFollowUp(
       clientId: c.mClientId,
       bmi: bmi,
       pbf: parseOrFallback(BiweeklyFollowUpTEC.mPBFController.text, cmfu.mPBF),
-      water:
-          parseOrFallback(BiweeklyFollowUpTEC.mWaterController.text, cmfu.mWater),
+      water: BiweeklyFollowUpTEC.mWaterController.text.isEmpty
+          ? cmfu.mWater
+          : BiweeklyFollowUpTEC.mWaterController.text,
       maxWeight: parseOrFallback(
           BiweeklyFollowUpTEC.mMaxWeightController.text, cmfu.mMaxWeight),
       optimalWeight: parseOrFallback(
@@ -89,10 +90,6 @@ bool verifyBiweeklyFieldsDataType(BuildContext context) {
     {
       'controller': BiweeklyFollowUpTEC.mPBFController,
       'message': 'نسبة الدهون في الجسم',
-    },
-    {
-      'controller': BiweeklyFollowUpTEC.mWaterController,
-      'message': 'نسبة الماء في الجسم',
     },
     {
       'controller': BiweeklyFollowUpTEC.mMaxWeightController,

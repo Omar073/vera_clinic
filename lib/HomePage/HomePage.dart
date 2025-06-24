@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/HomePage/UsedWidgets/WelcomeSection.dart';
+import 'package:vera_clinic/firebase_setup/MigrationService.dart';
 
 import '../Core/View/Reusable widgets/BackGround.dart';
 import '../Shorebird/update_service.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
       _updateService.checkForUpdates(context);
     });
     _loadClinicData();
+    //MigrationService().migrateWaterFieldToString();
     context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
   }
 

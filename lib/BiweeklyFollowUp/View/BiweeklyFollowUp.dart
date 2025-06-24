@@ -102,6 +102,10 @@ class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
                                 runSpacing: 20,
                                 children: [
                                   MyTextBox(
+                                    title: 'الوزن',
+                                    value: '${widget.client.mWeight ?? 0} كجم',
+                                  ),
+                                  MyTextBox(
                                     title: '(BMI) مؤشر كتلة الجسم',
                                     value: "${cmfu.mBMI}",
                                   ),
@@ -115,7 +119,7 @@ class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
                                   ),
                                   MyTextBox(
                                     title: "الماء",
-                                    value: "${cmfu.mWater}",
+                                    value: cmfu.mWater ?? '',
                                   ),
                                 ],
                               ),

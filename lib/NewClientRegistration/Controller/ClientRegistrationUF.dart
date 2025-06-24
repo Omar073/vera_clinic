@@ -39,10 +39,6 @@ bool verifyFieldsDataType(BuildContext context) {
       'message': 'نسبة الدهون في الجسم',
     },
     {
-      'controller': ClientRegistrationTEC.waterController,
-      'message': 'نسبة الماء في الجسم',
-    },
-    {
       'controller': ClientRegistrationTEC.maxWeightController,
       'message': 'الوزن الأقصى',
     },

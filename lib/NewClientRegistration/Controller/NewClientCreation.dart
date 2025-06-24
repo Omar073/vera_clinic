@@ -188,7 +188,7 @@ Future<String?> createClientMonthlyFollowUp(
       clientMonthlyFollowUpId: '',
       bmi: bmi,
       pbf: double.tryParse(ClientRegistrationTEC.pbfController.text) ?? 0.0,
-      water: double.tryParse(ClientRegistrationTEC.waterController.text) ?? 0.0,
+      water: ClientRegistrationTEC.waterController.text,
       maxWeight:
           double.tryParse(ClientRegistrationTEC.maxWeightController.text) ??
               0.0,

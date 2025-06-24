@@ -48,7 +48,7 @@ Widget bodyMeasurementsCard(
                           value: '${monthlyFollowUp.mPBF ?? 0} %'),
                       MyTextBox(
                           title: 'الماء',
-                          value: '${monthlyFollowUp.mWater ?? 0}'),
+                          value: monthlyFollowUp.mWater ?? ''),
                     ],
                   ),
                   const SizedBox(height: 30),
