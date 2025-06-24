@@ -185,8 +185,7 @@ class UpdateClientDetailsTEC {
   static void _initMonthlyFollowUpControllers(ClientMonthlyFollowUp cmfu) {
     bmiController = TextEditingController(text: cmfu.mBMI?.toString() ?? '');
     pbfController = TextEditingController(text: cmfu.mPBF?.toString() ?? '');
-    waterController =
-        TextEditingController(text: cmfu.mWater?.toString() ?? '');
+    waterController = TextEditingController(text: cmfu.mWater ?? '');
     maxWeightController =
         TextEditingController(text: cmfu.mMaxWeight?.toString() ?? '');
     optimalWeightController =
