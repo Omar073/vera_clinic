@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
@@ -73,6 +74,9 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
       }
     } catch (e) {
       debugPrint('Error polling for checked-in clients: $e');
+      if (mounted) {
+        showMySnackBar(context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
+      }
     }
   }
 
@@ -95,10 +99,15 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
           await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error getting checked-in clients: $e');
+      if (mounted) {
+        showMySnackBar(context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 

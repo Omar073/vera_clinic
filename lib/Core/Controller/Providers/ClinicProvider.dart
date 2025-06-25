@@ -5,11 +5,12 @@ import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import '../../Model/Classes/Clinic.dart';
 import '../../Model/Classes/Client.dart';
 import '../../Model/Firebase/ClinicFirestoreMethods.dart';
+import '../../Model/CustomExceptions.dart';
 
 class ClinicProvider with ChangeNotifier {
   final ClinicFirestoreMethods _clinicFirestoreMethods =
       ClinicFirestoreMethods();
-  late Clinic? clinic;
+  Clinic? clinic;
   List<Client?> _checkedInClients = [];
 
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
@@ -26,53 +27,41 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> updateClinic(Clinic clinic) async {
-    try {
-      bool success = await _clinicFirestoreMethods.updateClinic(clinic);
-      if (success) {
-        notifyListeners();
-      }
-      return success;
-    } catch (e) {
-      debugPrint('Error updating clinic(provider): $e');
-      return false;
-    }
+  Future<void> updateClinic(Clinic clinic) async {
+    await _clinicFirestoreMethods.updateClinic(clinic);
+    notifyListeners();
   }
 
-  Future<bool> checkInClient(Client client) async {
-    try {
-      if (clinic == null) await getClinic();
-      if (clinic == null) return false;
+  Future<void> checkInClient(Client client) async {
+    if (clinic == null) await getClinic();
+    if (clinic == null) return;
 
-      if (!checkedInClients.any((c) => c?.mClientId == client.mClientId)) {
-        checkedInClients.add(client);
-      }
-      if (!clinic!.mCheckedInClientsIds.contains(client.mClientId)) {
-        clinic!.mCheckedInClientsIds.add(client.mClientId);
-      }
-      if (!clinic!.mDailyClientIds.contains(client.mClientId)) {
-        clinic!.mDailyClientIds.add(client.mClientId);
-      }
-      bool success = await updateClinic(clinic!);
-      if (success) {
-        notifyListeners();
-      }
-      return success;
-    } catch (e) {
-      debugPrint('Error adding checked-in client: $e');
-      return false;
+    await _clinicFirestoreMethods.checkInClient(client.mClientId);
+
+    if (!checkedInClients.any((c) => c?.mClientId == client.mClientId)) {
+      checkedInClients.add(client);
     }
+    if (clinic != null &&
+        !clinic!.mCheckedInClientsIds.contains(client.mClientId)) {
+      clinic!.mCheckedInClientsIds.add(client.mClientId);
+    }
+    if (!clinic!.mDailyClientIds.contains(client.mClientId)) {
+      clinic!.mDailyClientIds.add(client.mClientId);
+    }
+
+    await updateClinic(clinic!);
+    notifyListeners();
   }
 
   Future<void> checkOutClient(Client client) async {
-    try {
-      if (clinic == null) return;
-      checkedInClients.remove(client);
-      clinic!.mCheckedInClientsIds.remove(client.mClientId);
-      await updateClinic(clinic!);
-    } catch (e) {
-      debugPrint('Error removing checked-in client: $e');
+    if (clinic == null) await getClinic();
+    if (clinic == null) {
+      throw FirebaseOperationException(
+          'لا يمكن تسجيل الخروج, بيانات العيادة غير متوفرة');
     }
+    clinic!.mCheckedInClientsIds.remove(client.mClientId);
+    checkedInClients.removeWhere((c) => c?.mClientId == client.mClientId);
+    await updateClinic(clinic!);
     notifyListeners();
   }
 
@@ -98,38 +87,26 @@ class ClinicProvider with ChangeNotifier {
   }
 
   Future<List<Client?>> getCheckedInClients(BuildContext context) async {
-    try {
-      await getClinic();
-      if (clinic == null) {
-        debugPrint('Clinic is null');
-        return [];
-      }
-
-      // for debugging purposes only (not relevant)
-      // for (var c in checkedInClients) {
-      //   debugPrint('Checked in client before: ${c?.mName}');
-      // }
-
-      List<Client?> newCheckedInClients = [];
-      for (var clientId in clinic!.mCheckedInClientsIds) {
-        Client? client =
-            await context.read<ClientProvider>().getClientById(clientId);
-        newCheckedInClients.add(client);
-      }
-      _checkedInClients = newCheckedInClients;
-
-      if (checkedInClients.isEmpty) {
-        debugPrint("No checked in clients");
-      }
-      // for (var c in checkedInClients) {
-      //   debugPrint('Checked in client: ${c?.mName}');
-      // }
-      notifyListeners();
-      return checkedInClients;
-    } catch (e) {
-      debugPrint('Error getting checked-in clients: $e');
-      return [];
+    // Try to get clinic data. If it fails (returns null), throw an exception.
+    if (await getClinic() == null) {
+      throw FirebaseOperationException(
+          'فشل تحميل بيانات العيادة, الرجاء المحاولة مرة أخرى');
     }
+
+    // If we reach here, clinic is guaranteed to be non-null.
+    List<Client?> newCheckedInClients = [];
+    for (var clientId in clinic!.mCheckedInClientsIds) {
+      Client? client =
+          await context.read<ClientProvider>().getClientById(clientId);
+      newCheckedInClients.add(client);
+    }
+    _checkedInClients = newCheckedInClients;
+
+    if (checkedInClients.isEmpty) {
+      debugPrint("No checked in clients");
+    }
+    notifyListeners();
+    return checkedInClients;
   }
 
   Future<bool> isClientCheckedIn(String clientId) async {
@@ -146,33 +123,29 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> incrementDailyPatients() async {
-    try {
-      if (clinic == null) await getClinic();
-      if (clinic == null) return false;
-      clinic!.mDailyPatients = (clinic!.mDailyPatients ?? 0) + 1;
-      clinic!.mMonthlyPatients = (clinic!.mMonthlyPatients ?? 0) + 1;
-      return await updateClinic(clinic!);
-    } catch (e) {
-      debugPrint('Error incrementing daily patients: $e');
-      return false;
+  Future<void> incrementDailyPatients() async {
+    if (clinic == null) await getClinic();
+    if (clinic == null) {
+      throw FirebaseOperationException(
+          'لا يمكن تحديث البيانات, بيانات العيادة غير متوفرة');
     }
+    clinic!.mDailyPatients = (clinic!.mDailyPatients ?? 0) + 1;
+    clinic!.mMonthlyPatients = (clinic!.mMonthlyPatients ?? 0) + 1;
+    await updateClinic(clinic!);
   }
 
-  Future<bool> updateDailyIncome(double income) async {
-    try {
-      if (clinic == null) await getClinic();
-      if (clinic == null) return false;
-      debugPrint('Current daily income: ${clinic!.mDailyIncome}');
-      clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
-      debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
-
-      clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
-      return await _updateDailyProfit();
-    } catch (e) {
-      debugPrint('Error updating daily income: $e');
-      return false;
+  Future<void> updateDailyIncome(double income) async {
+    if (clinic == null) await getClinic();
+    if (clinic == null) {
+      throw FirebaseOperationException(
+          'لا يمكن تحديث البيانات, بيانات العيادة غير متوفرة');
     }
+    debugPrint('Current daily income: ${clinic!.mDailyIncome}');
+    clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
+    debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
+
+    clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
+    await _updateDailyProfit();
   }
 
   Future<void> updateDailyExpenses(double expenses) async {
@@ -196,19 +169,17 @@ class ClinicProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> _updateDailyProfit() async {
-    try {
-      if (clinic == null) await getClinic();
-      if (clinic == null) return false;
-      clinic!.mDailyProfit =
-          (clinic!.mDailyIncome ?? 0) - (clinic!.mDailyExpenses ?? 0);
-      clinic!.mMonthlyProfit =
-          (clinic!.mMonthlyIncome ?? 0) - (clinic!.mMonthlyExpenses ?? 0);
-      return await updateClinic(clinic!);
-    } catch (e) {
-      debugPrint('Error updating daily profit: $e');
-      return false;
+  Future<void> _updateDailyProfit() async {
+    if (clinic == null) await getClinic();
+    if (clinic == null) {
+      throw FirebaseOperationException(
+          'لا يمكن تحديث البيانات, بيانات العيادة غير متوفرة');
     }
+    clinic!.mDailyProfit =
+        (clinic!.mDailyIncome ?? 0) - (clinic!.mDailyExpenses ?? 0);
+    clinic!.mMonthlyProfit =
+        (clinic!.mMonthlyIncome ?? 0) - (clinic!.mMonthlyExpenses ?? 0);
+    await updateClinic(clinic!);
   }
 
   Future<void> _updateMonthlyProfit() async {

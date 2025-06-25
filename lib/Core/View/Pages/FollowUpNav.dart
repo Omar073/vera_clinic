@@ -111,14 +111,14 @@ class _FollowUpNavState extends State<FollowUpNav> {
                             );
 
                             if (mounted && didConfirm) {
-                              setState(() {
-                                _isCheckingOut = true;
-                              });
-                              try {
-                                await context
-                                    .read<ClinicProvider>()
-                                    .checkOutClient(widget.client);
-                                if (mounted) {
+                            setState(() {
+                              _isCheckingOut = true;
+                            });
+                            try {
+                              await context
+                                  .read<ClinicProvider>()
+                                  .checkOutClient(widget.client);
+                              if (mounted) {
                                   Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
@@ -126,13 +126,13 @@ class _FollowUpNavState extends State<FollowUpNav> {
                                             const HomePage()),
                                     (Route<dynamic> route) => false,
                                   );
-                                }
+                              }
                               } catch (e) {
                                 debugPrint('Checkout failed: $e');
-                                if (mounted) {
-                                  setState(() {
-                                    _isCheckingOut = false;
-                                  });
+                              if (mounted) {
+                                setState(() {
+                                  _isCheckingOut = false;
+                                });
                                 }
                               }
                             }
