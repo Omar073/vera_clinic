@@ -189,10 +189,11 @@ class ClientFirestoreMethods {
         () => clientRef.update(client.toMap()),
         retryIf: (e) => true,
       );
-    } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating client: ${e.message}');
+
     } catch (e) {
-      debugPrint('Unknown error updating client: $e');
+      debugPrint('Error updating client: $e');
+      throw Exception(
+          'فشل تحديث بيانات العميل. الرجاء التأكد من اتصالك بالإنترنت.');
     }
   }
 

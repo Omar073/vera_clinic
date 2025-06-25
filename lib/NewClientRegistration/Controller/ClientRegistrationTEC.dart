@@ -73,7 +73,6 @@ class ClientRegistrationTEC {
   static late TextEditingController backController;
 
   // Client Monthly Follow-Up Controllers
-  static late TextEditingController bmiController;
   static late TextEditingController pbfController;
   static late TextEditingController waterController;
   static late TextEditingController maxWeightController;
@@ -141,7 +140,6 @@ class ClientRegistrationTEC {
     backController = TextEditingController();
 
     // Client Monthly Follow-Up Controllers
-    bmiController = TextEditingController();
     pbfController = TextEditingController();
     waterController = TextEditingController();
     maxWeightController = TextEditingController();
@@ -212,7 +210,6 @@ class ClientRegistrationTEC {
     backController.clear();
 
     // Client Monthly Follow-Up Controllers
-    bmiController.clear();
     pbfController.clear();
     waterController.clear();
     maxWeightController.clear();
@@ -283,7 +280,6 @@ class ClientRegistrationTEC {
     backController.dispose();
 
     // Client Monthly Follow-Up Controllers
-    bmiController.dispose();
     pbfController.dispose();
     waterController.dispose();
     maxWeightController.dispose();

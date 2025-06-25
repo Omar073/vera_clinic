@@ -134,8 +134,7 @@ Future<bool> _updateClientMonthlyFollowUp(
         double.tryParse(UpdateClientDetailsTEC.bmiController.text) ?? 0.0;
     cmfu.mPBF =
         double.tryParse(UpdateClientDetailsTEC.pbfController.text) ?? 0.0;
-    cmfu.mWater =
-        double.tryParse(UpdateClientDetailsTEC.waterController.text) ?? 0.0;
+    cmfu.mWater = UpdateClientDetailsTEC.waterController.text;
     cmfu.mMaxWeight =
         double.tryParse(UpdateClientDetailsTEC.maxWeightController.text) ?? 0.0;
     cmfu.mOptimalWeight =

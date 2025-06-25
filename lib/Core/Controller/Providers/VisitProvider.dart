@@ -23,20 +23,17 @@ class VisitProvider with ChangeNotifier {
 
   Future<List<Visit?>?> getVisitsByClientId(String clientId) async {
     try {
-      List<Visit?>? clientVisits =
-          cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
-
       final fetchedVisits =
           await visitFirestoreMethods.fetchVisitsByClientId(clientId) ?? [];
 
       for (Visit? visit in fetchedVisits) {
-        if (!clientVisits.any((v) => v?.mClientId == visit?.mClientId)) {
-          clientVisits.add(visit);
-        }
-        if(visit != null && !cachedVisits.any((v) => v?.mVisitId == visit.mVisitId)) {
+        if (visit != null &&
+            !cachedVisits.any((v) => v?.mVisitId == visit.mVisitId)) {
           cachedVisits.add(visit);
         }
       }
+      final clientVisits =
+          cachedVisits.where((visit) => visit?.mClientId == clientId).toList();
 
       notifyListeners();
       return clientVisits;

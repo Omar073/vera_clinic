@@ -121,10 +121,8 @@ class _GridMenuState extends State<GridMenu> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => CheckedInClientsPage(
-                    checkedInClients:
-                        context.watch<ClinicProvider>().checkedInClients)),
-          );
+                builder: (context) => CheckedInClientsPage(),
+          ));
         }),
       ],
     );

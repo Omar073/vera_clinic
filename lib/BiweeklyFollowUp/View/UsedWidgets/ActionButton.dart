@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../../Core/View/PopUps/MySnackBar.dart';
-import '../../Controller/MonthlyFollowUpTEC.dart';
-import '../../Controller/MonthlyFollowUpUF.dart';
+import '../../Controller/BiweeklyFollowUpTEC.dart';
+import '../../Controller/BiweeklyFollowUpUF.dart';
 
 class ActionButton extends StatefulWidget {
   final Client client;
@@ -23,7 +23,6 @@ class _ActionButtonState extends State<ActionButton> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //todo: non-empty field check
         _isLoading
             ? const CircularProgressIndicator(color: Colors.blueAccent)
             : ElevatedButton(
@@ -33,15 +32,12 @@ class _ActionButtonState extends State<ActionButton> {
                   });
 
                   try {
-                    if (!verifyMonthlyFolowUpInput(
-                      context,
-                      MonthlyFollowUpTEC.mBMIController,
-                      MonthlyFollowUpTEC.mPBFController,
-                    )) {
+                    if (!verifyBiweeklyRequiredFields(context) ||
+                        !verifyBiweeklyFieldsDataType(context)) {
                       return;
                     }
 
-                    bool success = await createMonthlyFollowUp(
+                    bool success = await createBiweeklyFollowUp(
                         widget.client, widget.cmfu, context);
 
                     showMySnackBar(
@@ -80,7 +76,7 @@ class _ActionButtonState extends State<ActionButton> {
         const SizedBox(width: 20),
         ElevatedButton(
           onPressed: () {
-            MonthlyFollowUpTEC.clearMonthlyFollowUpTEC();
+            BiweeklyFollowUpTEC.clear();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.white,

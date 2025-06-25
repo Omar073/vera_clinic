@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/Pages/FollowUpNav.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
 import '../Core/Controller/UtilityFunctions.dart';
@@ -64,19 +65,26 @@ class _ClientCardState extends State<ClientCard> {
                 )
               : const Icon(Icons.delete),
             onPressed: _isCheckingOut ? null : () async {
-              setState(() {
-                _isCheckingOut = true;
-              });
-              try {
-                await context.read<ClinicProvider>().checkOutClient(widget.client!);
-                widget.onClientCheckedOut();
-              } finally {
-                if (mounted) {
+              await showAlertDialogue(
+                context: context,
+                title: 'تأكيد تسجيل الخروج',
+                content: 'هل أنت متأكد من تسجيل خروج العميل ${widget.client?.mName}؟',
+                onPressed: () async {
                   setState(() {
-                    _isCheckingOut = false;
+                    _isCheckingOut = true;
                   });
-                }
-              }
+                  try {
+                    await context.read<ClinicProvider>().checkOutClient(widget.client!);
+                    widget.onClientCheckedOut();
+                  } finally {
+                    if (mounted) {
+                      setState(() {
+                        _isCheckingOut = false;
+                      });
+                    }
+                  }
+                },
+              );
             },
             label: Text(
               _isCheckingOut ? 'جاري تسجيل الخروج...' : 'تسجيل خروج',

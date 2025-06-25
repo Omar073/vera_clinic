@@ -42,10 +42,10 @@ bool verifyFieldsDataTypeU(BuildContext context) {
       'controller': UpdateClientDetailsTEC.pbfController,
       'message': 'نسبة الدهون في الجسم',
     },
-    {
-      'controller': UpdateClientDetailsTEC.waterController,
-      'message': 'نسبة الماء في الجسم',
-    },
+    // {
+    //   'controller': UpdateClientDetailsTEC.waterController,
+    //   'message': 'نسبة الماء في الجسم',
+    // },
     {
       'controller': UpdateClientDetailsTEC.maxWeightController,
       'message': 'الوزن الأقصى',

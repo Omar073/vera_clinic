@@ -140,35 +140,27 @@ class ClientProvider with ChangeNotifier {
     // returns true if the phone number is already used by a client else false
   }
 
-  Future<bool> updateClient(Client client) async {
-    try {
-      await clientFirestoreMethods.updateClient(client);
+  Future<void> updateClient(Client client) async {
+    await _clientFirestoreMethods.updateClient(client);
+    // Optimistically update cache
+    int index =
+        cachedClients.indexWhere((c) => c?.mClientId == client.mClientId);
 
-      int index = cachedClients.indexWhere(
-        (c) => c?.mClientId == client.mClientId,
-      );
-      if (index != -1) {
-        cachedClients[index] = client;
-      } else {
-        cachedClients.add(client);
-      }
-      notifyListeners();
-      return true;
-    } on Exception catch (e) {
-      debugPrint("Error updating client: $e");
-      return false;
+    if (index != -1) {
+      cachedClients[index] = client;
+    } else {
+      cachedClients.add(client);
     }
+    notifyListeners();
   }
 
-  Future<bool> deleteClient(String clientId) async {
+  Future<void> deleteClient(String clientId) async {
     try {
       await clientFirestoreMethods.deleteClient(clientId);
       cachedClients.removeWhere((c) => c?.mClientId == clientId);
       notifyListeners();
-      return true;
     } on Exception catch (e) {
       debugPrint("Error deleting client: $e");
-      return false;
     }
   }
 
