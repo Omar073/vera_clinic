@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
@@ -51,45 +52,36 @@ class _CheckInButtonState extends State<CheckInButton> {
                       getSubscriptionTypeFromString(
                           widget.visitSubscriptionTypeController.text);
 
-                  final clinicProvider = context.read<ClinicProvider>();
-                  final clientProvider = context.read<ClientProvider>();
-
-                  bool isAlreadyCheckedIn = await clinicProvider
+                  bool isAlreadyCheckedIn = await context
+                      .read<ClinicProvider>()
                       .isClientCheckedIn(widget.client!.mClientId);
                   if (isAlreadyCheckedIn) {
                     showMySnackBar(context, 'العميل مسجل بالفعل', Colors.red);
-                    setState(() {
-                      _isLoading = false;
-                    });
                     return;
                   }
 
-                  bool checkInSuccess =
-                      await clinicProvider.checkInClient(widget.client!);
-                  bool incrementSuccess =
-                      await clinicProvider.incrementDailyPatients();
-                  bool incomeSuccess = await clinicProvider
+                  await context
+                      .read<ClinicProvider>()
+                      .checkInClient(widget.client!);
+                  await context
+                      .read<ClinicProvider>()
+                      .incrementDailyPatients();
+                  await context
+                      .read<ClinicProvider>()
                       .updateDailyIncome(subscriptionPrice);
-                  bool clientUpdateSuccess =
-                      await clientProvider.updateClient(widget.client!);
+                  await context
+                      .read<ClientProvider>()
+                      .updateClient(widget.client!);
 
-                  if (checkInSuccess &&
-                      incrementSuccess &&
-                      incomeSuccess &&
-                      clientUpdateSuccess) {
-                    showMySnackBar(
-                        context, 'تم تسجيل العميل بنجاح', Colors.green);
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const HomePage()));
-                  } else {
-                    showMySnackBar(
-                        context,
-                        'فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى',
-                        Colors.red);
-                  }
+                  showMySnackBar(
+                      context, 'تم تسجيل العميل بنجاح', Colors.green);
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const HomePage()));
                 } catch (e) {
-                  showMySnackBar(context, 'الرجاء إدخال سعر الاشتراك بشكل صحيح',
-                      Colors.red);
+                  if (mounted) {
+                    showMySnackBar(
+                        context, 'فشل تسجيل الدخول: ${e.toString()}', Colors.red);
+                  }
                 } finally {
                   if (mounted) {
                     setState(() {
