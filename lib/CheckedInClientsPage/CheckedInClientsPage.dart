@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
@@ -7,21 +11,83 @@ import '../Core/Model/Classes/Client.dart';
 import 'CheckedInClientsList.dart';
 
 class CheckedInClientsPage extends StatefulWidget {
-  List<Client?> checkedInClients;
-  CheckedInClientsPage({super.key, required this.checkedInClients});
+  const CheckedInClientsPage({super.key});
 
   @override
   State<CheckedInClientsPage> createState() => _CheckedInClientsPageState();
 }
 
-class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
-  late Future<void> _fetchDataFuture;
+class _CheckedInClientsPageState extends State<CheckedInClientsPage>
+    with WidgetsBindingObserver {
+  Future<void>? _fetchDataFuture;
   bool _isLoading = false;
+  List<Client?> _checkedInClients = [];
+  Timer? _pollingTimer;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _fetchDataFuture = fetchData();
+    _startPolling();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _stopPolling();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      _startPolling();
+      _handleClientCheckedOut(); // Refresh data when app comes to foreground
+    } else {
+      _stopPolling();
+    }
+  }
+
+  void _startPolling() {
+    _pollingTimer?.cancel(); // Cancel any existing timer
+    _pollingTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
+      _pollForUpdates();
+    });
+  }
+
+  void _stopPolling() {
+    _pollingTimer?.cancel();
+  }
+
+  Future<void> _pollForUpdates() async {
+    try {
+      final newClients =
+          await context.read<ClinicProvider>().getCheckedInClients(context);
+      if (_areListsDifferent(_checkedInClients, newClients)) {
+        if (mounted) {
+          setState(() {
+            _checkedInClients = newClients;
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('Error polling for checked-in clients: $e');
+      if (mounted) {
+        showMySnackBar(context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
+      }
+    }
+  }
+
+  bool _areListsDifferent(List<Client?> oldList, List<Client?> newList) {
+    if (oldList.length != newList.length) {
+      return true;
+    }
+    // Using Set for efficient comparison of client IDs, regardless of order.
+    final oldIds = oldList.map((c) => c?.mClientId).toSet();
+    final newIds = newList.map((c) => c?.mClientId).toSet();
+    return !setEquals(oldIds, newIds);
   }
 
   Future<void> fetchData() async {
@@ -29,14 +95,19 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
       setState(() {
         _isLoading = true;
       });
-      widget.checkedInClients =
+      _checkedInClients =
           await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error getting checked-in clients: $e');
+      if (mounted) {
+        showMySnackBar(context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
+      }
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -102,7 +173,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
               //*  it to fetchData() and call it in the future builder
               return Consumer<ClinicProvider>(
                 builder: (context, clinicProvider, child) {
-                  if (context.read<ClinicProvider>().checkedInClients.isEmpty) {
+                  if (_checkedInClients.isEmpty) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -141,8 +212,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
                         children: [
                           const SizedBox(height: 24),
                           CheckedInClientsList(
-                            checkInClients:
-                                context.read<ClinicProvider>().checkedInClients,
+                            checkInClients: _checkedInClients,
                             onClientCheckedOut: _handleClientCheckedOut,
                           ),
                         ],

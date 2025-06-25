@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitUF.dart';
-import 'package:vera_clinic/WeeklyFollowUp/Controller/WeeklyFollowUpUF.dart';
 
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/PopUps/MySnackBar.dart';
-import '../../Controller/WeeklyFollowUpTEC.dart';
+import '../../Controller/SingleFollowUpTEC.dart';
+import '../../Controller/SingleFollowUpUF.dart';
 
-class VisitActionButton extends StatefulWidget {
+class SingleFollowUpActionButton extends StatefulWidget {
   final Client client;
-  const VisitActionButton({super.key, required this.client});
+  const SingleFollowUpActionButton({super.key, required this.client});
 
   @override
-  State<VisitActionButton> createState() => _VisitActionButtonState();
+  State<SingleFollowUpActionButton> createState() => _SingleFollowUpActionButtonState();
 }
 
-class _VisitActionButtonState extends State<VisitActionButton> {
+class _SingleFollowUpActionButtonState extends State<SingleFollowUpActionButton> {
   bool _isLoading = false;
 
   @override
@@ -33,16 +33,13 @@ class _VisitActionButtonState extends State<VisitActionButton> {
                     });
 
                     try {
-                      if (!verifyVisitInput(
-                          context,
-                          WeeklyFollowUpTEC.visitBMIController,
-                          WeeklyFollowUpTEC.visitWeightController,
-                          TextEditingController(text: ' '))) {
+                      if (!verifySingleFollowUpRequiredFields(context) ||
+                          !verifySingleFollowUpFieldsDataType(context)) {
                         return;
                       }
 
                       bool success =
-                          await createWeeklyFollowUp(widget.client, context);
+                          await createSingleFollowUp(widget.client, context);
 
                       showMySnackBar(
                         context,
@@ -78,7 +75,7 @@ class _VisitActionButtonState extends State<VisitActionButton> {
           const SizedBox(width: 20),
           ElevatedButton(
             onPressed: () {
-              WeeklyFollowUpTEC.clear();
+              SingleFollowUpTEC.clear();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,

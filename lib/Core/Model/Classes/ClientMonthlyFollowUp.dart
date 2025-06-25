@@ -6,7 +6,7 @@ class ClientMonthlyFollowUp {
 
   double? mBMI;
   double? mPBF;
-  double? mWater;
+  String? mWater;
   double? mMaxWeight;
   double? mOptimalWeight;
   double? mBMR;
@@ -18,7 +18,7 @@ class ClientMonthlyFollowUp {
     required String? clientId,
     required double? bmi,
     required double? pbf,
-    required double? water,
+    required String? water,
     required double? maxWeight,
     required double? optimalWeight,
     required double? bmr,
@@ -50,7 +50,7 @@ class ClientMonthlyFollowUp {
       clientId: data['clientId'] as String? ?? '',
       bmi: data['BMI'] as double? ?? 0.0,
       pbf: data['PBF'] as double? ?? 0.0,
-      water: data['water'] as double? ?? 0.0,
+      water: (data['water'] ?? '').toString(),
       maxWeight: data['maxWeight'] as double? ?? 0.0,
       optimalWeight: data['optimalWeight'] as double? ?? 0.0,
       bmr: data['BMR'] as double? ?? 0.0,

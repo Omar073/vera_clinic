@@ -112,7 +112,7 @@ class _VisitCardState extends State<VisitCard> {
                       runSpacing: 20,
                       children: [
                         visitTextBox(
-                          title: "مؤشر كتلة الجسم",
+                          title: '(BMI) مؤشر كتلة الجسم',
                           value: "${widget.visit.mBMI}",
                         ),
                         visitTextBox(

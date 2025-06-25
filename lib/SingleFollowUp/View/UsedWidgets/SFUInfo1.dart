@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/WeeklyFollowUpTEC.dart';
+import '../../Controller/SingleFollowUpTEC.dart';
 
-Widget visitInfo1() {
+Widget singleFollowUpInfo1() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(
@@ -16,20 +16,15 @@ Widget visitInfo1() {
             alignment: WrapAlignment.start,
             children: [
               MyInputField(
-                myController: WeeklyFollowUpTEC.visitDietController,
+                myController: SingleFollowUpTEC.singleFollowUpDietController,
                 hint: "",
                 label: "اسم النظام",
                 // maxLines: 2,
               ),
               MyInputField(
-                myController: WeeklyFollowUpTEC.visitWeightController,
+                myController: SingleFollowUpTEC.singleFollowUpWeightController,
                 hint: "",
                 label: "الوزن",
-              ),
-              MyInputField(
-                myController: WeeklyFollowUpTEC.visitBMIController,
-                hint: "",
-                label: "مؤشر كتلة الجسم",
               ),
             ],
           ),

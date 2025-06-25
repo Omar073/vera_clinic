@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/DailyClientsPage/Controller/DailyClientsController.dart';
 import 'package:vera_clinic/DailyClientsPage/View/DailyClientCard.dart';
+
+import '../../Core/Controller/Providers/ClinicProvider.dart';
 
 class DailyClientsPage extends StatefulWidget {
   const DailyClientsPage({super.key});
@@ -20,11 +23,13 @@ class _DailyClientsPageState extends State<DailyClientsPage> {
   void initState() {
     super.initState();
     _dailyClientsFuture = _controller.getDailyClients(context);
+    context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
   }
 
   void _refreshClients() {
     setState(() {
       _dailyClientsFuture = _controller.getDailyClients(context);
+      context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
     });
   }
 
@@ -76,7 +81,11 @@ class _DailyClientsPageState extends State<DailyClientsPage> {
                 itemBuilder: (context, index) {
                   final client = clients[index];
                   return client != null
-                      ? DailyClientCard(client: client, index: index)
+                      ? DailyClientCard(
+                          client: client,
+                          index: index,
+                          onClientRemoved: _refreshClients,
+                        )
                       : const SizedBox.shrink();
                 },
               );

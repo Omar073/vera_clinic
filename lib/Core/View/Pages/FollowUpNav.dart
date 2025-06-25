@@ -3,10 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/ClientDetailsPage/ClientDetailsPage.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
+import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
-import 'package:vera_clinic/MonthlyFollowUp/View/MonthlyFollowUp.dart';
-import 'package:vera_clinic/WeeklyFollowUp/View/WeeklyFollowUp.dart';
+import 'package:vera_clinic/BiweeklyFollowUp/View/BiweeklyFollowUp.dart';
 
+import '../../../SingleFollowUp/View/SingleFollowUp.dart';
 import '../Reusable widgets/BackGround.dart';
 import '../Reusable widgets/MyNavigationButton.dart';
 
@@ -77,7 +78,7 @@ class _FollowUpNavState extends State<FollowUpNav> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MonthlyFollowUp(client: widget.client)));
+                                      BiweeklyFollowUp(client: widget.client)));
                         },
                       ),
                       MyNavigationButton(
@@ -88,37 +89,57 @@ class _FollowUpNavState extends State<FollowUpNav> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      WeeklyFollowUp(client: widget.client)));
+                                      SingleFollowUp(client: widget.client)));
                         },
                       ),
                     ],
                   ),
                   const SizedBox(height: 80),
                   ElevatedButton(
-                    onPressed: _isCheckingOut ? null : () async {
-                      setState(() {
-                        _isCheckingOut = true;
-                      });
-                      try {
-                        await context
-                            .read<ClinicProvider>()
-                            .checkOutClient(widget.client);
-                        if (mounted) {
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HomePage()));
-                        }
-                      } finally {
-                        if (mounted) {
-                          setState(() {
-                            _isCheckingOut = false;
-                          });
-                        }
-                      }
-                    },
+                    onPressed: _isCheckingOut
+                        ? null
+                        : () async {
+                            bool didConfirm = false;
+                            await showAlertDialogue(
+                              context: context,
+                              title: 'تأكيد تسجيل الخروج',
+                              content:
+                                  'هل أنت متأكد من تسجيل خروج العميل ${widget.client.mName}؟',
+                              onPressed: () {
+                                didConfirm = true;
+                              },
+                            );
+
+                            if (mounted && didConfirm) {
+                            setState(() {
+                              _isCheckingOut = true;
+                            });
+                            try {
+                              await context
+                                  .read<ClinicProvider>()
+                                  .checkOutClient(widget.client);
+                              if (mounted) {
+                                  Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomePage()),
+                                    (Route<dynamic> route) => false,
+                                  );
+                              }
+                              } catch (e) {
+                                debugPrint('Checkout failed: $e');
+                              if (mounted) {
+                                setState(() {
+                                  _isCheckingOut = false;
+                                });
+                                }
+                              }
+                            }
+                          },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
+                      backgroundColor:
+                          _isCheckingOut ? Colors.grey : Colors.red,
                       padding: const EdgeInsets.symmetric(
                           horizontal: 24.0, vertical: 12.0),
                       shape: RoundedRectangleBorder(
@@ -141,10 +162,12 @@ class _FollowUpNavState extends State<FollowUpNav> {
                           ),
                           const SizedBox(width: 12),
                           const Text('جاري تسجيل الخروج...',
-                              style: TextStyle(fontSize: 18, color: Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white)),
                         ] else
                           const Text('تسجيل خروج',
-                              style: TextStyle(fontSize: 18, color: Colors.white)),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.white)),
                       ],
                     ),
                   ),
