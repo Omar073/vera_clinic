@@ -202,6 +202,8 @@ Future<String?> createClientMonthlyFollowUp(
       dailyCalories:
           double.tryParse(ClientRegistrationTEC.dailyCaloriesController.text) ??
               0.0,
+      muscleMass:
+          double.tryParse(ClientRegistrationTEC.muscleMassController.text) ?? 0.0,
     );
 
     await context

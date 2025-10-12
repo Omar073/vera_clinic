@@ -4,6 +4,7 @@ import 'package:vera_clinic/ClientSearchPage/ClientSearchResultCard.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import '../Core/Model/Classes/Client.dart';
 
 class ClientSearchPage extends StatefulWidget {
@@ -40,12 +41,8 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
     searchResults = context.watch<ClientProvider>().searchResults;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('بحث عن عميل'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        elevation: 0, // removes the default AppBar shadow
+      appBar: MyAppBar(
+        title: 'بحث عن عميل',
       ),
       body: Background(
         child: Center(

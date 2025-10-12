@@ -9,6 +9,7 @@ class BiweeklyFollowUpTEC {
   static late TextEditingController mBMRController;
   static late TextEditingController mMaxCaloriesController;
   static late TextEditingController mDailyCaloriesController;
+  static late TextEditingController mMuscleMassController;
 
   static void init() {
     mWeightController = TextEditingController();
@@ -19,6 +20,7 @@ class BiweeklyFollowUpTEC {
     mBMRController = TextEditingController();
     mMaxCaloriesController = TextEditingController();
     mDailyCaloriesController = TextEditingController();
+    mMuscleMassController = TextEditingController();
   }
 
   static void clear() {
@@ -30,6 +32,7 @@ class BiweeklyFollowUpTEC {
     mBMRController.clear();
     mMaxCaloriesController.clear();
     mDailyCaloriesController.clear();
+    mMuscleMassController.clear();
   }
 
   static void dispose() {
@@ -41,5 +44,6 @@ class BiweeklyFollowUpTEC {
     mBMRController.dispose();
     mMaxCaloriesController.dispose();
     mDailyCaloriesController.dispose();
+    mMuscleMassController.dispose();
   }
 }

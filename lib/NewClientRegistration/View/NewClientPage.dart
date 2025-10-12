@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/NewClientRegistration/View/InfoSections/weightDistributionCard.dart';
 
 import '../Controller/ClientRegistrationTEC.dart';
@@ -33,19 +34,16 @@ class _NewClientPageState extends State<NewClientPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('تسجيل عميل جديد'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'تسجيل عميل جديد',
       ),
       body: Background(
         child: Column(
           children: [
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0)
+                padding: EdgeInsets.symmetric(horizontal: 24.0)
                     .copyWith(top: 12),
                 child: Column(
                   children: [

@@ -37,7 +37,7 @@ Widget weightHistoryCard() {
         const SizedBox(height: 16),
         Wrap(
           spacing: 15,
-          runSpacing: 10,
+          runSpacing: 20,
           alignment: WrapAlignment.end,
           children: List.generate(5, (index) {
             return Padding(
@@ -52,9 +52,10 @@ Widget weightHistoryCard() {
             );
           }),
         ),
+        const SizedBox(height: 15),
         Wrap(
           spacing: 15,
-          runSpacing: 10,
+          runSpacing: 20,
           alignment: WrapAlignment.end,
           children: List.generate(5, (index) {
             return Padding(

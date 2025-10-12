@@ -80,6 +80,7 @@ class ClientRegistrationTEC {
   static late TextEditingController bmrController;
   static late TextEditingController maxCaloriesController;
   static late TextEditingController dailyCaloriesController;
+  static late TextEditingController muscleMassController;
 
   static void init() {
     // Client Controllers
@@ -147,6 +148,7 @@ class ClientRegistrationTEC {
     bmrController = TextEditingController();
     maxCaloriesController = TextEditingController();
     dailyCaloriesController = TextEditingController();
+    muscleMassController = TextEditingController();
   }
 
   static void clear() {
@@ -217,6 +219,7 @@ class ClientRegistrationTEC {
     bmrController.clear();
     maxCaloriesController.clear();
     dailyCaloriesController.clear();
+    muscleMassController.clear();
   }
 
   static void dispose() {
@@ -287,6 +290,7 @@ class ClientRegistrationTEC {
     bmrController.dispose();
     maxCaloriesController.dispose();
     dailyCaloriesController.dispose();
+    muscleMassController.dispose();
   }
 }
 
