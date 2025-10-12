@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/SingleFollowUp/View/UsedWidgets/SFUInfo1.dart';
 
 import '../../Core/Model/Classes/Client.dart';
@@ -33,20 +34,8 @@ class _SingleFollowUpState extends State<SingleFollowUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              widget.client.mName!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const Text(' :متابعة منفردة'),
-          ],
-        ),
+      appBar: MyAppBar(
+        title: '${widget.client.mName!} :متابعة منفردة',
       ),
       body: Background(
         child: Center(

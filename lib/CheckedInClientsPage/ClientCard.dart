@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/Core/View/Pages/FollowUpNav.dart';
+import 'package:vera_clinic/FollowUpNavPage/View/FollowUpNavPage.dart';
 import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
@@ -94,7 +94,7 @@ class _ClientCardState extends State<ClientCard> {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                  builder: (context) => FollowUpNav(client: widget.client!)),
+                  builder: (context) => FollowUpNavPage(client: widget.client!)),
             );
           },
         ),

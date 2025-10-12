@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/UpdateVisitDetailsPage/Controller/UpdateVisitDetailsTEC.dart';
 
 import '../Core/View/Reusable widgets/BackGround.dart';
@@ -28,11 +29,8 @@ class _UpdateVisitDetailsPageState extends State<UpdateVisitDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('تحديث تفاصيل الزيارة'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: const MyAppBar(
+        title: 'تحديث تفاصيل الزيارة',
       ),
       body: Background(
         child: Padding(

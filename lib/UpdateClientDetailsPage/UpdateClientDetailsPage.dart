@@ -14,6 +14,7 @@ import 'package:vera_clinic/UpdateClientDetailsPage/View/InfoSections/weightDist
 import 'package:vera_clinic/UpdateClientDetailsPage/View/InfoSections/weightHistoryCardU.dart';
 
 import '../Core/View/Reusable widgets/BackGround.dart';
+import '../Core/View/Reusable widgets/my_app_bar.dart';
 import 'View/InfoSections/bodyMeasurementsCardU.dart';
 
 class UpdateClientDetailsPage extends StatefulWidget {
@@ -62,11 +63,8 @@ class _UpdateClientDetailsPageState extends State<UpdateClientDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('تحديث بيانات العميل'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: const MyAppBar(
+        title: 'تحديث بيانات العميل',
       ),
       body: Background(
         child: Column(

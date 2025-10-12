@@ -44,6 +44,8 @@ Future<bool> createBiweeklyFollowUp(
           BiweeklyFollowUpTEC.mMaxCaloriesController.text, cmfu.mMaxCalories),
       dailyCalories: parseOrFallback(
           BiweeklyFollowUpTEC.mDailyCaloriesController.text, cmfu.mDailyCalories),
+      muscleMass: parseOrFallback(
+          BiweeklyFollowUpTEC.mMuscleMassController.text, cmfu.mMuscleMass),
     );
 
     // Save the ClientMonthlyFollowUp object
@@ -110,6 +112,10 @@ bool verifyBiweeklyFieldsDataType(BuildContext context) {
     {
       'controller': BiweeklyFollowUpTEC.mDailyCaloriesController,
       'message': 'السعرات الحرارية اليومية',
+    },
+    {
+      'controller': BiweeklyFollowUpTEC.mMuscleMassController,
+      'message': 'كتلة العضلات',
     },
   ];
 

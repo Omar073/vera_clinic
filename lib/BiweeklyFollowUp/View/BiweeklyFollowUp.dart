@@ -3,12 +3,12 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
-import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
 import 'package:vera_clinic/BiweeklyFollowUp/View/UsedWidgets/ActionButton.dart';
 
+import '../../../Core/View/Reusable widgets/my_app_bar.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../Controller/BiweeklyFollowUpTEC.dart';
+import 'UsedWidgets/LastFollowUpInfo.dart';
 import 'UsedWidgets/newBiweeklyFollowUp.dart';
 
 class BiweeklyFollowUp extends StatefulWidget {
@@ -45,20 +45,8 @@ class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              widget.client.mName!,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const Text(' :متابعة أسبوعين'),
-          ],
-        ),
+      appBar: MyAppBar(
+        title: '${widget.client.mName!} :متابعة أسبوعين',
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
@@ -90,73 +78,7 @@ class _BiweeklyFollowUpState extends State<BiweeklyFollowUp> {
                       final cmfu = snapshot.data!;
                       return Column(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 14.0),
-                            child: myCard(
-                              "تفاصيل المتابعة الشهرية السابقة",
-                              Wrap(
-                                alignment: WrapAlignment.start,
-                                textDirection: TextDirection.rtl,
-                                spacing: 40,
-                                runSpacing: 20,
-                                children: [
-                                  MyTextBox(
-                                    title: 'الوزن',
-                                    value: '${widget.client.mWeight ?? 0} كجم',
-                                  ),
-                                  MyTextBox(
-                                    title: '(BMI) مؤشر كتلة الجسم',
-                                    value: "${cmfu.mBMI}",
-                                  ),
-                                  MyTextBox(
-                                    title: "نسبة الدهون",
-                                    value: "${cmfu.mPBF}",
-                                  ),
-                                  MyTextBox(
-                                    title: "حد الحرق الأدني",
-                                    value: "${cmfu.mBMR}",
-                                  ),
-                                  MyTextBox(
-                                    title: "الماء",
-                                    value: cmfu.mWater ?? '',
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 14.0),
-                            child: myCard(
-                              "تفاصيل المتابعة الشهرية السابقة",
-                              Wrap(
-                                alignment: WrapAlignment.start,
-                                textDirection: TextDirection.rtl,
-                                spacing: 40,
-                                runSpacing: 20,
-                                children: [
-                                  MyTextBox(
-                                    title: "أقصي وزن",
-                                    value: "${cmfu.mMaxWeight}",
-                                  ),
-                                  MyTextBox(
-                                    title: "الوزن المثالي",
-                                    value: "${cmfu.mOptimalWeight}",
-                                  ),
-                                  MyTextBox(
-                                    title: "أقصي سعرات",
-                                    value: "${cmfu.mMaxCalories}",
-                                  ),
-                                  MyTextBox(
-                                    title: "السعرات اليومية",
-                                    value: "${cmfu.mDailyCalories}",
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
+                          LastFollowUpInfo(client: widget.client, cmfu: cmfu),
                           const SizedBox(height: 20),
                           newBiweeklyFollowUpForm(),
                           const SizedBox(height: 50),

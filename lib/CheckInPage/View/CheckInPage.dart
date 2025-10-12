@@ -4,6 +4,7 @@ import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../Controller/CheckInPageTEC.dart';
@@ -77,14 +78,8 @@ class _CheckInPageState extends State<CheckInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'تسجيل لدخول: ${client?.mName ?? ''}',
-          textDirection: TextDirection.rtl,
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'تسجيل لدخول: ${client?.mName ?? ''}',
       ),
       body: Background(
         child: Padding(

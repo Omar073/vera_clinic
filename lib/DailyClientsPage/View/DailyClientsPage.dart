@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/DailyClientsPage/Controller/DailyClientsController.dart';
 import 'package:vera_clinic/DailyClientsPage/View/DailyClientCard.dart';
 
@@ -36,16 +36,8 @@ class _DailyClientsPageState extends State<DailyClientsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'قائمة عملاء اليوم',
-          style: GoogleFonts.cairo(
-              fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
+      appBar: MyAppBar(
+        title: 'قائمة عملاء اليوم',
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),

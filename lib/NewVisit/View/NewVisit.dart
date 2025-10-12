@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 import 'package:vera_clinic/NewVisit/View/UsedWidgets/AddAnotherVisitButton.dart';
 import 'package:vera_clinic/NewVisit/View/UsedWidgets/SaveVisitButton.dart';
@@ -35,11 +36,8 @@ class _NewVisitState extends State<NewVisit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
-        centerTitle: true,
-        title: Text("${NewVisitTEC.clientVisits.length + 1}# " "زيارة"),
+      appBar: MyAppBar(
+        title: "${NewVisitTEC.clientVisits.length + 1}# " "زيارة",
       ),
       body: Background(
         child: Padding(

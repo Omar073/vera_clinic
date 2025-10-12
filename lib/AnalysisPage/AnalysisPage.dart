@@ -5,6 +5,7 @@ import 'package:vera_clinic/Core/Controller/Providers/ExpenseProvider.dart';
 import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/ExpensesPage/View/ExpensesPage.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
@@ -132,15 +133,9 @@ class _AnalysisPageState extends State<AnalysisPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'البيانات\n$dayName: ${getDateText(currentDate)}',
-          textAlign: TextAlign.center,
-        ),
+      appBar: MyAppBar(
+        title: 'البيانات\n$dayName: ${getDateText(currentDate)}',
         backgroundColor: const Color.fromARGB(255, 208, 241, 255),
-        surfaceTintColor: const Color.fromARGB(255, 208, 241, 255),
-        toolbarHeight: 70,
-        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
