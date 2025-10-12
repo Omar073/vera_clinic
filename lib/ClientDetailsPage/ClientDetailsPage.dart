@@ -6,6 +6,7 @@ import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientMonthlyFollowUp.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/VisitsDetailsPage/VisitsDetailsPage.dart';
 
 import '../Core/Controller/Providers/ClientConstantInfoProvider.dart';
@@ -92,14 +93,11 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
       future: _clientDetailsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('تفاصيل العميل'),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
+          return const Scaffold(
+            appBar: MyAppBar(
+              title: 'تفاصيل العميل',
             ),
-            body: const Background(
+            body: Background(
               child: Center(
                 child: CircularProgressIndicator(
                   color: Colors.blueAccent,
@@ -108,14 +106,11 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
             ),
           );
         } else if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(
-              title: const Text('تفاصيل العميل'),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
+          return const Scaffold(
+            appBar: MyAppBar(
+              title: 'تفاصيل العميل',
             ),
-            body: const Background(
+            body: Background(
               child: Center(
                 child: Text(
                   'حدث خطأ أثناء تحميل البيانات',
@@ -127,11 +122,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           );
         } else if (errorMessage != null) {
           return Scaffold(
-            appBar: AppBar(
-              title: const Text('تفاصيل العميل'),
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
+            appBar: const MyAppBar(
+              title: 'تفاصيل العميل',
             ),
             body: Background(
               child: Center(
@@ -152,11 +144,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
 
   Widget _buildClientDetailsPage() {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('معلومات العميل'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'معلومات العميل',
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 8.0),

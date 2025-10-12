@@ -31,6 +31,9 @@ Widget bodyMeasurementsCard(
                       MyTextBox(
                           title: '(BMI) مؤشر كتلة الجسم',
                           value: '${monthlyFollowUp.mBMI ?? 0}'),
+                      MyTextBox(
+                          title: 'كتلة العضلات',
+                          value: '${monthlyFollowUp.mMuscleMass ?? 0}'),
                     ],
                   ),
                   const SizedBox(height: 30),

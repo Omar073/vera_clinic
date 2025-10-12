@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
 import '../Core/Model/Classes/Client.dart';
@@ -120,11 +121,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('قائمة العملاء في العيادة'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'قائمة العملاء في العيادة',
         actions: [
           _isLoading
               ? const Padding(

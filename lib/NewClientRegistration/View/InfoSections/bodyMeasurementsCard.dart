@@ -47,6 +47,14 @@ Widget bodyMeasurementsCard() {
                 label: "نسبة الدهن",
               ),
             ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.muscleMassController,
+                hint: "Muscle Mass",
+                label: "كتلة العضلات",
+              ),
+            ),
           ],
         ),
       ],

@@ -49,6 +49,10 @@ Future<void> main() async {
     await windowManager.focus();
   });
 
+  // Preload the Material icons font to avoid icons showing as squares
+  // Accessing a static member on Icons forces the font to be loaded.
+  Icons.settings;
+
   runApp(
     MultiProvider(
       //todo: only wrap each provider at the level it is needed

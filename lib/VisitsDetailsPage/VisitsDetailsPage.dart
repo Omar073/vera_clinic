@@ -4,6 +4,7 @@ import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
 import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/Model/Classes/Visit.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/VisitsDetailsPage/UsedWidgets/visitCard.dart';
 
 class VisitsDetailsPage extends StatefulWidget {
@@ -39,21 +40,8 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          textDirection: TextDirection.rtl,
-          children: [
-            const Text(
-              ' :تفاصيل زيارات',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Text(widget.client.mName ?? ''),
-          ],
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: ' :تفاصيل زيارات${widget.client.mName ?? ''}',
       ),
       body: Background(
         child: FutureBuilder<List<Visit?>?>(

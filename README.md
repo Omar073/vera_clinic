@@ -105,7 +105,6 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
 │   │   │   │   └── WeightAreasFirestoreMethods.dart
 │   │   └── View\
 │   │       ├── Pages\
-│   │       │   ├── FollowUpNav.dart
 │   │       │   ├── AnalysisPage.dart
 │   │       ├── Reusable widgets\
 │   │       │   ├── BackGround.dart
@@ -118,6 +117,10 @@ Vera Clinic is a Flutter application designed for a dietary and rehab clinic. It
 │   │       │       ├── InvalidDataTypeSnackBar.dart
 │   │       │       ├── MySnackBar.dart
 │   │       │       └── RequiredFieldSnackBar.dart
+│   ├── FollowUpNavPage\
+│   │   ├── Controller\
+│   │   └── View\
+│   │       └── FollowUpNavPage.dart
 │   ├── HomePage\
 │   │   ├── HomePage.dart
 │   │   └── UsedWidgets\

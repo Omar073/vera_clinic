@@ -11,8 +11,9 @@ class AppColors {
 class AppTheme {
   static ThemeData themeData = ThemeData(
     cardColor: Colors.white,
-    cardTheme: const CardTheme(
-      color: Colors.white,),
+    cardTheme: const CardThemeData(
+      color: Colors.white,
+    ),
     textSelectionTheme: TextSelectionThemeData(
       selectionColor: Colors.blue[100], // Highlight color for selected text
       cursorColor: Colors.black, // Cursor color

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyInputField.dart';
+import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/NewExpenseTEC.dart';
 import 'package:vera_clinic/ExpensesPage/Controller/ExpensesPageUF.dart';
 
@@ -32,11 +33,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
   Widget build(BuildContext context) {
     widget.expenses = context.watch<ExpenseProvider>().cachedExpenses;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('صفحة المصروفات'),
-        centerTitle: true,
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
+      appBar: MyAppBar(
+        title: 'صفحة المصروفات',
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
