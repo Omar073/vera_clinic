@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../Core/View/PopUps/MyAlertDialogue.dart';
@@ -61,17 +62,23 @@ class UpdateService {
           } catch (_) {}
         }
 
-        // when done, prompt for restart
-        await showAlertDialogue(
-          context: context,
-          title: 'تم التنزيل',
-          content: 'تم تنزيل التحديث. هل تريد إعادة تشغيل البرنامج الآن؟',
-          buttonText: 'إغلاق البرنامج',
-          returnText: 'لاحقًا',
-          onPressed: () async {
+      // when done, prompt for restart (desktop only)
+      final isDesktop = !kIsWeb &&
+          (defaultTargetPlatform == TargetPlatform.windows);
+      await showAlertDialogue(
+        context: context,
+        title: 'تم التنزيل',
+        content: 'تم تنزيل التحديث. هل تريد إعادة تشغيل البرنامج الآن؟',
+        buttonText: isDesktop ? 'إغلاق البرنامج' : 'حسنًا',
+        returnText: 'لاحقًا',
+        onPressed: () async {
+          if (isDesktop) {
             await windowManager.close();
-          },
-        );
+          } else {
+            Navigator.of(context).pop();
+          }
+        },
+      );
       }
     } on UpdateException catch (e) {
       // Ensure the progress dialog is dismissed if an error occurs.
@@ -95,7 +102,13 @@ class UpdateService {
           buttonText: 'إغلاق البرنامج',
           returnText: 'لاحقًا',
           onPressed: () async {
-            await windowManager.close();
+            final isDesktop = !kIsWeb &&
+                (defaultTargetPlatform == TargetPlatform.windows);
+            if (isDesktop) {
+              await windowManager.close();
+            } else {
+              Navigator.of(context).pop();
+            }
           },
         );
       debugPrint('Update may have failed: $e');

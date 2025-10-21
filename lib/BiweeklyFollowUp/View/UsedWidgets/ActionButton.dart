@@ -74,25 +74,11 @@ class _ActionButtonState extends State<ActionButton> {
                 ),
               ),
         const SizedBox(width: 20),
-        ElevatedButton(
+        TextButton(
           onPressed: () {
             BiweeklyFollowUpTEC.clear();
           },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.white,
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(Icons.delete, color: Colors.redAccent),
-              SizedBox(width: 12),
-              Text('مسح',
-                  style: TextStyle(fontSize: 16, color: Colors.redAccent)),
-            ],
-          ),
+          child: const Text('مسح', style: TextStyle(color: Colors.redAccent)),
         ),
       ],
     );

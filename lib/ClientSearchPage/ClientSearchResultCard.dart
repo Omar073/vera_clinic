@@ -99,7 +99,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                         ),
                         foregroundColor: Colors.white,
                       ),
-                      icon: const Icon(Icons.delete),
+                      icon: const SizedBox.shrink(),
                       label: const Text("مسح"),
                     ),
                   ),

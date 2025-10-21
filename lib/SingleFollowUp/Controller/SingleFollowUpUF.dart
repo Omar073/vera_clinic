@@ -26,8 +26,9 @@ Future<bool> createSingleFollowUp(Client client, BuildContext context) async {
             SingleFollowUpTEC.singleFollowUpWeightController.text) ??
         0.0;
     double bmi = 0.0;
-    if (client.mHeight != null && client.mHeight! > 0) {
-      bmi = weight / ((client.mHeight! / 100) * (client.mHeight! / 100));
+    final height = client.mHeight;
+    if (height != null && height > 0) {
+      bmi = weight / ((height / 100) * (height / 100));
     }
 
     Visit visit = Visit(
@@ -36,7 +37,7 @@ Future<bool> createSingleFollowUp(Client client, BuildContext context) async {
       date: DateTime.now(),
       diet: SingleFollowUpTEC.singleFollowUpDietController.text,
       weight: weight,
-      bmi: bmi,
+      bmi: double.parse(bmi.toStringAsFixed(3)),
       visitNotes: SingleFollowUpTEC.singleFollowUpNotesController.text,
     );
 

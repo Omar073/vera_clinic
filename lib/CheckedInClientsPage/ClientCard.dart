@@ -63,7 +63,7 @@ class _ClientCardState extends State<ClientCard> {
                     strokeWidth: 2,
                   ),
                 )
-              : const Icon(Icons.delete),
+              : const SizedBox.shrink(),
             onPressed: _isCheckingOut ? null : () async {
               await showAlertDialogue(
                 context: context,

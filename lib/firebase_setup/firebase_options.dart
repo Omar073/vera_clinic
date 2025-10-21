@@ -18,12 +18,13 @@ import 'apiKeys.dart';
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
+    const isTesting = bool.fromEnvironment('TESTING');
     if (kIsWeb) {
-      return web;
+      return isTesting ? _webTest : _webLive;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return isTesting ? _androidTest : _androidLive;
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -35,7 +36,7 @@ class DefaultFirebaseOptions {
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
-        return windows;
+        return isTesting ? _windowsTest : _windowsLive;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -48,9 +49,10 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static FirebaseOptions web = FirebaseOptions(
-    apiKey: webAPIKey,
-    appId: '1:646096833745:web:8cb27bc727474f28e8c9f0',
+  // Live (production) Firebase options
+  static const FirebaseOptions _webLive = FirebaseOptions(
+    apiKey: webLiveApiKey,
+    appId: webLiveAppId,
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
     authDomain: 'vera-life-clinic.firebaseapp.com',
@@ -58,21 +60,48 @@ class DefaultFirebaseOptions {
     measurementId: 'G-MMC6Z6LE1C',
   );
 
-  static FirebaseOptions android = FirebaseOptions(
-    apiKey: androidAPIKey,
-    appId: '1:646096833745:android:d0d0db009aabbcd9e8c9f0',
+  static const FirebaseOptions _androidLive = FirebaseOptions(
+    apiKey: androidLiveApiKey,
+    appId: androidLiveAppId,
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
     storageBucket: 'vera-life-clinic.firebasestorage.app',
   );
 
-  static FirebaseOptions windows = FirebaseOptions(
-    apiKey: windowsAPIKey,
-    appId: '1:646096833745:web:5d650bef6f7ff02fe8c9f0',
+  static const FirebaseOptions _windowsLive = FirebaseOptions(
+    apiKey: windowsLiveApiKey,
+    appId: windowsLiveAppId,
     messagingSenderId: '646096833745',
     projectId: 'vera-life-clinic',
     authDomain: 'vera-life-clinic.firebaseapp.com',
     storageBucket: 'vera-life-clinic.firebasestorage.app',
     measurementId: 'G-5HF21BDL1Z',
+  );
+
+  // Test (staging) Firebase options
+  static const FirebaseOptions _webTest = FirebaseOptions(
+    apiKey: webTestApiKey,
+    appId: webTestAppId,
+    messagingSenderId: '742125492849',
+    projectId: 'vera-life-clinic-test',
+    authDomain: 'vera-life-clinic-test.firebaseapp.com',
+    storageBucket: 'vera-life-clinic-test.firebasestorage.app',
+  );
+
+  static const FirebaseOptions _androidTest = FirebaseOptions(
+    apiKey: androidTestApiKey,
+    appId: androidTestAppId,
+    messagingSenderId: '742125492849',
+    projectId: 'vera-life-clinic-test',
+    storageBucket: 'vera-life-clinic-test.firebasestorage.app',
+  );
+
+  static const FirebaseOptions _windowsTest = FirebaseOptions(
+    apiKey: windowsTestApiKey,
+    appId: windowsTestAppId,
+    messagingSenderId: '742125492849',
+    projectId: 'vera-life-clinic-test',
+    authDomain: 'vera-life-clinic-test.firebaseapp.com',
+    storageBucket: 'vera-life-clinic-test.firebasestorage.app',
   );
 }
