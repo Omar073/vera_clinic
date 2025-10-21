@@ -86,7 +86,6 @@ class _SingleFollowUpActionButtonState extends State<SingleFollowUpActionButton>
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(Icons.delete, color: Colors.redAccent),
                 SizedBox(width: 12),
                 Text('مسح',
                     style: TextStyle(fontSize: 16, color: Colors.redAccent)),

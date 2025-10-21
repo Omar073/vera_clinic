@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
@@ -24,8 +25,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initializeDateFormatting('ar', null);
-  await windowManager.ensureInitialized();
-  await windowManager.setMinimumSize(const Size(800, 600));
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.windows)) {
+    await windowManager.ensureInitialized();
+    await windowManager.setMinimumSize(const Size(800, 600));
+  }
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -33,21 +37,24 @@ Future<void> main() async {
 
   await UpdateService().initPatch();
 
-  WindowOptions windowOptions = const WindowOptions(
-    center: true,
-    backgroundColor: Colors.transparent,
-    skipTaskbar: false,
-    titleBarStyle: TitleBarStyle.normal,
-    // fullScreen: true,
-  );
-  windowManager.waitUntilReadyToShow(windowOptions, () async {
-    await windowManager.show();
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.windows)) {
+    WindowOptions windowOptions = const WindowOptions(
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+      // fullScreen: true,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
 
-    // Adding a small delay to ensure the window is fully initialized before maximizing and focusing
-    await Future.delayed(const Duration(milliseconds: 200));
-    await windowManager.maximize();
-    await windowManager.focus();
-  });
+      // Adding a small delay to ensure the window is fully initialized before maximizing and focusing
+      await Future.delayed(const Duration(milliseconds: 200));
+      await windowManager.maximize();
+      await windowManager.focus();
+    });
+  }
 
   // Preload the Material icons font to avoid icons showing as squares
   // Accessing a static member on Icons forces the font to be loaded.
