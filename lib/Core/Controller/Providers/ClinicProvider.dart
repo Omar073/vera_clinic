@@ -13,12 +13,35 @@ class ClinicProvider with ChangeNotifier {
   Clinic? clinic;
   List<Client?> _checkedInClients = [];
 
+  // Retry status for UI feedback during fetches
+  int? _currentRetryAttempt;
+  int? _maxRetryAttempts;
+  String? _lastRetryErrorMessage;
+
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
   List<Client?> get checkedInClients => _checkedInClients;
+  int? get currentRetryAttempt => _currentRetryAttempt;
+  int? get maxRetryAttempts => _maxRetryAttempts;
+  String? get lastRetryErrorMessage => _lastRetryErrorMessage;
 
   Future<Clinic?> getClinic() async {
     try {
-      clinic = await _clinicFirestoreMethods.fetchClinic();
+      // Reset retry status before a fresh fetch
+      _currentRetryAttempt = null;
+      _maxRetryAttempts = null;
+      _lastRetryErrorMessage = null;
+      notifyListeners();
+
+      clinic = await _clinicFirestoreMethods.fetchClinic(
+        onRetry: (nextAttempt, maxAttempts, error) {
+          // Notify listeners so UI can show a retry status
+          debugPrint('إعادة المحاولة $nextAttempt من $maxAttempts: $error');
+          _currentRetryAttempt = nextAttempt;
+          _maxRetryAttempts = maxAttempts;
+          _lastRetryErrorMessage = error.toString();
+          notifyListeners();
+        },
+      );
       notifyListeners();
       return clinic;
     } catch (e) {

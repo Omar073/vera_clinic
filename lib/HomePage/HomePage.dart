@@ -55,6 +55,8 @@ class _HomePageState extends State<HomePage> {
       appBar: MyAppBar(
         titleWidget: Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
           children: [
             Text(
               'Vera-Life Clinic',
@@ -64,8 +66,31 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.blue[800],
               ),
             ),
+            const Baseline(
+              baseline: 0,
+              baselineType: TextBaseline.alphabetic,
+              child: SizedBox(width: 8),
+            ),
+            Builder(
+              builder: (_) {
+                const isTesting = bool.fromEnvironment('TESTING');
+                return Text(
+                  isTesting ? '(Testing)' : '(Release)'
+                ,
+                  style: GoogleFonts.cairo(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: isTesting ? Colors.orange[700] : Colors.green[700],
+                  ),
+                );
+              },
+            ),
             if (_patchVersion != null) ...[
-              const SizedBox(width: 10),
+              const Baseline(
+                baseline: 0,
+                baselineType: TextBaseline.alphabetic,
+                child: SizedBox(width: 10),
+              ),
               Text(
                 'v$_patchVersion',
                 style: GoogleFonts.cairo(

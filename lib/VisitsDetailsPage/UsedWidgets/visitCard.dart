@@ -35,8 +35,7 @@ class _VisitCardState extends State<VisitCard> {
           children: [
             Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
+                TextButton(
                   onPressed: () {
                     showAlertDialogue(
                       context: context,
@@ -53,6 +52,10 @@ class _VisitCardState extends State<VisitCard> {
                       },
                     );
                   },
+                  child: const Text(
+                    'مسح',
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(

@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "646096833745",
-    "project_id": "vera-life-clinic",
-    "storage_bucket": "vera-life-clinic.firebasestorage.app"
+    "project_number": "742125492849",
+    "project_id": "vera-life-clinic-test",
+    "storage_bucket": "vera-life-clinic-test.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:646096833745:android:c14056839c803e04e8c9f0",
+        "mobilesdk_app_id": "1:742125492849:android:b9309e0271aeca7ea899d0",
+        "android_client_info": {
+          "package_name": "com.example.roots_admin_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCbjA6-UwvUZTAs_M8-0dn8oHkEymFWbU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:742125492849:android:56e5502cfbe75689a899d0",
         "android_client_info": {
           "package_name": "com.example.vera_clinic"
         }
@@ -15,45 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAEG3g-CkdkHUB7Ki3AVS0_N7TEG-5dR9Y"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:646096833745:android:0fc4103452b47b8fe8c9f0",
-        "android_client_info": {
-          "package_name": "com.vera_life_clinic"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAEG3g-CkdkHUB7Ki3AVS0_N7TEG-5dR9Y"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:646096833745:android:d0d0db009aabbcd9e8c9f0",
-        "android_client_info": {
-          "package_name": "com.veralifeclinic.app"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAEG3g-CkdkHUB7Ki3AVS0_N7TEG-5dR9Y"
+          "current_key": "AIzaSyCCbjA6-UwvUZTAs_M8-0dn8oHkEymFWbU"
         }
       ],
       "services": {
