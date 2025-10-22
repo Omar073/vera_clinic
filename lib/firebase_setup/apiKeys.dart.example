@@ -1,0 +1,19 @@
+// Live (production)
+const String webLiveApiKey = 'YOUR_WEB_LIVE_API_KEY';
+const String webLiveAppId = 'YOUR_WEB_LIVE_APP_ID';
+
+const String androidLiveApiKey = 'YOUR_ANDROID_LIVE_API_KEY';
+const String androidLiveAppId = 'YOUR_ANDROID_LIVE_APP_ID';
+
+const String windowsLiveApiKey = 'YOUR_WINDOWS_LIVE_API_KEY';
+const String windowsLiveAppId = 'YOUR_WINDOWS_LIVE_APP_ID';
+
+// Test (testing/staging)
+const String webTestApiKey = 'YOUR_WEB_TEST_API_KEY';
+const String webTestAppId = 'YOUR_WEB_TEST_APP_ID';
+
+const String androidTestApiKey = 'YOUR_ANDROID_TEST_API_KEY';
+const String androidTestAppId = 'YOUR_ANDROID_TEST_APP_ID';
+
+const String windowsTestApiKey = 'YOUR_WINDOWS_TEST_API_KEY';
+const String windowsTestAppId = 'YOUR_WINDOWS_TEST_APP_ID';
