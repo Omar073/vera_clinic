@@ -27,10 +27,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateService.checkForUpdates(context);
+      _loadClinicData();
+      context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
     });
-    _loadClinicData();
     _getPatchVersion();
-    context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
   }
 
   Future<void> _getPatchVersion() async {

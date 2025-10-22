@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:math' as math;
 
 import '../Model/Classes/Client.dart';
 import '../Model/Classes/ClientConstantInfo.dart';
@@ -14,6 +15,28 @@ int getWeekOfMonth(DateTime date) {
 
 String getDateText(DateTime date) {
   return DateFormat('dd/MM/yyyy').format(date);
+}
+
+String formatOneDecimal(num? value) {
+  if (value == null) return '';
+  // Use intl to ensure consistent locale-agnostic formatting
+  final NumberFormat formatter = NumberFormat('0.0');
+  return formatter.format(value);
+}
+
+double normalizeBmi(num? value) {
+  if (value == null) return 0.0;
+  final double v = value.toDouble();
+  if (v.isNaN || v.isInfinite) return 0.0;
+  return (v * 10).roundToDouble() / 10.0;
+}
+
+double normalizeToDecimals(num? value, int decimals) {
+  if (value == null) return 0.0;
+  final double v = value.toDouble();
+  if (v.isNaN || v.isInfinite) return 0.0;
+  final double factor = math.pow(10, decimals).toDouble();
+  return (v * factor).roundToDouble() / factor;
 }
 
 bool isNumOnly(String? value) {

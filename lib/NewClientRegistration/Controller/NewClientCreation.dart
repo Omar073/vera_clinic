@@ -98,9 +98,9 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
       for (Visit v in NewVisitTEC.clientVisits) {
         v.mClientId = c.mClientId;
         if (double.tryParse(NewVisitTEC.visitBMIController.text) != null) {
-          v.mBMI = double.parse(NewVisitTEC.visitBMIController.text);
+          v.mBMI = normalizeBmi(double.parse(NewVisitTEC.visitBMIController.text));
         } else if (c.mHeight != null && c.mHeight! > 0) {
-          v.mBMI = v.mWeight / ((c.mHeight! / 100) * (c.mHeight! / 100));
+          v.mBMI = normalizeBmi(v.mWeight / ((c.mHeight! / 100) * (c.mHeight! / 100)));
         } else {
           v.mBMI = 0.0;
         }

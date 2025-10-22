@@ -4,7 +4,7 @@ import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../../Controller/SingleFollowUpTEC.dart';
 
-Widget singleFollowUpInfo1() {
+Widget newSingleFollowUp1() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(

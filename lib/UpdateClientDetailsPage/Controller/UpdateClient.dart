@@ -69,10 +69,14 @@ void _updateClientFields(Client client) {
   client.Plat = UpdateClientDetailsTEC.platControllers
       .map((e) => double.tryParse(e.text) ?? 0.0)
       .toList();
-  client.mHeight =
-      double.tryParse(UpdateClientDetailsTEC.heightController.text);
-  client.mWeight =
-      double.tryParse(UpdateClientDetailsTEC.weightController.text);
+  client.mHeight = (() {
+    final parsed = double.tryParse(UpdateClientDetailsTEC.heightController.text);
+    return parsed == null ? null : normalizeToDecimals(parsed, 1);
+  })();
+  client.mWeight = (() {
+    final parsed = double.tryParse(UpdateClientDetailsTEC.weightController.text);
+    return parsed == null ? null : normalizeToDecimals(parsed, 1);
+  })();
   client.mSubscriptionType = getSubscriptionTypeFromString(
       UpdateClientDetailsTEC.subscriptionTypeController.text);
   client.mNotes = UpdateClientDetailsTEC.notesController.text;
@@ -130,25 +134,22 @@ Future<bool> _updateDisease(BuildContext context, Disease d) async {
 Future<bool> _updateClientMonthlyFollowUp(
     BuildContext context, ClientMonthlyFollowUp cmfu) async {
   try {
-    cmfu.mBMI =
-        double.tryParse(UpdateClientDetailsTEC.bmiController.text) ?? 0.0;
-    cmfu.mPBF =
-        double.tryParse(UpdateClientDetailsTEC.pbfController.text) ?? 0.0;
+    cmfu.mBMI = normalizeBmi(
+        double.tryParse(UpdateClientDetailsTEC.bmiController.text));
+    cmfu.mPBF = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.pbfController.text), 1);
     cmfu.mWater = UpdateClientDetailsTEC.waterController.text;
-    cmfu.mMaxWeight =
-        double.tryParse(UpdateClientDetailsTEC.maxWeightController.text) ?? 0.0;
-    cmfu.mOptimalWeight =
-        double.tryParse(UpdateClientDetailsTEC.optimalWeightController.text) ??
-            0.0;
-    cmfu.mBMR =
-        double.tryParse(UpdateClientDetailsTEC.bmrController.text) ?? 0.0;
-    cmfu.mMaxCalories =
-        double.tryParse(UpdateClientDetailsTEC.maxCaloriesController.text) ??
-            0.0;
-    cmfu.mDailyCalories =
-        double.tryParse(UpdateClientDetailsTEC.dailyCaloriesController.text) ??
-            0.0;
-
+    cmfu.mMaxWeight = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.maxWeightController.text), 1);
+    cmfu.mOptimalWeight = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.optimalWeightController.text), 1);
+    cmfu.mBMR = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.bmrController.text), 0);
+    cmfu.mMaxCalories = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.maxCaloriesController.text), 0);
+    cmfu.mDailyCalories = normalizeToDecimals(
+        double.tryParse(UpdateClientDetailsTEC.dailyCaloriesController.text), 0);
+    // No dedicated controller for muscle mass in UpdateClientDetailsTEC; leave unchanged
     await context
         .read<ClientMonthlyFollowUpProvider>()
         .updateClientMonthlyFollowUp(cmfu);

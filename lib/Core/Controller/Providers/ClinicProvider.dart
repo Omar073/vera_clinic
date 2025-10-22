@@ -30,7 +30,10 @@ class ClinicProvider with ChangeNotifier {
       _currentRetryAttempt = null;
       _maxRetryAttempts = null;
       _lastRetryErrorMessage = null;
-      notifyListeners();
+      // Avoid notifying during build: schedule state change after current frame
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
 
       clinic = await _clinicFirestoreMethods.fetchClinic(
         onRetry: (nextAttempt, maxAttempts, error) {
@@ -39,10 +42,14 @@ class ClinicProvider with ChangeNotifier {
           _currentRetryAttempt = nextAttempt;
           _maxRetryAttempts = maxAttempts;
           _lastRetryErrorMessage = error.toString();
-          notifyListeners();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            notifyListeners();
+          });
         },
       );
-      notifyListeners();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
       return clinic;
     } catch (e) {
       debugPrint('Error getting clinic: $e');
