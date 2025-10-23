@@ -26,24 +26,40 @@ class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
       TextEditingController();
   final TextEditingController _subscriptionTypeController =
       TextEditingController();
+  final TextEditingController _checkInTimeController = TextEditingController();
 
   @override
   void dispose() {
     _subscriptionPriceController.dispose();
     _subscriptionTypeController.dispose();
+    _checkInTimeController.dispose();
     super.dispose();
   }
 
   Future<void> _processClientSubscription(
-      Client client, double subscriptionPrice) async {
+      Client client, double subscriptionPrice, String checkInTime) async {
     client.mSubscriptionType =
         getSubscriptionTypeFromString(_subscriptionTypeController.text);
-    await _checkInClientAndUpdateData(client, subscriptionPrice);
+    await _checkInClientAndUpdateData(client, subscriptionPrice, checkInTime);
   }
 
   Future<void> _checkInClientAndUpdateData(
-      Client client, double subscriptionPrice) async {
-    await context.read<ClinicProvider>().checkInClient(client);
+      Client client, double subscriptionPrice, String checkInTime) async {
+    // Create ISO timestamp with today's date and provided time
+    final now = DateTime.now();
+    final timeParts = checkInTime.split(':');
+    final checkInDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      int.parse(timeParts[0]),
+      int.parse(timeParts[1]),
+    );
+    final checkInTimeISO = checkInDateTime.toIso8601String();
+
+    await context
+        .read<ClinicProvider>()
+        .checkInClient(client, checkInTimeISO);
     await context.read<ClinicProvider>().incrementDailyPatients();
     await context.read<ClinicProvider>().updateDailyIncome(subscriptionPrice);
     await context.read<ClientProvider>().updateClient(client);
@@ -68,13 +84,23 @@ class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
             label: 'سعر الاشتراك'),
         const SizedBox(height: 16),
         SubscriptionTypeDropdown(
-            subscriptionTypeController: _subscriptionTypeController)
+            subscriptionTypeController: _subscriptionTypeController),
+        const SizedBox(height: 16),
+        MyInputField(
+          myController: _checkInTimeController,
+          hint: "HH:MM",
+          label: "وقت تسجيل الدخول",
+        ),
       ],
     );
   }
 
-  Future<double?> _showSubscriptionDialog() async {
-    return await showDialog<double?>(
+  Future<Map<String, dynamic>?> _showSubscriptionDialog() async {
+    // Set default time to current time
+    final now = DateTime.now();
+    _checkInTimeController.text = '${now.hour.toString().padLeft(2, '0')}:${now.minute.toString().padLeft(2, '0')}';
+    
+    return await showDialog<Map<String, dynamic>?>(
       context: context,
       barrierDismissible: true,
       builder: (BuildContext dialogContext) {
@@ -90,10 +116,32 @@ class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
             TextButton(
               onPressed: () async {
                 try {
-                  final double subscriptionPrice =
-                      double.parse(_subscriptionPriceController.text);
-                  Navigator.of(dialogContext)
-                      .pop(subscriptionPrice); // Use dialogContext
+                  // Validate time input
+                  final timeText = _checkInTimeController.text.trim();
+                  if (timeText.isEmpty) {
+                    showMySnackBar(context, 'يرجى إدخال وقت تسجيل الدخول', Colors.red);
+                    return;
+                  }
+
+                  // Parse and validate time format (HH:MM)
+                  final timeRegex = RegExp(r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+                  if (!timeRegex.hasMatch(timeText)) {
+                    showMySnackBar(context, 'تنسيق الوقت غير صحيح. استخدم HH:MM', Colors.red);
+                    return;
+                  }
+
+                  final double? subscriptionPrice =
+                      double.tryParse(_subscriptionPriceController.text);
+
+                  if (subscriptionPrice == null) {
+                    showInvalidDataTypeSnackBar(context, 'سعر الاشتراك');
+                    return;
+                  }
+                  
+                  Navigator.of(dialogContext).pop({
+                    'subscriptionPrice': subscriptionPrice,
+                    'checkInTime': timeText,
+                  });
                 } catch (e) {
                   showInvalidDataTypeSnackBar(context, 'سعر الاشتراك');
                 }
@@ -132,11 +180,14 @@ class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
       return;
     }
 
-    final double? subscriptionPrice = await _showSubscriptionDialog();
+    final Map<String, dynamic>? dialogResult = await _showSubscriptionDialog();
 
-    if (subscriptionPrice == null) {
+    if (dialogResult == null) {
       return;
     }
+
+    final double subscriptionPrice = dialogResult['subscriptionPrice'];
+    final String checkInTime = dialogResult['checkInTime'];
 
     setState(() => _isCheckedIn = true);
     try {
@@ -147,7 +198,7 @@ class _CheckInButtonWidgetState extends State<CheckInButtonWidget> {
       if (!mounted) return;
 
       if (success && client != null) {
-        await _processClientSubscription(client, subscriptionPrice);
+        await _processClientSubscription(client, subscriptionPrice, checkInTime);
       } else {
         showMySnackBar(
             context, "فشل في تسجيل العميل. حاول مرة أخرى.", Colors.red);

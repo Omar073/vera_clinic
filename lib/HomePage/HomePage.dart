@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
@@ -71,20 +72,22 @@ class _HomePageState extends State<HomePage> {
               baselineType: TextBaseline.alphabetic,
               child: SizedBox(width: 8),
             ),
-            Builder(
-              builder: (_) {
-                const isTesting = bool.fromEnvironment('TESTING');
-                return Text(
-                  isTesting ? '(Testing)' : '(Release)'
-                ,
-                  style: GoogleFonts.cairo(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: isTesting ? Colors.orange[700] : Colors.green[700],
-                  ),
-                );
-              },
-            ),
+            if (kDebugMode)
+              Builder(
+                builder: (_) {
+                  const isTesting = bool.fromEnvironment('TESTING');
+                  return Text(
+                    isTesting ? '(Testing)' : '(Release)',
+                    style: GoogleFonts.cairo(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: isTesting
+                          ? Colors.orange[700]
+                          : Colors.green[700],
+                    ),
+                  );
+                },
+              ),
             if (_patchVersion != null) ...[
               const Baseline(
                 baseline: 0,

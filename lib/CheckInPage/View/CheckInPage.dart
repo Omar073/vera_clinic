@@ -12,6 +12,7 @@ import 'InfoCards/CheckInButton.dart';
 import 'InfoCards/ClientInfoCard.dart';
 import 'InfoCards/MeasurementsCard.dart';
 import 'InfoCards/SubscriptionCard.dart';
+import '../../../Core/View/Reusable widgets/MyInputField.dart';
 
 class CheckInPage extends StatefulWidget {
   final Client? client;
@@ -117,6 +118,16 @@ class _CheckInPageState extends State<CheckInPage> {
                                       CheckInPageTEC
                                           .visitSubscriptionPriceController,
                                 ),
+                                const SizedBox(height: 24),
+                                // Check-in time input
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                  child: MyInputField(
+                                    myController: CheckInPageTEC.checkInTimeController,
+                                    hint: "HH:MM",
+                                    label: "وقت تسجيل الدخول",
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -129,6 +140,8 @@ class _CheckInPageState extends State<CheckInPage> {
                                 CheckInPageTEC.visitSubscriptionTypeController,
                             visitSubscriptionPriceController:
                                 CheckInPageTEC.visitSubscriptionPriceController,
+                            checkInTimeController:
+                                CheckInPageTEC.checkInTimeController,
                           ),
                         ),
                       ],

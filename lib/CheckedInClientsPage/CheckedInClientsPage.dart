@@ -8,7 +8,6 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
-import '../Core/Model/Classes/Client.dart';
 import 'CheckedInClientsList.dart';
 
 class CheckedInClientsPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
     with WidgetsBindingObserver {
   Future<void>? _fetchDataFuture;
   bool _isLoading = false;
-  List<Client?> _checkedInClients = [];
   Timer? _pollingTimer;
 
   @override
@@ -64,31 +62,15 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
 
   Future<void> _pollForUpdates() async {
     try {
-      final newClients =
-          await context.read<ClinicProvider>().getCheckedInClients(context);
-      if (_areListsDifferent(_checkedInClients, newClients)) {
-        if (mounted) {
-          setState(() {
-            _checkedInClients = newClients;
-          });
-        }
-      }
+      // The provider will notify listeners, and the Consumer will rebuild.
+      await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error polling for checked-in clients: $e');
       if (mounted) {
-        showMySnackBar(context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
+        showMySnackBar(
+            context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
       }
     }
-  }
-
-  bool _areListsDifferent(List<Client?> oldList, List<Client?> newList) {
-    if (oldList.length != newList.length) {
-      return true;
-    }
-    // Using Set for efficient comparison of client IDs, regardless of order.
-    final oldIds = oldList.map((c) => c?.mClientId).toSet();
-    final newIds = newList.map((c) => c?.mClientId).toSet();
-    return !setEquals(oldIds, newIds);
   }
 
   Future<void> fetchData() async {
@@ -96,12 +78,13 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
       setState(() {
         _isLoading = true;
       });
-      _checkedInClients =
-          await context.read<ClinicProvider>().getCheckedInClients(context);
+      // The provider will notify listeners, and the Consumer will rebuild.
+      await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
       debugPrint('Error getting checked-in clients: $e');
       if (mounted) {
-        showMySnackBar(context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
+        showMySnackBar(
+            context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
       }
     } finally {
       if (mounted) {
@@ -171,7 +154,8 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
               //*  it to fetchData() and call it in the future builder
               return Consumer<ClinicProvider>(
                 builder: (context, clinicProvider, child) {
-                  if (_checkedInClients.isEmpty) {
+                  final checkedInClients = clinicProvider.checkedInClients;
+                  if (checkedInClients.isEmpty) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -203,15 +187,68 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
                       ),
                     );
                   } else {
+                    // Split clients by arrival status
+                    final notArrived = checkedInClients
+                        .where((c) => !(clinicProvider.clinic
+                                ?.hasClientArrived(c?.mClientId ?? '') ??
+                            false))
+                        .toList();
+                    final arrived = checkedInClients
+                        .where((c) =>
+                            clinicProvider.clinic
+                                ?.hasClientArrived(c?.mClientId ?? '') ??
+                            false)
+                        .toList();
+
                     return Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 24, horizontal: 100),
-                      child: Column(
+                          vertical: 24, horizontal: 40),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 24),
-                          CheckedInClientsList(
-                            checkInClients: _checkedInClients,
-                            onClientCheckedOut: _handleClientCheckedOut,
+                          // Right side: Arrived
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text(
+                                  'وصلوا',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 16),
+                                CheckedInClientsList(
+                                  checkInClients: arrived,
+                                  onClientCheckedOut: _handleClientCheckedOut,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const VerticalDivider(
+                            color: Colors.grey,
+                            thickness: 1,
+                          ),
+                          // Left side: Not Arrived
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const Text(
+                                  'لم يصلوا بعد',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(height: 16),
+                                CheckedInClientsList(
+                                  checkInClients: notArrived,
+                                  onClientCheckedOut: _handleClientCheckedOut,
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

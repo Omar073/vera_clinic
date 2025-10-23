@@ -49,3 +49,4 @@ windows/flutter/generated_plugin_registrant.h
 windows/flutter/generated_plugins.cmake
 /references
 lib/firebase_setup/apiKeys.dart
+diff_output.txt

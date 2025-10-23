@@ -27,78 +27,146 @@ class _ClientCardState extends State<ClientCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl,
-      child: Card(
-        child: ListTile(
-          title: Wrap(
-            spacing: 30,
-            children: [
-              Text('عميل: ' '${widget.index + 1}'),
-              Text('الاسم: ${widget.client?.mName ?? 'غير معروف'}'),
-            ],
-          ),
-          subtitle: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              'نوع الاشتراك: '
-              '${getSubscriptionTypeLabel(widget.client?.mSubscriptionType
-                  ?? SubscriptionType.none)}',
-            ),
-          ),
-          trailing: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.0),
+    return Consumer<ClinicProvider>(
+      builder: (context, clinicProvider, child) {
+        // Get check-in time from clinic data
+        final checkInTime = clinicProvider.clinic?.getCheckInTime(widget.client?.mClientId ?? '');
+        String displayTime = 'غير محدد';
+        if (checkInTime != null) {
+          try {
+            final dateTime = DateTime.parse(checkInTime);
+            displayTime = '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+          } catch (e) {
+            displayTime = 'غير صحيح';
+          }
+        }
+
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: Card(
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => FollowUpNavPage(client: widget.client!)),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text('عميل: ${widget.index + 1}', style: const TextStyle(fontWeight: FontWeight.bold),),
+                              const SizedBox(width: 16),
+                              Text('الاسم: ${widget.client?.mName ?? 'غير معروف'}'),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'نوع الاشتراك: ${getSubscriptionTypeLabel(widget.client?.mSubscriptionType ?? SubscriptionType.none)}',
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'وقت تسجيل الدخول: $displayTime',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          children: [
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: (clinicProvider.clinic?.hasClientArrived(widget.client!.mClientId) ?? false)
+                                    ? Colors.green
+                                    : Colors.grey,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                context
+                                    .read<ClinicProvider>()
+                                    .toggleArrivedStatus(widget.client!.mClientId);
+                              },
+                              child: Text(
+                                (clinicProvider.clinic?.hasClientArrived(widget.client!.mClientId) ?? false)
+                                    ? 'لم يصل'
+                                    : 'وصل',
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24.0),
+                                ),
+                              ),
+                              icon: _isCheckingOut
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                              onPressed: _isCheckingOut
+                                  ? null
+                                  : () async {
+                                      await showAlertDialogue(
+                                        context: context,
+                                        title: 'تأكيد تسجيل الخروج',
+                                        content: 'هل أنت متأكد من تسجيل خروج العميل ${widget.client?.mName}؟',
+                                        onPressed: () async {
+                                          setState(() {
+                                            _isCheckingOut = true;
+                                          });
+                                          try {
+                                            await context.read<ClinicProvider>().checkOutClient(widget.client!);
+                                            widget.onClientCheckedOut();
+                                          } finally {
+                                            if (mounted) {
+                                              setState(() {
+                                                _isCheckingOut = false;
+                                              });
+                                            }
+                                          }
+                                        },
+                                      );
+                                    },
+                              label: Text(
+                                _isCheckingOut ? 'جاري تسجيل الخروج...' : 'تسجيل خروج',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-            icon: _isCheckingOut 
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
-                )
-              : const SizedBox.shrink(),
-            onPressed: _isCheckingOut ? null : () async {
-              await showAlertDialogue(
-                context: context,
-                title: 'تأكيد تسجيل الخروج',
-                content: 'هل أنت متأكد من تسجيل خروج العميل ${widget.client?.mName}؟',
-                onPressed: () async {
-                  setState(() {
-                    _isCheckingOut = true;
-                  });
-                  try {
-                    await context.read<ClinicProvider>().checkOutClient(widget.client!);
-                    widget.onClientCheckedOut();
-                  } finally {
-                    if (mounted) {
-                      setState(() {
-                        _isCheckingOut = false;
-                      });
-                    }
-                  }
-                },
-              );
-            },
-            label: Text(
-              _isCheckingOut ? 'جاري تسجيل الخروج...' : 'تسجيل خروج',
-              style: const TextStyle(color: Colors.white),
-            ),
           ),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                  builder: (context) => FollowUpNavPage(client: widget.client!)),
-            );
-          },
-        ),
-      ),
+        );
+      },
     );
   }
 }

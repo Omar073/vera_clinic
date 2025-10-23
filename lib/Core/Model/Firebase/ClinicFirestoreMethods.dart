@@ -73,7 +73,7 @@ class ClinicFirestoreMethods {
     }
   }
 
-  Future<void> checkInClient(String clientId) async {
+  Future<void> checkInClient(String clientId, String checkInTime) async {
     try {
       final clinicRef = FirebaseSingleton.instance.firestore
           .collection('Clinic')
@@ -81,7 +81,10 @@ class ClinicFirestoreMethods {
 
       await r.retry(
         () => clinicRef.update({
-          'checkedInClientsIds': FieldValue.arrayUnion([clientId]),
+          'checkedInClients.$clientId': {
+            'checkInTime': checkInTime,
+            'hasArrived': false,
+          },
           'dailyClientIds': FieldValue.arrayUnion([clientId])
         }),
         retryIf: (e) => true,
@@ -93,6 +96,51 @@ class ClinicFirestoreMethods {
     } catch (e) {
       debugPrint('Unknown error checking in client: $e');
       throw FirebaseOperationException('حدث خطأ غير متوقع أثناء تسجيل الدخول.');
+    }
+  }
+
+  Future<void> checkOutClient(String clientId) async {
+    try {
+      final clinicRef = FirebaseSingleton.instance.firestore
+          .collection('Clinic')
+          .doc(clinicDocumentId);
+
+      await r.retry(
+        () => clinicRef.update({
+          'checkedInClients.$clientId': FieldValue.delete(),
+        }),
+        retryIf: (e) => true,
+      );
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error checking out client: ${e.message}');
+      throw FirebaseOperationException(
+          'فشل تسجيل الخروج. الرجاء التأكد من اتصالك بالإنترنت.');
+    } catch (e) {
+      debugPrint('Unknown error checking out client: $e');
+      throw FirebaseOperationException('حدث خطأ غير متوقع أثناء تسجيل الخروج.');
+    }
+  }
+
+  Future<void> updateArrivedStatus(String clientId, bool newStatus) async {
+    try {
+      final clinicRef = FirebaseSingleton.instance.firestore
+          .collection('Clinic')
+          .doc(clinicDocumentId);
+
+      await r.retry(
+        () => clinicRef.update({
+          'checkedInClients.$clientId.hasArrived': newStatus,
+        }),
+        retryIf: (e) => true,
+      );
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error updating arrived status: ${e.message}');
+      throw FirebaseOperationException(
+          'فشل تحديث حالة الوصول. الرجاء التأكد من اتصالك بالإنترنت.');
+    } catch (e) {
+      debugPrint('Unknown error updating arrived status: $e');
+      throw FirebaseOperationException(
+          'حدث خطأ غير متوقع أثناء تحديث حالة الوصول.');
     }
   }
 }

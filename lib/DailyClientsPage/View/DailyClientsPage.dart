@@ -20,18 +20,19 @@ class _DailyClientsPageState extends State<DailyClientsPage> {
   final DailyClientsController _controller = DailyClientsController();
   int? _lastShownAttempt;
   VoidCallback? _clinicProviderListener;
+  late ClinicProvider _clinicProvider;
 
   @override
   void initState() {
     super.initState();
+    _clinicProvider = context.read<ClinicProvider>();
     _dailyClientsFuture = _controller.getDailyClients(context);
-    context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
+    _clinicProvider.syncDailyClientsWithCheckedIn();
 
     // Listen for retry status to inform the user via SnackBar
-    final clinicProvider = context.read<ClinicProvider>();
     _clinicProviderListener = () {
-      final attempt = clinicProvider.currentRetryAttempt;
-      final max = clinicProvider.maxRetryAttempts;
+      final attempt = _clinicProvider.currentRetryAttempt;
+      final max = _clinicProvider.maxRetryAttempts;
       if (attempt != null && attempt != _lastShownAttempt) {
         _lastShownAttempt = attempt;
         if (mounted) {
@@ -44,21 +45,20 @@ class _DailyClientsPageState extends State<DailyClientsPage> {
         }
       }
     };
-    clinicProvider.addListener(_clinicProviderListener!);
+    _clinicProvider.addListener(_clinicProviderListener!);
   }
 
   void _refreshClients() {
     setState(() {
       _dailyClientsFuture = _controller.getDailyClients(context);
-      context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
+      _clinicProvider.syncDailyClientsWithCheckedIn();
     });
   }
 
   @override
   void dispose() {
-    final clinicProvider = context.read<ClinicProvider>();
     if (_clinicProviderListener != null) {
-      clinicProvider.removeListener(_clinicProviderListener!);
+      _clinicProvider.removeListener(_clinicProviderListener!);
       _clinicProviderListener = null;
     }
     super.dispose();

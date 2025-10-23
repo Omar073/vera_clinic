@@ -35,10 +35,9 @@ class _CheckOutButtonState extends State<CheckOutButton> {
       try {
         await context.read<ClinicProvider>().checkOutClient(widget.client);
         if (mounted) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const HomePage()),
-            (Route<dynamic> route) => false,
           );
         }
       } catch (e) {

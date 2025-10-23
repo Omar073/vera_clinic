@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
@@ -13,6 +12,7 @@ import '../../../Core/View/PopUps/MySnackBar.dart';
 class CheckInButton extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;
   final TextEditingController visitSubscriptionPriceController;
+  final TextEditingController checkInTimeController;
   final Client? client;
 
   const CheckInButton({
@@ -20,6 +20,7 @@ class CheckInButton extends StatefulWidget {
     required this.client,
     required this.visitSubscriptionTypeController,
     required this.visitSubscriptionPriceController,
+    required this.checkInTimeController,
   });
 
   @override
@@ -45,8 +46,27 @@ class _CheckInButtonState extends State<CheckInButton> {
                 });
 
                 try {
-                  final double subscriptionPrice = double.parse(
+                  // Validate time input
+                  final timeText = widget.checkInTimeController.text.trim();
+                  if (timeText.isEmpty) {
+                    showMySnackBar(context, 'يرجى إدخال وقت تسجيل الدخول', Colors.red);
+                    return;
+                  }
+
+                  // Parse and validate time format (HH:MM)
+                  final timeRegex = RegExp(r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+                  if (!timeRegex.hasMatch(timeText)) {
+                    showMySnackBar(context, 'تنسيق الوقت غير صحيح. استخدم HH:MM', Colors.red);
+                    return;
+                  }
+
+                  final double? subscriptionPrice = double.tryParse(
                       widget.visitSubscriptionPriceController.text);
+
+                  if (subscriptionPrice == null) {
+                    showMySnackBar(context, 'الرجاء إدخال سعر اشتراك صحيح', Colors.red);
+                    return;
+                  }
 
                   widget.client?.mSubscriptionType =
                       getSubscriptionTypeFromString(
@@ -60,9 +80,21 @@ class _CheckInButtonState extends State<CheckInButton> {
                     return;
                   }
 
+                  // Create ISO timestamp with today's date and provided time
+                  final now = DateTime.now();
+                  final timeParts = timeText.split(':');
+                  final checkInDateTime = DateTime(
+                    now.year,
+                    now.month,
+                    now.day,
+                    int.parse(timeParts[0]),
+                    int.parse(timeParts[1]),
+                  );
+                  final checkInTimeISO = checkInDateTime.toIso8601String();
+
                   await context
                       .read<ClinicProvider>()
-                      .checkInClient(widget.client!);
+                      .checkInClient(widget.client!, checkInTimeISO);
                   await context
                       .read<ClinicProvider>()
                       .incrementDailyPatients();

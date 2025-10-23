@@ -32,7 +32,9 @@ Future<bool> checkInNewClient(BuildContext context, Client c) async {
       showMySnackBar(context, 'هذا العميل مسجل مسبقًا', Colors.red);
       return false;
     }
-    await context.read<ClinicProvider>().checkInClient(c);
+    await context
+        .read<ClinicProvider>()
+        .checkInClient(c, DateTime.now().toIso8601String());
     return true;
   } on Exception catch (e) {
     debugPrint('Error checking in new client: $e');
@@ -180,8 +182,8 @@ Future<String?> createClientMonthlyFollowUp(
     if (client.mHeight != null &&
         client.mWeight != null &&
         client.mHeight! > 0) {
-      bmi =
-          client.mWeight! / ((client.mHeight! / 100) * (client.mHeight! / 100));
+      bmi = normalizeBmi(
+          client.mWeight! / ((client.mHeight! / 100) * (client.mHeight! / 100)));
     }
     ClientMonthlyFollowUp cmfu = ClientMonthlyFollowUp(
       clientId: client.mClientId,

@@ -11,7 +11,7 @@ class ClinicProvider with ChangeNotifier {
   final ClinicFirestoreMethods _clinicFirestoreMethods =
       ClinicFirestoreMethods();
   Clinic? clinic;
-  List<Client?> _checkedInClients = [];
+  List<Client> _checkedInClients = [];
 
   // Retry status for UI feedback during fetches
   int? _currentRetryAttempt;
@@ -19,7 +19,7 @@ class ClinicProvider with ChangeNotifier {
   String? _lastRetryErrorMessage;
 
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
-  List<Client?> get checkedInClients => _checkedInClients;
+  List<Client> get checkedInClients => _checkedInClients;
   int? get currentRetryAttempt => _currentRetryAttempt;
   int? get maxRetryAttempts => _maxRetryAttempts;
   String? get lastRetryErrorMessage => _lastRetryErrorMessage;
@@ -62,18 +62,17 @@ class ClinicProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> checkInClient(Client client) async {
+  Future<void> checkInClient(Client client, String checkInTime) async {
     if (clinic == null) await getClinic();
     if (clinic == null) return;
 
-    await _clinicFirestoreMethods.checkInClient(client.mClientId);
+    await _clinicFirestoreMethods.checkInClient(client.mClientId, checkInTime);
 
-    if (!checkedInClients.any((c) => c?.mClientId == client.mClientId)) {
+    if (!checkedInClients.any((c) => c.mClientId == client.mClientId)) {
       checkedInClients.add(client);
     }
-    if (clinic != null &&
-        !clinic!.mCheckedInClientsIds.contains(client.mClientId)) {
-      clinic!.mCheckedInClientsIds.add(client.mClientId);
+    if (clinic != null) {
+      clinic!.addCheckedInClient(client.mClientId, checkInTime);
     }
     if (!clinic!.mDailyClientIds.contains(client.mClientId)) {
       clinic!.mDailyClientIds.add(client.mClientId);
@@ -83,14 +82,33 @@ class ClinicProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> toggleArrivedStatus(String clientId) async {
+    if (clinic == null) return;
+
+    final currentStatus = clinic!.hasClientArrived(clientId);
+    await _clinicFirestoreMethods.updateArrivedStatus(clientId, !currentStatus);
+    clinic!.toggleHasArrived(clientId);
+
+    // Re-order the local list to move the toggled client to the end
+    final clientIndex = _checkedInClients.indexWhere((c) => c.mClientId == clientId);
+    if (clientIndex != -1) {
+      final client = _checkedInClients.removeAt(clientIndex);
+      _checkedInClients.add(client);
+    }
+
+    notifyListeners();
+  }
+
   Future<void> checkOutClient(Client client) async {
     if (clinic == null) await getClinic();
     if (clinic == null) {
       throw FirebaseOperationException(
           'لا يمكن تسجيل الخروج, بيانات العيادة غير متوفرة');
     }
-    clinic!.mCheckedInClientsIds.remove(client.mClientId);
-    checkedInClients.removeWhere((c) => c?.mClientId == client.mClientId);
+    
+    await _clinicFirestoreMethods.checkOutClient(client.mClientId);
+    clinic!.removeCheckedInClient(client.mClientId);
+    checkedInClients.removeWhere((c) => c.mClientId == client.mClientId);
     await updateClinic(clinic!);
     notifyListeners();
   }
@@ -109,34 +127,52 @@ class ClinicProvider with ChangeNotifier {
     try {
       if (clinic == null) return;
       _checkedInClients.clear();
-      clinic!.mCheckedInClientsIds.clear();
+      clinic!.mCheckedInClients.clear();
       await updateClinic(clinic!);
     } catch (e) {
       debugPrint('Error clearing checked-in clients: $e');
     }
   }
 
-  Future<List<Client?>> getCheckedInClients(BuildContext context) async {
-    // Try to get clinic data. If it fails (returns null), throw an exception.
-    if (await getClinic() == null) {
-      throw FirebaseOperationException(
-          'فشل تحميل بيانات العيادة, الرجاء المحاولة مرة أخرى');
+  Future<List<Client>> getCheckedInClients(BuildContext context) async {
+    // 1. Fetch latest clinic data. This updates `this.clinic`.
+    await getClinic();
+    if (clinic == null) {
+      throw FirebaseOperationException('فشل تحميل بيانات العيادة, الرجاء المحاولة مرة أخرى');
     }
 
-    // If we reach here, clinic is guaranteed to be non-null.
-    List<Client?> newCheckedInClients = [];
-    for (var clientId in clinic!.mCheckedInClientsIds) {
-      Client? client =
-          await context.read<ClientProvider>().getClientById(clientId);
-      newCheckedInClients.add(client);
-    }
-    _checkedInClients = newCheckedInClients;
+    final newClientIds = clinic!.getCheckedInClientIds().toSet();
+    final currentClientIds = _checkedInClients.map((c) => c.mClientId).toSet();
 
-    if (checkedInClients.isEmpty) {
-      debugPrint("No checked in clients");
+    bool listChanged = false;
+
+    // 2. Remove clients who are no longer checked in
+    _checkedInClients.removeWhere((client) {
+      if (!newClientIds.contains(client.mClientId)) {
+        listChanged = true;
+        return true;
+      }
+      return false;
+    });
+
+    // 3. Add any new clients to the end of the list
+    for (final clientId in newClientIds) {
+      if (!currentClientIds.contains(clientId)) {
+        final client = await context.read<ClientProvider>().getClientById(clientId);
+        if (client != null) {
+          _checkedInClients.add(client);
+          listChanged = true;
+        } else {
+          debugPrint("Warning: Client with ID $clientId not found, but was in checked-in list.");
+        }
+      }
     }
-    notifyListeners();
-    return checkedInClients;
+    
+    if (listChanged) {
+      notifyListeners();
+    }
+    
+    return _checkedInClients;
   }
 
   Future<bool> isClientCheckedIn(String clientId) async {
@@ -146,7 +182,7 @@ class ClinicProvider with ChangeNotifier {
         debugPrint('Clinic is null');
         return false;
       }
-      return clinic!.mCheckedInClientsIds.contains(clientId);
+      return clinic!.isClientCheckedIn(clientId);
     } catch (e) {
       debugPrint('Error checking if client is checked in: $e');
       return false;
@@ -230,7 +266,7 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mDailyExpenses = 0;
       clinic!.mDailyProfit = 0;
       clinic!.mDailyPatients = 0;
-      clinic!.mCheckedInClientsIds.clear();
+      clinic!.mCheckedInClients.clear();
       clinic!.mDailyClientIds.clear();
       _checkedInClients.clear();
       await updateClinic(clinic!);
@@ -258,7 +294,7 @@ class ClinicProvider with ChangeNotifier {
       if (clinic == null) return;
 
       bool hasChanges = false;
-      for (String clientId in clinic!.mCheckedInClientsIds) {
+      for (String clientId in clinic!.getCheckedInClientIds()) {
         if (!clinic!.mDailyClientIds.contains(clientId)) {
           clinic!.mDailyClientIds.add(clientId);
           hasChanges = true;

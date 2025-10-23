@@ -52,7 +52,7 @@ class _ExpenseCardState extends State<ExpenseCard> {
                       strokeWidth: 2,
                     ),
                   )
-                : const Icon(Icons.delete, color: Colors.white),
+                : const Icon(Icons.remove, color: Colors.white),
               label: Text(
                 _isDeleting ? 'جاري الحذف...' : 'حذف',
                 style: const TextStyle(color: Colors.white),
