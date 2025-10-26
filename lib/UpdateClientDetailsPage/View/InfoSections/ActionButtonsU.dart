@@ -57,13 +57,10 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
               "مسح",
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red[700],
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-              textStyle: const TextStyle(fontSize: 20),
+              backgroundColor: Colors.red,
             ),
           ),
         ],
@@ -138,13 +135,10 @@ class _ActionButtonsUState extends State<ActionButtonsU> {
         isLoading ? loadingText : text,
         style: const TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.bold,
         ),
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 13),
-        textStyle: const TextStyle(fontSize: 20),
       ),
     );
   }

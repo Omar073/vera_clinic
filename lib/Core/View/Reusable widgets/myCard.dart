@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget myCard(String title, Widget content) {
+Widget myCard(String title, Widget content, {Widget? action}) {
   return Card(
     color: Colors.white,
     elevation: 1,
@@ -9,13 +9,22 @@ Widget myCard(String title, Widget content) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.blueGrey,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (action != null) action,
+              Expanded(
+                child: Text(
+                  title,
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+              ),
+            ],
           ),
           const Divider(),
           // const SizedBox(height: 8),

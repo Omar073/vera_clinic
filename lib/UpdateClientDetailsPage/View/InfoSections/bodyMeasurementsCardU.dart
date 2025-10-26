@@ -29,9 +29,9 @@ Widget bodyMeasurementsCardU() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: UpdateClientDetailsTEC.bmiController,
-                hint: "BMI ",
-                label: "مؤشر كتلة الجسم",
+                myController: UpdateClientDetailsTEC.muscleMassController,
+                hint: "كتلة العضلات",
+                label: "كتلة العضلات",
               ),
             ),
           ],
@@ -52,6 +52,50 @@ Widget bodyMeasurementsCardU() {
                 myController: UpdateClientDetailsTEC.pbfController,
                 hint: "PBF ",
                 label: "نسبة الدهن",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: UpdateClientDetailsTEC.bmrController,
+                hint: "معدل الحرق الأساسي",
+                label: "معدل الحرق الأساسي",
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: MyInputField(
+                myController: UpdateClientDetailsTEC.maxWeightController,
+                hint: '',
+                label: "أقصي وزن",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: UpdateClientDetailsTEC.optimalWeightController,
+                hint: '',
+                label: "وزن مثالي",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: UpdateClientDetailsTEC.maxCaloriesController,
+                hint: '',
+                label: "أقصي سعرات",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: UpdateClientDetailsTEC.dailyCaloriesController,
+                hint: '',
+                label: "السعرات اليومية",
               ),
             ),
           ],

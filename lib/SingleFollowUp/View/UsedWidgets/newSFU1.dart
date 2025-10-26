@@ -11,20 +11,34 @@ Widget newSingleFollowUp1() {
         "بيانات الزيارة",
         Padding(
           padding: const EdgeInsets.only(top: 5.0),
-          child: Wrap(
-            spacing: 60,
-            alignment: WrapAlignment.start,
+          child: Column(
             children: [
-              MyInputField(
-                myController: SingleFollowUpTEC.singleFollowUpDietController,
-                hint: "",
-                label: "اسم النظام",
-                // maxLines: 2,
+              // Row 1: Diet and Weight
+              Row(
+                children: [
+                  Expanded(
+                    child: MyInputField(
+                      myController: SingleFollowUpTEC.singleFollowUpDietController,
+                      hint: "",
+                      label: "اسم النظام",
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: MyInputField(
+                      myController: SingleFollowUpTEC.singleFollowUpWeightController,
+                      hint: "",
+                      label: "الوزن",
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 16),
+              // Row 2: Notes (full width)
               MyInputField(
-                myController: SingleFollowUpTEC.singleFollowUpWeightController,
-                hint: "",
-                label: "الوزن",
+                myController: SingleFollowUpTEC.singleFollowUpNotesController,
+                hint: '',
+                label: "ملاحظات",
               ),
             ],
           ),

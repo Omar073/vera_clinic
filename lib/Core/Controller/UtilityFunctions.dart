@@ -13,8 +13,8 @@ int getWeekOfMonth(DateTime date) {
   return (daysSinceFirst / 7).ceil().clamp(1, 4);
 }
 
-String getDateText(DateTime date) {
-  return DateFormat('dd/MM/yyyy').format(date);
+String getDateText(DateTime? date) {
+  return date == null ? 'بدون تاريخ' : DateFormat('dd/MM/yyyy').format(date);
 }
 
 String formatOneDecimal(num? value) {
@@ -232,4 +232,28 @@ bool validateYear(BuildContext context, String yearType, String yearValue) {
   }
 
   return true;
+}
+
+// Time conversion helper functions for 12-hour format
+String formatTimeToArabic12Hour(DateTime dateTime) {
+  int hour = dateTime.hour;
+  String period = hour < 12 ? 'ص' : 'م';
+  
+  if (hour == 0) hour = 12;
+  else if (hour > 12) hour = hour - 12;
+  
+  String minute = dateTime.minute.toString().padLeft(2, '0');
+  return '$hour:$minute $period';
+}
+
+DateTime convert12To24Hour(int hour, int minute, bool isAM) {
+  int hour24 = hour;
+  if (!isAM && hour != 12) {
+    hour24 = hour + 12;
+  } else if (isAM && hour == 12) {
+    hour24 = 0;
+  }
+  
+  final now = DateTime.now();
+  return DateTime(now.year, now.month, now.day, hour24, minute);
 }

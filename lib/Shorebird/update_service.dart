@@ -119,4 +119,15 @@ class UpdateService {
     final patch = await _updater.readCurrentPatch();
     debugPrint('Shorebird current patch: ${patch?.number}');
   }
+
+  Future<int?> getPatchVersion() async {
+    try {
+      final patch = await _updater.readCurrentPatch();
+      return patch?.number;
+    } catch (e) {
+      // Handle error if any, e.g. no patch installed
+      debugPrint('Error getting patch version: $e');
+      return null;
+    }
+  }
 }

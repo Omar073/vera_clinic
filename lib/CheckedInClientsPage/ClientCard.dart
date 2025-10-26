@@ -35,7 +35,7 @@ class _ClientCardState extends State<ClientCard> {
         if (checkInTime != null) {
           try {
             final dateTime = DateTime.parse(checkInTime);
-            displayTime = '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+            displayTime = formatTimeToArabic12Hour(dateTime);
           } catch (e) {
             displayTime = 'غير صحيح';
           }

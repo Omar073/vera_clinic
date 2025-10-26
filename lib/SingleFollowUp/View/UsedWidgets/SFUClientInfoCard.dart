@@ -9,7 +9,7 @@ Widget singleFollowUpClientInfoCard(Client client) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(
-      "متابعة اسبوعية",
+      "معلومات العميل",
       Padding(
         padding: const EdgeInsets.only(top: 5.0),
         child: Wrap(

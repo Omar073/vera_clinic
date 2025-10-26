@@ -35,7 +35,7 @@ class _VisitCardState extends State<VisitCard> {
           children: [
             Row(
               children: [
-                TextButton(
+                ElevatedButton.icon(
                   onPressed: () {
                     showAlertDialogue(
                       context: context,
@@ -52,18 +52,18 @@ class _VisitCardState extends State<VisitCard> {
                       },
                     );
                   },
-                  child: const Text(
-                    'مسح',
-                    style: TextStyle(color: Colors.red),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
                   ),
+                  icon: const Icon(Icons.clear),
+                  label: const Text('مسح'),
                 ),
+                const SizedBox(width: 10),
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
                     ),
                     onPressed: () {
                       Navigator.push(

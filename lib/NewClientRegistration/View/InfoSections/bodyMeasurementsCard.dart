@@ -14,6 +14,14 @@ Widget bodyMeasurementsCard() {
           children: [
             Expanded(
               child: MyInputField(
+                myController: ClientRegistrationTEC.heightController,
+                hint: 'الطول (سم)',
+                label: 'الطول',
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: MyInputField(
                 myController: ClientRegistrationTEC.weightController,
                 hint: "الوزن (كغ)",
                 label: "الوزن",
@@ -22,9 +30,9 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 20),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.heightController,
-                hint: 'الطول (سم)',
-                label: 'الطول',
+                myController: ClientRegistrationTEC.muscleMassController,
+                hint: "Muscle Mass",
+                label: "كتلة العضلات",
               ),
             ),
           ],
@@ -50,9 +58,45 @@ Widget bodyMeasurementsCard() {
             const SizedBox(width: 16),
             Expanded(
               child: MyInputField(
-                myController: ClientRegistrationTEC.muscleMassController,
-                hint: "Muscle Mass",
-                label: "كتلة العضلات",
+                myController: ClientRegistrationTEC.bmrController,
+                hint: 'BMR',
+                label: "معدل الحرق الأساسي",
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.maxWeightController,
+                hint: '',
+                label: "أقصي وزن",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.optimalWeightController,
+                hint: '',
+                label: "وزن مثالي",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.maxCaloriesController,
+                hint: '',
+                label: "أقصي سعرات",
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: MyInputField(
+                myController: ClientRegistrationTEC.dailyCaloriesController,
+                hint: '',
+                label: "السعرات اليومية",
               ),
             ),
           ],

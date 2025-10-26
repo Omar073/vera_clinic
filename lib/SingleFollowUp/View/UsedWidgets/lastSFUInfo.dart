@@ -26,10 +26,13 @@ class _LastSingleFollowUpInfoState extends State<LastSingleFollowUpInfo> {
 
   Future<Visit?> _fetchLastVisit() async {
     if (!mounted) return null;
-    final visit = await context
-        .read<VisitProvider>()
-        .getClientLastVisit(widget.client.mClientId);
-    return visit;
+    if (widget.client.mLastVisitId != null) {
+      final visit = await context
+          .read<VisitProvider>()
+          .getVisit(widget.client.mLastVisitId!);
+      return visit;
+    }
+    return null;
   }
 
   @override

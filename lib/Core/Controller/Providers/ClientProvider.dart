@@ -29,36 +29,33 @@ class ClientProvider with ChangeNotifier {
     );
 
     client ??= await clientFirestoreMethods.fetchClientById(clientId);
-    client == null ? cachedClients.add(client) : null;
+    if (client != null &&
+        !cachedClients.any((c) => c?.mClientId == client?.mClientId)) {
+      cachedClients.add(client);
+    }
     notifyListeners();
     return client;
   }
 
   Future<List<Client?>> getClientByPhone(String phoneNum) async {
     debugPrint("getting client by phone number: $phoneNum");
-    List<Client?> clients =
-        cachedClients //todo: should this be removed or instead if the cached list that matches phone num is not empty then return it directly?, depeding on if the phone num attribute should be unique or not
-            .where(
-              (client) => client?.mClientPhoneNum == phoneNum,
-            )
-            .toList();
+    List<Client?> clients = cachedClients
+        .where(
+          (client) => client?.mClientPhoneNum == phoneNum,
+        )
+        .toList();
+
+    if (clients.isNotEmpty) return clients;
 
     final fetchedClients =
         await clientFirestoreMethods.fetchClientByPhone(phoneNum);
     for (var client in fetchedClients) {
-      if (!clients.any((c) => c?.mClientId == client?.mClientId)) {
-        clients.add(client!);
-        debugPrint("client added: ${client.mName}");
-      }
-    }
-
-    for (var client in clients) {
       if (client != null &&
           !cachedClients.any((c) => c?.mClientId == client.mClientId)) {
+        clients.add(client);
         cachedClients.add(client);
       }
     }
-    //todo: why 2 for loops?
     notifyListeners();
     return clients;
   }

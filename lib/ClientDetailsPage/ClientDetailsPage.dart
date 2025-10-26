@@ -68,7 +68,8 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
 
       myMonthlyFollowUp = await context
           .read<ClientMonthlyFollowUpProvider>()
-          .getClientMonthlyFollowUpById(client?.mClientMonthlyFollowUpId ?? '');
+          .getClientMonthlyFollowUpById(
+              client?.mClientLastMonthlyFollowUpId ?? '');
 
       myConstantInfo = await context
           .read<ClientConstantInfoProvider>()
@@ -199,7 +200,7 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                         personalInfoCard(
                             client, myConstantInfo?.mArea ?? 'مجهول'),
                         const SizedBox(height: 20),
-                        bodyMeasurementsCard(client, myMonthlyFollowUp!),
+                        bodyMeasurementsCard(context, client, myMonthlyFollowUp!),
                         const SizedBox(height: 20),
                         dietPreferencesCard(client?.mDiet ?? 'مجهول',
                             myPreferredFoods!, myConstantInfo),

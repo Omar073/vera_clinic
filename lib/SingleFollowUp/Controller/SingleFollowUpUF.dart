@@ -4,6 +4,7 @@ import 'package:vera_clinic/Core/Controller/UtilityFunctions.dart';
 import 'package:vera_clinic/Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 
 import '../../Core/Controller/Providers/VisitProvider.dart';
+import '../../Core/Controller/Providers/ClientProvider.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import '../../../Core/View/PopUps/RequiredFieldSnackBar.dart';
@@ -42,6 +43,12 @@ Future<bool> createSingleFollowUp(Client client, BuildContext context) async {
     );
 
     await context.read<VisitProvider>().createVisit(visit);
+
+    // Ensure last visit is updated if this is the latest (created now)
+    if (visit.mVisitId.isNotEmpty) {
+      client.mLastVisitId = visit.mVisitId;
+      await context.read<ClientProvider>().updateClient(client);
+    }
     return true;
   } catch (e) {
     debugPrint('Error creating SingleFollowUp: $e');

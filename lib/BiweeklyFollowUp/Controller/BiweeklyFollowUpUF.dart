@@ -13,56 +13,76 @@ import '../../Core/Controller/Providers/ClientProvider.dart';
 Future<bool> createBiweeklyFollowUp(
     Client c, ClientMonthlyFollowUp cmfu, BuildContext context) async {
   try {
-    // Helper function to parse text or fallback to the existing value
-    double? parseOrFallback(String text, double? fallback) {
-      return text.isEmpty ? fallback : double.tryParse(text) ?? fallback;
-    }
-
     final newWeight =
         double.tryParse(BiweeklyFollowUpTEC.mWeightController.text) ?? c.mWeight;
 
-    double bmi = cmfu.mBMI ?? 0.0;
-    if (c.mHeight != null && c.mHeight! > 0 && newWeight != null) {
-      bmi = newWeight / ((c.mHeight! / 100) * (c.mHeight! / 100));
-    }
-
-    // Create the ClientMonthlyFollowUp object
-    ClientMonthlyFollowUp clientMonthlyFollowUp = ClientMonthlyFollowUp(
-      clientMonthlyFollowUpId: '',
-      clientId: c.mClientId,
-      bmi: bmi,
-      pbf: parseOrFallback(BiweeklyFollowUpTEC.mPBFController.text, cmfu.mPBF),
-      water: BiweeklyFollowUpTEC.mWaterController.text.isEmpty
-          ? cmfu.mWater
-          : BiweeklyFollowUpTEC.mWaterController.text,
-      maxWeight: parseOrFallback(
-          BiweeklyFollowUpTEC.mMaxWeightController.text, cmfu.mMaxWeight),
-      optimalWeight: parseOrFallback(
-          BiweeklyFollowUpTEC.mOptimalWeightController.text, cmfu.mOptimalWeight),
-      bmr: parseOrFallback(BiweeklyFollowUpTEC.mBMRController.text, cmfu.mBMR),
-      maxCalories: parseOrFallback(
-          BiweeklyFollowUpTEC.mMaxCaloriesController.text, cmfu.mMaxCalories),
-      dailyCalories: parseOrFallback(
-          BiweeklyFollowUpTEC.mDailyCaloriesController.text, cmfu.mDailyCalories),
-      muscleMass: parseOrFallback(
-          BiweeklyFollowUpTEC.mMuscleMassController.text, cmfu.mMuscleMass),
-    );
-
-    // Save the ClientMonthlyFollowUp object
+    final clientMonthlyFollowUp = _createClientMonthlyFollowUp(c, cmfu, newWeight);
+    
     await context
         .read<ClientMonthlyFollowUpProvider>()
         .createClientMonthlyFollowUp(clientMonthlyFollowUp);
 
-    // Update the client's weight
-    if (newWeight != null) {
-      c.mWeight = newWeight;
-      await context.read<ClientProvider>().updateClient(c);
-    }
+    await _updateClientData(c, clientMonthlyFollowUp, newWeight, context);
 
     return true;
   } on Exception catch (e) {
     debugPrint('Error creating BiweeklyFollowUp: $e');
     return false;
+  }
+}
+
+ClientMonthlyFollowUp _createClientMonthlyFollowUp(
+    Client c, ClientMonthlyFollowUp cmfu, double? newWeight) {
+  double bmi = cmfu.mBMI ?? 0.0;
+  if (c.mHeight != null && c.mHeight! > 0 && newWeight != null) {
+    bmi = normalizeBmi(newWeight / ((c.mHeight! / 100) * (c.mHeight! / 100)));
+  }
+
+  return ClientMonthlyFollowUp(
+    clientMonthlyFollowUpId: '',
+    clientId: c.mClientId,
+    bmi: normalizeBmi(bmi),
+    pbf: BiweeklyFollowUpTEC.mPBFController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mPBFController.text),
+    water: BiweeklyFollowUpTEC.mWaterController.text.isEmpty
+        ? null
+        : BiweeklyFollowUpTEC.mWaterController.text,
+    maxWeight: BiweeklyFollowUpTEC.mMaxWeightController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mMaxWeightController.text),
+    optimalWeight: BiweeklyFollowUpTEC.mOptimalWeightController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mOptimalWeightController.text),
+    bmr: BiweeklyFollowUpTEC.mBMRController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mBMRController.text),
+    maxCalories: BiweeklyFollowUpTEC.mMaxCaloriesController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mMaxCaloriesController.text),
+    dailyCalories: BiweeklyFollowUpTEC.mDailyCaloriesController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mDailyCaloriesController.text),
+    muscleMass: BiweeklyFollowUpTEC.mMuscleMassController.text.isEmpty
+        ? null
+        : double.tryParse(BiweeklyFollowUpTEC.mMuscleMassController.text),
+    date: DateTime.now(),
+    notes: BiweeklyFollowUpTEC.mNotesController.text.isEmpty
+        ? null
+        : BiweeklyFollowUpTEC.mNotesController.text,
+  );
+}
+
+Future<void> _updateClientData(Client c, ClientMonthlyFollowUp clientMonthlyFollowUp, 
+    double? newWeight, BuildContext context) async {
+  if (clientMonthlyFollowUp.mClientMonthlyFollowUpId.isNotEmpty) {
+    c.mClientLastMonthlyFollowUpId = clientMonthlyFollowUp.mClientMonthlyFollowUpId;
+    await context.read<ClientProvider>().updateClient(c);
+  }
+
+  if (newWeight != null) {
+    c.mWeight = newWeight;
+    await context.read<ClientProvider>().updateClient(c);
   }
 }
 

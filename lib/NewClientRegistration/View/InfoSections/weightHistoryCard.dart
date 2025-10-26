@@ -10,25 +10,6 @@ Widget weightHistoryCard() {
     Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: MyInputField(
-                myController: ClientRegistrationTEC.optimalWeightController,
-                hint: '',
-                label: "وزن مثالي",
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: MyInputField(
-                myController: ClientRegistrationTEC.maxWeightController,
-                hint: '',
-                label: "أقصي وزن",
-              ),
-            ),
-          ],
-        ),
         const SizedBox(height: 24),
         const Text(
           ":الأوزان الثابتة السابقة",

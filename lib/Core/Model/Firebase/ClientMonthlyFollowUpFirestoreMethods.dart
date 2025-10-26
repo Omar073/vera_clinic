@@ -30,13 +30,15 @@ class ClientMonthlyFollowUpFirestoreMethods {
     }
   }
 
-  Future<ClientMonthlyFollowUp?> fetchClientMonthlyFollowUpByClientId(
+  Future<ClientMonthlyFollowUp?> fetchLastClientMonthlyFollowUp(
       String clientId) async {
     try {
       final querySnapshot = await r.retry(
         () => FirebaseSingleton.instance.firestore
             .collection('ClientMonthlyFollowUp')
             .where('clientId', isEqualTo: clientId)
+            .orderBy('date', descending: true)
+            .limit(1)
             .get(),
         retryIf: (e) => true,
       );
@@ -52,6 +54,34 @@ class ClientMonthlyFollowUpFirestoreMethods {
     } catch (e) {
       debugPrint(
           'Unknown error fetching client monthly follow up by client ID: $e');
+      return null;
+    }
+  }
+
+  Future<List<ClientMonthlyFollowUp>?> fetchClientMonthlyFollowUps(
+      String clientId) async {
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('ClientMonthlyFollowUp')
+            .where('clientId', isEqualTo: clientId)
+            .orderBy('date', descending: true)
+            .get(),
+        retryIf: (e) => true,
+      );
+
+      return querySnapshot.docs.isEmpty
+          ? null
+          : querySnapshot.docs
+              .map((doc) => ClientMonthlyFollowUp.fromFirestore(doc.data()))
+              .toList();
+    } on FirebaseException catch (e) {
+      debugPrint(
+          'Firebase error fetching client monthly follow ups list by client ID: ${e.message}');
+      return null;
+    } catch (e) {
+      debugPrint(
+          'Unknown error fetching client monthly follow ups list by client ID: $e');
       return null;
     }
   }
@@ -137,6 +167,28 @@ class ClientMonthlyFollowUpFirestoreMethods {
           'Firebase error deleting client monthly followup: ${e.message}');
     } catch (e) {
       debugPrint('Unknown error deleting client monthly follow up: $e');
+    }
+  }
+
+  Future<void> deleteAllClientMonthlyFollowUps(String clientId) async {
+    try {
+      final querySnapshot = await r.retry(
+        () => FirebaseSingleton.instance.firestore
+            .collection('ClientMonthlyFollowUp')
+            .where('clientId', isEqualTo: clientId)
+            .get(),
+        retryIf: (e) => true,
+      );
+
+      final batch = FirebaseSingleton.instance.firestore.batch();
+      for (final doc in querySnapshot.docs) {
+        batch.delete(doc.reference);
+      }
+      await batch.commit();
+    } on FirebaseException catch (e) {
+      debugPrint('Firebase error deleting all client monthly followups: ${e.message}');
+    } catch (e) {
+      debugPrint('Unknown error deleting all client monthly follow ups: $e');
     }
   }
 }

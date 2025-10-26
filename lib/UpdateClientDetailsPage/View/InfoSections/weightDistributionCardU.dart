@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../../Core/View/Reusable widgets/MyCheckBox.dart';
-import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../../Controller/UpdateClientDetailsTEC.dart';
 
@@ -37,35 +36,6 @@ Widget weightDistributionCardU() {
             MyCheckBox(
                 controller: UpdateClientDetailsTEC.abdomenController,
                 text: "بطن"),
-          ],
-        ),
-        const SizedBox(height: 24),
-        Row(
-          children: [
-            Expanded(
-              child: MyInputField(
-                myController:
-                    UpdateClientDetailsTEC.dailyCaloriesController,
-                hint: '',
-                label: "السعرات اليومية",
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: MyInputField(
-                myController: UpdateClientDetailsTEC.maxCaloriesController,
-                hint: '',
-                label: "أقصي سعرات",
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: MyInputField(
-                label: "معدل الحرق الأساسي",
-                myController: UpdateClientDetailsTEC.bmrController,
-                hint: 'BMR',
-              ),
-            ),
           ],
         ),
       ],

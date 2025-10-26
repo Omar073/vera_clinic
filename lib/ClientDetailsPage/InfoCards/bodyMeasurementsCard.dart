@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/myCard.dart';
+import 'package:vera_clinic/MonthlyFollowUpsDetailsPage/MonthlyFollowUpsDetailsPage.dart';
 
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/ClientMonthlyFollowUp.dart';
 
 Widget bodyMeasurementsCard(
-    Client? client, ClientMonthlyFollowUp? monthlyFollowUp) {
+    BuildContext context, Client? client, ClientMonthlyFollowUp? monthlyFollowUp) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
     child: myCard(
@@ -84,11 +84,46 @@ Widget bodyMeasurementsCard(
                           value: '${monthlyFollowUp.mMaxCalories ?? 0}'),
                     ],
                   ),
+                  const SizedBox(height: 30),
+                  // Notes section
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      textDirection: TextDirection.rtl,
+                      spacing: 40,
+                      runSpacing: 20,
+                      children: [
+                        MyTextBox(
+                          title: 'ملاحظات',
+                          value: monthlyFollowUp.mNotes ?? '',
+                        ),
+                      ],
+                    ),
                 ],
               )
             : const Center(
                 child: Text('لا توجد بيانات قياسات الجسم'),
               ),
+      ),
+      action: ElevatedButton.icon(
+        onPressed: client == null
+            ? null
+            : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MonthlyFollowUpsDetailsPage(client: client),
+                  ),
+                );
+              },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.blueAccent,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+        ),
+        icon: const Icon(Icons.list),
+        label: const Text('عرض الكل'),
       ),
     ),
   );

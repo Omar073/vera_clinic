@@ -25,7 +25,10 @@ class _ActionButtonState extends State<ActionButton> {
       children: [
         _isLoading
             ? const CircularProgressIndicator(color: Colors.blueAccent)
-            : ElevatedButton(
+            : ElevatedButton.icon(
+                icon: const Icon(Icons.check, color: Colors.white),
+                label: const Text('حفظ',
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
                 onPressed: () async {
                   setState(() {
                     _isLoading = true;
@@ -43,8 +46,8 @@ class _ActionButtonState extends State<ActionButton> {
                     showMySnackBar(
                       context,
                       success
-                          ? 'تم تسجيل المتابعة الشهرية بنجاح'
-                          : 'فشل تسجيل المتابعة الشهرية',
+                          ? 'تم تسجيل المتابعة بنجاح'
+                          : 'فشل تسجيل المتابعة',
                       success ? Colors.green : Colors.red,
                     );
                     if (success) {
@@ -57,28 +60,21 @@ class _ActionButtonState extends State<ActionButton> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
+                  backgroundColor: Colors.blueAccent,
                   foregroundColor: Colors.white,
-                ),
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check, color: Colors.blueAccent),
-                    SizedBox(width: 12),
-                    Text('حفظ',
-                        style:
-                            TextStyle(fontSize: 16, color: Colors.blueAccent)),
-                  ],
                 ),
               ),
         const SizedBox(width: 20),
-        TextButton(
+        ElevatedButton.icon(
           onPressed: () {
             BiweeklyFollowUpTEC.clear();
           },
-          child: const Text('مسح', style: TextStyle(color: Colors.redAccent)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+          ),
+          icon: const Icon(Icons.clear),
+          label: const Text('مسح'),
         ),
       ],
     );

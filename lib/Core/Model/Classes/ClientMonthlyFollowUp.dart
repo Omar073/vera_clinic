@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ClientMonthlyFollowUp {
   late String mClientMonthlyFollowUpId;
@@ -13,6 +14,8 @@ class ClientMonthlyFollowUp {
   double? mMaxCalories;
   double? mDailyCalories;
   double? mMuscleMass;
+  DateTime? mDate;
+  String? mNotes;
 
   ClientMonthlyFollowUp({
     required String clientMonthlyFollowUpId,
@@ -26,6 +29,8 @@ class ClientMonthlyFollowUp {
     required double? maxCalories,
     required double? dailyCalories,
     required double? muscleMass,
+    required DateTime? date,
+    required String? notes,
   })  : mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
         mClientId = clientId,
         mBMI = bmi,
@@ -36,7 +41,9 @@ class ClientMonthlyFollowUp {
         mBMR = bmr,
         mMaxCalories = maxCalories,
         mDailyCalories = dailyCalories,
-        mMuscleMass = muscleMass;
+        mMuscleMass = muscleMass,
+        mDate = date,
+        mNotes = notes;
 
   void printClientMonthlyFollowUp() {
     debugPrint('\n\t\t<<ClientMonthlyFollowUp>>\n'
@@ -44,7 +51,8 @@ class ClientMonthlyFollowUp {
         'ClientId: $mClientId, BMI: $mBMI, PBF: $mPBF, Water: $mWater, '
         'MaxWeight: $mMaxWeight, OptimalWeight: $mOptimalWeight, '
         'BMR: $mBMR, MaxCalories: $mMaxCalories, '
-        'DailyCalories: $mDailyCalories, MuscleMass: $mMuscleMass');
+        'DailyCalories: $mDailyCalories, MuscleMass: $mMuscleMass, '
+        'Date: $mDate, Notes: $mNotes');
   }
 
   factory ClientMonthlyFollowUp.fromFirestore(Map<String, dynamic> data) {
@@ -60,6 +68,8 @@ class ClientMonthlyFollowUp {
       maxCalories: data['maxCalories'] as double? ?? 0,
       dailyCalories: data['dailyCalories'] as double? ?? 0,
       muscleMass: data['muscleMass'] as double? ?? 0.0,
+      date: (data['date'] as Timestamp?)?.toDate(),
+      notes: data['notes'] as String? ?? '',
     );
   }
 
@@ -76,6 +86,8 @@ class ClientMonthlyFollowUp {
       'maxCalories': mMaxCalories,
       'dailyCalories': mDailyCalories,
       'muscleMass': mMuscleMass,
+      'date': mDate,
+      'notes': mNotes,
     };
   }
 }

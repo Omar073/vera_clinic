@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/HomePage/UsedWidgets/WelcomeSection.dart';
 
@@ -10,6 +9,7 @@ import '../Core/View/Reusable widgets/BackGround.dart';
 import '../Core/View/Reusable widgets/my_app_bar.dart';
 import '../Shorebird/update_service.dart';
 import 'UsedWidgets/GridMenu.dart';
+import 'package:vera_clinic/firebase_setup/MigrationService.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _updateService = UpdateService();
-  final ShorebirdUpdater _updater = ShorebirdUpdater();
   int? _patchVersion;
 
   @override
@@ -30,20 +29,29 @@ class _HomePageState extends State<HomePage> {
       _updateService.checkForUpdates(context);
       _loadClinicData();
       context.read<ClinicProvider>().syncDailyClientsWithCheckedIn();
+      // _runMigrations();
+      _getPatchVersion();
     });
-    _getPatchVersion();
+  }
+
+  Future<void> _runMigrations() async {
+    try {
+      // Run CMFU date migration first
+      await MigrationService().backfillMonthlyFollowUpDateFromLastVisit();
+      // Then backfill lastMonthlyFollowUpId from latest CMFU
+      await MigrationService().backfillClientLastMonthlyFollowUpId();
+      // Finally backfill notes field for existing CMFU documents
+      await MigrationService().backfillClientMonthlyFollowUpNotes();
+    } catch (e) {
+      debugPrint('Error running migrations: $e');
+    }
   }
 
   Future<void> _getPatchVersion() async {
-    try {
-      final patch = await _updater.readCurrentPatch();
-      setState(() {
-        _patchVersion = patch?.number;
-      });
-    } catch (e) {
-      // Handle error if any, e.g. no patch installed
-      debugPrint('Error getting patch version: $e');
-    }
+    final version = await _updateService.getPatchVersion();
+    setState(() {
+      _patchVersion = version;
+    });
   }
 
   Future<void> _loadClinicData() async {

@@ -27,13 +27,13 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
   Future<List<Visit?>?> _fetchClientVisits() async {
     return await context
         .read<VisitProvider>()
-        .getVisitsByClientId(widget.client.mClientId);
+        .getClientVisits(widget.client.mClientId);
   }
 
   
   void _refreshVisits() {
     setState(() {
-      _visitsFuture = _fetchClientVisits(); // Refresh the Future
+      _visitsFuture = _fetchClientVisits();
     });
   }
 
@@ -41,7 +41,7 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: ' :تفاصيل زيارات${widget.client.mName ?? ''}',
+        title: ' تفاصيل زيارات: ${widget.client.mName ?? ''}',
       ),
       body: Background(
         child: FutureBuilder<List<Visit?>?>(
@@ -86,8 +86,6 @@ class _VisitsDetailsPageState extends State<VisitsDetailsPage> {
             }
 
             final visits = snapshot.data!;
-            visits.sort((a, b) => b!.mDate
-                .compareTo(a!.mDate)); // Sort visits from most recent to oldest
 
             return ListView.builder(
               itemCount: visits.length,

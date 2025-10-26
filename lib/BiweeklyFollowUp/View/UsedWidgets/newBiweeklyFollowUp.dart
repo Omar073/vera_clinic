@@ -8,7 +8,7 @@ Widget newBiweeklyFollowUpForm() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 14.0),
     child: myCard(
-      "تفاصيل المتابعة الشهرية الحالية",
+      "تفاصيل المتابعة الحالية",
       Column(
         children: [
           SizedBox(
@@ -105,7 +105,17 @@ Widget newBiweeklyFollowUpForm() {
                 ),
               ],
             ),
-          )
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: double.infinity,
+            child: MyInputField(
+              myController: BiweeklyFollowUpTEC.mNotesController,
+              hint: 'أدخل ملاحظات إضافية...',
+              label: 'ملاحظات',
+              maxLines: 2,
+            ),
+          ),
         ],
       ),
     ),

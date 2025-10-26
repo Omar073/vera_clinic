@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientConstantInfoProvider.dart';
-import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClientProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/ClinicProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/DiseaseProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/PreferredFoodsProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/VisitProvider.dart';
+import 'package:vera_clinic/Core/Controller/Providers/ClientMonthlyFollowUpProvider.dart';
 import 'package:vera_clinic/Core/Controller/Providers/WeightAreasProvider.dart';
 import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 
@@ -39,7 +39,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
         .deleteClientConstantInfo(c.mClientConstantInfoId ?? '');
     await context
         .read<ClientMonthlyFollowUpProvider>()
-        .deleteClientMonthlyFollowUp(c.mClientMonthlyFollowUpId ?? '');
+        .deleteAllClientMonthlyFollowUps(c.mClientId);
     await context.read<DiseaseProvider>().deleteDisease(c.mDiseaseId ?? '');
     await context
         .read<PreferredFoodsProvider>()
@@ -99,7 +99,7 @@ class _ClientSearchResultCardState extends State<ClientSearchResultCard> {
                         ),
                         foregroundColor: Colors.white,
                       ),
-                      icon: const SizedBox.shrink(),
+                      icon: const Icon(Icons.clear),
                       label: const Text("مسح"),
                     ),
                   ),

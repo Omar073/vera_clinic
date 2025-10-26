@@ -44,20 +44,26 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
   Future<void> _fetchData() async {
-    try {
-      // Fetch client constant info
+    if (client != null) {
+      // Fetch constant info
       final clientConstantInfoResult = await context
           .read<ClientConstantInfoProvider>()
           .getClientConstantInfoByClientId(client!.mClientId);
 
       // Fetch last visit
-      final lastVisitResult = await context
-          .read<VisitProvider>()
-          .getClientLastVisit(client!.mClientId);
+      if (client?.mLastVisitId != null) {
+        final lastVisitResult = await context
+            .read<VisitProvider>()
+            .getVisit(client!.mLastVisitId!);
+
+        if (lastVisitResult != null) {
+          lastClientVisit = lastVisitResult;
+        }
+      }
 
       debugPrint(
           'Client Constant Info: ${clientConstantInfoResult?.mClientConstantInfoId}');
-      debugPrint('Last Client Visit: ${lastVisitResult?.mVisitId}');
+      debugPrint('Last Client Visit: ${lastClientVisit?.mVisitId}');
 
       if (clientConstantInfoResult?.mClientConstantInfoId == null) {
         throw Exception('Failed to load client data');
@@ -65,12 +71,11 @@ class _CheckInPageState extends State<CheckInPage> {
 
       setState(() {
         clientConstantInfo = clientConstantInfoResult;
-        lastClientVisit = lastVisitResult;
         isLoading = false;
       });
-    } catch (e) {
+    } else {
       setState(() {
-        errorMessage = 'خطأ في تحميل بيانات العميل: ${e.toString()}';
+        errorMessage = 'لا يمكن تحميل بيانات العميل لأنه لم يتم تحديده.';
         isLoading = false;
       });
     }
@@ -119,13 +124,84 @@ class _CheckInPageState extends State<CheckInPage> {
                                           .visitSubscriptionPriceController,
                                 ),
                                 const SizedBox(height: 24),
-                                // Check-in time input
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                                  child: MyInputField(
-                                    myController: CheckInPageTEC.checkInTimeController,
-                                    hint: "HH:MM",
-                                    label: "وقت تسجيل الدخول",
+                                // Check-in time input with AM/PM buttons
+                                Center(
+                                  child: Container(
+                                    width: 300, // Fixed width instead of full width
+                                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: MyInputField(
+                                            myController: CheckInPageTEC.checkInTimeController,
+                                            hint: "HH:MM",
+                                            label: "وقت تسجيل الدخول",
+                                          ),
+                                        ),
+                                        const SizedBox(width: 12),
+                                        Column(
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  CheckInPageTEC.isAM = true;
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: CheckInPageTEC.isAM ? Colors.blueAccent : Colors.white,
+                                                foregroundColor: CheckInPageTEC.isAM ? Colors.white : Colors.grey[600],
+                                                side: BorderSide(
+                                                  color: CheckInPageTEC.isAM ? Colors.blueAccent : Colors.grey[400]!,
+                                                  width: CheckInPageTEC.isAM ? 2 : 1,
+                                                ),
+                                                elevation: CheckInPageTEC.isAM ? 4 : 1,
+                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                minimumSize: const Size(60, 30),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'صباحاً', 
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: CheckInPageTEC.isAM ? FontWeight.bold : FontWeight.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  CheckInPageTEC.isAM = false;
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: !CheckInPageTEC.isAM ? Colors.blueAccent : Colors.white,
+                                                foregroundColor: !CheckInPageTEC.isAM ? Colors.white : Colors.grey[600],
+                                                side: BorderSide(
+                                                  color: !CheckInPageTEC.isAM ? Colors.blueAccent : Colors.grey[400]!,
+                                                  width: !CheckInPageTEC.isAM ? 2 : 1,
+                                                ),
+                                                elevation: !CheckInPageTEC.isAM ? 4 : 1,
+                                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                                minimumSize: const Size(60, 30),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'مساءً', 
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: !CheckInPageTEC.isAM ? FontWeight.bold : FontWeight.normal,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],

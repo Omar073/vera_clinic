@@ -33,6 +33,7 @@ class VisitFirestoreMethods {
         () => FirebaseSingleton.instance.firestore
             .collection('Visits')
             .where('clientId', isEqualTo: clientId)
+            .orderBy('date', descending: true)
             .get(),
         retryIf: (e) => true,
       );

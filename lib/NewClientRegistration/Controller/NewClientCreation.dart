@@ -28,7 +28,7 @@ Future<bool> checkInNewClient(BuildContext context, Client c) async {
     if (context
         .read<ClinicProvider>()
         .checkedInClients
-        .any((client) => client?.mClientId == c.mClientId)) {
+        .any((client) => client.mClientId == c.mClientId)) {
       showMySnackBar(context, 'هذا العميل مسجل مسبقًا', Colors.red);
       return false;
     }
@@ -78,7 +78,7 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
         lastVisitId: '',
         clientConstantInfoId: '',
         diseaseId: '',
-        clientMonthlyFollowUpId: '',
+        clientLastMonthlyFollowUpId: '',
         preferredFoodsId: '',
         weightAreasId: '');
 
@@ -89,8 +89,8 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
     c.mClientConstantInfoId =
         await createClientConstantInfo(c.mClientId, context) ?? '';
     c.mDiseaseId = await createDisease(c.mClientId, context) ?? '';
-    c.mClientMonthlyFollowUpId =
-        await createClientMonthlyFollowUp(c, context) ?? '';
+    final CmfuId = await createClientMonthlyFollowUp(c, context) ?? '';
+    c.mClientLastMonthlyFollowUpId = CmfuId.isNotEmpty ? CmfuId : '';
     c.mPreferredFoodsId =
         await createPreferredFoods(c.mClientId, context) ?? '';
     c.mWeightAreasId = await createWeightAreas(c.mClientId, context) ?? '';
@@ -206,6 +206,8 @@ Future<String?> createClientMonthlyFollowUp(
               0.0,
       muscleMass:
           double.tryParse(ClientRegistrationTEC.muscleMassController.text) ?? 0.0,
+      date: DateTime.now(),
+      notes: '',
     );
 
     await context

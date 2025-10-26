@@ -8,6 +8,7 @@ import 'package:vera_clinic/HomePage/HomePage.dart';
 
 import '../../../Core/Controller/UtilityFunctions.dart';
 import '../../../Core/View/PopUps/MySnackBar.dart';
+import '../../Controller/CheckInPageTEC.dart';
 
 class CheckInButton extends StatefulWidget {
   final TextEditingController visitSubscriptionTypeController;
@@ -53,10 +54,10 @@ class _CheckInButtonState extends State<CheckInButton> {
                     return;
                   }
 
-                  // Parse and validate time format (HH:MM)
-                  final timeRegex = RegExp(r'^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$');
+                  // Parse and validate time format (12-hour HH:MM)
+                  final timeRegex = RegExp(r'^(0?[1-9]|1[0-2]):[0-5][0-9]$');
                   if (!timeRegex.hasMatch(timeText)) {
-                    showMySnackBar(context, 'تنسيق الوقت غير صحيح. استخدم HH:MM', Colors.red);
+                    showMySnackBar(context, 'تنسيق الوقت غير صحيح. استخدم HH:MM (1-12)', Colors.red);
                     return;
                   }
 
@@ -80,16 +81,11 @@ class _CheckInButtonState extends State<CheckInButton> {
                     return;
                   }
 
-                  // Create ISO timestamp with today's date and provided time
-                  final now = DateTime.now();
+                  // Create ISO timestamp with today's date and provided time (convert 12-hour to 24-hour)
                   final timeParts = timeText.split(':');
-                  final checkInDateTime = DateTime(
-                    now.year,
-                    now.month,
-                    now.day,
-                    int.parse(timeParts[0]),
-                    int.parse(timeParts[1]),
-                  );
+                  final hour = int.parse(timeParts[0]);
+                  final minute = int.parse(timeParts[1]);
+                  final checkInDateTime = convert12To24Hour(hour, minute, CheckInPageTEC.isAM);
                   final checkInTimeISO = checkInDateTime.toIso8601String();
 
                   await context

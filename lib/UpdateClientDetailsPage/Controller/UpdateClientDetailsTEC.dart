@@ -89,6 +89,7 @@ class UpdateClientDetailsTEC {
   static late TextEditingController bmrController;
   static late TextEditingController maxCaloriesController;
   static late TextEditingController dailyCaloriesController;
+  static late TextEditingController muscleMassController;
 
   static void init(Client c, Disease d, ClientConstantInfo cci, WeightAreas wa,
       PreferredFoods pf, ClientMonthlyFollowUp cmfu) {
@@ -125,7 +126,7 @@ class UpdateClientDetailsTEC {
         TextEditingController(text: d.mVascular ? 'true' : 'false');
     anemiaController =
         TextEditingController(text: d.mAnemia ? 'true' : 'false');
-    otherHeartController = TextEditingController(text: d.mOtherHeart ?? '');
+    otherHeartController = TextEditingController(text: d.mOtherHeart);
     renalController = TextEditingController(text: d.mRenal);
     liverController = TextEditingController(text: d.mLiver);
     gitController = TextEditingController(text: d.mGit);
@@ -148,7 +149,7 @@ class UpdateClientDetailsTEC {
   }
 
   static void _initConstantInfoControllers(ClientConstantInfo cci) {
-    areaController = TextEditingController(text: cci.mArea ?? '');
+    areaController = TextEditingController(text: cci.mArea);
     activityLevelController = TextEditingController(
         text: getActivityLevelLabel(cci.mActivityLevel ?? Activity.none));
     yoyoController = TextEditingController(text: cci.mYOYO ? 'true' : 'false');
@@ -195,6 +196,7 @@ class UpdateClientDetailsTEC {
         TextEditingController(text: cmfu.mMaxCalories?.toString() ?? '');
     dailyCaloriesController =
         TextEditingController(text: cmfu.mDailyCalories?.toString() ?? '');
+    muscleMassController = TextEditingController(text: cmfu.mMuscleMass?.toString() ?? '');
   }
 
   static void clear() {
@@ -266,6 +268,7 @@ class UpdateClientDetailsTEC {
     bmrController.clear();
     maxCaloriesController.clear();
     dailyCaloriesController.clear();
+    muscleMassController.clear();
   }
 
   static void dispose() {
@@ -337,5 +340,6 @@ class UpdateClientDetailsTEC {
     bmrController.dispose();
     maxCaloriesController.dispose();
     dailyCaloriesController.dispose();
+    muscleMassController.dispose();
   }
 }

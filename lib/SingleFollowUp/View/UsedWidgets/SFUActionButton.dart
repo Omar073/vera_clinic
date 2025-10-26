@@ -26,7 +26,10 @@ class _SingleFollowUpActionButtonState extends State<SingleFollowUpActionButton>
         children: [
           _isLoading
               ? const CircularProgressIndicator(color: Colors.blueAccent)
-              : ElevatedButton(
+              : ElevatedButton.icon(
+                  icon: const Icon(Icons.check, color: Colors.white),
+                  label: const Text('حفظ',
+                      style: TextStyle(fontSize: 16, color: Colors.white)),
                   onPressed: () async {
                     setState(() {
                       _isLoading = true;
@@ -56,41 +59,21 @@ class _SingleFollowUpActionButtonState extends State<SingleFollowUpActionButton>
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
+                    backgroundColor: Colors.blueAccent,
                     foregroundColor: Colors.white,
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Icons.check, color: Colors.blueAccent),
-                      SizedBox(width: 12),
-                      Text('حفظ',
-                          style: TextStyle(
-                              fontSize: 16, color: Colors.blueAccent)),
-                    ],
                   ),
                 ),
           const SizedBox(width: 20),
-          ElevatedButton(
+          ElevatedButton.icon(
             onPressed: () {
               SingleFollowUpTEC.clear();
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.red,
               foregroundColor: Colors.white,
             ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(width: 12),
-                Text('مسح',
-                    style: TextStyle(fontSize: 16, color: Colors.redAccent)),
-              ],
-            ),
+            icon: const Icon(Icons.clear),
+            label: const Text('مسح'),
           ),
         ],
       ),

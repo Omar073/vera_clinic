@@ -31,7 +31,7 @@ class Client {
   String? mDiseaseId;
   String? mDiet;
   List<double> Plat = List.filled(10, 0); // Last 10 stable weights
-  String? mClientMonthlyFollowUpId;
+  String? mClientLastMonthlyFollowUpId;
   String? mPreferredFoodsId;
   String? mWeightAreasId;
   String? mNotes;
@@ -51,7 +51,7 @@ class Client {
     required String? diseaseId,
     required String? diet,
     required List<double> plat,
-    required String? clientMonthlyFollowUpId,
+    required String? clientLastMonthlyFollowUpId,
     required String? preferredFoodsId,
     required String? weightAreasId,
     required String? notes,
@@ -68,7 +68,7 @@ class Client {
         mDiseaseId = diseaseId,
         mDiet = diet,
         Plat = plat,
-        mClientMonthlyFollowUpId = clientMonthlyFollowUpId,
+        mClientLastMonthlyFollowUpId = clientLastMonthlyFollowUpId,
         mPreferredFoodsId = preferredFoodsId,
         mWeightAreasId = weightAreasId,
         mNotes = notes,
@@ -83,7 +83,7 @@ class Client {
         'Last Visit ID: $mLastVisitId, Birthdate: $mBirthdate, '
         'Client Constant Info ID: $mClientConstantInfoId, '
         'Disease ID: $mDiseaseId, Diet: $mDiet, Plat: $Plat, '
-        'Client Monthly Follow Up ID: $mClientMonthlyFollowUpId, '
+        'Client Last Monthly Follow Up ID: $mClientLastMonthlyFollowUpId, '
         'Preferred Foods ID: $mPreferredFoodsId, '
         'Weight Areas ID: $mWeightAreasId, Notes: $mNotes, '
         'Height: $mHeight, Weight: $mWeight, '
@@ -108,7 +108,7 @@ class Client {
       plat: (data['plat'] as List<dynamic>)
           .map((e) => (e as num).toDouble())
           .toList(),
-      clientMonthlyFollowUpId: data['clientMonthlyFollowUpId'] as String? ?? '',
+      clientLastMonthlyFollowUpId: data['lastMonthlyFollowUpId'] as String? ?? '',
       preferredFoodsId: data['preferredFoodsId'] as String? ?? '',
       weightAreasId: data['weightAreasId'] as String? ?? '',
       notes: data['notes'] as String? ?? '',
@@ -133,7 +133,7 @@ class Client {
       'diseaseId': mDiseaseId,
       'diet': mDiet,
       'plat': Plat,
-      'clientMonthlyFollowUpId': mClientMonthlyFollowUpId,
+      'lastMonthlyFollowUpId': mClientLastMonthlyFollowUpId,
       'preferredFoodsId': mPreferredFoodsId,
       'weightAreasId': mWeightAreasId,
       'notes': mNotes,
