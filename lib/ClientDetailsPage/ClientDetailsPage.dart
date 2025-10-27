@@ -61,27 +61,92 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
   Future<void> _loadClientDetails() async {
     try {
       client = widget.client;
+      
+      if (client == null) {
+        errorMessage = 'العميل غير موجود';
+        return;
+      }
 
-      myDisease = await context
-          .read<DiseaseProvider>()
-          .getDiseaseById(client?.mDiseaseId ?? '');
+      debugPrint('Loading client details for: ${client!.mName} (ID: ${client!.mClientId})');
+      debugPrint('Disease ID: ${client!.mDiseaseId}');
+      debugPrint('Monthly FollowUp ID: ${client!.mClientLastMonthlyFollowUpId}');
+      debugPrint('Constant Info ID: ${client!.mClientConstantInfoId}');
+      debugPrint('Weight Areas ID: ${client!.mWeightAreasId}');
+      debugPrint('Preferred Foods ID: ${client!.mPreferredFoodsId}');
 
-      myMonthlyFollowUp = await context
-          .read<ClientMonthlyFollowUpProvider>()
-          .getClientMonthlyFollowUpById(
-              client?.mClientLastMonthlyFollowUpId ?? '');
+      // Load disease if ID is not empty
+      if (client!.mDiseaseId != null && client!.mDiseaseId!.isNotEmpty) {
+        try {
+          myDisease = await context
+              .read<DiseaseProvider>()
+              .getDiseaseById(client!.mDiseaseId!);
+          debugPrint('Disease loaded: ${myDisease != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading disease: $e');
+        }
+      }
 
-      myConstantInfo = await context
-          .read<ClientConstantInfoProvider>()
-          .getClientConstantInfoById(client?.mClientConstantInfoId ?? '');
+      // Load monthly follow-up if ID is not empty
+      if (client!.mClientLastMonthlyFollowUpId != null && client!.mClientLastMonthlyFollowUpId!.isNotEmpty) {
+        try {
+          myMonthlyFollowUp = await context
+              .read<ClientMonthlyFollowUpProvider>()
+              .getClientMonthlyFollowUpById(client!.mClientLastMonthlyFollowUpId!);
+          debugPrint('Monthly FollowUp loaded by ID: ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading monthly follow-up by ID: $e');
+        }
+      }
+      
+      // Fallback: If no monthly follow-up found by ID, try to get the latest one by client ID
+      if (myMonthlyFollowUp == null) {
+        try {
+          myMonthlyFollowUp = await context
+              .read<ClientMonthlyFollowUpProvider>()
+              .getLatestClientMonthlyFollowUp(client!.mClientId);
+          debugPrint('Monthly FollowUp loaded by client ID (fallback): ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading latest monthly follow-up by client ID: $e');
+        }
+      }
 
-      myWeightAreas = await context
-          .read<WeightAreasProvider>()
-          .getWeightAreasById(client?.mWeightAreasId ?? '');
+      // Load constant info if ID is not empty
+      if (client!.mClientConstantInfoId != null && client!.mClientConstantInfoId!.isNotEmpty) {
+        try {
+          myConstantInfo = await context
+              .read<ClientConstantInfoProvider>()
+              .getClientConstantInfoById(client!.mClientConstantInfoId!);
+          debugPrint('Constant Info loaded: ${myConstantInfo != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading constant info: $e');
+        }
+      }
 
-      myPreferredFoods = await context
-          .read<PreferredFoodsProvider>()
-          .getPreferredFoodsById(client?.mPreferredFoodsId ?? '');
+      // Load weight areas if ID is not empty
+      if (client!.mWeightAreasId != null && client!.mWeightAreasId!.isNotEmpty) {
+        try {
+          myWeightAreas = await context
+              .read<WeightAreasProvider>()
+              .getWeightAreasById(client!.mWeightAreasId!);
+          debugPrint('Weight Areas loaded: ${myWeightAreas != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading weight areas: $e');
+        }
+      }
+
+      // Load preferred foods if ID is not empty
+      if (client!.mPreferredFoodsId != null && client!.mPreferredFoodsId!.isNotEmpty) {
+        try {
+          myPreferredFoods = await context
+              .read<PreferredFoodsProvider>()
+              .getPreferredFoodsById(client!.mPreferredFoodsId!);
+          debugPrint('Preferred Foods loaded: ${myPreferredFoods != null ? "Success" : "Not found"}');
+        } catch (e) {
+          debugPrint('Error loading preferred foods: $e');
+        }
+      }
+
+      debugPrint('Client details loading completed successfully');
     } on Exception catch (e) {
       errorMessage = 'حدث خطأ أثناء تحميل البيانات: $e';
       debugPrint('Error fetching client details: $e');
@@ -164,11 +229,11 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                   MaterialPageRoute(
                     builder: (context) => UpdateClientDetailsPage(
                       client: client!,
-                      disease: myDisease!,
-                      monthlyFollowUp: myMonthlyFollowUp!,
-                      constantInfo: myConstantInfo!,
-                      weightAreas: myWeightAreas!,
-                      preferredFoods: myPreferredFoods!,
+                      disease: myDisease,
+                      monthlyFollowUp: myMonthlyFollowUp,
+                      constantInfo: myConstantInfo,
+                      weightAreas: myWeightAreas,
+                      preferredFoods: myPreferredFoods,
                       onUpdateFinished: () {
                         setState(() {});
                       },
@@ -200,10 +265,10 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
                         personalInfoCard(
                             client, myConstantInfo?.mArea ?? 'مجهول'),
                         const SizedBox(height: 20),
-                        bodyMeasurementsCard(context, client, myMonthlyFollowUp!),
+                        bodyMeasurementsCard(context, client, myMonthlyFollowUp),
                         const SizedBox(height: 20),
                         dietPreferencesCard(client?.mDiet ?? 'مجهول',
-                            myPreferredFoods!, myConstantInfo),
+                            myPreferredFoods, myConstantInfo),
                         const SizedBox(height: 20),
                         weightHistoryCard(client),
                         const SizedBox(height: 20),

@@ -4,7 +4,7 @@ import '../../../Core/View/Reusable widgets/MyInputField.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
 import '../../Controller/SingleFollowUpTEC.dart';
 
-Widget newSingleFollowUp1() {
+Widget newSingleFollowUp() {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: myCard(
@@ -35,10 +35,13 @@ Widget newSingleFollowUp1() {
               ),
               const SizedBox(height: 16),
               // Row 2: Notes (full width)
-              MyInputField(
-                myController: SingleFollowUpTEC.singleFollowUpNotesController,
-                hint: '',
-                label: "ملاحظات",
+              SizedBox(
+                width: double.infinity,
+                child: MyInputField(
+                  myController: SingleFollowUpTEC.singleFollowUpNotesController,
+                  hint: '',
+                  label: "ملاحظات",
+                ),
               ),
             ],
           ),

@@ -22,6 +22,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
   Future<void>? _fetchDataFuture;
   bool _isLoading = false;
   Timer? _pollingTimer;
+  bool _isFetching = false; // Prevent concurrent fetches
 
   @override
   void initState() {
@@ -61,7 +62,13 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
   }
 
   Future<void> _pollForUpdates() async {
+    if (_isFetching) {
+      debugPrint('Skipping poll - fetch already in progress');
+      return;
+    }
+    
     try {
+      _isFetching = true;
       // The provider will notify listeners, and the Consumer will rebuild.
       await context.read<ClinicProvider>().getCheckedInClients(context);
     } catch (e) {
@@ -70,11 +77,19 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
         showMySnackBar(
             context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
       }
+    } finally {
+      _isFetching = false;
     }
   }
 
   Future<void> fetchData() async {
+    if (_isFetching) {
+      debugPrint('Skipping fetch - already in progress');
+      return;
+    }
+    
     try {
+      _isFetching = true;
       setState(() {
         _isLoading = true;
       });
@@ -87,6 +102,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
             context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
       }
     } finally {
+      _isFetching = false;
       if (mounted) {
         setState(() {
           _isLoading = false;

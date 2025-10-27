@@ -57,8 +57,22 @@ Future<void> main() async {
   }
 
   // Preload the Material icons font to avoid icons showing as squares
-  // Accessing a static member on Icons forces the font to be loaded.
+  // Accessing multiple static members on Icons forces the font to be loaded.
   Icons.settings;
+  Icons.search;
+  Icons.person;
+  Icons.person_add;
+  Icons.list;
+  Icons.exit_to_app;
+  Icons.analytics;
+  Icons.calendar_today;
+  Icons.clear;
+  Icons.edit;
+  
+  // Additional delay for Windows to ensure fonts are loaded
+  if (!kIsWeb && (defaultTargetPlatform == TargetPlatform.windows)) {
+    await Future.delayed(const Duration(milliseconds: 100));
+  }
 
   runApp(
     MultiProvider(
@@ -93,6 +107,12 @@ class _MyAppState extends State<MyApp> {
         theme: AppTheme.themeData,
         debugShowCheckedModeBanner: false,
         home: const HomePage(),
+        // Ensure Material Icons font is loaded
+        builder: (context, child) {
+          // Force font loading by accessing icon data
+          Icons.settings;
+          return child!;
+        },
       ),
     );
   }

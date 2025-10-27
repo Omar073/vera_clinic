@@ -59,9 +59,9 @@ class ClientConstantInfoProvider with ChangeNotifier {
     clientConstantInfo ??= await clientConstantInfoFirestoreMethods
         .fetchClientConstantInfoById(clientConstantInfoId);
 
-    clientConstantInfo == null
-        ? cachedClientConstantInfo.add(clientConstantInfo)
-        : null;
+    if (clientConstantInfo != null) {
+      cachedClientConstantInfo.add(clientConstantInfo);
+    }
     notifyListeners();
     return clientConstantInfo;
   }

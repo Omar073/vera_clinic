@@ -8,19 +8,31 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       ClientMonthlyFollowUpFirestoreMethods();
 
   ClientMonthlyFollowUp? _mCurrentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp?> _mCachedClientsMonthlyFollowUps = [];
+  List<ClientMonthlyFollowUp> _mCachedClientsMonthlyFollowUps = [];
 
   ClientMonthlyFollowUp? get currentClientMonthlyFollowUp =>
       _mCurrentClientMonthlyFollowUp;
-  List<ClientMonthlyFollowUp?> get cachedClientsMonthlyFollowUps =>
+  List<ClientMonthlyFollowUp> get cachedClientsMonthlyFollowUps =>
       _mCachedClientsMonthlyFollowUps;
   ClientMonthlyFollowUpFirestoreMethods
       get clientMonthlyFollowUpFirestoreMethods =>
           _mClientMonthlyFollowUpFirestoreMethods;
 
   void _addCmfuToCacheSorted(ClientMonthlyFollowUp cmfu) {
-    int insertIndex = _mCachedClientsMonthlyFollowUps
-        .indexWhere((cachedCmfu) => (cmfu.mDate)!.isAfter(cachedCmfu!.mDate!));
+    // Handle null dates gracefully
+    if (cmfu.mDate == null) {
+      _mCachedClientsMonthlyFollowUps.add(cmfu);
+      // debug print the cmfu and the problem
+      debugPrint('Adding cmfu to cache: $cmfu');
+
+      debugPrint('Problem: ${cmfu.mDate}');      
+      return;
+    }
+
+    int insertIndex = _mCachedClientsMonthlyFollowUps.indexWhere((cachedCmfu) {
+      if (cachedCmfu.mDate == null) return false;
+      return cmfu.mDate!.isAfter(cachedCmfu.mDate!);
+    });
 
     if (insertIndex == -1) {
       _mCachedClientsMonthlyFollowUps.add(cmfu);
@@ -38,7 +50,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<ClientMonthlyFollowUp?>?> getClientMonthlyFollowUps(
+  Future<List<ClientMonthlyFollowUp>> getClientMonthlyFollowUps(
       String clientId) async {
     try {
       final fetched = await clientMonthlyFollowUpFirestoreMethods
@@ -47,7 +59,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
 
       for (final cmfu in fetched) {
         if (!cachedClientsMonthlyFollowUps.any((c) =>
-            c?.mClientMonthlyFollowUpId == cmfu.mClientMonthlyFollowUpId)) {
+            c.mClientMonthlyFollowUpId == cmfu.mClientMonthlyFollowUpId)) {
           _addCmfuToCacheSorted(cmfu);
         }
       }
@@ -55,30 +67,63 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       return fetched;
     } catch (e) {
       debugPrint('Error getting client monthly follow ups by client ID: $e');
-      return null;
+      return [];
     }
   }
 
   Future<ClientMonthlyFollowUp?> getClientMonthlyFollowUpById(
       String clientMonthlyFollowUpId) async {
     // check cache first
-    ClientMonthlyFollowUp? clientMonthlyFollowUp =
-        cachedClientsMonthlyFollowUps.firstWhere(
-            (clientMonthlyFollowUp) =>
-                clientMonthlyFollowUp?.mClientMonthlyFollowUpId ==
-                clientMonthlyFollowUpId,
-            orElse: () => null);
+    ClientMonthlyFollowUp? clientMonthlyFollowUp;
+    try {
+      clientMonthlyFollowUp = cachedClientsMonthlyFollowUps.firstWhere(
+          (cmfu) => cmfu.mClientMonthlyFollowUpId == clientMonthlyFollowUpId);
+    } catch (e) {
+      clientMonthlyFollowUp = null;
+    }
 
     clientMonthlyFollowUp ??= await clientMonthlyFollowUpFirestoreMethods
         .fetchClientMonthlyFollowUpById(clientMonthlyFollowUpId);
 
     if (clientMonthlyFollowUp != null &&
         !cachedClientsMonthlyFollowUps.any((c) =>
-            c?.mClientMonthlyFollowUpId ==
-            clientMonthlyFollowUp?.mClientMonthlyFollowUpId)) {
+            c.mClientMonthlyFollowUpId ==
+            clientMonthlyFollowUp!.mClientMonthlyFollowUpId)) {
       _addCmfuToCacheSorted(clientMonthlyFollowUp);
     }
     return clientMonthlyFollowUp;
+  }
+
+  Future<ClientMonthlyFollowUp?> getLatestClientMonthlyFollowUp(
+      String clientId) async {
+    try {
+      // Check cache first for any follow-ups for this client
+      ClientMonthlyFollowUp? latestFromCache = cachedClientsMonthlyFollowUps
+          .where((cmfu) => cmfu.mClientId == clientId)
+          .where((cmfu) => cmfu.mDate != null)
+          .fold<ClientMonthlyFollowUp?>(null, (latest, current) {
+        if (latest == null) return current;
+        if (current.mDate == null) return latest;
+        return current.mDate!.isAfter(latest.mDate!) ? current : latest;
+      });
+
+      if (latestFromCache != null) {
+        return latestFromCache;
+      }
+
+      // If not in cache, fetch from Firestore
+      ClientMonthlyFollowUp? latestFromFirestore = await clientMonthlyFollowUpFirestoreMethods
+          .fetchLastClientMonthlyFollowUp(clientId);
+
+      if (latestFromFirestore != null) {
+        _addCmfuToCacheSorted(latestFromFirestore);
+      }
+
+      return latestFromFirestore;
+    } catch (e) {
+      debugPrint('Error getting latest client monthly follow up: $e');
+      return null;
+    }
   }
 
   Future<bool> updateClientMonthlyFollowUp(
@@ -87,7 +132,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       await clientMonthlyFollowUpFirestoreMethods
           .updateClientMonthlyFollowUp(clientMonthlyFollowUp);
       int index = cachedClientsMonthlyFollowUps.indexWhere((c) =>
-          c?.mClientMonthlyFollowUpId ==
+          c.mClientMonthlyFollowUpId ==
           clientMonthlyFollowUp.mClientMonthlyFollowUpId);
       if (index != -1) {
         cachedClientsMonthlyFollowUps[index] = clientMonthlyFollowUp;
@@ -108,7 +153,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       await clientMonthlyFollowUpFirestoreMethods
           .deleteClientMonthlyFollowUp(clientMonthlyFollowUpId);
       cachedClientsMonthlyFollowUps.removeWhere(
-          (cmfu) => cmfu?.mClientMonthlyFollowUpId == clientMonthlyFollowUpId);
+          (cmfu) => cmfu.mClientMonthlyFollowUpId == clientMonthlyFollowUpId);
       notifyListeners();
       return true;
     } catch (e) {
@@ -122,7 +167,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       await clientMonthlyFollowUpFirestoreMethods
           .deleteAllClientMonthlyFollowUps(clientId);
       cachedClientsMonthlyFollowUps
-          .removeWhere((cmfu) => cmfu?.mClientId == clientId);
+          .removeWhere((cmfu) => cmfu.mClientId == clientId);
       notifyListeners();
       return true;
     } catch (e) {

@@ -30,7 +30,9 @@ class WeightAreasProvider with ChangeNotifier {
 
     weightAreas ??=
         await weightAreasFirestoreMethods.fetchWeightAreasByClientId(clientId);
-    weightAreas == null ? _cachedWeightAreas.add(weightAreas) : null;
+    if (weightAreas != null) {
+      _cachedWeightAreas.add(weightAreas);
+    }
     notifyListeners();
     return weightAreas;
   }
@@ -43,7 +45,9 @@ class WeightAreasProvider with ChangeNotifier {
 
     weightAreas ??=
         await weightAreasFirestoreMethods.fetchWeightAreasById(weightAreasId);
-    weightAreas == null ? _cachedWeightAreas.add(weightAreas) : null;
+    if (weightAreas != null) {
+      _cachedWeightAreas.add(weightAreas);
+    }
     notifyListeners();
     return weightAreas;
   }

@@ -31,7 +31,9 @@ class PreferredFoodsProvider with ChangeNotifier {
     preferredFoods ??= await preferredFoodsFirestoreMethods
         .fetchPreferredFoodsByClientId(clientId);
 
-    preferredFoods == null ? cachedPreferredFoods.add(preferredFoods) : null;
+    if (preferredFoods != null) {
+      cachedPreferredFoods.add(preferredFoods);
+    }
     notifyListeners();
     return preferredFoods;
   }
@@ -45,7 +47,9 @@ class PreferredFoodsProvider with ChangeNotifier {
     preferredFoods ??= await preferredFoodsFirestoreMethods
         .fetchPreferredFoodsById(preferredFoodsId);
 
-    preferredFoods == null ? cachedPreferredFoods.add(preferredFoods) : null;
+    if (preferredFoods != null) {
+      cachedPreferredFoods.add(preferredFoods);
+    }
     notifyListeners();
     return preferredFoods;
   }
