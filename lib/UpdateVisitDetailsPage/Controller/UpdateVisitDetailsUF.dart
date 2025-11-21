@@ -8,6 +8,7 @@ import '../../Core/Model/Classes/Client.dart';
 import '../../Core/Model/Classes/Visit.dart';
 import 'UpdateVisitDetailsTEC.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> updateVisit(BuildContext context, Visit v) async {
   try {
     Client? client =
@@ -36,7 +37,7 @@ Future<bool> updateVisit(BuildContext context, Visit v) async {
 
     return true;
   } on Exception catch (e) {
-    debugPrint("Error updating visit: $e");
+    mDebug("Error updating visit: $e");
     return false;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class Disease {
   late String mDiseaseId;
   String? mClientId;
@@ -78,7 +79,7 @@ class Disease {
 
 
   void printDisease() {
-    debugPrint('\n\t\t<<Disease>>\n'
+    mDebug('\n\t\t<<Disease>>\n'
         'Disease ID: $mDiseaseId, Client ID: $mClientId, Hypertension: '
         '$mHypertension, Hypotension: $mHypotension, Vascular: $mVascular,'
         ' Anemia: $mAnemia, Other Heart: $mOtherHeart, Colon: $mColon, '

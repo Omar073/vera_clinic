@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/Disease.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class DiseaseFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -20,10 +21,10 @@ class DiseaseFirestoreMethods {
 
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating disease: ${e.message}');
+      mDebug('Firebase error creating disease: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating disease: $e');
+      mDebug('Unknown error creating disease: $e');
       return '';
     }
   }
@@ -42,10 +43,10 @@ class DiseaseFirestoreMethods {
           ? null
           : Disease.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching disease by client ID: ${e.message}');
+      mDebug('Firebase error fetching disease by client ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching disease by client ID: $e');
+      mDebug('Unknown error fetching disease by client ID: $e');
       return null;
     }
   }
@@ -64,10 +65,10 @@ class DiseaseFirestoreMethods {
           ? null
           : Disease.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching disease by ID: ${e.message}');
+      mDebug('Firebase error fetching disease by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching disease by ID: $e');
+      mDebug('Unknown error fetching disease by ID: $e');
       return null;
     }
   }
@@ -93,9 +94,9 @@ class DiseaseFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating disease: ${e.message}');
+      mDebug('Firebase error updating disease: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error updating disease: $e');
+      mDebug('Unknown error updating disease: $e');
     }
   }
 
@@ -119,9 +120,9 @@ class DiseaseFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting disease: ${e.message}');
+      mDebug('Firebase error deleting disease: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting disease: $e');
+      mDebug('Unknown error deleting disease: $e');
     }
   }
 }

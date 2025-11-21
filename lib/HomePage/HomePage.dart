@@ -11,6 +11,7 @@ import '../Shorebird/update_service.dart';
 import 'UsedWidgets/GridMenu.dart';
 import 'package:vera_clinic/firebase_setup/MigrationService.dart';
 
+import '../Core/Services/DebugLoggerService.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // Run on test version first
   Future<void> _runMigrations() async {
     try {
       // Run CMFU date migration first
@@ -42,8 +44,12 @@ class _HomePageState extends State<HomePage> {
       await MigrationService().backfillClientLastMonthlyFollowUpId();
       // Finally backfill notes field for existing CMFU documents
       await MigrationService().backfillClientMonthlyFollowUpNotes();
+      // Delete clients with empty id
+      await MigrationService().deleteClientsWithEmptyId();
+      // Sync client weight and diet from latest records
+      await MigrationService().syncClientWeightAndDietFromLatestRecords();
     } catch (e) {
-      debugPrint('Error running migrations: $e');
+      mDebug('Error running migrations: $e');
     }
   }
 

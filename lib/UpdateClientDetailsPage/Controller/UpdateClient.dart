@@ -17,6 +17,7 @@ import '../../Core/Model/Classes/Disease.dart';
 import '../../Core/View/PopUps/MySnackBar.dart';
 import 'UpdateClientDetailsTEC.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> updateClient(
   BuildContext context,
   Client client,
@@ -39,7 +40,7 @@ Future<bool> updateClient(
     await context.read<ClientProvider>().updateClient(client);
     return true;
   } catch (e) {
-    debugPrint("Failed to update client: $e");
+    mDebug("Failed to update client: $e");
     return false;
   }
 }
@@ -61,10 +62,13 @@ void _updateClientFields(Client client) {
   client.mName = UpdateClientDetailsTEC.nameController.text;
   client.mClientPhoneNum = UpdateClientDetailsTEC.phoneController.text;
   client.mBirthdate =
-      int.tryParse(UpdateClientDetailsTEC.birthYearController.text) != null
-          ? DateTime(int.parse(UpdateClientDetailsTEC.birthYearController.text),
-              12, 31)
-          : null;
+      (() {
+        final birthYearText =
+            UpdateClientDetailsTEC.birthYearController.text.trim();
+        final parsedYear = int.tryParse(birthYearText);
+        if (parsedYear == null) return null;
+        return DateTime(parsedYear, 12, 31);
+      })();
   client.mDiet = UpdateClientDetailsTEC.dietController.text;
   client.Plat = UpdateClientDetailsTEC.platControllers
       .map((e) => double.tryParse(e.text) ?? 0.0)
@@ -126,7 +130,7 @@ Future<bool> _updateDisease(BuildContext context, Disease d) async {
     await context.read<DiseaseProvider>().updateDisease(d);
     return true;
   } on Exception catch (e) {
-    debugPrint("Failed to update disease: $e");
+    mDebug("Failed to update disease: $e");
     return false;
   }
 }
@@ -155,7 +159,7 @@ Future<bool> _updateClientMonthlyFollowUp(
         .updateClientMonthlyFollowUp(cmfu);
     return true;
   } on Exception catch (e) {
-    debugPrint("Failed to update client monthly follow up: $e");
+    mDebug("Failed to update client monthly follow up: $e");
     return false;
   }
 }
@@ -176,7 +180,7 @@ Future<bool> _updateClientConstantInfo(
         .updateClientConstantInfo(cci);
     return true;
   } on Exception catch (e) {
-    debugPrint("Failed to update client constant info: $e");
+    mDebug("Failed to update client constant info: $e");
     return false;
   }
 }
@@ -199,7 +203,7 @@ Future<bool> _updatePreferredFoods(
     await context.read<PreferredFoodsProvider>().updatePreferredFoods(pf);
     return true;
   } on Exception catch (e) {
-    debugPrint("Failed to update preferred foods: $e");
+    mDebug("Failed to update preferred foods: $e");
     return false;
   }
 }
@@ -224,7 +228,7 @@ Future<bool> _updateWeightAreas(BuildContext context, WeightAreas wa) async {
     await context.read<WeightAreasProvider>().updateWeightAreas(wa);
     return true;
   } on Exception catch (e) {
-    debugPrint("Failed to update weight areas: $e");
+    mDebug("Failed to update weight areas: $e");
     return false;
   }
 }

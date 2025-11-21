@@ -4,6 +4,7 @@ import 'package:retry/retry.dart';
 import 'package:vera_clinic/Core/Model/Firebase/FirebaseSingelton.dart';
 
 import '../Classes/Client.dart';
+import '../../Services/DebugLoggerService.dart';
 
 class ClientFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3); //todo: add retry logic
@@ -20,10 +21,10 @@ class ClientFirestoreMethods {
       await docRef.update({'clientId': docRef.id});
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating client: ${e.message}');
+      mDebug('Firebase error creating client: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating client: $e');
+      mDebug('Unknown error creating client: $e');
       return '';
     }
   }
@@ -42,16 +43,16 @@ class ClientFirestoreMethods {
           ? null
           : Client.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching client by ID: ${e.message}');
+      mDebug('Firebase error fetching client by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching client by ID: $e');
+      mDebug('Unknown error fetching client by ID: $e');
       return null;
     }
   }
 
   Future<List<Client?>> fetchClientByPhone(String phoneNum) async {
-    debugPrint("firebase fetching client by phone: $phoneNum");
+    mDebug("firebase fetching client by phone: $phoneNum");
     List<Client> clients = [];
 
     try {
@@ -67,9 +68,9 @@ class ClientFirestoreMethods {
           .map((doc) => Client.fromFirestore(doc.data()))
           .toList();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching client by phone: ${e.message}');
+      mDebug('Firebase error fetching client by phone: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error fetching client by phone: $e');
+      mDebug('Unknown error fetching client by phone: $e');
     }
     return clients;
   }
@@ -87,9 +88,9 @@ class ClientFirestoreMethods {
           .map((doc) => Client.fromFirestore(doc.data()))
           .toList());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching client by first name: ${e.message}');
+      mDebug('Firebase error fetching client by first name: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error fetching client by first name: $e');
+      mDebug('Unknown error fetching client by first name: $e');
     }
     return clients;
   }
@@ -100,7 +101,7 @@ class ClientFirestoreMethods {
       // Split the search query into parts
       final parts = searchQuery.trim().split(' ');
       if (parts.length < 2) {
-        debugPrint('Search query must contain at least two words');
+        mDebug('Search query must contain at least two words');
         return clients;
       }
 
@@ -140,9 +141,9 @@ class ClientFirestoreMethods {
         return parts.every((part) => client.mName!.contains(part));
       }).toList();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching client by first and second name: ${e.message}');
+      mDebug('Firebase error fetching client by first and second name: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error fetching client by first and second name: $e');
+      mDebug('Unknown error fetching client by first and second name: $e');
     }
     return clients;
   }
@@ -162,9 +163,9 @@ class ClientFirestoreMethods {
           .map((doc) => Client.fromFirestore(doc.data()))
           .toList();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching client by name: ${e.message}');
+      mDebug('Firebase error fetching client by name: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error fetching client by name: $e');
+      mDebug('Unknown error fetching client by name: $e');
     }
     return clients;
   }
@@ -191,7 +192,7 @@ class ClientFirestoreMethods {
       );
 
     } catch (e) {
-      debugPrint('Error updating client: $e');
+      mDebug('Error updating client: $e');
       throw Exception(
           'فشل تحديث بيانات العميل. الرجاء التأكد من اتصالك بالإنترنت.');
     }
@@ -217,9 +218,9 @@ class ClientFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting client: ${e.message}');
+      mDebug('Firebase error deleting client: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting client: $e');
+      mDebug('Unknown error deleting client: $e');
     }
   }
 }

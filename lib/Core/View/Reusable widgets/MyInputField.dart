@@ -6,6 +6,7 @@ class MyInputField extends StatefulWidget {
   final String label;
   final int? maxLines;
   final TextStyle? textStyle;
+  final TextAlign textAlign;
   const MyInputField({
     super.key,
     required this.myController,
@@ -13,6 +14,7 @@ class MyInputField extends StatefulWidget {
     required this.label,
     this.maxLines,
     this.textStyle,
+    this.textAlign = TextAlign.start,
   });
 
   @override
@@ -26,7 +28,7 @@ class _MyInputFieldState extends State<MyInputField> {
       width: 200,
       child: TextField(
         style: widget.textStyle ?? const TextStyle(fontSize: 20),
-        textAlign: TextAlign.end,
+        textAlign: widget.textAlign,
         controller: widget.myController,
         maxLines: widget.maxLines ?? 1,
         decoration: InputDecoration(

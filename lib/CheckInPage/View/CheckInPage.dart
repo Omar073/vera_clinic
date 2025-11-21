@@ -14,6 +14,7 @@ import 'InfoCards/MeasurementsCard.dart';
 import 'InfoCards/SubscriptionCard.dart';
 import '../../../Core/View/Reusable widgets/MyInputField.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 class CheckInPage extends StatefulWidget {
   final Client? client;
   const CheckInPage({super.key, required this.client});
@@ -61,9 +62,9 @@ class _CheckInPageState extends State<CheckInPage> {
         }
       }
 
-      debugPrint(
+      mDebug(
           'Client Constant Info: ${clientConstantInfoResult?.mClientConstantInfoId}');
-      debugPrint('Last Client Visit: ${lastClientVisit?.mVisitId}');
+      mDebug('Last Client Visit: ${lastClientVisit?.mVisitId}');
 
       if (clientConstantInfoResult?.mClientConstantInfoId == null) {
         throw Exception('Failed to load client data');

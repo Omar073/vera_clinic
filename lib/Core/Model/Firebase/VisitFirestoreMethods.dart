@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/Visit.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class VisitFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -19,10 +20,10 @@ class VisitFirestoreMethods {
       await docRef.update({'visitId': docRef.id});
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating visit: ${e.message}');
+      mDebug('Firebase error creating visit: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Error creating visit: $e');
+      mDebug('Error creating visit: $e');
       return '';
     }
   }
@@ -44,7 +45,7 @@ class VisitFirestoreMethods {
               .map((doc) => Visit.fromFirestore(doc.data()))
               .toList();
     } catch (e) {
-      debugPrint('Error fetching visits by client ID: $e');
+      mDebug('Error fetching visits by client ID: $e');
       return null;
     }
   }
@@ -63,7 +64,7 @@ class VisitFirestoreMethods {
           ? null
           : Visit.fromFirestore(querySnapshot.docs.first.data());
     } catch (e) {
-      debugPrint('Error fetching visit by ID: $e');
+      mDebug('Error fetching visit by ID: $e');
       return null;
     }
   }
@@ -84,7 +85,7 @@ class VisitFirestoreMethods {
       }
       await visitRef.update(visit.toMap());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating visit: ${e.message}');
+      mDebug('Firebase error updating visit: ${e.message}');
     } catch (e) {
       throw Exception('Error updating visit: $e');
     }
@@ -107,9 +108,9 @@ class VisitFirestoreMethods {
 
       await visitRef.delete();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting visit: ${e.message}');
+      mDebug('Firebase error deleting visit: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting visit: $e');
+      mDebug('Unknown error deleting visit: $e');
     }
   }
 
@@ -130,9 +131,9 @@ class VisitFirestoreMethods {
         );
       }
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting all visits: ${e.message}');
+      mDebug('Firebase error deleting all visits: ${e.message}');
     } catch (e) {
-      debugPrint('Error deleting all visits: $e');
+      mDebug('Error deleting all visits: $e');
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class WeightAreas {
   late String mWeightAreasId;
   String? mClientId;
@@ -33,7 +34,7 @@ class WeightAreas {
         mBack = back;
 
   void printWeightAreas() {
-    debugPrint('\n\t\t<<WeightAreas>>\n'
+    mDebug('\n\t\t<<WeightAreas>>\n'
         'WeightAreasId: $mWeightAreasId, ClientId: $mClientId, '
         'Abdomen: $mAbdomen, Buttocks: $mButtocks, Waist: $mWaist, '
         'Thighs: $mThighs, Arms: $mArms, Breast: $mBreast, Back: $mBack');

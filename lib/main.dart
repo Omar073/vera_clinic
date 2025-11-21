@@ -17,6 +17,7 @@ import 'package:vera_clinic/Shorebird/update_service.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'Core/Controller/Providers/ClientProvider.dart';
+import 'Core/View/Debug/GlobalDebugOverlay.dart';
 import 'firebase_setup/firebase_options.dart';
 
 Future<void> main() async {
@@ -111,7 +112,9 @@ class _MyAppState extends State<MyApp> {
         builder: (context, child) {
           // Force font loading by accessing icon data
           Icons.settings;
-          return child!;
+          return GlobalDebugOverlay(
+            child: child ?? const SizedBox.shrink(),
+          );
         },
       ),
     );

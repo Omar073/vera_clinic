@@ -7,6 +7,7 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/ClientSearchWidget.dart
 import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 import '../Core/Model/Classes/Client.dart';
 
+import '../Core/Services/DebugLoggerService.dart';
 class ClientSearchPage extends StatefulWidget {
   final String state;
   const ClientSearchPage({super.key, required this.state});
@@ -31,7 +32,7 @@ class _ClientSearchPageState extends State<ClientSearchPage> {
       _hasSearched = true;
       _isLoading = false;
       for (var client in searchResults) {
-        debugPrint(client!.mName);
+        mDebug(client!.mName ?? 'No name');
       }
     });
   }

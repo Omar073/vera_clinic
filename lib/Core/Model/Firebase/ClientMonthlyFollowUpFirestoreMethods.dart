@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/ClientMonthlyFollowUp.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientMonthlyFollowUpFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -21,11 +22,11 @@ class ClientMonthlyFollowUpFirestoreMethods {
       await docRef.update({'clientMonthlyFollowUpId': docRef.id});
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error creating client monthly follow up: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating client monthly follow up: $e');
+      mDebug('Unknown error creating client monthly follow up: $e');
       return '';
     }
   }
@@ -48,11 +49,11 @@ class ClientMonthlyFollowUpFirestoreMethods {
           : ClientMonthlyFollowUp.fromFirestore(
               querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error fetching client monthly follow up by client ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint(
+      mDebug(
           'Unknown error fetching client monthly follow up by client ID: $e');
       return null;
     }
@@ -76,11 +77,11 @@ class ClientMonthlyFollowUpFirestoreMethods {
               .map((doc) => ClientMonthlyFollowUp.fromFirestore(doc.data()))
               .toList();
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error fetching client monthly follow ups list by client ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint(
+      mDebug(
           'Unknown error fetching client monthly follow ups list by client ID: $e');
       return null;
     }
@@ -103,11 +104,11 @@ class ClientMonthlyFollowUpFirestoreMethods {
           : ClientMonthlyFollowUp.fromFirestore(
               querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error fetching client monthly follow up by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching client monthly follow up by ID: $e');
+      mDebug('Unknown error fetching client monthly follow up by ID: $e');
       return null;
     }
   }
@@ -134,10 +135,10 @@ class ClientMonthlyFollowUpFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error updating client monthly followup: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error updating client monthly follow up: $e');
+      mDebug('Unknown error updating client monthly follow up: $e');
     }
   }
 
@@ -163,10 +164,10 @@ class ClientMonthlyFollowUpFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error deleting client monthly followup: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting client monthly follow up: $e');
+      mDebug('Unknown error deleting client monthly follow up: $e');
     }
   }
 
@@ -186,9 +187,9 @@ class ClientMonthlyFollowUpFirestoreMethods {
       }
       await batch.commit();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting all client monthly followups: ${e.message}');
+      mDebug('Firebase error deleting all client monthly followups: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting all client monthly follow ups: $e');
+      mDebug('Unknown error deleting all client monthly follow ups: $e');
     }
   }
 }

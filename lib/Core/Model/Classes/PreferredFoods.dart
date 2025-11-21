@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class PreferredFoods {
   late String mPreferredFoodsId;
   String? mClientId;
@@ -30,7 +31,7 @@ class PreferredFoods {
         mOthers = others;
 
   void printPreferredFoods() {
-    debugPrint('\n\t\t<<PreferredFoods>>\n'
+    mDebug('\n\t\t<<PreferredFoods>>\n'
         'Preferred Foods ID: $mPreferredFoodsId, Client ID: $mClientId, '
         'Carbohydrates: $mCarbohydrates, Protein: $mProtein, Dairy: $mDairy,'
         ' Veg: $mVeg, Fruits: $mFruits, Others: $mOthers');

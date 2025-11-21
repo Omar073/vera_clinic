@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class Expense{
   String mExpenseId;
   String? mName;
@@ -18,7 +19,7 @@ class Expense{
         mDate = date;
   
   void printExpense() {
-    debugPrint('\n\t\t<<Expense>>\n'
+    mDebug('\n\t\t<<Expense>>\n'
         'id: $mExpenseId, name: $mName, amount: $mAmount, date: $mDate');
   }
 

@@ -23,6 +23,7 @@ import 'InfoCards/bodyMeasurementsCard.dart';
 import 'InfoCards/medicalHistoryCard.dart';
 import 'InfoCards/personalInfoCard.dart';
 
+import '../Core/Services/DebugLoggerService.dart';
 class ClientDetailsPage extends StatefulWidget {
   final Client? client;
   const ClientDetailsPage({super.key, required this.client});
@@ -67,12 +68,12 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
         return;
       }
 
-      debugPrint('Loading client details for: ${client!.mName} (ID: ${client!.mClientId})');
-      debugPrint('Disease ID: ${client!.mDiseaseId}');
-      debugPrint('Monthly FollowUp ID: ${client!.mClientLastMonthlyFollowUpId}');
-      debugPrint('Constant Info ID: ${client!.mClientConstantInfoId}');
-      debugPrint('Weight Areas ID: ${client!.mWeightAreasId}');
-      debugPrint('Preferred Foods ID: ${client!.mPreferredFoodsId}');
+      mDebug('Loading client details for: ${client!.mName} (ID: ${client!.mClientId})');
+      mDebug('Disease ID: ${client!.mDiseaseId}');
+      mDebug('Monthly FollowUp ID: ${client!.mClientLastMonthlyFollowUpId}');
+      mDebug('Constant Info ID: ${client!.mClientConstantInfoId}');
+      mDebug('Weight Areas ID: ${client!.mWeightAreasId}');
+      mDebug('Preferred Foods ID: ${client!.mPreferredFoodsId}');
 
       // Load disease if ID is not empty
       if (client!.mDiseaseId != null && client!.mDiseaseId!.isNotEmpty) {
@@ -80,9 +81,9 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myDisease = await context
               .read<DiseaseProvider>()
               .getDiseaseById(client!.mDiseaseId!);
-          debugPrint('Disease loaded: ${myDisease != null ? "Success" : "Not found"}');
+          mDebug('Disease loaded: ${myDisease != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading disease: $e');
+          mDebug('Error loading disease: $e');
         }
       }
 
@@ -92,9 +93,9 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myMonthlyFollowUp = await context
               .read<ClientMonthlyFollowUpProvider>()
               .getClientMonthlyFollowUpById(client!.mClientLastMonthlyFollowUpId!);
-          debugPrint('Monthly FollowUp loaded by ID: ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
+          mDebug('Monthly FollowUp loaded by ID: ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading monthly follow-up by ID: $e');
+          mDebug('Error loading monthly follow-up by ID: $e');
         }
       }
       
@@ -104,9 +105,9 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myMonthlyFollowUp = await context
               .read<ClientMonthlyFollowUpProvider>()
               .getLatestClientMonthlyFollowUp(client!.mClientId);
-          debugPrint('Monthly FollowUp loaded by client ID (fallback): ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
+          mDebug('Monthly FollowUp loaded by client ID (fallback): ${myMonthlyFollowUp != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading latest monthly follow-up by client ID: $e');
+          mDebug('Error loading latest monthly follow-up by client ID: $e');
         }
       }
 
@@ -116,9 +117,9 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myConstantInfo = await context
               .read<ClientConstantInfoProvider>()
               .getClientConstantInfoById(client!.mClientConstantInfoId!);
-          debugPrint('Constant Info loaded: ${myConstantInfo != null ? "Success" : "Not found"}');
+          mDebug('Constant Info loaded: ${myConstantInfo != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading constant info: $e');
+          mDebug('Error loading constant info: $e');
         }
       }
 
@@ -128,9 +129,9 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myWeightAreas = await context
               .read<WeightAreasProvider>()
               .getWeightAreasById(client!.mWeightAreasId!);
-          debugPrint('Weight Areas loaded: ${myWeightAreas != null ? "Success" : "Not found"}');
+          mDebug('Weight Areas loaded: ${myWeightAreas != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading weight areas: $e');
+          mDebug('Error loading weight areas: $e');
         }
       }
 
@@ -140,16 +141,16 @@ class _ClientDetailsPageState extends State<ClientDetailsPage> {
           myPreferredFoods = await context
               .read<PreferredFoodsProvider>()
               .getPreferredFoodsById(client!.mPreferredFoodsId!);
-          debugPrint('Preferred Foods loaded: ${myPreferredFoods != null ? "Success" : "Not found"}');
+          mDebug('Preferred Foods loaded: ${myPreferredFoods != null ? "Success" : "Not found"}');
         } catch (e) {
-          debugPrint('Error loading preferred foods: $e');
+          mDebug('Error loading preferred foods: $e');
         }
       }
 
-      debugPrint('Client details loading completed successfully');
+      mDebug('Client details loading completed successfully');
     } on Exception catch (e) {
       errorMessage = 'حدث خطأ أثناء تحميل البيانات: $e';
-      debugPrint('Error fetching client details: $e');
+      mDebug('Error fetching client details: $e');
     }
   }
 

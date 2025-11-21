@@ -4,6 +4,7 @@ import '../../../Core/View/PopUps/MySnackBar.dart';
 import '../../Controller/NewVisitTEC.dart';
 import '../../Controller/NewVisitUF.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class AddAnotherVisitButton extends StatefulWidget {
   final VoidCallback onVisitAdded;
 
@@ -50,7 +51,7 @@ class _AddAnotherVisitButtonState extends State<AddAnotherVisitButton> {
 
         bool success = await createVisit(context);
         if (!mounted) {
-          debugPrint('Widget is not mounted');
+          mDebug('Widget is not mounted');
           return;
         } // Check if the widget is still mounted
 

@@ -82,10 +82,11 @@ bool verifyFieldsDataTypeU(BuildContext context) {
     }
   }
 
-  if (validateYear(context, 'سنة الميلاد',
-          UpdateClientDetailsTEC.birthYearController.text) ==
-      false) {
-    isValid = false;
+  final birthYearText = UpdateClientDetailsTEC.birthYearController.text.trim();
+  if (birthYearText.isNotEmpty) {
+    if (validateYear(context, 'سنة الميلاد', birthYearText) == false) {
+      isValid = false;
+    }
   }
 
   return isValid;

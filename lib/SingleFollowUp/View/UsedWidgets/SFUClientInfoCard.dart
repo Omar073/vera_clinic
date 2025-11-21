@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 
+import '../../../Core/Controller/UtilityFunctions.dart';
 import '../../../Core/Model/Classes/Client.dart';
 import '../../../Core/View/Reusable widgets/myCard.dart';
-import '../../Controller/SingleFollowUpUF.dart';
 
 Widget singleFollowUpClientInfoCard(Client client) {
   return Padding(

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 enum Activity { none, sedentary, mid, high }
 
 class ClientConstantInfo {
@@ -26,7 +27,7 @@ class ClientConstantInfo {
         mSports = sports;
 
   void printClientConstantInfo() {
-    debugPrint('\n\t\t<<ClientConstantInfo>>\n'
+    mDebug('\n\t\t<<ClientConstantInfo>>\n'
         'ClientConstantInfoId: $mClientConstantInfoId'
         ', ClientId: $mClientId, Area: $mArea, '
         'ActivityLevel: ${mActivityLevel?.name}, YOYO: $mYOYO, '

@@ -7,6 +7,7 @@ import '../../Core/Model/Classes/Expense.dart';
 import '../../Core/View/PopUps/MySnackBar.dart';
 import 'NewExpenseTEC.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> createExpense(BuildContext context) async {
   try {
     Expense e = Expense(
@@ -22,7 +23,7 @@ Future<bool> createExpense(BuildContext context) async {
     showMySnackBar(context, 'تم إضافة المصروف بنجاح', Colors.green);
     return true;
   } on Exception catch (e) {
-    debugPrint("Error creating expense: $e");
+    mDebug("Error creating expense: $e");
     showMySnackBar(context, 'فشل إضافة المصروف', Colors.red);
     return false;
   }
@@ -41,7 +42,7 @@ Future<void> deleteExpense(Expense e, BuildContext context) async {
     }
     showMySnackBar(context, 'تم حذف المصروف بنجاح', Colors.green);
   } on Exception catch (e) {
-    debugPrint("Error deleting expense: $e");
+    mDebug("Error deleting expense: $e");
     showMySnackBar(context, 'فشل حذف المصروف', Colors.red);
   }
 }

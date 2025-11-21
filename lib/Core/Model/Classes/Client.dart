@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 enum SubscriptionType {
   none,
   newClient,
@@ -78,7 +79,7 @@ class Client {
 
 
   void printClientInfo() {
-    debugPrint('\n\t\t<<Client>>\nClient ID: $mClientId, Name: $mName, '
+    mDebug('\n\t\t<<Client>>\nClient ID: $mClientId, Name: $mName, '
         'Phone Number: $mClientPhoneNum, Gender: ${mGender.name}, '
         'Last Visit ID: $mLastVisitId, Birthdate: $mBirthdate, '
         'Client Constant Info ID: $mClientConstantInfoId, '

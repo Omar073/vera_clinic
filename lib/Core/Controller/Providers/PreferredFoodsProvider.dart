@@ -3,6 +3,7 @@ import 'package:vera_clinic/Core/Model/Firebase/PreferredFoodsFirestoreMethods.d
 
 import '../../Model/Classes/PreferredFoods.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class PreferredFoodsProvider with ChangeNotifier {
   final PreferredFoodsFirestoreMethods _preferredFoodsFirestoreMethods =
       PreferredFoodsFirestoreMethods();
@@ -67,7 +68,7 @@ class PreferredFoodsProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error updating preferred foods: $e');
+      mDebug('Error updating preferred foods: $e');
       return false;
     }
   }
@@ -82,7 +83,7 @@ class PreferredFoodsProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error deleting preferred foods: $e');
+      mDebug('Error deleting preferred foods: $e');
       return false;
     }
   }

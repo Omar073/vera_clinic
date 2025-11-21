@@ -24,6 +24,27 @@ String formatOneDecimal(num? value) {
   return formatter.format(value);
 }
 
+/// Returns the client's age in full years, or 'مجهول' if birthdate is null.
+String getAge(DateTime? birthDate) {
+  if (birthDate == null) return 'مجهول';
+  final now = DateTime.now();
+  int age = now.year - birthDate.year;
+  if (now.month < birthDate.month ||
+      (now.month == birthDate.month && now.day < birthDate.day)) {
+    age -= 1;
+  }
+  return age.toString();
+}
+
+/// Derive weight in kg from BMI and height in cm, normalized to 1 decimal.
+/// Returns null if BMI or height are missing/invalid.
+double? deriveWeightFromBmi(double? bmi, double? heightCm) {
+  if (bmi == null || heightCm == null || heightCm <= 0) return null;
+  final heightM = heightCm / 100.0;
+  final rawWeight = bmi * heightM * heightM;
+  return normalizeToDecimals(rawWeight, 1);
+}
+
 double normalizeBmi(num? value) {
   if (value == null) return 0.0;
   final double v = value.toDouble();

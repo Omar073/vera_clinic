@@ -4,13 +4,14 @@ import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'package:window_manager/window_manager.dart';
 import '../../Core/View/PopUps/MyAlertDialogue.dart';
 
+import '../Core/Services/DebugLoggerService.dart';
 class UpdateService {
   final ShorebirdUpdater _updater = ShorebirdUpdater();
 
   Future<void> checkForUpdates(BuildContext context) async {
     try {
       final status = await _updater.checkForUpdate();
-      debugPrint('Shorebird update status: $status');
+      mDebug('Shorebird update status: $status');
       if (status == UpdateStatus.outdated) {
         await showAlertDialogue(
           context: context,
@@ -52,9 +53,9 @@ class UpdateService {
         );
 
         try {
-          debugPrint('Shorebird update() starting...');
+          mDebug('Shorebird update() starting...');
           await _updater.update();
-          debugPrint('Shorebird update() completed');
+          mDebug('Shorebird update() completed');
         } finally {
           // Dismiss the progress dialog if it's still showing.
           try {
@@ -111,13 +112,13 @@ class UpdateService {
             }
           },
         );
-      debugPrint('Update may have failed: $e');
+      mDebug('Update may have failed: $e');
     }
   }
 
   Future<void> initPatch() async {
     final patch = await _updater.readCurrentPatch();
-    debugPrint('Shorebird current patch: ${patch?.number}');
+    mDebug('Shorebird current patch: ${patch?.number}');
   }
 
   Future<int?> getPatchVersion() async {
@@ -126,7 +127,7 @@ class UpdateService {
       return patch?.number;
     } catch (e) {
       // Handle error if any, e.g. no patch installed
-      debugPrint('Error getting patch version: $e');
+      mDebug('Error getting patch version: $e');
       return null;
     }
   }

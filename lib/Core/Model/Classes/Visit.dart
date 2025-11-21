@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class Visit {
   late String mVisitId;
   String? mClientId;
@@ -27,7 +28,7 @@ class Visit {
         mVisitNotes = visitNotes;
 
   void printVisit() {
-    debugPrint('\n\t\t<<Visit>>\n'
+    mDebug('\n\t\t<<Visit>>\n'
         'Visit ID: $mVisitId, Client ID: $mClientId, Date: $mDate, '
         'Diet: $mDiet, Weight: $mWeight, BMI: $mBMI, '
         'Visit Notes: $mVisitNotes');

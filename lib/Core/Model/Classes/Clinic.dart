@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class Clinic {
   double? mDailyIncome;
   double? mMonthlyIncome;
@@ -35,7 +36,7 @@ class Clinic {
         mDailyClientIds = dailyClientIds;
 
   void printClinic() {
-    debugPrint('\n\t\t<<Clinic>>\n'
+    mDebug('\n\t\t<<Clinic>>\n'
         'dailyIncome: $mDailyIncome, monthlyIncome: $mMonthlyIncome, '
         'dailyPatients: $mDailyPatients, monthlyPatients: $mMonthlyPatients, '
         'dailyExpenses: $mDailyExpenses, monthlyExpenses: $mMonthlyExpenses, '

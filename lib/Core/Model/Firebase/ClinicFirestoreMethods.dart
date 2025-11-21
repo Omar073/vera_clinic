@@ -7,6 +7,7 @@ import 'package:vera_clinic/Core/Model/CustomExceptions.dart';
 import '../Classes/Clinic.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClinicFirestoreMethods {
   static const String clinicDocumentId = '52g2WUMJjoTwbu6ioE96';
   // Limit retries; we'll avoid a hard global timeout and rely on Firestore + retry
@@ -43,11 +44,11 @@ class ClinicFirestoreMethods {
       }
       return Clinic.fromFirestore(docSnapshot.data()!);
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching clinic: ${e.message}');
+      mDebug('Firebase error fetching clinic: ${e.message}');
       throw FirebaseOperationException(
           'فشل الاتصال بالخادم. الرجاء التأكد من اتصالك بالإنترنت.');
     } catch (e) {
-      debugPrint('Unknown error fetching clinic: $e');
+      mDebug('Unknown error fetching clinic: $e');
       throw FirebaseOperationException('حدث خطأ غير متوقع أثناء تحميل البيانات.');
     }
   }
@@ -63,11 +64,11 @@ class ClinicFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating clinic: ${e.message}');
+      mDebug('Firebase error updating clinic: ${e.message}');
       throw FirebaseOperationException(
           'فشل تحديث بيانات العيادة. الرجاء التأكد من اتصالك بالإنترنت.');
     } catch (e) {
-      debugPrint('Unknown error updating clinic: $e');
+      mDebug('Unknown error updating clinic: $e');
       throw FirebaseOperationException(
           'حدث خطأ غير متوقع أثناء تحديث بيانات العيادة.');
     }
@@ -90,11 +91,11 @@ class ClinicFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error checking in client: ${e.message}');
+      mDebug('Firebase error checking in client: ${e.message}');
       throw FirebaseOperationException(
           'فشل تسجيل الدخول. الرجاء التأكد من اتصالك بالإنترنت.');
     } catch (e) {
-      debugPrint('Unknown error checking in client: $e');
+      mDebug('Unknown error checking in client: $e');
       throw FirebaseOperationException('حدث خطأ غير متوقع أثناء تسجيل الدخول.');
     }
   }
@@ -112,11 +113,11 @@ class ClinicFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error checking out client: ${e.message}');
+      mDebug('Firebase error checking out client: ${e.message}');
       throw FirebaseOperationException(
           'فشل تسجيل الخروج. الرجاء التأكد من اتصالك بالإنترنت.');
     } catch (e) {
-      debugPrint('Unknown error checking out client: $e');
+      mDebug('Unknown error checking out client: $e');
       throw FirebaseOperationException('حدث خطأ غير متوقع أثناء تسجيل الخروج.');
     }
   }
@@ -134,11 +135,11 @@ class ClinicFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating arrived status: ${e.message}');
+      mDebug('Firebase error updating arrived status: ${e.message}');
       throw FirebaseOperationException(
           'فشل تحديث حالة الوصول. الرجاء التأكد من اتصالك بالإنترنت.');
     } catch (e) {
-      debugPrint('Unknown error updating arrived status: $e');
+      mDebug('Unknown error updating arrived status: $e');
       throw FirebaseOperationException(
           'حدث خطأ غير متوقع أثناء تحديث حالة الوصول.');
     }

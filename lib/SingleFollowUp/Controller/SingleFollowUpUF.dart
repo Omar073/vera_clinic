@@ -10,22 +10,12 @@ import '../../Core/Model/Classes/Visit.dart';
 import '../../../Core/View/PopUps/RequiredFieldSnackBar.dart';
 import 'SingleFollowUpTEC.dart';
 
-String getAge(DateTime? birthDate) {
-  if (birthDate == null) return 'مجهول';
-  final now = DateTime.now();
-  final age = now.year - birthDate.year;
-  if (now.month < birthDate.month ||
-      (now.month == birthDate.month && now.day < birthDate.day)) {
-    return (age - 1).toString();
-  }
-  return age.toString();
-}
-
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> createSingleFollowUp(Client client, BuildContext context) async {
   try {
-    double weight = double.tryParse(
-            SingleFollowUpTEC.singleFollowUpWeightController.text) ??
-        0.0;
+    final weightText =
+        SingleFollowUpTEC.singleFollowUpWeightController.text.trim();
+    double weight = double.tryParse(weightText) ?? 0.0;
     double bmi = 0.0;
     final height = client.mHeight;
     if (height != null && height > 0) {
@@ -44,14 +34,31 @@ Future<bool> createSingleFollowUp(Client client, BuildContext context) async {
 
     await context.read<VisitProvider>().createVisit(visit);
 
+    bool shouldUpdateClient = false;
+
     // Ensure last visit is updated if this is the latest (created now)
     if (visit.mVisitId.isNotEmpty) {
       client.mLastVisitId = visit.mVisitId;
+      shouldUpdateClient = true;
+    }
+
+    if (weight > 0) {
+      client.mWeight = normalizeToDecimals(weight, 1);
+      shouldUpdateClient = true;
+    }
+
+    final diet = SingleFollowUpTEC.singleFollowUpDietController.text.trim();
+    if (diet.isNotEmpty) {
+      client.mDiet = diet;
+      shouldUpdateClient = true;
+    }
+
+    if (shouldUpdateClient) {
       await context.read<ClientProvider>().updateClient(client);
     }
     return true;
   } catch (e) {
-    debugPrint('Error creating SingleFollowUp: $e');
+    mDebug('Error creating SingleFollowUp: $e');
     return false;
   }
 }

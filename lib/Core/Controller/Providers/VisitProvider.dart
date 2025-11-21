@@ -3,6 +3,7 @@ import 'package:vera_clinic/Core/Model/Firebase/VisitFirestoreMethods.dart';
 
 import '../../Model/Classes/Visit.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class VisitProvider with ChangeNotifier {
   final VisitFirestoreMethods _visitFirestoreMethods = VisitFirestoreMethods();
 
@@ -47,7 +48,7 @@ class VisitProvider with ChangeNotifier {
       notifyListeners();
       return fetchedVisits;
     } catch (e) {
-      debugPrint('Error getting visits by client ID: $e');
+      mDebug('Error getting visits by client ID: $e');
       return null;
     }
   }
@@ -69,7 +70,7 @@ class VisitProvider with ChangeNotifier {
       notifyListeners();
       return visit;
     } catch (e) {
-      debugPrint('Error getting visit by ID: $e');
+      mDebug('Error getting visit by ID: $e');
       return null;
     }
   }
@@ -86,7 +87,7 @@ class VisitProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint("Failed to update visit: $e");
+      mDebug("Failed to update visit: $e");
       return false;
     }
   }
@@ -98,7 +99,7 @@ class VisitProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint("Failed to delete visit: $e");
+      mDebug("Failed to delete visit: $e");
       return false;
     }
   }
@@ -110,7 +111,7 @@ class VisitProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint("Failed to delete all client visits: $e");
+      mDebug("Failed to delete all client visits: $e");
       return false;
     }
   }
@@ -119,4 +120,5 @@ class VisitProvider with ChangeNotifier {
     _currentVisit = visit;
     notifyListeners();
   }
+
 }

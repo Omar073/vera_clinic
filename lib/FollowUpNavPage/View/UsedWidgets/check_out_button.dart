@@ -5,6 +5,7 @@ import 'package:vera_clinic/Core/Model/Classes/Client.dart';
 import 'package:vera_clinic/Core/View/PopUps/MyAlertDialogue.dart';
 import 'package:vera_clinic/HomePage/HomePage.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class CheckOutButton extends StatefulWidget {
   final Client client;
 
@@ -41,7 +42,7 @@ class _CheckOutButtonState extends State<CheckOutButton> {
           );
         }
       } catch (e) {
-        debugPrint('Checkout failed: $e');
+        mDebug('Checkout failed: $e');
         if (mounted) {
           setState(() {
             _isCheckingOut = false;

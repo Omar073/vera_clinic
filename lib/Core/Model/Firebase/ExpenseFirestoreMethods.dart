@@ -5,6 +5,7 @@ import 'package:vera_clinic/Core/Model/Firebase/FirebaseSingelton.dart';
 
 import '../Classes/Expense.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ExpenseFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -22,10 +23,10 @@ class ExpenseFirestoreMethods {
       });
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating expense: ${e.message}');
+      mDebug('Firebase error creating expense: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating expense: $e');
+      mDebug('Unknown error creating expense: $e');
       return '';
     }
   }
@@ -51,9 +52,9 @@ class ExpenseFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating expense: ${e.message}');
+      mDebug('Firebase error updating expense: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error updating expense: $e');
+      mDebug('Unknown error updating expense: $e');
     }
   }
 
@@ -77,9 +78,9 @@ class ExpenseFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting expense: ${e.message}');
+      mDebug('Firebase error deleting expense: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting expense: $e');
+      mDebug('Unknown error deleting expense: $e');
     }
   }
 
@@ -94,10 +95,10 @@ class ExpenseFirestoreMethods {
           .map((doc) => Expense.fromFirestore(doc.data()))
           .toList();
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching all expenses: ${e.message}');
+      mDebug('Firebase error fetching all expenses: ${e.message}');
       return [];
     } catch (e) {
-      debugPrint('Unknown error fetching all expenses: $e');
+      mDebug('Unknown error fetching all expenses: $e');
       return [];
     }
   }
@@ -116,10 +117,10 @@ class ExpenseFirestoreMethods {
           ? null
           : Expense.fromFirestore(snapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching expense by ID: ${e.message}');
+      mDebug('Firebase error fetching expense by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching expense by ID: $e');
+      mDebug('Unknown error fetching expense by ID: $e');
       return null;
     }
   }
@@ -138,9 +139,9 @@ class ExpenseFirestoreMethods {
         );
       }
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error clearing all expenses: ${e.message}');
+      mDebug('Firebase error clearing all expenses: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error clearing all expenses: $e');
+      mDebug('Unknown error clearing all expenses: $e');
     }
   }
 }

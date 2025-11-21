@@ -10,28 +10,39 @@ import '../../Core/View/PopUps/InvalidDataTypeSnackBar.dart';
 import 'BiweeklyFollowUpTEC.dart';
 import '../../Core/Controller/Providers/ClientProvider.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> createBiweeklyFollowUp(
     Client c, ClientMonthlyFollowUp cmfu, BuildContext context) async {
   try {
-    final newWeight =
-        double.tryParse(BiweeklyFollowUpTEC.mWeightController.text) ?? c.mWeight;
+    final weightText = BiweeklyFollowUpTEC.mWeightController.text.trim();
+    final parsedWeight = double.tryParse(weightText);
+    final double? normalizedWeight = (parsedWeight != null && parsedWeight > 0)
+        ? normalizeToDecimals(parsedWeight, 1)
+        : null;
+    final double? weightForCalculation = normalizedWeight ?? c.mWeight;
 
-    final clientMonthlyFollowUp = _createClientMonthlyFollowUp(c, cmfu, newWeight);
-    
+    final clientMonthlyFollowUp =
+        _buildMonthlyFollowUpRecord(c, cmfu, weightForCalculation);
+
     await context
         .read<ClientMonthlyFollowUpProvider>()
         .createClientMonthlyFollowUp(clientMonthlyFollowUp);
 
-    await _updateClientData(c, clientMonthlyFollowUp, newWeight, context);
+    await _updateClientData(
+      c,
+      clientMonthlyFollowUp,
+      normalizedWeight,
+      context,
+    );
 
     return true;
   } on Exception catch (e) {
-    debugPrint('Error creating BiweeklyFollowUp: $e');
+    mDebug('Error creating BiweeklyFollowUp: $e');
     return false;
   }
 }
 
-ClientMonthlyFollowUp _createClientMonthlyFollowUp(
+ClientMonthlyFollowUp _buildMonthlyFollowUpRecord(
     Client c, ClientMonthlyFollowUp cmfu, double? newWeight) {
   double bmi = cmfu.mBMI ?? 0.0;
   if (c.mHeight != null && c.mHeight! > 0 && newWeight != null) {
@@ -73,15 +84,26 @@ ClientMonthlyFollowUp _createClientMonthlyFollowUp(
   );
 }
 
-Future<void> _updateClientData(Client c, ClientMonthlyFollowUp clientMonthlyFollowUp, 
-    double? newWeight, BuildContext context) async {
+Future<void> _updateClientData(
+  Client c,
+  ClientMonthlyFollowUp clientMonthlyFollowUp,
+  double? updatedWeight,
+  BuildContext context,
+) async {
+  bool shouldPersist = false;
+
   if (clientMonthlyFollowUp.mClientMonthlyFollowUpId.isNotEmpty) {
-    c.mClientLastMonthlyFollowUpId = clientMonthlyFollowUp.mClientMonthlyFollowUpId;
-    await context.read<ClientProvider>().updateClient(c);
+    c.mClientLastMonthlyFollowUpId =
+        clientMonthlyFollowUp.mClientMonthlyFollowUpId;
+    shouldPersist = true;
   }
 
-  if (newWeight != null) {
-    c.mWeight = newWeight;
+  if (updatedWeight != null && updatedWeight > 0) {
+    c.mWeight = updatedWeight;
+    shouldPersist = true;
+  }
+
+  if (shouldPersist) {
     await context.read<ClientProvider>().updateClient(c);
   }
 }

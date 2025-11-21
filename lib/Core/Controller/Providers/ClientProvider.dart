@@ -3,6 +3,7 @@ import 'package:vera_clinic/Core/Model/Firebase/ClientFirestoreMethods.dart';
 
 import '../../Model/Classes/Client.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientProvider with ChangeNotifier {
   final ClientFirestoreMethods _clientFirestoreMethods =
       ClientFirestoreMethods();
@@ -38,7 +39,7 @@ class ClientProvider with ChangeNotifier {
   }
 
   Future<List<Client?>> getClientByPhone(String phoneNum) async {
-    debugPrint("getting client by phone number: $phoneNum");
+    mDebug("getting client by phone number: $phoneNum");
     List<Client?> clients = cachedClients
         .where(
           (client) => client?.mClientPhoneNum == phoneNum,
@@ -157,7 +158,7 @@ class ClientProvider with ChangeNotifier {
       cachedClients.removeWhere((c) => c?.mClientId == clientId);
       notifyListeners();
     } on Exception catch (e) {
-      debugPrint("Error deleting client: $e");
+      mDebug("Error deleting client: $e");
     }
   }
 

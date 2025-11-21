@@ -74,9 +74,10 @@ bool verifyFieldsDataType(BuildContext context) {
     }
   }
 
-  if (ClientRegistrationTEC.birthYearController.text.isNotEmpty) {
-    isValid = validateYear(context, 'سنة الميلاد',
-        ClientRegistrationTEC.birthYearController.text);
+  final birthYearText =
+      ClientRegistrationTEC.birthYearController.text.trim();
+  if (birthYearText.isNotEmpty) {
+    isValid = validateYear(context, 'سنة الميلاد', birthYearText);
   }
 
   return isValid;

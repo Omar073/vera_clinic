@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/PreferredFoods.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class PreferredFoodsFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -20,10 +21,10 @@ class PreferredFoodsFirestoreMethods {
 
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating preferred foods: ${e.message}');
+      mDebug('Firebase error creating preferred foods: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating preferred foods: $e');
+      mDebug('Unknown error creating preferred foods: $e');
       return '';
     }
   }
@@ -42,11 +43,11 @@ class PreferredFoodsFirestoreMethods {
           ? null
           : PreferredFoods.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error fetching preferred foods by client ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching preferred foods by client ID: $e');
+      mDebug('Unknown error fetching preferred foods by client ID: $e');
       return null;
     }
   }
@@ -66,10 +67,10 @@ class PreferredFoodsFirestoreMethods {
           ? null
           : PreferredFoods.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching preferred foods by ID: ${e.message}');
+      mDebug('Firebase error fetching preferred foods by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching preferred foods by ID: $e');
+      mDebug('Unknown error fetching preferred foods by ID: $e');
       return null;
     }
   }
@@ -95,9 +96,9 @@ class PreferredFoodsFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating preferred foods: ${e.message}');
+      mDebug('Firebase error updating preferred foods: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error updating preferred foods: $e');
+      mDebug('Unknown error updating preferred foods: $e');
     }
   }
 
@@ -122,9 +123,9 @@ class PreferredFoodsFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting preferred foods: ${e.message}');
+      mDebug('Firebase error deleting preferred foods: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting preferred foods: $e');
+      mDebug('Unknown error deleting preferred foods: $e');
     }
   }
 }

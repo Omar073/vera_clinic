@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/ClientConstantInfo.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientConstantInfoFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -20,7 +21,7 @@ class ClientConstantInfoFirestoreMethods {
       await docRef.update({'clientConstantInfoId': docRef.id});
       return docRef.id;
     } catch (e) {
-      debugPrint('Error creating client constant info: $e');
+      mDebug('Error creating client constant info: $e');
       return '';
     }
   }
@@ -40,7 +41,7 @@ class ClientConstantInfoFirestoreMethods {
           ? null
           : ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
     } catch (e) {
-      debugPrint('Error fetching client constant info by client ID: $e');
+      mDebug('Error fetching client constant info by client ID: $e');
       return null;
     }
   }
@@ -60,7 +61,7 @@ class ClientConstantInfoFirestoreMethods {
           ? null
           : ClientConstantInfo.fromFirestore(querySnapshot.docs.first.data());
     } catch (e) {
-      debugPrint('Error fetching client constant info by ID: $e');
+      mDebug('Error fetching client constant info by ID: $e');
       return null;
     }
   }
@@ -88,7 +89,7 @@ class ClientConstantInfoFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating client constant info: ${e.message}');
+      mDebug('Firebase error updating client constant info: ${e.message}');
     } catch (e) {
       throw Exception('Error updating client constant info: $e');
     }
@@ -116,7 +117,7 @@ class ClientConstantInfoFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting client: ${e.message}');
+      mDebug('Firebase error deleting client: ${e.message}');
     } catch (e) {
       throw Exception('Error deleting client constant info: $e');
     }

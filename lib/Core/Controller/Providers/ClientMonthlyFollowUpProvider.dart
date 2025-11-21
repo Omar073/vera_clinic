@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import '../../Model/Classes/ClientMonthlyFollowUp.dart';
 import '../../Model/Firebase/ClientMonthlyFollowUpFirestoreMethods.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientMonthlyFollowUpProvider with ChangeNotifier {
   final ClientMonthlyFollowUpFirestoreMethods
       _mClientMonthlyFollowUpFirestoreMethods =
@@ -23,9 +24,9 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
     if (cmfu.mDate == null) {
       _mCachedClientsMonthlyFollowUps.add(cmfu);
       // debug print the cmfu and the problem
-      debugPrint('Adding cmfu to cache: $cmfu');
+      mDebug('Adding cmfu to cache: $cmfu');
 
-      debugPrint('Problem: ${cmfu.mDate}');      
+      mDebug('Problem: ${cmfu.mDate}');      
       return;
     }
 
@@ -66,7 +67,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
 
       return fetched;
     } catch (e) {
-      debugPrint('Error getting client monthly follow ups by client ID: $e');
+      mDebug('Error getting client monthly follow ups by client ID: $e');
       return [];
     }
   }
@@ -121,7 +122,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
 
       return latestFromFirestore;
     } catch (e) {
-      debugPrint('Error getting latest client monthly follow up: $e');
+      mDebug('Error getting latest client monthly follow up: $e');
       return null;
     }
   }
@@ -142,7 +143,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error updating client monthly follow up: $e');
+      mDebug('Error updating client monthly follow up: $e');
       return false;
     }
   }
@@ -157,7 +158,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error deleting client monthly follow up: $e');
+      mDebug('Error deleting client monthly follow up: $e');
       return false;
     }
   }
@@ -171,7 +172,7 @@ class ClientMonthlyFollowUpProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error deleting all client monthly follow ups: $e');
+      mDebug('Error deleting all client monthly follow ups: $e');
       return false;
     }
   }

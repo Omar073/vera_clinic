@@ -11,6 +11,7 @@ import 'package:vera_clinic/ExpensesPage/View/ExpensesPage.dart';
 import '../Core/Controller/Providers/ClinicProvider.dart';
 import '../Core/Controller/UtilityFunctions.dart';
 
+import '../Core/Services/DebugLoggerService.dart';
 class AnalysisPage extends StatefulWidget {
   const AnalysisPage({super.key});
 
@@ -39,7 +40,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
       await context.read<ClinicProvider>().getClinic();
       await context.read<ExpenseProvider>().getAllExpenses();
     } catch (e) {
-      debugPrint('Error loading data: $e');
+      mDebug('Error loading data: $e');
     } finally {
       if (mounted) {
         setState(() {
@@ -92,7 +93,7 @@ class _AnalysisPageState extends State<AnalysisPage> {
                         Colors.red);
                   } else {
                     await clinicProvider.updateDailyIncome(-amount);
-                    debugPrint('Deducting: $amount');
+                    mDebug('Deducting: $amount');
                     _deductionController.clear();
                   }
                 },

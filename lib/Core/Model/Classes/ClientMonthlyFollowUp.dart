@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientMonthlyFollowUp {
   late String mClientMonthlyFollowUpId;
   String? mClientId;
@@ -46,7 +47,7 @@ class ClientMonthlyFollowUp {
         mNotes = notes;
 
   void printClientMonthlyFollowUp() {
-    debugPrint('\n\t\t<<ClientMonthlyFollowUp>>\n'
+    mDebug('\n\t\t<<ClientMonthlyFollowUp>>\n'
         'ClientMonthlyFollowUpId: $mClientMonthlyFollowUpId, '
         'ClientId: $mClientId, BMI: $mBMI, PBF: $mPBF, Water: $mWater, '
         'MaxWeight: $mMaxWeight, OptimalWeight: $mOptimalWeight, '

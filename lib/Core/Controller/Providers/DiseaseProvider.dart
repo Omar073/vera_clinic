@@ -3,6 +3,7 @@ import 'package:vera_clinic/Core/Model/Firebase/DiseaseFirestoreMethods.dart';
 
 import '../../Model/Classes/Disease.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class DiseaseProvider with ChangeNotifier {
   final DiseaseFirestoreMethods _mDiseaseFirestoreMethods =
       DiseaseFirestoreMethods();
@@ -72,7 +73,7 @@ class DiseaseProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint("Failed to update disease: $e");
+      mDebug("Failed to update disease: $e");
       return false;
     }
   }
@@ -84,7 +85,7 @@ class DiseaseProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint("Failed to delete disease: $e");
+      mDebug("Failed to delete disease: $e");
       return false;
     }
   }

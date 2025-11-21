@@ -22,6 +22,7 @@ import '../../NewVisit/Controller/NewVisitTEC.dart';
 import '../../NewVisit/Controller/NewVisitUF.dart';
 import 'ClientRegistrationTEC.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> checkInNewClient(BuildContext context, Client c) async {
   try {
     // Check if the client is already checked in
@@ -37,7 +38,7 @@ Future<bool> checkInNewClient(BuildContext context, Client c) async {
         .checkInClient(c, DateTime.now().toIso8601String());
     return true;
   } on Exception catch (e) {
-    debugPrint('Error checking in new client: $e');
+    mDebug('Error checking in new client: $e');
     return false;
   }
 }
@@ -55,13 +56,13 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
         clientId: '',
         name: ClientRegistrationTEC.nameController.text.toLowerCase(),
         clientPhoneNum: ClientRegistrationTEC.phoneController.text,
-        birthdate:
-            int.tryParse(ClientRegistrationTEC.birthYearController.text) != null
-                ? DateTime(
-                    int.parse(ClientRegistrationTEC.birthYearController.text),
-                    12,
-                    31)
-                : null,
+        birthdate: (() {
+          final birthYearText =
+              ClientRegistrationTEC.birthYearController.text.trim();
+          final parsedYear = int.tryParse(birthYearText);
+          if (parsedYear == null) return null;
+          return DateTime(parsedYear, 12, 31);
+        })(),
         diet: ClientRegistrationTEC.dietController.text,
         plat: ClientRegistrationTEC.platControllers
             .map((e) => double.tryParse(e.text) ?? 0.0)
@@ -118,7 +119,7 @@ Future<Map<bool, Client?>> createClient(BuildContext context) async {
     c.printClientInfo();
     return {true: c};
   } catch (e) {
-    debugPrint('Error creating client: $e');
+    mDebug('Error creating client: $e');
     return {false: null};
   }
 }
@@ -170,7 +171,7 @@ Future<String?> createDisease(String clientId, BuildContext context) async {
 
     return d.mDiseaseId;
   } catch (e) {
-    debugPrint('Error creating disease: $e');
+    mDebug('Error creating disease: $e');
     return null;
   }
 }
@@ -217,7 +218,7 @@ Future<String?> createClientMonthlyFollowUp(
 
     return cmfu.mClientMonthlyFollowUpId;
   } catch (e) {
-    debugPrint('Error creating client monthly follow-up: $e');
+    mDebug('Error creating client monthly follow-up: $e');
     return null;
   }
 }
@@ -243,7 +244,7 @@ Future<String?> createClientConstantInfo(
 
     return cci.mClientConstantInfoId;
   } catch (e) {
-    debugPrint('Error creating client constant info: $e');
+    mDebug('Error creating client constant info: $e');
     return null;
   }
 }
@@ -271,7 +272,7 @@ Future<String?> createPreferredFoods(
 
     return pf.mPreferredFoodsId;
   } catch (e) {
-    debugPrint('Error creating preferred foods: $e');
+    mDebug('Error creating preferred foods: $e');
     return null;
   }
 }
@@ -299,7 +300,7 @@ Future<String?> createWeightAreas(String clientId, BuildContext context) async {
 
     return wa.mWeightAreasId;
   } catch (e) {
-    debugPrint('Error creating weight areas: $e');
+    mDebug('Error creating weight areas: $e');
     return null;
   }
 }

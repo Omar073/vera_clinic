@@ -9,6 +9,7 @@ import 'package:vera_clinic/NewVisit/Controller/NewVisitTEC.dart';
 
 import '../../Core/View/PopUps/RequiredFieldSnackBar.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Future<bool> createVisit(BuildContext context) async {
   try {
     Visit v = Visit(
@@ -27,7 +28,7 @@ Future<bool> createVisit(BuildContext context) async {
     NewVisitTEC.clientVisits.add(v);
     return true;
   } on Exception catch (e) {
-    debugPrint("Error creating visit: $e");
+    mDebug("Error creating visit: $e");
     return false;
   }
 }

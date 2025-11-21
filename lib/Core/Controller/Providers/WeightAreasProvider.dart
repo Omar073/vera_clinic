@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/Model/Classes/WeightAreas.dart';
 import 'package:vera_clinic/Core/Model/Firebase/WeightAreasFirestoreMethods.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class WeightAreasProvider with ChangeNotifier {
   final WeightAreasFirestoreMethods _weightAreasFirestoreMethods =
       WeightAreasFirestoreMethods();
@@ -65,7 +66,7 @@ class WeightAreasProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error updating weight areas: $e');
+      mDebug('Error updating weight areas: $e');
       return false;
     }
   }
@@ -77,7 +78,7 @@ class WeightAreasProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } catch (e) {
-      debugPrint('Error deleting weight areas: $e');
+      mDebug('Error deleting weight areas: $e');
       return false;
     }
   }

@@ -41,6 +41,13 @@ class _ClientCardState extends State<ClientCard> {
           }
         }
 
+        final weightValue = widget.client?.mWeight;
+        final weightText = (weightValue != null && weightValue > 0)
+            ? '${weightValue.toStringAsFixed(weightValue % 1 == 0 ? 0 : 1)} كجم'
+            : 'غير متوفر';
+        final dietRaw = widget.client?.mDiet?.trim() ?? '';
+        final dietText = dietRaw.isNotEmpty ? dietRaw : 'غير محدد';
+
         return Directionality(
           textDirection: TextDirection.rtl,
           child: Card(
@@ -69,6 +76,14 @@ class _ClientCardState extends State<ClientCard> {
                           ),
                           const SizedBox(height: 4),
                           Text(
+                            'الوزن الحالي: $weightText   |   النظام الحالي: $dietText',
+                            style: const TextStyle(
+                              fontSize: 13,
+                              color: Colors.black,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
                             'نوع الاشتراك: ${getSubscriptionTypeLabel(widget.client?.mSubscriptionType ?? SubscriptionType.none)}',
                           ),
                           const SizedBox(height: 4),
@@ -90,8 +105,8 @@ class _ClientCardState extends State<ClientCard> {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: (clinicProvider.clinic?.hasClientArrived(widget.client!.mClientId) ?? false)
-                                    ? Colors.green
-                                    : Colors.grey,
+                                    ? Colors.red
+                                    : Colors.green,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24.0),
@@ -111,7 +126,7 @@ class _ClientCardState extends State<ClientCard> {
                             const SizedBox(width: 8),
                             ElevatedButton.icon(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: _isCheckingOut ? Colors.grey : Colors.red,
+                                backgroundColor: Colors.grey,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(24.0),

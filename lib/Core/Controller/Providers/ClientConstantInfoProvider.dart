@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:vera_clinic/Core/Model/Classes/ClientConstantInfo.dart';
 import 'package:vera_clinic/Core/Model/Firebase/ClientConstantInfoFirestoreMethods.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class ClientConstantInfoProvider with ChangeNotifier {
   final ClientConstantInfoFirestoreMethods
       _mClientConstantInfoFirestoreMethods =
@@ -42,7 +43,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
       }
       return clientConstantInfo;
     } catch (e) {
-      debugPrint('Error getting client constant info by client ID: $e');
+      mDebug('Error getting client constant info by client ID: $e');
       return null;
     }
   }
@@ -81,7 +82,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } on Exception catch (e) {
-      debugPrint("Failed to update client constant info: $e");
+      mDebug("Failed to update client constant info: $e");
       return false;
     }
   }
@@ -95,7 +96,7 @@ class ClientConstantInfoProvider with ChangeNotifier {
       notifyListeners();
       return true;
     } on Exception catch (e) {
-      debugPrint("Failed to delete client constant info: $e");
+      mDebug("Failed to delete client constant info: $e");
       return false;
     }
   }

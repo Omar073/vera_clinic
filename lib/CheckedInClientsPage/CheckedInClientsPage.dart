@@ -1,14 +1,13 @@
-import 'dart:async';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:vera_clinic/Core/View/PopUps/MySnackBar.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/BackGround.dart';
 import 'package:vera_clinic/Core/View/Reusable%20widgets/my_app_bar.dart';
 
 import '../Core/Controller/Providers/ClinicProvider.dart';
+import '../Core/Model/Classes/Clinic.dart';
+import '../Core/Model/Classes/Client.dart';
 import 'CheckedInClientsList.dart';
+import 'Controller/CheckedInClientsPageUF.dart';
 
 class CheckedInClientsPage extends StatefulWidget {
   const CheckedInClientsPage({super.key});
@@ -17,104 +16,25 @@ class CheckedInClientsPage extends StatefulWidget {
   State<CheckedInClientsPage> createState() => _CheckedInClientsPageState();
 }
 
-class _CheckedInClientsPageState extends State<CheckedInClientsPage>
-    with WidgetsBindingObserver {
-  Future<void>? _fetchDataFuture;
-  bool _isLoading = false;
-  Timer? _pollingTimer;
-  bool _isFetching = false; // Prevent concurrent fetches
+class _CheckedInClientsPageState extends State<CheckedInClientsPage> {
+  late CheckedInClientsLogic _logic;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    _fetchDataFuture = fetchData();
-    _startPolling();
+    _logic = CheckedInClientsLogic(
+      context: context,
+      onRefreshRequested: () {
+        if (mounted) setState(() {});
+      },
+    );
+    _logic.init();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    _stopPolling();
+    _logic.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.resumed) {
-      _startPolling();
-      _handleClientCheckedOut(); // Refresh data when app comes to foreground
-    } else {
-      _stopPolling();
-    }
-  }
-
-  void _startPolling() {
-    _pollingTimer?.cancel(); // Cancel any existing timer
-    _pollingTimer = Timer.periodic(const Duration(seconds: 10), (timer) {
-      _pollForUpdates();
-    });
-  }
-
-  void _stopPolling() {
-    _pollingTimer?.cancel();
-  }
-
-  Future<void> _pollForUpdates() async {
-    if (_isFetching) {
-      debugPrint('Skipping poll - fetch already in progress');
-      return;
-    }
-    
-    try {
-      _isFetching = true;
-      // The provider will notify listeners, and the Consumer will rebuild.
-      await context.read<ClinicProvider>().getCheckedInClients(context);
-    } catch (e) {
-      debugPrint('Error polling for checked-in clients: $e');
-      if (mounted) {
-        showMySnackBar(
-            context, 'خطأ في التحديث التلقائي: ${e.toString()}', Colors.orange);
-      }
-    } finally {
-      _isFetching = false;
-    }
-  }
-
-  Future<void> fetchData() async {
-    if (_isFetching) {
-      debugPrint('Skipping fetch - already in progress');
-      return;
-    }
-    
-    try {
-      _isFetching = true;
-      setState(() {
-        _isLoading = true;
-      });
-      // The provider will notify listeners, and the Consumer will rebuild.
-      await context.read<ClinicProvider>().getCheckedInClients(context);
-    } catch (e) {
-      debugPrint('Error getting checked-in clients: $e');
-      if (mounted) {
-        showMySnackBar(
-            context, 'فشل تحميل القائمة: ${e.toString()}', Colors.red);
-      }
-    } finally {
-      _isFetching = false;
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-        });
-      }
-    }
-  }
-
-  void _handleClientCheckedOut() {
-    setState(() {
-      _fetchDataFuture = fetchData();
-    });
   }
 
   @override
@@ -123,7 +43,15 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
       appBar: MyAppBar(
         title: 'قائمة العملاء في العيادة',
         actions: [
-          _isLoading
+          // Test button for audio (temporary debugging)
+          IconButton(
+            onPressed: () {
+              _logic.testArrivalSound();
+            },
+            icon: const Icon(Icons.volume_up),
+            tooltip: 'Test Sound',
+          ),
+          _logic.isLoading
               ? const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   child: CircularProgressIndicator(
@@ -132,9 +60,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
                 )
               : IconButton(
                   onPressed: () {
-                    setState(() {
-                      _fetchDataFuture = fetchData();
-                    });
+                    _logic.startManualRefresh();
                   },
                   icon: const Icon(Icons.refresh),
                 ),
@@ -142,7 +68,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
       ),
       body: Background(
         child: FutureBuilder<void>(
-          future: _fetchDataFuture,
+          future: _logic.fetchDataFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
@@ -204,17 +130,18 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
                     );
                   } else {
                     // Split clients by arrival status
-                    final notArrived = checkedInClients
-                        .where((c) => !(clinicProvider.clinic
-                                ?.hasClientArrived(c?.mClientId ?? '') ??
-                            false))
-                        .toList();
-                    final arrived = checkedInClients
-                        .where((c) =>
-                            clinicProvider.clinic
-                                ?.hasClientArrived(c?.mClientId ?? '') ??
-                            false)
-                        .toList();
+                    final Clinic? clinic = clinicProvider.clinic;
+                    bool clientHasArrived(Client? client) {
+                      if (clinic == null) return false;
+                      return clinic.hasClientArrived(client?.mClientId ?? '');
+                    }
+
+                    final notArrived =
+                        checkedInClients.where((c) => !clientHasArrived(c)).toList();
+                    final arrived =
+                        checkedInClients.where(clientHasArrived).toList();
+
+                    _logic.handleArrivalNotifications(arrived);
 
                     return Padding(
                       padding: const EdgeInsets.symmetric(
@@ -237,7 +164,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
                                 const SizedBox(height: 16),
                                 CheckedInClientsList(
                                   checkInClients: arrived,
-                                  onClientCheckedOut: _handleClientCheckedOut,
+                                  onClientCheckedOut: _logic.startManualRefresh,
                                 ),
                               ],
                             ),
@@ -261,7 +188,7 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
                                 const SizedBox(height: 16),
                                 CheckedInClientsList(
                                   checkInClients: notArrived,
-                                  onClientCheckedOut: _handleClientCheckedOut,
+                                  onClientCheckedOut: _logic.startManualRefresh,
                                 ),
                               ],
                             ),
@@ -278,4 +205,5 @@ class _CheckedInClientsPageState extends State<CheckedInClientsPage>
       ),
     );
   }
+
 }

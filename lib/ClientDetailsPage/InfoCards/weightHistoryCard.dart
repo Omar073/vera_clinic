@@ -4,6 +4,7 @@ import 'package:vera_clinic/Core/View/Reusable%20widgets/MyTextBox.dart';
 import '../../Core/Model/Classes/Client.dart';
 import '../../Core/View/Reusable widgets/myCard.dart';
 
+import '../../Core/Services/DebugLoggerService.dart';
 Widget weightHistoryCard(Client? client) {
   return myCard(
     'تاريخ الوزن',
@@ -29,7 +30,7 @@ Widget weightHistoryCard(Client? client) {
                 );
               } else {
                 // print all plat
-                debugPrint("client plat ${client?.Plat}");
+                mDebug("client plat ${client?.Plat}");
                 return const SizedBox.shrink();
               }
             }),

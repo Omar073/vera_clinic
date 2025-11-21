@@ -5,6 +5,7 @@ import 'package:retry/retry.dart';
 import '../Classes/WeightAreas.dart';
 import 'FirebaseSingelton.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
 class WeightAreasFirestoreMethods {
   final r = RetryOptions(maxAttempts: 3);
 
@@ -19,10 +20,10 @@ class WeightAreasFirestoreMethods {
       await docRef.update({'weightAreasId': docRef.id});
       return docRef.id;
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error creating weight areas: ${e.message}');
+      mDebug('Firebase error creating weight areas: ${e.message}');
       return '';
     } catch (e) {
-      debugPrint('Unknown error creating weight areas: $e');
+      mDebug('Unknown error creating weight areas: $e');
       return '';
     }
   }
@@ -41,11 +42,11 @@ class WeightAreasFirestoreMethods {
           ? null
           : WeightAreas.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint(
+      mDebug(
           'Firebase error fetching weight areas by client ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching weight areas by client ID: $e');
+      mDebug('Unknown error fetching weight areas by client ID: $e');
       return null;
     }
   }
@@ -64,10 +65,10 @@ class WeightAreasFirestoreMethods {
           ? null
           : WeightAreas.fromFirestore(querySnapshot.docs.first.data());
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error fetching weight areas by ID: ${e.message}');
+      mDebug('Firebase error fetching weight areas by ID: ${e.message}');
       return null;
     } catch (e) {
-      debugPrint('Unknown error fetching weight areas by ID: $e');
+      mDebug('Unknown error fetching weight areas by ID: $e');
       return null;
     }
   }
@@ -93,9 +94,9 @@ class WeightAreasFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error updating weight areas: ${e.message}');
+      mDebug('Firebase error updating weight areas: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error updating weight areas: $e');
+      mDebug('Unknown error updating weight areas: $e');
     }
   }
 
@@ -120,9 +121,9 @@ class WeightAreasFirestoreMethods {
         retryIf: (e) => true,
       );
     } on FirebaseException catch (e) {
-      debugPrint('Firebase error deleting weight areas: ${e.message}');
+      mDebug('Firebase error deleting weight areas: ${e.message}');
     } catch (e) {
-      debugPrint('Unknown error deleting weight areas: $e');
+      mDebug('Unknown error deleting weight areas: $e');
     }
   }
 }

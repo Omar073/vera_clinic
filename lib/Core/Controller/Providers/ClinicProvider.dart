@@ -7,6 +7,8 @@ import '../../Model/Classes/Client.dart';
 import '../../Model/Firebase/ClinicFirestoreMethods.dart';
 import '../../Model/CustomExceptions.dart';
 
+import '../../../Core/Services/DebugLoggerService.dart';
+
 class ClinicProvider with ChangeNotifier {
   final ClinicFirestoreMethods _clinicFirestoreMethods =
       ClinicFirestoreMethods();
@@ -20,6 +22,70 @@ class ClinicProvider with ChangeNotifier {
 
   ClinicFirestoreMethods get clinicFirestoreMethods => _clinicFirestoreMethods;
   List<Client> get checkedInClients => _checkedInClients;
+
+  /// “Upsert” (update-or-insert) for the local client cache: updates the
+  /// existing entry when the `clientId` is present, otherwise appends a new one.
+  void _upsertOrReplaceCheckedInClient(Client client) {
+    final clientId = client.mClientId;
+    if (clientId.isEmpty) {
+      return;
+    }
+    final existingIndex =
+        checkedInClients.indexWhere((c) => c.mClientId == clientId);
+    if (existingIndex != -1) {
+      checkedInClients[existingIndex] = client;
+    } else {
+      checkedInClients.add(client);
+    }
+  }
+
+  void _removeDuplicateCheckedInClients() {
+    final seen = <String>{};
+    final List<Client> uniqueList = [];
+    for (final client in checkedInClients) {
+      final clientId = client.mClientId;
+      if (clientId.isEmpty) {
+        mDebug(
+            'ClinicProvider dedup: encountered client with empty ID, skipping entry');
+        continue;
+      }
+      if (seen.contains(clientId)) {
+        continue;
+      }
+      seen.add(clientId);
+      uniqueList.add(client);
+    }
+    checkedInClients
+      ..clear()
+      ..addAll(uniqueList);
+  }
+
+  Map<String, bool> _extractArrivalStates(Clinic? clinic) {
+    if (clinic == null) return {};
+    final Map<String, bool> states = {};
+    clinic.mCheckedInClients.forEach((clientId, data) {
+      states[clientId] = (data['hasArrived'] as bool?) ?? false;
+    });
+    return states;
+  }
+
+  bool _haveArrivalStatesChanged(
+      Map<String, bool> previous, Map<String, bool> current) {
+    if (identical(previous, current)) return false;
+    if (previous.length != current.length) return true;
+    for (final entry in current.entries) {
+      if (previous[entry.key] != entry.value) {
+        return true;
+      }
+    }
+    for (final key in previous.keys) {
+      if (!current.containsKey(key)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   int? get currentRetryAttempt => _currentRetryAttempt;
   int? get maxRetryAttempts => _maxRetryAttempts;
   String? get lastRetryErrorMessage => _lastRetryErrorMessage;
@@ -38,7 +104,7 @@ class ClinicProvider with ChangeNotifier {
       clinic = await _clinicFirestoreMethods.fetchClinic(
         onRetry: (nextAttempt, maxAttempts, error) {
           // Notify listeners so UI can show a retry status
-          debugPrint('إعادة المحاولة $nextAttempt من $maxAttempts: $error');
+          mDebug('إعادة المحاولة $nextAttempt من $maxAttempts: $error');
           _currentRetryAttempt = nextAttempt;
           _maxRetryAttempts = maxAttempts;
           _lastRetryErrorMessage = error.toString();
@@ -52,7 +118,7 @@ class ClinicProvider with ChangeNotifier {
       });
       return clinic;
     } catch (e) {
-      debugPrint('Error getting clinic: $e');
+      mDebug('Error getting clinic: $e');
       return null;
     }
   }
@@ -63,14 +129,15 @@ class ClinicProvider with ChangeNotifier {
   }
 
   Future<void> checkInClient(Client client, String checkInTime) async {
-    if (clinic == null) await getClinic();
-    if (clinic == null) return;
+    if (clinic == null && await getClinic() == null) return;
 
     await _clinicFirestoreMethods.checkInClient(client.mClientId, checkInTime);
 
-    if (!checkedInClients.any((c) => c.mClientId == client.mClientId)) {
-      checkedInClients.add(client);
-    }
+    // Ensure the local cache mirrors Firestore immediately, even before the next sync.
+    _upsertOrReplaceCheckedInClient(client);
+    _removeDuplicateCheckedInClients();
+
+    // Update the in-memory clinic snapshot so dependent UI sees the new entry.
     if (clinic != null) {
       clinic!.addCheckedInClient(client.mClientId, checkInTime);
     }
@@ -90,10 +157,11 @@ class ClinicProvider with ChangeNotifier {
     clinic!.toggleHasArrived(clientId);
 
     // Re-order the local list to move the toggled client to the end
-    final clientIndex = _checkedInClients.indexWhere((c) => c.mClientId == clientId);
+    final clientIndex =
+        checkedInClients.indexWhere((c) => c.mClientId == clientId);
     if (clientIndex != -1) {
-      final client = _checkedInClients.removeAt(clientIndex);
-      _checkedInClients.add(client);
+      final client = checkedInClients.removeAt(clientIndex);
+      checkedInClients.add(client);
     }
 
     notifyListeners();
@@ -105,7 +173,7 @@ class ClinicProvider with ChangeNotifier {
       throw FirebaseOperationException(
           'لا يمكن تسجيل الخروج, بيانات العيادة غير متوفرة');
     }
-    
+
     await _clinicFirestoreMethods.checkOutClient(client.mClientId);
     clinic!.removeCheckedInClient(client.mClientId);
     checkedInClients.removeWhere((c) => c.mClientId == client.mClientId);
@@ -119,35 +187,39 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mDailyClientIds.remove(clientId);
       await updateClinic(clinic!);
     } catch (e) {
-      debugPrint('Error removing client from daily list: $e');
+      mDebug('Error removing client from daily list: $e');
     }
   }
 
   Future<void> clearCheckedInClients() async {
     try {
       if (clinic == null) return;
-      _checkedInClients.clear();
+      checkedInClients.clear();
       clinic!.mCheckedInClients.clear();
       await updateClinic(clinic!);
     } catch (e) {
-      debugPrint('Error clearing checked-in clients: $e');
+      mDebug('Error clearing checked-in clients: $e');
     }
   }
 
   Future<List<Client>> getCheckedInClients(BuildContext context) async {
+    _removeDuplicateCheckedInClients();
+    final previousArrivalStates = _extractArrivalStates(clinic);
     // 1. Fetch latest clinic data. This updates `this.clinic`.
     await getClinic();
     if (clinic == null) {
-      throw FirebaseOperationException('فشل تحميل بيانات العيادة, الرجاء المحاولة مرة أخرى');
+      throw FirebaseOperationException(
+          'فشل تحميل بيانات العيادة, الرجاء المحاولة مرة أخرى');
     }
+    final currentArrivalStates = _extractArrivalStates(clinic);
 
     final newClientIds = clinic!.getCheckedInClientIds().toSet();
-    final currentClientIds = _checkedInClients.map((c) => c.mClientId).toSet();
+    final currentClientIds = checkedInClients.map((c) => c.mClientId).toSet();
 
     bool listChanged = false;
 
     // 2. Remove clients who are no longer checked in
-    _checkedInClients.removeWhere((client) {
+    checkedInClients.removeWhere((client) {
       if (!newClientIds.contains(client.mClientId)) {
         listChanged = true;
         return true;
@@ -158,33 +230,39 @@ class ClinicProvider with ChangeNotifier {
     // 3. Add any new clients to the end of the list
     for (final clientId in newClientIds) {
       if (!currentClientIds.contains(clientId)) {
-        final client = await context.read<ClientProvider>().getClientById(clientId);
+        final client =
+            await context.read<ClientProvider>().getClientById(clientId);
         if (client != null) {
-          _checkedInClients.add(client);
+          _upsertOrReplaceCheckedInClient(client);
           listChanged = true;
         } else {
-          debugPrint("Warning: Client with ID $clientId not found, but was in checked-in list.");
+          mDebug(
+              "Warning: Client with ID $clientId not found, but was in checked-in list.");
         }
       }
     }
-    
-    if (listChanged) {
+
+    final arrivalStatusChanged =
+        _haveArrivalStatesChanged(previousArrivalStates, currentArrivalStates);
+
+    if (listChanged || arrivalStatusChanged) {
+      _removeDuplicateCheckedInClients();
       notifyListeners();
     }
-    
-    return _checkedInClients;
+
+    return checkedInClients;
   }
 
   Future<bool> isClientCheckedIn(String clientId) async {
     try {
       await getClinic();
       if (clinic == null) {
-        debugPrint('Clinic is null');
+        mDebug('Clinic is null');
         return false;
       }
       return clinic!.isClientCheckedIn(clientId);
     } catch (e) {
-      debugPrint('Error checking if client is checked in: $e');
+      mDebug('Error checking if client is checked in: $e');
       return false;
     }
   }
@@ -206,9 +284,9 @@ class ClinicProvider with ChangeNotifier {
       throw FirebaseOperationException(
           'لا يمكن تحديث البيانات, بيانات العيادة غير متوفرة');
     }
-    debugPrint('Current daily income: ${clinic!.mDailyIncome}');
+    mDebug('Current daily income: ${clinic!.mDailyIncome}');
     clinic!.mDailyIncome = (clinic!.mDailyIncome ?? 0) + income;
-    debugPrint('Updated daily income: ${clinic!.mDailyIncome}');
+    mDebug('Updated daily income: ${clinic!.mDailyIncome}');
 
     clinic!.mMonthlyIncome = (clinic!.mMonthlyIncome ?? 0) + income;
     await _updateDailyProfit();
@@ -221,7 +299,7 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mMonthlyExpenses = (clinic!.mMonthlyExpenses ?? 0) + expenses;
       await _updateDailyProfit();
     } catch (e) {
-      debugPrint('Error updating daily expenses: $e');
+      mDebug('Error updating daily expenses: $e');
     }
   }
 
@@ -231,7 +309,7 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mMonthlyExpenses = (clinic!.mMonthlyExpenses ?? 0) + expenses;
       await _updateMonthlyProfit();
     } catch (e) {
-      debugPrint('Error updating monthly expenses: $e');
+      mDebug('Error updating monthly expenses: $e');
     }
   }
 
@@ -255,7 +333,7 @@ class ClinicProvider with ChangeNotifier {
           (clinic!.mMonthlyIncome ?? 0) - (clinic!.mMonthlyExpenses ?? 0);
       await updateClinic(clinic!);
     } catch (e) {
-      debugPrint('Error updating monthly profit: $e');
+      mDebug('Error updating monthly profit: $e');
     }
   }
 
@@ -268,10 +346,10 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mDailyPatients = 0;
       clinic!.mCheckedInClients.clear();
       clinic!.mDailyClientIds.clear();
-      _checkedInClients.clear();
+      checkedInClients.clear();
       await updateClinic(clinic!);
     } catch (e) {
-      debugPrint('Error clearing daily data: $e');
+      mDebug('Error clearing daily data: $e');
     }
   }
 
@@ -284,7 +362,7 @@ class ClinicProvider with ChangeNotifier {
       clinic!.mMonthlyPatients = 0;
       await updateClinic(clinic!);
     } catch (e) {
-      debugPrint('Error clearing monthly data: $e');
+      mDebug('Error clearing monthly data: $e');
     }
   }
 
@@ -305,7 +383,7 @@ class ClinicProvider with ChangeNotifier {
         await updateClinic(clinic!);
       }
     } catch (e) {
-      debugPrint('Error syncing daily clients with checked-in clients: $e');
+      mDebug('Error syncing daily clients with checked-in clients: $e');
     }
   }
 }
