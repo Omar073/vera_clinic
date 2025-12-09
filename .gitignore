@@ -50,4 +50,4 @@ windows/flutter/generated_plugins.cmake
 /references
 lib/firebase_setup/apiKeys.dart
 diff_output.txt
-docs/firestore_admin_only_setup.md
+firestore_admin_only_setup.md
